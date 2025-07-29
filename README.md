@@ -1,2 +1,4 @@
 # Laundry-Manager
 세탁이 낯선 20대를 위한, 쉽고 유용한 생활형 세탁 정보 추천 플랫폼 
+pip install -r requirements.txt
+이거 하면 한번에 모듈이나 프레임워크 다운가능(단, 가상환경에서 다운받아야함)
