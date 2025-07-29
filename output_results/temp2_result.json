@@ -1,0 +1,86 @@
+{
+    "filename": "temp2.png",
+    "recognized_texts": [
+        "기계건조",
+        "80°C"
+    ],
+    "symbol_definition": "뉘어서 햇볕에서 자연 건조한다.",
+    "ocr_raw_response": {
+        "version": "V2",
+        "requestId": "9d413222-6538-40b1-a452-27f8ed38aaa4",
+        "timestamp": 1753785061400,
+        "images": [
+            {
+                "uid": "0f02bdebdc0d46bbb4ab637db6518334",
+                "name": "temp2.png",
+                "inferResult": "SUCCESS",
+                "message": "SUCCESS",
+                "validationResult": {
+                    "result": "NO_REQUESTED"
+                },
+                "convertedImageInfo": {
+                    "width": 80,
+                    "height": 67,
+                    "pageIndex": 0,
+                    "longImage": false
+                },
+                "fields": [
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 20.0,
+                                    "y": 23.0
+                                },
+                                {
+                                    "x": 57.0,
+                                    "y": 24.0
+                                },
+                                {
+                                    "x": 57.0,
+                                    "y": 36.0
+                                },
+                                {
+                                    "x": 20.0,
+                                    "y": 35.0
+                                }
+                            ]
+                        },
+                        "inferText": "기계건조",
+                        "inferConfidence": 0.99,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 27.0,
+                                    "y": 43.0
+                                },
+                                {
+                                    "x": 50.0,
+                                    "y": 43.0
+                                },
+                                {
+                                    "x": 50.0,
+                                    "y": 52.0
+                                },
+                                {
+                                    "x": 27.0,
+                                    "y": 52.0
+                                }
+                            ]
+                        },
+                        "inferText": "80°C",
+                        "inferConfidence": 0.9906,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    }
+                ]
+            }
+        ]
+    }
+}

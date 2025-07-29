@@ -1,0 +1,86 @@
+{
+    "filename": "temp_symbol.png",
+    "recognized_texts": [
+        "95",
+        "°C"
+    ],
+    "symbol_definition": "물의 온도 최대 95 °C에서 세탁기로 일반 세탁할 수 있다.",
+    "ocr_raw_response": {
+        "version": "V2",
+        "requestId": "68a2b625-2aef-45e8-9444-403b5abdad5b",
+        "timestamp": 1753784421351,
+        "images": [
+            {
+                "uid": "1b9e58e785cd44558bd9ab191e2a15fb",
+                "name": "temp_symbol.png",
+                "inferResult": "SUCCESS",
+                "message": "SUCCESS",
+                "validationResult": {
+                    "result": "NO_REQUESTED"
+                },
+                "convertedImageInfo": {
+                    "width": 101,
+                    "height": 121,
+                    "pageIndex": 0,
+                    "longImage": false
+                },
+                "fields": [
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 29.0,
+                                    "y": 66.0
+                                },
+                                {
+                                    "x": 47.0,
+                                    "y": 66.0
+                                },
+                                {
+                                    "x": 47.0,
+                                    "y": 80.0
+                                },
+                                {
+                                    "x": 29.0,
+                                    "y": 80.0
+                                }
+                            ]
+                        },
+                        "inferText": "95",
+                        "inferConfidence": 0.9997,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 50.0,
+                                    "y": 66.0
+                                },
+                                {
+                                    "x": 63.0,
+                                    "y": 66.0
+                                },
+                                {
+                                    "x": 63.0,
+                                    "y": 79.0
+                                },
+                                {
+                                    "x": 50.0,
+                                    "y": 79.0
+                                }
+                            ]
+                        },
+                        "inferText": "°C",
+                        "inferConfidence": 1.0,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    }
+                ]
+            }
+        ]
+    }
+}

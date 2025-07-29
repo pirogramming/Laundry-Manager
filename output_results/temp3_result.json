@@ -1,0 +1,86 @@
+{
+    "filename": "temp3.png",
+    "recognized_texts": [
+        "뉘어서",
+        "비밭수"
+    ],
+    "symbol_definition": "뉘어서 햇볕에서 자연 건조한다.",
+    "ocr_raw_response": {
+        "version": "V2",
+        "requestId": "9b708ab4-ade8-42d2-ad01-c3d2ef2d57c7",
+        "timestamp": 1753785730851,
+        "images": [
+            {
+                "uid": "d6eee2b972e346c8a5b72eab4abde3c2",
+                "name": "temp3.png",
+                "inferResult": "SUCCESS",
+                "message": "SUCCESS",
+                "validationResult": {
+                    "result": "NO_REQUESTED"
+                },
+                "convertedImageInfo": {
+                    "width": 82,
+                    "height": 78,
+                    "pageIndex": 0,
+                    "longImage": false
+                },
+                "fields": [
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 27.0,
+                                    "y": 26.0
+                                },
+                                {
+                                    "x": 56.0,
+                                    "y": 26.0
+                                },
+                                {
+                                    "x": 56.0,
+                                    "y": 39.0
+                                },
+                                {
+                                    "x": 27.0,
+                                    "y": 39.0
+                                }
+                            ]
+                        },
+                        "inferText": "뉘어서",
+                        "inferConfidence": 1.0,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 27.0,
+                                    "y": 40.0
+                                },
+                                {
+                                    "x": 56.0,
+                                    "y": 39.0
+                                },
+                                {
+                                    "x": 56.0,
+                                    "y": 52.0
+                                },
+                                {
+                                    "x": 27.0,
+                                    "y": 52.0
+                                }
+                            ]
+                        },
+                        "inferText": "비밭수",
+                        "inferConfidence": 0.874,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    }
+                ]
+            }
+        ]
+    }
+}
