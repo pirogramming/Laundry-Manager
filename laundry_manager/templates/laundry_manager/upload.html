@@ -1,10 +1,13 @@
+<a href="{% url 'account_login' %}">구글 로그인</a>
+
+
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">예측하기</button>
-    </form>
+</form>
 
-    {% if result %}
+{% if result %}
     <p>예측 결과: {{ result.0 }}</p>
     <p>정확도: {{ result.1|floatformat:2 }}</p>
 {% endif %}
