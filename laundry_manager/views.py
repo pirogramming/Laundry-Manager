@@ -10,15 +10,22 @@ from django.shortcuts import render
 from django.conf import settings
 from .forms import ImageUploadForm
 from .models import UploadedImage
-from . import config 
 import json
 import re 
 
+import requests
+from .forms import ImageUploadForm
+import os, uuid
+from decouple import config
+from dotenv import load_dotenv
+
+load_dotenv()
 
 washing_symbols_data = []
 
-SECRET_KEY_OCR = config.SECRET_KEY_OCR
-APIGW_URL = config.APIGW_URL
+SECRET_KEY_OCR = os.getenv("SECRET_KEY_OCR")
+ROBOFLOW_API_KEY = os.getenv("ROBOFLOW_API_KEY")
+APIGW_URL = config("APIGW_URL")
 
 WASHING_SYMBOLS_DEFINITIONS = []
 JSON_FILE_PATH = os.path.join(settings.BASE_DIR, 'laundry_app', 'washing_symbol.json')
@@ -170,10 +177,7 @@ def upload_view(request):
         'error_message': error_message,
     }
     return render(request, 'laundry_manager/index.html', context)
-import requests
-from .forms import ImageUploadForm
-import os, uuid
-from decouple import config
+
 
 def classify_laundry_symbol(image_path):
     api_key = config("ROBOFLOW_API_KEY")
