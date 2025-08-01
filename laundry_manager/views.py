@@ -150,8 +150,9 @@ def upload_view(request):
                 definition, texts = get_washing_symbol_definition(ocr_json_result)
                 recognized_texts = texts
                 symbol_definition = definition
-            
-            output_results_folder = config.OUTPUT_RESULTS_FOLDER 
+
+            # ✅ 오류 방지용 config 접근 (기본값: "output/")
+            output_results_folder = getattr(config, "OUTPUT_RESULTS_FOLDER", "output/")
             os.makedirs(output_results_folder, exist_ok=True)
 
             output_data = {
@@ -160,7 +161,11 @@ def upload_view(request):
                 "symbol_definition": symbol_definition,
                 "ocr_raw_response": ocr_json_result
             }
-            output_file_name = os.path.join(output_results_folder, f"{os.path.splitext(os.path.basename(image_path))[0]}_result.json")
+
+            output_file_name = os.path.join(
+                output_results_folder,
+                f"{os.path.splitext(os.path.basename(image_path))[0]}_result.json"
+            )
             try:
                 with open(output_file_name, 'w', encoding='utf-8') as f:
                     json.dump(output_data, f, indent=4, ensure_ascii=False)
@@ -177,6 +182,7 @@ def upload_view(request):
         'error_message': error_message,
     }
     return render(request, 'laundry_manager/index.html', context)
+
 
 
 def classify_laundry_symbol(image_path):
