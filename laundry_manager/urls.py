@@ -1,8 +1,11 @@
+# laundry_manager/urls.py
 from django.urls import path
 from . import views
 
-app_name = 'laundry_app'
-
 urlpatterns = [
-    path('', views.upload_view, name='upload_image'),
+    path("", views.upload_and_classify, name="home"),  # 루트 경로에 연결
+    path("upload/", views.upload_and_classify, name="upload"),
+    path('uploadimage/', views.upload_view, name='upload_image'),
+    
 ]
+

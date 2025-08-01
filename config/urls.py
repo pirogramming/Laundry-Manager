@@ -20,8 +20,8 @@ from django.conf import settings
 from django.conf.urls.static import static 
 
 urlpatterns = [
+    path('', include('laundry_manager.urls')),  # 여기가 메인 연결
     path('admin/', admin.site.urls),
-    path('', include('laundry_manager.urls')), 
 ]
 
 if settings.DEBUG:

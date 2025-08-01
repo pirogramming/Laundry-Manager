@@ -8,3 +8,6 @@ class ImageUploadForm(forms.ModelForm):
         labels = {
             'image': '세탁 기호 이미지 선택',
         }
+
+class ImageAnalysisForm(forms.Form):
+    image = forms.ImageField()
