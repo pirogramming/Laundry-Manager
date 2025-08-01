@@ -22,6 +22,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', include('laundry_manager.urls')),  # 여기가 메인 연결
     path('admin/', admin.site.urls),
+    path('accounts/', include('allauth.urls')),
+
 ]
 
 if settings.DEBUG:
