@@ -1,4 +1,6 @@
+{% load socialaccount %}
 <a href="{% url 'account_login' %}">구글 로그인</a>
+<a href="{% provider_login_url 'kakao' %}">카카오 로그인</a>
 
 
 <form method="post" enctype="multipart/form-data">
