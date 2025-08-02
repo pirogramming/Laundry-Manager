@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인식 정보 확인</title>
+    <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}">
+    <link rel="stylesheet" href="{% static 'laundry_manager/result-style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <div class="mobile-container result-page">
+        <nav class="top-nav-white">
+            <button class="icon-btn-bordered"><i class="fa-solid fa-arrow-left"></i></button>
+            <h2>인식 정보 확인</h2>
+            <button class="text-btn-dark">Cancel <i class="fa-solid fa-xmark"></i></button>
+        </nav>
+
+        <main class="result-card-section">
+            <div class="result-card">
+                <div class="result-icon">
+                    <i class="fa-solid fa-shirt"></i>
+                </div>
+                <div class="result-title">
+                    <p>세탁물 분류</p>
+                    <h2>흰색 니트 / 김치 자국 <i class="fa-solid fa-pen-to-square"></i></h2>
+                </div>
+                <div class="notice-box">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>세탁 결과에 대한 책임은 개인에게 있습니다</span>
+                </div>
+                <div class="info-list">
+                    <div class="info-item">
+                        <span>인식한 태그</span>
+                        <strong>드라이 클리닝</strong>
+                    </div>
+                    <hr class="info-divider">
+                    <div class="info-item">
+                        <span>의류 소재</span>
+                        <strong>린넨 80%, 울 20%</strong>
+                    </div>
+                    <hr class="info-divider">
+                    <div class="info-item">
+                        <span>선택한 얼룩 유형</span>
+                        <strong>김칫국물 자국</strong>
+                    </div>
+                </div>
+                <a href="#" class="extra-info-link">추가 정보 입력하기</a>
+                <button class="confirm-button">확인하기</button>
+            </div>
+        </main>
+    </div>
+    <script src="result-script.js"></script>
+</body>
+</html>

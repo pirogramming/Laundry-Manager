@@ -14,4 +14,8 @@ urlpatterns = [
     path("laundry/", views.laundry_info_view, name="laundry_view"),
     path("stain_guide/", views.stain_guide_view, name="stain_guide"),
     path("stain_detail/<str:slug>/", views.stain_detail_view, name="stain_detail"),
+
+    path('main/', views.main_page, name='main'),
+    path('upload123/', views.upload_page, name='upload'),
+    path('result123/', views.result_page, name='result'),  
 ]

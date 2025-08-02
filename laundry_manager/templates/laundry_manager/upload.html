@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% load socialaccount %}
 <a href="{% url 'account_login' %}">구글 로그인</a>
 <a href="{% provider_login_url 'kakao' %}">카카오 로그인</a>
@@ -13,3 +14,86 @@
     <p>예측 결과: {{ result.0 }}</p>
     <p>정확도: {{ result.1|floatformat:2 }}</p>
 {% endif %}
+=======
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>세탁 정보 입력</title>
+    <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}">
+    <link rel="stylesheet" href="{% static 'laundry_manager/upload-style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <div class="mobile-container upload-page">
+        <section class="upload-header-section">
+            <nav class="top-nav">
+                <button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button>
+                <h1>세탁 정보 입력</h1>
+                <button class="text-btn">Cancel <i class="fa-solid fa-xmark"></i></button>
+            </nav>
+            <div class="upload-card">
+                <div class="card-controls">
+                    <div class="tabs">
+                        <button class="tab-btn active">파일 업로드</button>
+                        <button class="tab-btn">과거 기록 보기</button>
+                    </div>
+                    <button class="icon-btn filter-btn"><i class="fa-solid fa-sliders"></i></button>
+                </div>
+
+                <hr class="card-divider">
+
+                <div class="drop-zone">
+                    <p>사진을 직접 찍거나 눌러서 파일을 업로드 하세요.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="manual-input-section">
+            <div class="section-header">
+                <h2>직접 입력하기</h2>
+                <button class="icon-btn arrow-btn"><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+            
+            <div class="selection-group">
+                <h3>얼룩 유형</h3>
+                <div class="item-list" id="tag-selection">
+                    <div class="selectable-item active"><div class="item-box"></div><span>세탁 태그</span></div>
+                    <div class="selectable-item"><div class="item-box"></div><span>세탁 태그</span></div>
+                    <div class="selectable-item"><div class="item-box"></div><span>세탁 태그</span></div>
+                    <div class="selectable-item"><div class="item-box"></div><span>세탁 태그</span></div>
+                    <div class="selectable-item"><div class="item-box"></div><span>세탁 태그</span></div>
+                    <div class="selectable-item"><div class="item-box"></div><span>세탁 태그</span></div>
+                    <div class="selectable-item"><div class="item-box"></div><span>세탁 태그</span></div>
+                </div>
+            </div>
+            <div class="selection-group">
+                <h3>의류 소재</h3>
+                <div class="item-list" id="type-selection">
+                    <div class="selectable-item active"><div class="item-box"></div><span>세탁 유형</span></div>
+                    <div class="selectable-item"><div class="item-box"></div><span>세탁 유형</span></div>
+                    <div class="selectable-item"><div class="item-box"></div><span>세탁 유형</span></div>
+                    <div class="selectable-item"><div class="item-box"></div><span>세탁 유형</span></div>
+                    <div class="selectable-item"><div class="item-box"></div><span>세탁 유형</span></div>
+                    <div class="selectable-item"><div class="item-box"></div><span>세탁 유형</span></div>
+                    <div class="selectable-item"><div class="item-box"></div><span>세탁 유형</span></div>
+                    <div class="selectable-item"><div class="item-box"></div><span>세탁 유형</span></div>
+					
+                </div>
+            </div>
+            
+            <a href="{% url 'result' %}" class="submit-button">다음으로</a>
+            
+            
+        </section>
+    </div>
+
+    <script src="upload-script.js"></script>
+</body>
+</html>
+>>>>>>> Front_khy
