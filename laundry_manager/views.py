@@ -6,10 +6,30 @@ import re
 import requests
 
 from django.shortcuts import render
-from functions.recommend import laundry_recommend
-from functions.result import format_result
-import json, os
 from django.conf import settings
+
+from .forms import ImageUploadForm
+from .models import UploadedImage
+from decouple import config
+from dotenv import load_dotenv
+
+from .functions.recommend import laundry_recommend
+from .functions.result import format_result
+
+
+load_dotenv()
+# WASHING_SYMBOLS_DEFINITIONS = load_washing_definitions()
+
+# utils.py를 만들어서 함수들 분리했음
+from .utils import (
+    perform_ocr,
+    get_washing_symbol_definition,
+    classify_laundry_symbol,
+    load_washing_definitions,
+    save_result_json,
+    save_classification_result_json,
+    
+)
 
 def info_check_view(request):
     if request.method == 'GET':
@@ -36,25 +56,6 @@ def laundry_result_view(request):
 
         # 5. 템플릿에 전달
         return render(request, 'laundry_manager/recommend.html', {'result_text': result_text})
-from django.conf import settings
-from .forms import ImageUploadForm
-from .models import UploadedImage
-from decouple import config
-from dotenv import load_dotenv
-
-# utils.py를 만들어서 함수들 분리했음
-from .utils import (
-    perform_ocr,
-    get_washing_symbol_definition,
-    classify_laundry_symbol,
-    load_washing_definitions,
-    save_result_json,
-    save_classification_result_json,
-    
-)
-
-load_dotenv()
-WASHING_SYMBOLS_DEFINITIONS = load_washing_definitions()
 
 # views.py에는 필요한 애들만 남겼음
 def upload_view(request):

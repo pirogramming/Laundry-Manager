@@ -1,14 +1,18 @@
+import os
+from django.conf import settings
 import json
 
-with open('blackup.json', 'r', encoding='utf-8') as f:
+json_dir = os.path.join(settings.BASE_DIR, 'laundry_manager', 'json_data')
+
+with open(os.path.join(json_dir, 'blackup.json'), 'r', encoding='utf-8') as f:
     material_json = json.load(f)
 
-with open('persil_v2.json', 'r', encoding='utf-8') as f:
+with open(os.path.join(json_dir, 'persil_v2.json'), 'r', encoding='utf-8') as f:
     stain_json = json.load(f)
 
-#ocr에서 세탁 기호 정보 받아온 json
-with open('washing_symbol.json', 'r', encoding='utf-8') as f:
-    symbol_json = json.load(f)
+# with open(os.path.join(json_dir, 'washing_symbol.json'), 'r', encoding='utf-8') as f:
+#     symbol_json = json.load(f)
+
 
 
 # 소재 정보 추출
