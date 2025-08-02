@@ -7,7 +7,7 @@ with open('persil_v2.json', 'r', encoding='utf-8') as f:
     stain_json = json.load(f)
 
 #ocr에서 세탁 기호 정보 받아온 json
-with open('8843acc602414e1e9fe6d93c48e7386f_classify.json', 'r', encoding='utf-8') as f:
+with open('washing_symbol.json', 'r', encoding='utf-8') as f:
     symbol_json = json.load(f)
 
 
@@ -38,9 +38,12 @@ def get_stain_guide(stains, stain_json):
 
 def get_symbol_guide(symbols, symbol_json):
     # 세탁 기호 정보 정리
+    # ocr로 라벨 인식하면 텍스트들이랑 기호 결과가 나옴
+    # 기호 인식한 기호 이름이랑 기호 이름이랑 기호 결과를 연결해서 나오도록
+
     symbol_results = []
     for symbol in symbols:
-        res = symbol_json.get('classification_result', {}).get(symbol)
+        res = symbol_json.get('classification_result', {})
         if res:
             symbol_results.append(res)
     return symbol_results
@@ -75,6 +78,3 @@ def laundry_recommend(info, material_json, stain_json, symbol_json):
 
 #laundry_recommend(info, material_json, stain_json, symbol_json)
 #→ 위 함수들을 조합하여 material_guide, stain_guide, symbol_guide 세 개로 나눠서 반환.
-
-#format_result()
-#→ 위의 세 가지 가이드를 하나의 보기 좋은 문장/표 형태로 포맷.
