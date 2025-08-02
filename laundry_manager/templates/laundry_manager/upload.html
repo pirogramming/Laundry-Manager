@@ -1,4 +1,4 @@
-{% load socialaccount %}
+{% comment %} {% load socialaccount %}
 <a href="{% url 'account_login' %}">구글 로그인</a>
 <a href="{% provider_login_url 'kakao' %}">카카오 로그인</a>
 
@@ -12,7 +12,7 @@
 {% if result %}
     <p>예측 결과: {{ result.0 }}</p>
     <p>정확도: {{ result.1|floatformat:2 }}</p>
-{% endif %}
+{% endif %} {% endcomment %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -31,8 +31,12 @@
     <div class="mobile-container upload-page">
         <section class="upload-header-section">
             <nav class="top-nav">
-                <button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button>
+                <a href="{% url 'main' %}"><button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button></a>
                 <h1>세탁 정보 입력</h1>
+                {% comment %} <a href="{% url 'upload_new' %}">새 업로드 페이지</a> {% endcomment %}
+                <a>새 업로드 페이지</a>
+
+
                 <button class="text-btn">Cancel <i class="fa-solid fa-xmark"></i></button>
             </nav>
             <div class="upload-card">
@@ -85,8 +89,10 @@
                 </div>
             </div>
             
-            <a href="{% url 'result' %}" class="submit-button">다음으로</a>
-            
+            {% comment %} <a href="{% url 'front_result' %}" class="submit-button">다음으로</a> {% endcomment %}
+            <a class="submit-button">다음으로</a>
+
+
             
         </section>
     </div>
