@@ -1,9 +1,12 @@
 /* result.html 페이지 전용 스타일 */
 
+
 .mobile-container.result-page {
     padding: 0;
-    background-color: var(--color-background);
+    
+    background-color: var(--color-primary);
 }
+
 
 /* --- 상단 흰색 내비게이션 --- */
 .top-nav-white {
@@ -148,6 +151,10 @@
     border: none;
     cursor: pointer;
     margin-top: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
 }
 
 .info-divider {

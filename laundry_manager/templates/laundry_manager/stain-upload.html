@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>얼룩 제거 가이드</title>
+    <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}"> 
+    <link rel="stylesheet" href="{% static 'laundry_manager/stain-upload-style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <div class="mobile-container input-page">
+        <section class="upload-header-section">
+            <nav class="top-nav">
+                <button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="header-tabs">
+                    <a href="{% url 'laundry-upload' %}" class="tab-btn">세탁 정보 가이드</a>
+                    <button class="tab-btn active">얼룩 제거 가이드</button> 
+                </div>
+            </nav>
+        </section>
+
+        <section class="manual-input-section">
+            <div class="section-header">
+                <h2>얼룩 유형 선택하기</h2>
+                <button class="icon-btn arrow-btn"><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+            
+            <div class="stain-grid">
+                <div class="stain-grid-item active">
+                    <div class="stain-image-placeholder"></div>
+                    <div class="stain-label">
+                        <span>김칫 국물</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+                <div class="stain-grid-item">
+                    <div class="stain-image-placeholder"></div>
+                    <div class="stain-label">
+                        <span>커피</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+                <div class="stain-grid-item">
+                    <div class="stain-image-placeholder"></div>
+                    <div class="stain-label">
+                        <span>기름때</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+                <div class="stain-grid-item">
+                    <div class="stain-image-placeholder"></div>
+                    <div class="stain-label">
+                        <span>화장품</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+                <div class="stain-grid-item">
+                    <div class="stain-image-placeholder"></div>
+                    <div class="stain-label">
+                        <span>과일즙</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+                <div class="stain-grid-item">
+                    <div class="stain-image-placeholder"></div>
+                    <div class="stain-label">
+                        <span>볼펜</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+                <div class="stain-grid-item">
+                    <div class="stain-image-placeholder"></div>
+                    <div class="stain-label">
+                        <span>과일즙</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+                <div class="stain-grid-item">
+                    <div class="stain-image-placeholder"></div>
+                    <div class="stain-label">
+                        <span>볼펜</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+                <div class="stain-grid-item">
+                    <div class="stain-image-placeholder"></div>
+                    <div class="stain-label">
+                        <span>과일즙</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+                <div class="stain-grid-item">
+                    <div class="stain-image-placeholder"></div>
+                    <div class="stain-label">
+                        <span>볼펜</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="bottom-button-container">
+            <a href="{% url 'result' %}" class="submit-button">다음으로</a>
+        </div>
+    </div>
+
+    <script src="{% static 'laundry_manager/upload-script.js' %}"></script>
+</body>
+</html>

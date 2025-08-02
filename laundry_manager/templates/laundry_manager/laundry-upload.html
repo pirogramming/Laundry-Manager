@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>세탁 정보 입력</title>
+    <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}"> 
+    <link rel="stylesheet" href="{% static 'laundry_manager/laundry-upload-style.css' %}"> <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <div class="mobile-container input-page">
+        <header class="upload-header-section">
+            <nav class="top-nav">
+                <button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="header-tabs">
+                    <button class="tab-btn active">세탁 정보 가이드</button>
+                    <a href="{% url 'stain-upload' %}" class="tab-btn">얼룩 제거 가이드</a>
+                </div>
+            </nav>
+            <div class="upload-card">
+                <h3>세탁 정보 업로드</h3>
+                <p>원하는 옷의 세탁 태그를 찍으면 세탁 정보를 알려드려요</p>
+                <hr class="upload-divider">
+                <div class="drop-zone">
+                    <p>사진을 직접 찍거나 눌러서 파일을 업로드 하세요.</p>
+                </div>
+            </div>
+        </header>
+
+        <main class="manual-input-section">
+            <div class="section-header">
+                <h2>직접 입력하기</h2>
+                <button class="icon-btn arrow-btn"><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+            <div class="section-info">
+                <div class="selection-group">
+                    <h3>의류 소재</h3>
+                    <div class="item-list" id="material-selection">
+                        <div class="selectable-item active"><div class="item-box"></div><span>면</span></div>
+                        <div class="selectable-item"><div class="item-box"></div><span>니트</span></div>
+                        <div class="selectable-item"><div class="item-box"></div><span>실크</span></div>
+                        <div class="selectable-item"><div class="item-box"></div><span>린넨</span></div>
+                        <div class="selectable-item"><div class="item-box"></div><span>청</span></div>
+                    </div>
+                </div>
+
+                <div class="selection-group">
+                    <h3>얼룩 유형</h3>
+                    <div class="item-list" id="stain-selection">
+                        <div class="selectable-item active"><div class="item-box"></div><span>커피</span></div>
+                        <div class="selectable-item"><div class="item-box"></div><span>김치</span></div>
+                        <div class="selectable-item"><div class="item-box"></div><span>기름</span></div>
+                        <div class="selectable-item"><div class="item-box"></div><span>과일</span></div>
+                        <div class="selectable-item"><div class="item-box"></div><span>잉크</span></div>
+                    </div>
+                </div>
+            </div>
+            <a href="{% url 'result' %}" class="submit-button">다음으로</a>
+        </main>
+    </div>
+
+    <script src="input-guide-script.js"></script>
+</body>
+</html>
