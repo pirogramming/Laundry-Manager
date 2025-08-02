@@ -16,6 +16,6 @@ urlpatterns = [
     path("stain_detail/<str:slug>/", views.stain_detail_view, name="stain_detail"),
 
     path('main/', views.main_page, name='main'),
-    path('upload123/', views.upload_page, name='upload'),
-    path('result123/', views.result_page, name='result'),  
+    path('upload123/', views.upload_page, name='upload_123'),
+    path('result123/', views.result_page, name='result_123'),  
 ]
