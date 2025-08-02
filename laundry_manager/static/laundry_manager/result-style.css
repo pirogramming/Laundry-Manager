@@ -46,7 +46,7 @@
 .result-card {
     position: relative;
     color: var(--color-container);
-    padding: 100px 25px 100px 25px; /* 상단 여백을 주어 물결 모양 아래로 콘텐츠 배치 */
+    padding: 50px 25px 100px 25px; 
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -54,7 +54,8 @@
     min-height: 600px;
     border-radius: 30px;
     
-    /* --- SVG 배경으로 물결 모양 구현 --- */
+    
+    /* --- SVG 배경을 원형으로 튀어나온 모양으로 변경 --- */
     background-color: var(--color-primary);
     background-image: url('data:image/svg+xml;utf8,<svg width="400" height="100" viewBox="0 0 400 100" fill="%234A6CFF" xmlns="http://www.w3.org/2000/svg"><path d="M400 65C305.68 15.34 94.32 15.34 0 65V0H400V65Z"/></svg>');
     background-repeat: no-repeat;

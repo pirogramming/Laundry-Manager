@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>세탁 정보 확인</title>
+    <link rel="stylesheet"href="{% static 'laundry_manager/style.css' %}"> 
+    <link rel="stylesheet" href="{% static 'laundry_manager/laundry-info-style.css' %}>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+            <header class="info-header">
+                <nav class="top-nav">
+                    <button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button>
+                    <h1>당신의 세탁 가이드</h1>
+                    <button class="text-btn">Cancel <i class="fa-solid fa-xmark"></i></button>
+                </nav>
+                <div class="laundry-item-title">
+                    <p>세탁물 이름</p>
+                    <h2>흰색 니트 / 김치 자국</h2>
+                </div>
+            </header>
+
+            <main class="info-content">
+                <section class="card summary-card">
+                    <h3>최적 세탁법 요약</h3>
+                    <p class="stain-info"><strong>얼룩 :</strong> 미온수 + 중성세제 사전 제거</p>
+                    <div class="icon-info-group">
+                        <div class="icon-info">
+                            <img src="https://i.ibb.co/L5w2S9h/scooter.png" alt="세탁 태그" class="laundry-tag-img">
+                            <div class="icon-info-text">
+                                <i class="fa-solid fa-check-circle check-icon"></i>
+                                <span> 드라이클리닝 필수</span>
+                            </div>
+                        </div>
+                        <div class="icon-info">
+                            <img src="https://i.ibb.co/L5w2S9h/scooter.png" alt="세탁 태그" class="laundry-tag-img">
+                            <div class="icon-info-text">
+                                <i class="fa-solid fa-ban ban-icon"></i>
+                                <span> 건조기 사용 금지</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card avoid-card">
+                    <h3>피해야 하는 세탁법</h3>
+                    <div class="avoid-item">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <p>절대, **드럼 세탁기**를 돌리면 안돼요</p>
+                    </div>
+                    <div class="avoid-item">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <p>절대, **건조기**를 표준 이상으로 돌리면 안돼요</p>
+                    </div>
+                </section>
+
+                <section class="card accordion-guide">
+                    <h3>단계별 상세 가이드</h3>
+                    <details class="accordion-item">
+                        <summary>
+                            <div class="summary-icon" style="background-color: #E8F0FE;"><i class="fa-solid fa-hand-sparkles" style="color: #4A6CFF;"></i></div>
+                            <div class="summary-text">
+                                <h4>얼룩 제거 방법</h4>
+                                <p>T-238590 • Jul 1, 2025</p>
+                            </div>
+                            <i class="fa-solid fa-chevron-down arrow-icon"></i>
+                        </summary>
+                        <div class="accordion-content">
+                            <p>1. 미지근한 물에 중성세제를 풀어주세요.<br>2. 얼룩진 부분을 10분간 담가두세요.<br>3. 부드럽게 비벼서 헹궈주세요.</p>
+                        </div>
+                    </details>
+                    <details class="accordion-item">
+                        <summary>
+                            <div class="summary-icon" style="background-color: #E6F8F2;"><i class="fa-solid fa-lightbulb" style="color: #00BFA6;"></i></div>
+                            <div class="summary-text">
+                                <h4>세탁 방법</h4>
+                                <p>E-438582 • Jul 1, 2025</p>
+                            </div>
+                            <i class="fa-solid fa-chevron-down arrow-icon"></i>
+                        </summary>
+                        <div class="accordion-content">
+                            <p>세탁 방법에 대한 상세 내용이 여기에 표시됩니다.</p>
+                        </div>
+                    </details>
+                    <details class="accordion-item">
+                        <summary>
+                            <div class="summary-icon" style="background-color: #FEF4E8;"><i class="fa-solid fa-droplet" style="color: #FF8A00;"></i></div>
+                            <div class="summary-text">
+                                <h4>건조 방법</h4>
+                                <p>W-346961 • Jul 1, 2025</p>
+                            </div>
+                            <i class="fa-solid fa-chevron-down arrow-icon"></i>
+                        </summary>
+                        <div class="accordion-content">
+                            <p>건조 방법에 대한 상세 내용이 여기에 표시됩니다.</p>
+                        </div>
+                    </details>
+                </section>
+
+                <section class="card scope-card">
+                    <h3>가능한 세탁 범위</h3>
+                    <div class="scope-chips">
+                        <button class="chip active">#드럼세탁기_울코스</button>
+                        <button class="chip">#손세탁</button>
+                        <button class="chip">#중성세제만</button>
+                        <button class="chip">#미온수(30°C)</button>
+                        <button class="chip">#자연건조</button>
+                    </div>
+                    <div class="scope-info">
+                        <P>뭐가 가능한 지 알려드림</P>
+                    </div>
+                </section>
+
+                <a href="#" class="dictionary-link">
+                    <span>세탁 백과사전으로 가기</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </main>
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+            <a href="#" class="nav-item"><i class="fa-solid fa-chart-simple"></i><span>Dictionary</span></a>
+            <a href="#" class="nav-item-main"><i class="fa-solid fa-camera-retro"></i></a>
+            <a href="#" class="nav-item"><i class="fa-solid fa-credit-card"></i><span>Payment</span></a>
+            <a href="#" class="nav-item"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+        </nav>
+    </div>
+
+    <script src="laundry-info-script.js"></script>
+</body>
+</html>

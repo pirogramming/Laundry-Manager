@@ -141,6 +141,7 @@ body {
 
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    text-decoration: none;
 }
 .cta-button i {
     background-color: var(--color-background);
@@ -223,8 +224,8 @@ body {
     justify-content: space-around;
     align-items: center;
     border-top: 1px solid var(--color-border);
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
 
     box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
 }
@@ -259,3 +260,4 @@ body {
 .nav-item-main i {
     font-size: 28px;
 }
+

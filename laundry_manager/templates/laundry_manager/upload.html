@@ -42,6 +42,19 @@
                 <h2>직접 입력하기</h2>
                 <button class="icon-btn arrow-btn"><i class="fa-solid fa-arrow-right"></i></button>
             </div>
+            
+            <div class="selection-group">
+                <h3>얼룩 유형</h3>
+                <div class="item-list" id="tag-selection">
+                    <div class="selectable-item active"><div class="item-box"></div><span>세탁 태그</span></div>
+                    <div class="selectable-item"><div class="item-box"></div><span>세탁 태그</span></div>
+                    <div class="selectable-item"><div class="item-box"></div><span>세탁 태그</span></div>
+                    <div class="selectable-item"><div class="item-box"></div><span>세탁 태그</span></div>
+                    <div class="selectable-item"><div class="item-box"></div><span>세탁 태그</span></div>
+                    <div class="selectable-item"><div class="item-box"></div><span>세탁 태그</span></div>
+                    <div class="selectable-item"><div class="item-box"></div><span>세탁 태그</span></div>
+                </div>
+            </div>
             <div class="selection-group">
                 <h3>의류 소재</h3>
                 <div class="item-list" id="type-selection">
@@ -56,19 +69,10 @@
 					
                 </div>
             </div>
-            <div class="selection-group">
-                <h3>얼룩 유형</h3>
-                <div class="item-list" id="tag-selection">
-                    <div class="selectable-item active"><div class="item-box"></div><span>세탁 태그</span></div>
-                    <div class="selectable-item"><div class="item-box"></div><span>세탁 태그</span></div>
-                    <div class="selectable-item"><div class="item-box"></div><span>세탁 태그</span></div>
-                    <div class="selectable-item"><div class="item-box"></div><span>세탁 태그</span></div>
-                    <div class="selectable-item"><div class="item-box"></div><span>세탁 태그</span></div>
-                    <div class="selectable-item"><div class="item-box"></div><span>세탁 태그</span></div>
-                    <div class="selectable-item"><div class="item-box"></div><span>세탁 태그</span></div>
-                </div>
-            </div>
-            <button class="submit-button">다음으로</button>
+            
+            <a href="{% url 'result' %}" class="submit-button">다음으로</a>
+            
+            
         </section>
     </div>
 

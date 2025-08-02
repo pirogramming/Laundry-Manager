@@ -136,13 +136,13 @@
     height: 32px;
 }
 .selection-group {
-    margin-bottom: 30px;
+    margin-bottom: 0px;
 }
 .selection-group h3 {
     font-size: 16px;
     font-weight: 500;
     color: var(--color-text-secondary);
-    margin-bottom: 15px;
+    margin-bottom: 0px;
 }
 .item-list {
   display: flex;
@@ -168,8 +168,8 @@
     scroll-snap-align: start;
 }
 .item-box {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     background-color: var(--color-background);
     border-radius: 15px;
     margin-bottom: 10px;
@@ -191,7 +191,12 @@
     border-radius: 15px;
     font-size: 16px;
     font-weight: 700;
+    margin-top: 40px;
     border: none;
-    cursor: pointer;
-    margin-top: auto;
+    cursor: pointer; 
+    text-decoration: none; 
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
