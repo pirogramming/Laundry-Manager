@@ -1,0 +1,58 @@
+{
+    "filename": "웨트_92UAJ8C.png",
+    "recognized_texts": [
+        "웨트"
+    ],
+    "symbol_definition": "인식된 기호에 대한 설명을 찾을 수 없습니다.",
+    "ocr_raw_response": {
+        "version": "V2",
+        "requestId": "0db576fb-49e4-435c-a085-d2f0c1850dec",
+        "timestamp": 1754061467043,
+        "images": [
+            {
+                "uid": "b2ffefafbc15439799d7757fffaa23d7",
+                "name": "웨트_92UAJ8C.png",
+                "inferResult": "SUCCESS",
+                "message": "SUCCESS",
+                "validationResult": {
+                    "result": "NO_REQUESTED"
+                },
+                "convertedImageInfo": {
+                    "width": 221,
+                    "height": 221,
+                    "pageIndex": 0,
+                    "longImage": false
+                },
+                "fields": [
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 92.0,
+                                    "y": 67.0
+                                },
+                                {
+                                    "x": 134.0,
+                                    "y": 69.0
+                                },
+                                {
+                                    "x": 133.0,
+                                    "y": 91.0
+                                },
+                                {
+                                    "x": 91.0,
+                                    "y": 89.0
+                                }
+                            ]
+                        },
+                        "inferText": "웨트",
+                        "inferConfidence": 1.0,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    }
+                ]
+            }
+        ]
+    }
+}

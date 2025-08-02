@@ -1,0 +1,58 @@
+{
+    "filename": "드라이.png",
+    "recognized_texts": [
+        "드라이"
+    ],
+    "symbol_definition": "인식된 기호에 대한 설명을 찾을 수 없습니다.",
+    "ocr_raw_response": {
+        "version": "V2",
+        "requestId": "9364764a-fc82-4f09-8f52-4b7c05796ef9",
+        "timestamp": 1754107438412,
+        "images": [
+            {
+                "uid": "948e752e35b8490c9fbd465c3defe880",
+                "name": "드라이.png",
+                "inferResult": "SUCCESS",
+                "message": "SUCCESS",
+                "validationResult": {
+                    "result": "NO_REQUESTED"
+                },
+                "convertedImageInfo": {
+                    "width": 210,
+                    "height": 213,
+                    "pageIndex": 0,
+                    "longImage": false
+                },
+                "fields": [
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 77.0,
+                                    "y": 69.0
+                                },
+                                {
+                                    "x": 134.0,
+                                    "y": 69.0
+                                },
+                                {
+                                    "x": 134.0,
+                                    "y": 93.0
+                                },
+                                {
+                                    "x": 77.0,
+                                    "y": 93.0
+                                }
+                            ]
+                        },
+                        "inferText": "드라이",
+                        "inferConfidence": 1.0,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    }
+                ]
+            }
+        ]
+    }
+}
