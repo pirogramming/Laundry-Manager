@@ -17,7 +17,7 @@ from .forms import ImageUploadForm
 from .models import UploadedImage
 from .functions.recommend import laundry_recommend
 from .functions.result import format_result
-from functions.info import laundry_info, apply_user_correction
+# from functions.info import laundry_info, apply_user_correction
 
 
 
