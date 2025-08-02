@@ -22,7 +22,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-#social login
+# social login
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
@@ -30,8 +30,16 @@ SOCIALACCOUNT_PROVIDERS = {
             'secret': os.getenv('GOOGLE_SECRET'),
             'key': ''
         }
+    },
+    'kakao': {
+        'APP': {
+            'client_id': os.getenv('KAKAO_CLIENT_ID'),
+            'secret': os.getenv('KAKAO_CLIENT_SECRET'),
+            'key': ''
+        }
     }
 }
+
 
 # Application definition
 
@@ -48,6 +56,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.kakao',
 
     'laundry_manager',
 ]
