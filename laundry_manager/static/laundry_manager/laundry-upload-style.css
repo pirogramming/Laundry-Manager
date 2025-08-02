@@ -1,11 +1,11 @@
 /* laundry-upload.html 페이지 전용 스타일 */
 
-.mobile-container.input-page {
+.upload-page {
     padding: 0;
-    height: 100vh;
+    /* height: 100vh; */
     display: flex;
     flex-direction: column;
-    background-color: var(--color-primary);
+    background-color:var(--color-primary);
 }
 
 /* 상단 파란색 영역 */

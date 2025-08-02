@@ -2,7 +2,7 @@
 
 .mobile-container.input-page {
     padding: 0;
-    /* height: 100vh; */
+    max-height: 1000px;
     display: flex;
     flex-direction: column;
     background-color: var(--color-primary);

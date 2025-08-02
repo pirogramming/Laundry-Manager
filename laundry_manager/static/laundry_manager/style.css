@@ -10,6 +10,7 @@
     --color-text-nav: #aaaaaa;
     --color-star: #FFD700;
     --color-border: #eeeeee;
+    --white: #fff;
 
 	--color-border-trasparent: rgba(238,238,238,0.3)
 }
@@ -27,7 +28,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    min-height: 100vh;
+    /* min-height: 100vh; */
     padding: 20px 0;
 }
 
@@ -256,6 +257,7 @@ body {
     box-shadow: 0 4px 12px rgba(74, 108, 255, 0.4);
     border: 5px solid var(--color-container);
     cursor: pointer;
+    text-decoration: none;
 }
 .nav-item-main i {
     font-size: 28px;

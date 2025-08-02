@@ -47,7 +47,11 @@
     
 }
 .info-header .icon-btn, .info-header .text-btn {
-    background: none; border: none; color: var(--color-container); cursor: pointer; font-size: 13px;
+    background: none; 
+    border: none; color: var(--color-container); 
+    cursor: pointer; 
+    font-size: 13px;
+    text-decoration: none;
 }
 .info-header .text-btn { opacity: 0.8; }
 .laundry-item-title p { 

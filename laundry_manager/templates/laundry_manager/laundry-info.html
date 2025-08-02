@@ -17,9 +17,9 @@
         <div class="content-wrapper">
             <header class="info-header">
                 <nav class="top-nav">
-                    <button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button>
+                    <a href="{% url 'result' %}"  class="icon-btn"><i class="fa-solid fa-arrow-left"></i></a>
                     <h1>당신의 세탁 가이드</h1>
-                    <button class="text-btn">Cancel <i class="fa-solid fa-xmark"></i></button>
+                    <a href="{% url 'main' %}"  class="text-btn">Cancel <i class="fa-solid fa-xmark"></i></a>
                 </nav>
                 <div class="laundry-item-title">
                     <p>세탁물 이름</p>
@@ -128,7 +128,7 @@
         <nav class="bottom-nav">
             <a href="#" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
             <a href="#" class="nav-item"><i class="fa-solid fa-chart-simple"></i><span>Dictionary</span></a>
-            <a href="#" class="nav-item-main"><i class="fa-solid fa-camera-retro"></i></a>
+            <a href="#" class="nav-item-main"><i class="fa-solid fa-camera"></i></a>
             <a href="#" class="nav-item"><i class="fa-solid fa-credit-card"></i><span>Payment</span></a>
             <a href="#" class="nav-item"><i class="fa-solid fa-user"></i><span>Profile</span></a>
         </nav>
