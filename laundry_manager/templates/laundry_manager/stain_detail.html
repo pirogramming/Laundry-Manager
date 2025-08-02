@@ -91,7 +91,7 @@
         {% if detail_info %}
             {% for key, value in detail_info.items %}
                 <div class="detail-item">
-                    <strong>{{ key|replace:"_":" " }}:</strong> {{ value|default:"정보 없음" }}
+                    <strong>{{ key }}:</strong> {{ value|default:"정보 없음" }} {# 여기서 |replace 필터를 제거합니다 #}
                 </div>
             {% endfor %}
         {% else %}

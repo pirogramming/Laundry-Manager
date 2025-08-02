@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
+from django.shortcuts import render, Http404
 
 
 # 2. 뷰 함수 정의
@@ -176,6 +177,7 @@ def stain_guide_view(request):
     return render(request, "laundry_manager/stain_guide.html", context)
 
 
+# 아직 미완
 def stain_detail_view(request, slug):
     stain_data = next(
         (item for item in ALL_STAIN_DATA if item.get("slug") == slug), None
@@ -186,15 +188,22 @@ def stain_detail_view(request, slug):
 
     title = stain_data.get("title", "정보 없음")
     washing_steps = stain_data.get("Washing_Steps", [])
-    detail_info = stain_data.get("detail", {})
+    raw_detail_info = stain_data.get("detail", {})  # 원본 detail_info를 가져옵니다.
     tip_info = stain_data.get("tip", [])
     not_to_do_info = stain_data.get("not_to_do", [])
     other_info = stain_data.get("Other_Information", [])
 
+    # detail_info의 키를 가공하여 새로운 딕셔너리 생성
+    processed_detail_info = {}
+    for key, value in raw_detail_info.items():
+        # 여기서 언더스코어를 공백으로 바꿉니다.
+        processed_key = key.replace("_", " ")
+        processed_detail_info[processed_key] = value
+
     context = {
         "title": title,
         "washing_steps": washing_steps,
-        "detail_info": detail_info,
+        "detail_info": processed_detail_info,  # 가공된 detail_info를 전달
         "tip_info": tip_info,
         "not_to_do_info": not_to_do_info,
         "other_info": other_info,
