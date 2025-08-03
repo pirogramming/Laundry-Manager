@@ -23,7 +23,7 @@
                 </nav>
                 <div class="laundry-item-title">
                     <p>세탁물 이름</p>
-                    <h2>흰색 니트 / 김치 자국</h2>
+                    <h2>{{ info.material }} / {{ info.stains }}</h2> <!--이것도 소재이름이랑 얼룩 이름 받아와야 할 듯-->
                 </div>
             </header>
 
@@ -51,14 +51,20 @@
 
                 <section class="card avoid-card">
                     <h3>피해야 하는 세탁법</h3>
+
+                    {% if material.warning %}
                     <div class="avoid-item">
                         <i class="fa-solid fa-circle-exclamation"></i>
-                        <p>절대, **드럼 세탁기**를 돌리면 안돼요</p>
+                        <p>{{ material.warning }}</p>
                     </div>
+                    {% endif %}
+
+                    {% if stain.Not_to__do %}
                     <div class="avoid-item">
                         <i class="fa-solid fa-circle-exclamation"></i>
-                        <p>절대, **건조기**를 표준 이상으로 돌리면 안돼요</p>
+                        <p>{{ stain.Not_to__do }}</p>
                     </div>
+                    {% endif %}
                 </section>
 
                 <section class="card accordion-guide">
@@ -68,12 +74,12 @@
                             <div class="summary-icon" style="background-color: #E8F0FE;"><i class="fa-solid fa-hand-sparkles" style="color: #4A6CFF;"></i></div>
                             <div class="summary-text">
                                 <h4>얼룩 제거 방법</h4>
-                                <p>T-238590 • Jul 1, 2025</p>
+                                <p>{{ info.stains }}</p>
                             </div>
                             <i class="fa-solid fa-chevron-down arrow-icon"></i>
                         </summary>
                         <div class="accordion-content">
-                            <p>1. 미지근한 물에 중성세제를 풀어주세요.<br>2. 얼룩진 부분을 10분간 담가두세요.<br>3. 부드럽게 비벼서 헹궈주세요.</p>
+                            <p>{{ stain.Washing_Steps|linebreaks }}</p>
                         </div>
                     </details>
                     <details class="accordion-item">
@@ -81,12 +87,19 @@
                             <div class="summary-icon" style="background-color: #E6F8F2;"><i class="fa-solid fa-lightbulb" style="color: #00BFA6;"></i></div>
                             <div class="summary-text">
                                 <h4>세탁 방법</h4>
-                                <p>E-438582 • Jul 1, 2025</p>
+                                <p>{{ info.material }}</p>
                             </div>
                             <i class="fa-solid fa-chevron-down arrow-icon"></i>
                         </summary>
                         <div class="accordion-content">
-                            <p>세탁 방법에 대한 상세 내용이 여기에 표시됩니다.</p>
+                            <p>{{ material.description }}</p>
+                            {% if symbols %}
+                                <ul>
+                                {% for desc in symbols %}
+                                    <li>{{ desc }}</li>
+                                {% endfor %}
+                                </ul>
+                            {% endif %}
                         </div>
                     </details>
                     <details class="accordion-item">
