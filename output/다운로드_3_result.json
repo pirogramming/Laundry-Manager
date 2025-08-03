@@ -1,0 +1,28 @@
+{
+    "filename": "다운로드_3.png",
+    "recognized_texts": [],
+    "symbol_definition": "텍스트 인식 실패",
+    "ocr_raw_response": {
+        "version": "V2",
+        "requestId": "67a3caa9-3859-41e1-8e71-72e6b43b03a5",
+        "timestamp": 1754207786583,
+        "images": [
+            {
+                "uid": "ee8544010953433f896de85e8e5d0ed6",
+                "name": "다운로드_3.png",
+                "inferResult": "SUCCESS",
+                "message": "SUCCESS",
+                "validationResult": {
+                    "result": "NO_REQUESTED"
+                },
+                "convertedImageInfo": {
+                    "width": 28,
+                    "height": 28,
+                    "pageIndex": 0,
+                    "longImage": false
+                },
+                "fields": []
+            }
+        ]
+    }
+}

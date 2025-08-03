@@ -11,11 +11,11 @@
     "symbol_definition": "인식된 기호 설명 없음",
     "ocr_raw_response": {
         "version": "V2",
-        "requestId": "6ca1aa0e-bf0b-41dd-a5f4-a523abb65b44",
-        "timestamp": 1754112933098,
+        "requestId": "2884eca2-a938-4177-9396-d427b7799d5f",
+        "timestamp": 1754206970165,
         "images": [
             {
-                "uid": "b9c78555feec41c086cef1967421b2ee",
+                "uid": "6f6631f329fe45bb8de214a0b1c18ccc",
                 "name": "resized_icon_2.png",
                 "inferResult": "SUCCESS",
                 "message": "SUCCESS",

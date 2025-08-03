@@ -17,7 +17,8 @@
         <div class="content-wrapper">
             <header class="info-header">
                 <nav class="top-nav">
-                    <button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button>
+                    {% comment %} 여기다가 뒤로가기 버튼 추가 {% endcomment %}
+                    <a href="{% url 'result' %}"><button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button></a>
                     <h1>당신의 세탁 가이드</h1>
                     <button class="text-btn">Cancel <i class="fa-solid fa-xmark"></i></button>
                 </nav>

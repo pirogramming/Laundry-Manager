@@ -24,18 +24,15 @@
 
             <div class="upload-card">
                 <div class="card-controls">
-                    <div class="tabs">
-                        <!-- ✅ 파일 업로드 폼 -->
-                        <form id="uploadForm" method="post" enctype="multipart/form-data" action="{% url 'upload' %}">
-                            {% csrf_token %}
-                            {{ form.as_p }}
+                    <form id="uploadForm" method="post" enctype="multipart/form-data" action="{% url 'upload_image' %}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
 
-                            <!-- ✅ 업로드 버튼 -->
-                            <button type="submit" class="tab-btn active">파일 업로드</button>
-                        </form>
+                        <button type="submit" class="tab-btn active">파일 업로드</button>
+                        <button type="button" onclick="submitAndRedirect()" class="submit-button">다음으로</button>
+                    </form>
 
-                        <button class="tab-btn">과거 기록 보기</button>
-                    </div>
+                    <button class="tab-btn">과거 기록 보기</button>
                     <button class="icon-btn filter-btn"><i class="fa-solid fa-sliders"></i></button>
                 </div>
 
@@ -52,7 +49,7 @@
                 <h2>직접 입력하기</h2>
                 <button class="icon-btn arrow-btn"><i class="fa-solid fa-arrow-right"></i></button>
             </div>
-            
+
             <div class="selection-group">
                 <h3>얼룩 유형</h3>
                 <div class="item-list" id="tag-selection">
@@ -79,12 +76,17 @@
                     <div class="selectable-item"><div class="item-box"></div><span>세탁 유형</span></div>
                 </div>
             </div>
-
-            <!-- ✅ 결과 보기 버튼 -->
-            <a href="{% url 'result' %}" class="submit-button">다음으로</a>
         </section>
     </div>
 
-    <script src="upload-script.js"></script>
+    <script>
+        function submitAndRedirect() {
+            const form = document.getElementById('uploadForm');
+            form.submit();
+            setTimeout(() => {
+                window.location.href = "{% url 'result' %}";
+            }, 500); // OCR 처리 시간 확보
+        }
+    </script>
 </body>
 </html>
