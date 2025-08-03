@@ -36,8 +36,8 @@ from .utils import (
     load_washing_definitions,
     save_result_json,
     save_classification_result_json,
-    
 )
+
 
 def info_check_view(request):
     if request.method == 'GET':
@@ -58,9 +58,9 @@ def laundry_result_view(request):
         symbols = request.POST.getlist('symbols')
 
         info = {
-            'material' : material,
-            'stains' : stains,
-            'symbols' : symbols
+            "material": request.POST.get("material"),
+            "stains": request.POST.getlist("stains"),
+            "symbols": request.POST.getlist("symbols"),
         }
 
         #json 파일들이랑 연결
@@ -85,17 +85,21 @@ def laundry_result_view(request):
 
 def upload_view(request):
     context = {
-        'form': ImageUploadForm(),
-        'uploaded_image_url': None,
-        'uploaded_image_name': None,
-        'error_message': None,
+        "form": ImageUploadForm(),
+        "uploaded_image_url": None,
+        "uploaded_image_name": None,
+        "recognized_texts": [],
+        "symbol_definition": "",
+        "error_message": None,
     }
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = ImageUploadForm(request.POST, request.FILES)
         if form.is_valid():
             uploaded_instance = form.save()
             image_path = uploaded_instance.image.path
+            context["uploaded_image_url"] = uploaded_instance.image.url
+            context["uploaded_image_name"] = uploaded_instance.image.name
 
             print(f"파일이 {image_path} 에 저장되었습니다.")
 
@@ -146,15 +150,15 @@ def upload_and_classify(request):
     if request.method == "POST":
         form = ImageUploadForm(request.POST, request.FILES)
         if form.is_valid():
-            image_file = request.FILES['image']
+            image_file = request.FILES["image"]
             os.makedirs("temp", exist_ok=True)
 
-            ext = image_file.name.split('.')[-1]
+            ext = image_file.name.split(".")[-1]
             filename = f"{uuid.uuid4().hex}.{ext}"
             image_path = os.path.join("temp", filename)
 
             # 파일 저장
-            with open(image_path, 'wb+') as destination:
+            with open(image_path, "wb+") as destination:
                 for chunk in image_file.chunks():
                     destination.write(chunk)
 
@@ -337,7 +341,80 @@ def stain_guide_view(request):
         "frequent_stains": frequent_stains,
         "categorized_stains": categorized_stains,
     }
-    return render(request, "laundry_manager/stain_guide.html", context)
+    return render(request, "laundry_manager/stain-upload.html", context)
+
+'''
+이름 : first_info_view
+인자 : request
+기능 : 
+1. post(사용자) 데이터 받기
+2. first_info 함수 호출
+3. 템플릿에 전달
+4. upload.html 호출, first_info 정보 띄우기
+'''
+@csrf_exempt
+def first_info_view(request):
+    if request.method == "POST":
+        # POST 데이터 받아오기
+        filename = request.POST.get("filename")
+        selected_materials = request.POST.getlist("materials[]")  # 다중 선택 고려
+        selected_stains = request.POST.getlist("stains[]")
+
+        # first_info 함수 호출
+        result = first_info(
+            filename=filename,
+            selected_materials=selected_materials,
+            selected_stains=selected_stains
+        )
+
+        # 템플릿에 전달
+        return render(request, "laundry_manager/result.html", {
+            "materials": result.get("materials", []),
+            "symbols": result.get("symbols", []),
+            "stains": result.get("stains", []),
+            "filename": filename,  # 이후 final_info에 넘기기 위함
+        })
+
+    # GET 요청 시는 업로드 페이지 보여줌
+    return render(request, "laundry_manager/result.html")
+
+'''
+이름 : final_info_view
+인자 : request
+기능 :
+1. 이미지는 그대로, Post(사용자가 수정한 내용) 받기
+2. final_info 호출
+3. laundry_info.html 호출, final_info 정보 띄우기
+'''
+@csrf_exempt
+def final_info_view(request):
+    if request.method == "POST":
+        # 기존 이미지 filename 받기
+        filename = request.POST.get("filename")
+
+        # result.html에서 수정된 값 받기
+        manual_materials = request.POST.getlist("manual_materials[]")
+        manual_symbols = request.POST.getlist("manual_symbols[]")
+        manual_stains = request.POST.getlist("manual_stains[]")
+
+        # 1차 info 먼저 재호출 (filename 기반)
+        first_result = first_info(filename=filename)
+
+        # 최종 정제
+        final_result = final_info(
+            first_info=first_result,
+            manual_materials=manual_materials,
+            manual_symbols=manual_symbols,
+            manual_stains=manual_stains
+        )
+
+        return render(request, "laundry_manager/laundry_info.html", {
+            "materials": final_result.get("materials", []),
+            "symbols": final_result.get("symbols", []),
+            "stains": final_result.get("stains", []),
+        })
+
+    return JsonResponse({"error": "Invalid request"}, status=400)
 
 '''
 이름 : first_info_view
@@ -446,18 +523,35 @@ def stain_detail_view(request, slug):
         "slug": slug,
     }
     return render(request, "laundry_manager/stain_detail.html", context)
-
 from django.shortcuts import render
+
 
 # Create your views here.
 def main_page(request):
-    return render(request, 'laundry_manager/main.html')
+    return render(request, "laundry_manager/main.html")
+
 
 def laundry_upload_page(request):
-    return render(request, 'laundry_manager/laundry-upload.html')
+    return render(request, "laundry_manager/laundry-upload.html")
+
+
 def stain_upload_page(request):
-    return render(request, 'laundry_manager/stain-upload.html')
+    return render(request, "laundry_manager/stain-upload.html")
+
+
 def result_page(request):
-    return render(request, 'laundry_manager/result.html')
+    return render(request, "laundry_manager/result.html")
+
+
 def laundry_info_page(request):
-    return render(request, 'laundry_manager/laundry-info.html')
+    return render(request, "laundry_manager/laundry-info.html")
+def stain_info_page(request):
+    return render(request, "laundry_manager/stain-info.html")
+
+
+def stain_guide_page(request):
+    return render(request, "laundry_manager/stain_guide.html")
+
+
+def stain_detail_page(request):
+    return render(request, "laundry_manager/stain_detail.html")

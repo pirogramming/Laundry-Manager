@@ -13,7 +13,9 @@ urlpatterns = [
     # path("laundry/", views.laundry_info_view, name="laundry_view"),
     # path("stain_guide/", views.stain_guide_view, name="stain_guide"),
     # path("stain_detail/<str:slug>/", views.stain_detail_view, name="stain_detail"),
-
+    path("laundry/", views.laundry_info_view, name="laundry_view"),
+    # path("stain_guide/", views.stain_guide_view, name="stain_guide"),
+    path("stain_detail/<str:slug>/", views.stain_detail_view, name="stain_detail"),
     # 프론트 기본 연결
     path('', views.main_page, name='main'),
     path('laundry-upload/', views.laundry_upload_page, name='laundry-upload'),

@@ -11,7 +11,8 @@
     --color-star: #FFD700;
     --color-border: #eeeeee;
 
-	--color-border-trasparent: rgba(238,238,238,0.3)
+	--color-border-trasparent: rgba(238,238,238,0.3);
+    --white-background: #FAFBFF;
 }
 
 /* 기본 스타일 리셋 및 기본 설정 */

@@ -148,6 +148,7 @@
     border: none;
     cursor: pointer;
     margin-top: auto;
+    text-decoration: none;
 }
 
 .info-divider {
