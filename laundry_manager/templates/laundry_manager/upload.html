@@ -1,18 +1,3 @@
-{% comment %} {% load socialaccount %}
-<a href="{% url 'account_login' %}">구글 로그인</a>
-<a href="{% provider_login_url 'kakao' %}">카카오 로그인</a>
-
-
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">예측하기</button>
-</form>
-
-{% if result %}
-    <p>예측 결과: {{ result.0 }}</p>
-    <p>정확도: {{ result.1|floatformat:2 }}</p>
-{% endif %} {% endcomment %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -33,16 +18,22 @@
             <nav class="top-nav">
                 <a href="{% url 'main' %}"><button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button></a>
                 <h1>세탁 정보 입력</h1>
-                {% comment %} <a href="{% url 'upload_new' %}">새 업로드 페이지</a> {% endcomment %}
                 <a>새 업로드 페이지</a>
-
-
                 <button class="text-btn">Cancel <i class="fa-solid fa-xmark"></i></button>
             </nav>
+
             <div class="upload-card">
                 <div class="card-controls">
                     <div class="tabs">
-                        <button class="tab-btn active">파일 업로드</button>
+                        <!-- ✅ 파일 업로드 폼 -->
+                        <form id="uploadForm" method="post" enctype="multipart/form-data" action="{% url 'upload' %}">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+
+                            <!-- ✅ 업로드 버튼 -->
+                            <button type="submit" class="tab-btn active">파일 업로드</button>
+                        </form>
+
                         <button class="tab-btn">과거 기록 보기</button>
                     </div>
                     <button class="icon-btn filter-btn"><i class="fa-solid fa-sliders"></i></button>
@@ -74,6 +65,7 @@
                     <div class="selectable-item"><div class="item-box"></div><span>세탁 태그</span></div>
                 </div>
             </div>
+
             <div class="selection-group">
                 <h3>의류 소재</h3>
                 <div class="item-list" id="type-selection">
@@ -85,15 +77,11 @@
                     <div class="selectable-item"><div class="item-box"></div><span>세탁 유형</span></div>
                     <div class="selectable-item"><div class="item-box"></div><span>세탁 유형</span></div>
                     <div class="selectable-item"><div class="item-box"></div><span>세탁 유형</span></div>
-					
                 </div>
             </div>
-            
-            {% comment %} <a href="{% url 'front_result' %}" class="submit-button">다음으로</a> {% endcomment %}
+
+            <!-- ✅ 결과 보기 버튼 -->
             <a href="{% url 'result' %}" class="submit-button">다음으로</a>
-
-
-            
         </section>
     </div>
 

@@ -29,14 +29,14 @@
         "강동구",
         "갈등"
     ],
-    "symbol_definition": "인식된 기호에 대한 설명을 찾을 수 없습니다.",
+    "symbol_definition": "인식된 기호 설명 없음",
     "ocr_raw_response": {
         "version": "V2",
-        "requestId": "310eb744-80c6-47a1-bb9a-ae77c9f575c1",
-        "timestamp": 1754107529454,
+        "requestId": "8440aee2-ce3f-4469-a565-5d5ef8878e85",
+        "timestamp": 1754204075921,
         "images": [
             {
-                "uid": "d2fb1f04000f4bb3abb6bb2914021532",
+                "uid": "38641d9bc4d04c78a0ff94eb504a57cc",
                 "name": "images.jpg",
                 "inferResult": "SUCCESS",
                 "message": "SUCCESS",

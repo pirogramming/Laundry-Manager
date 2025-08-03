@@ -3,14 +3,14 @@
     "recognized_texts": [
         "드라이"
     ],
-    "symbol_definition": "인식된 기호에 대한 설명을 찾을 수 없습니다.",
+    "symbol_definition": "인식된 기호 설명 없음",
     "ocr_raw_response": {
         "version": "V2",
-        "requestId": "9364764a-fc82-4f09-8f52-4b7c05796ef9",
-        "timestamp": 1754107438412,
+        "requestId": "bdcd0867-3a5f-4773-a3bd-ad1928094767",
+        "timestamp": 1754201025903,
         "images": [
             {
-                "uid": "948e752e35b8490c9fbd465c3defe880",
+                "uid": "6217a29d330e4768a394c9bccd946ba2",
                 "name": "드라이.png",
                 "inferResult": "SUCCESS",
                 "message": "SUCCESS",

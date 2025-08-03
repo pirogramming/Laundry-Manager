@@ -15,7 +15,7 @@
 <body>
     <div class="mobile-container result-page">
         <nav class="top-nav-white">
-            <a href="% 'laundy-upload' %"><button class="icon-btn-bordered"><i class="fa-solid fa-arrow-left"></i></button></a>
+            <a href="{% url 'upload' %}"><button class="icon-btn-bordered"><i class="fa-solid fa-arrow-left"></i></button></a>
             <h2>인식 정보 확인</h2>
             <button class="text-btn-dark">Cancel <i class="fa-solid fa-xmark"></i></button>
         </nav>
@@ -35,9 +35,16 @@
                 </div>
                 <div class="info-list">
                     <div class="info-item">
-                        <span>인식한 태그</span>
-                        <strong>드라이 클리닝</strong>
+                        <span>인식된 텍스트</span>
+                        <p style="color: red;">[DEBUG] recognized_texts: {{ recognized_texts }}</p>
+                        {% if recognized_texts %}
+                            <strong>{{ recognized_texts|join:", " }}</strong>
+                        {% else %}
+                            <strong>결과 없음</strong>
+                        {% endif %}
                     </div>
+
+
                     <hr class="info-divider">
                     <div class="info-item">
                         <span>의류 소재</span>
