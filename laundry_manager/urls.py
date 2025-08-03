@@ -20,7 +20,7 @@ urlpatterns = [
     # 프론트 기본 연결
     path('', views.main_page, name='main'),
     path('laundy-upload/', views.laundry_upload_page, name='laundry-upload'),
-    path('stain-upload/', views.stain_guide_view, name="stain_guide"),
+    path('stain-upload/', views.stain_guide_view, name="stain-upload"),
     path('result/', views.result_page, name='result'),  
     path('laundry-info/', views.laundry_info_page, name='laundry-info'),  
     #path('stain-guide/', views.stain_guide_page, name='stain-guide'),
