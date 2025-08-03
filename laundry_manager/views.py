@@ -39,27 +39,45 @@ def info_check_view(request):
     if request.method == 'GET':
         return render(request, 'laundry_manager/recommend.html')
 
+# 세탁 정보 담긴 json 파일들 불러옴
+def load_json(filename):
+    path = os.path.join(settings.BASE_DIR, 'laundry_manager', 'json_data', filename)
+    with open(path, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+# 세탁 정보 보여주는 함수 연결
 def laundry_result_view(request):
     if request.method == "POST":
-        # 1. info 준비 (예: request.POST나 session, 혹은 laundry_info 함수 활용)
+        # info 준비
+        material = request.POST.get('material')
+        stains = request.POST.get('stains')
+        symbols = request.POST.getlist('symbols')
+
         info = {
-            'material': request.POST.get('material'),
-            'stains': request.POST.getlist('stains'),
-            'symbols': request.POST.getlist('symbols')
+            'material' : material,
+            'stains' : stains,
+            'symbols' : symbols
         }
 
-        # 2. 세탁 정보 정리한 json 파일 불러오기
-        rule_path = os.path.join(settings.BASE_DIR, 'static', 'data', 'laundry_rules.json') # json 파일 이름으로 바꾸기
-        with open(rule_path, 'r', encoding='utf-8') as f:
-            rule_json = json.load(f) # JSON으로 파싱해서 파이썬 딕셔너리로 변환
+        #json 파일들이랑 연결
+        material_json = load_json('blackup.json')
+        stain_json = load_json('persil_v2.json')
+        symbol_json = load_json('washing_symbol.json')
 
-        # 3. 세탁 추천 실행
-        guides = laundry_recommend(info, rule_json)
-        # 4. 출력 포맷
-        result_text = format_result(guides)
+        # 세탁 추천 결과 함수 실행해서 받아옴
+        guides = laundry_recommend(info, material_json, stain_json, symbol_json)
+    
+        # 템플릿에 전달
+        return render(request, "laundry_manager/laundry_info.html", {
+                    "material" : guides.get('material_guide'),
+                    "stain" : guides.get("stain_guide"),
+                    "symbols" : guides.get("symbol_guide"),
+                    "info": info
+                })
 
-        # 5. 템플릿에 전달
-        return render(request, 'laundry_manager/recommend.html', {'result_text': result_text})
+    else:
+        return redirect("laundry-upload")
+
 
 # views.py에는 필요한 애들만 남겼음
 def upload_view(request):
@@ -127,8 +145,7 @@ def upload_and_classify(request):
         "result": result,
     })
   
-  
-  
+
 # 2. 뷰 함수 정의
 def laundry_info_view(request):
 
@@ -173,7 +190,6 @@ def load_stain_data():
                     stain_category["title"]
                     .replace(" ", "_")  # 공백을 _f로 바꿈
                     .replace("/", "_")  # /도 _로 바꿈
-                    .replace("제거법", "")  # 제거법이라는 글자 없앰
                     .strip("_")  # 맨앞에 있는 _ 없앰
                     .lower()  # 영어이면 소문자...
                 )
@@ -196,16 +212,16 @@ ALL_STAIN_DATA = load_stain_data()  # 최종적으로 로드되고 가공된 "�
 
 def stain_guide_view(request):
     frequent_stain_titles = [
-        "혈흔 제거법",
-        "메이크업 및 립스틱 얼룩 제거",
-        "셔츠에서 땀 얼룩을 제거하는 법",
-        "커피와 차 얼룩 제거법",
-        "펜과 잉크 얼룩을 제거하기",
-        "염색약, 페인트 그리고 색상 얼룩을 제거하는 법",
-        "세탁과 건조 후의 옷에서 얼룩 제거하는 법",
-        "껌 얼룩 제거하는 법",
-        "자외선 차단제, 크림 및 로션 얼룩 제거하는 법",
-        "겨자, 케첩, 소스 얼룩 제거법",
+        "혈흔",
+        "화장품 얼룩",
+        "땀 얼룩",
+        "커피와 차 얼룩",
+        "펜과 잉크 얼룩",
+        "염색약, 페인트 등의 색상 얼룩",
+        "세탁과 건조 후 생긴 얼룩",
+        "껌 얼룩",
+        "자외선 차단제, 크림 및 로션 얼룩",
+        "겨자, 케첩, 소스 얼룩",
     ]  # 사용자가 자주 찾아볼 만한 얼룩제거법은 따로 정리함
 
     # 모든 얼룩 데이터에서 frequent_stains와 other_stains 분리
@@ -330,6 +346,7 @@ def stain_detail_view(request, slug):
         "slug": slug,
     }
     return render(request, "laundry_manager/stain_detail.html", context)
+
 from django.shortcuts import render
 
 # Create your views here.
