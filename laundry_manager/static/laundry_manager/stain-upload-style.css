@@ -74,11 +74,11 @@
     padding-bottom: 100px; /* 하단 버튼 공간 확보 */
 }
 .content-block {
-    margin-bottom: 24px;
+    margin-bottom: 0px;
 }
 .vertical-scroll-block {
     flex-grow: 1;
-    min-height: 0;
+    min-height: 500px;
     display: flex;
     flex-direction: column;
 }
@@ -120,6 +120,8 @@
     flex-direction: column;
     align-items: center;
     gap: 8px;
+    text-decoration: none;
+
 }
 .h-scroll-img-placeholder {
     width: 110px;
@@ -130,6 +132,7 @@
 .h-scroll-item span {
     font-size: 14px;
     font-weight: 500;
+    color: var(--color-text-primary)
 }
 
 /* --- MODIFIED: Vertical Scroll Section --- */
@@ -169,6 +172,7 @@
     display: flex;
     flex-direction: column;
     height: auto;
+    text-decoration: none;
 }
 
 .stain-image-placeholder {
@@ -189,6 +193,8 @@
     font-weight: 400;
     color: var(--color-text-primary);
     flex-shrink: 0;
+    
+
 }
 
 /* --- 하단 고정 버튼 --- */
