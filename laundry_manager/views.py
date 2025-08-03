@@ -21,11 +21,12 @@ from .functions.info import first_info, final_info
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 # from functions.info import laundry_info, apply_user_correction
+from .utils import load_washing_definitions
 
 
 
 load_dotenv()
-# WASHING_SYMBOLS_DEFINITIONS = load_washing_definitions()
+WASHING_SYMBOLS_DEFINITIONS = load_washing_definitions()
 
 # utils.py를 만들어서 함수들 분리했음
 from .utils import (
@@ -64,14 +65,11 @@ def laundry_result_view(request):
         # 5. 템플릿에 전달
         return render(request, 'laundry_manager/recommend.html', {'result_text': result_text})
 
-# views.py에는 필요한 애들만 남겼음
 def upload_view(request):
     context = {
         'form': ImageUploadForm(),
         'uploaded_image_url': None,
         'uploaded_image_name': None,
-        'recognized_texts': [],
-        'symbol_definition': '',
         'error_message': None,
     }
 
@@ -80,22 +78,48 @@ def upload_view(request):
         if form.is_valid():
             uploaded_instance = form.save()
             image_path = uploaded_instance.image.path
-            context['uploaded_image_url'] = uploaded_instance.image.url
-            context['uploaded_image_name'] = uploaded_instance.image.name
 
             print(f"파일이 {image_path} 에 저장되었습니다.")
+
             ocr_result = perform_ocr(image_path)
 
+            print("🔍 OCR raw result:", ocr_result)
+            print("🔍 추출된 fields:", ocr_result.get('images', [{}])[0].get('fields', []))
+            
             if ocr_result.get("error"):
                 context["error_message"] = ocr_result["message"]
-            else:
-                definition, texts = get_washing_symbol_definition(ocr_result, WASHING_SYMBOLS_DEFINITIONS)
-                context["recognized_texts"] = texts
-                context["symbol_definition"] = definition
+                return render(request, 'laundry_manager/index.html', context)
 
-                save_result_json(image_path, texts, definition, ocr_result)
+            # OCR 성공: 결과 파싱 및 저장
+            definition, texts = get_washing_symbol_definition(ocr_result, WASHING_SYMBOLS_DEFINITIONS)
+            print("OCR 결과:", texts)
 
+            # ✅ 세션에 저장
+            request.session['recognized_texts'] = texts
+            print("OCR 결과 저장 전 texts:", texts)
+            request.session['symbol_definition'] = definition
+
+            save_result_json(image_path, texts, definition, ocr_result)
+
+            return redirect('result')
+
+    # ✅ GET 요청일 경우 index.html 보여주기
     return render(request, 'laundry_manager/index.html', context)
+
+
+def result_view(request):
+    texts = request.session.get('recognized_texts', [])
+    definition = request.session.get('symbol_definition', '')
+    print("세션에서 가져온 OCR 결과:", texts)
+
+
+    return render(request, 'laundry_manager/result.html', {
+        'recognized_texts': texts,
+        'symbol_definition': definition,
+    })
+
+
+
 
 # 이거는 roboflow에서 사용되는 함수임
 def upload_and_classify(request):
@@ -332,7 +356,7 @@ def first_info_view(request):
         })
 
     # GET 요청 시는 업로드 페이지 보여줌
-    return render(request, "laundry_manager/upload_form.html")
+    return render(request, "laundry_manager/result.html")
 
 '''
 이름 : final_info_view
