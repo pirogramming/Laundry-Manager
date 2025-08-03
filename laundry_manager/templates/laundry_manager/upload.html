@@ -24,22 +24,18 @@
 
             <div class="upload-card">
                 <div class="card-controls">
+                    <!-- ✅ 단일 폼 -->
                     <form id="uploadForm" method="post" enctype="multipart/form-data" action="{% url 'upload_image' %}">
                         {% csrf_token %}
                         {{ form.as_p }}
 
-                        <button type="submit" class="tab-btn active">파일 업로드</button>
-                        <button type="button" onclick="submitAndRedirect()" class="submit-button">다음으로</button>
+                        <div class="drop-zone">
+                            <p>사진을 직접 찍거나 눌러서 파일을 업로드 하세요.</p>
+                        </div>
+
+                        <!-- ✅ 하단에 버튼 하나만 -->
+                        <button type="submit" class="submit-button">다음으로</button>
                     </form>
-
-                    <button class="tab-btn">과거 기록 보기</button>
-                    <button class="icon-btn filter-btn"><i class="fa-solid fa-sliders"></i></button>
-                </div>
-
-                <hr class="card-divider">
-
-                <div class="drop-zone">
-                    <p>사진을 직접 찍거나 눌러서 파일을 업로드 하세요.</p>
                 </div>
             </div>
         </section>
@@ -54,12 +50,7 @@
                 <h3>얼룩 유형</h3>
                 <div class="item-list" id="tag-selection">
                     <div class="selectable-item active"><div class="item-box"></div><span>세탁 태그</span></div>
-                    <div class="selectable-item"><div class="item-box"></div><span>세탁 태그</span></div>
-                    <div class="selectable-item"><div class="item-box"></div><span>세탁 태그</span></div>
-                    <div class="selectable-item"><div class="item-box"></div><span>세탁 태그</span></div>
-                    <div class="selectable-item"><div class="item-box"></div><span>세탁 태그</span></div>
-                    <div class="selectable-item"><div class="item-box"></div><span>세탁 태그</span></div>
-                    <div class="selectable-item"><div class="item-box"></div><span>세탁 태그</span></div>
+                    <!-- 필요한 만큼 항목 복제 -->
                 </div>
             </div>
 
@@ -67,26 +58,10 @@
                 <h3>의류 소재</h3>
                 <div class="item-list" id="type-selection">
                     <div class="selectable-item active"><div class="item-box"></div><span>세탁 유형</span></div>
-                    <div class="selectable-item"><div class="item-box"></div><span>세탁 유형</span></div>
-                    <div class="selectable-item"><div class="item-box"></div><span>세탁 유형</span></div>
-                    <div class="selectable-item"><div class="item-box"></div><span>세탁 유형</span></div>
-                    <div class="selectable-item"><div class="item-box"></div><span>세탁 유형</span></div>
-                    <div class="selectable-item"><div class="item-box"></div><span>세탁 유형</span></div>
-                    <div class="selectable-item"><div class="item-box"></div><span>세탁 유형</span></div>
-                    <div class="selectable-item"><div class="item-box"></div><span>세탁 유형</span></div>
+                    <!-- 필요한 만큼 항목 복제 -->
                 </div>
             </div>
         </section>
     </div>
-
-    <script>
-        function submitAndRedirect() {
-            const form = document.getElementById('uploadForm');
-            form.submit();
-            setTimeout(() => {
-                window.location.href = "{% url 'result' %}";
-            }, 500); // OCR 처리 시간 확보
-        }
-    </script>
 </body>
 </html>

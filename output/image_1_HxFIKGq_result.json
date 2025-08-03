@@ -1,5 +1,5 @@
 {
-    "filename": "image_1.png",
+    "filename": "image_1_HxFIKGq.png",
     "recognized_texts": [
         "API",
         "Gateway",
@@ -57,12 +57,12 @@
     "symbol_definition": "인식된 기호 설명 없음",
     "ocr_raw_response": {
         "version": "V2",
-        "requestId": "cabf374d-336b-40e3-8378-294ef7f7814f",
-        "timestamp": 1754201724766,
+        "requestId": "538cc0c6-0c34-4e8f-852d-3cd7bb2d7e10",
+        "timestamp": 1754208516154,
         "images": [
             {
-                "uid": "0bd03cb51eff400da330cfa0356c187a",
-                "name": "image_1.png",
+                "uid": "0c37d1eabf95439c9c138a5a15910f06",
+                "name": "image_1_HxFIKGq.png",
                 "inferResult": "SUCCESS",
                 "message": "SUCCESS",
                 "validationResult": {

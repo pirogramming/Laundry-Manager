@@ -1,5 +1,5 @@
 {
-    "filename": "images_TFqD0g9.jpg",
+    "filename": "images_tuCZUro.jpg",
     "recognized_texts": [
         "품질경영및공신김안진",
         "관리법에의한접 사",
@@ -32,12 +32,12 @@
     "symbol_definition": "인식된 기호 설명 없음",
     "ocr_raw_response": {
         "version": "V2",
-        "requestId": "f7fb20a3-f8c5-43d7-9f94-4fc0cf01284d",
-        "timestamp": 1754207598879,
+        "requestId": "381024f2-65a5-4473-ab19-06f66e35cbdd",
+        "timestamp": 1754208510213,
         "images": [
             {
-                "uid": "76e26a453e4b4636a4cc7c3d4b50341e",
-                "name": "images_TFqD0g9.jpg",
+                "uid": "bfd72d27a47b443286fb4321dad22ccb",
+                "name": "images_tuCZUro.jpg",
                 "inferResult": "SUCCESS",
                 "message": "SUCCESS",
                 "validationResult": {

@@ -1,5 +1,5 @@
 {
-    "filename": "resized_icon_2.png",
+    "filename": "resized_icon_2_b11MPEF.png",
     "recognized_texts": [
         "(WHERE",
         "IS",
@@ -11,12 +11,12 @@
     "symbol_definition": "인식된 기호 설명 없음",
     "ocr_raw_response": {
         "version": "V2",
-        "requestId": "2884eca2-a938-4177-9396-d427b7799d5f",
-        "timestamp": 1754206970165,
+        "requestId": "5854f6b3-5c51-4f76-b302-f66dfdfef7d4",
+        "timestamp": 1754208530668,
         "images": [
             {
-                "uid": "6f6631f329fe45bb8de214a0b1c18ccc",
-                "name": "resized_icon_2.png",
+                "uid": "64ce1a9fffd34511b94e5ca53cb8cb90",
+                "name": "resized_icon_2_b11MPEF.png",
                 "inferResult": "SUCCESS",
                 "message": "SUCCESS",
                 "validationResult": {
