@@ -17,6 +17,9 @@ from .forms import ImageUploadForm
 from .models import UploadedImage
 from .functions.recommend import laundry_recommend
 from .functions.result import format_result
+from .functions.info import first_info, final_info 
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 # from functions.info import laundry_info, apply_user_correction
 
 
@@ -295,6 +298,79 @@ def stain_guide_view(request):
         "categorized_stains": categorized_stains,
     }
     return render(request, "laundry_manager/stain_guide.html", context)
+
+'''
+이름 : first_info_view
+인자 : request
+기능 : 
+1. post(사용자) 데이터 받기
+2. first_info 함수 호출
+3. 템플릿에 전달
+4. upload.html 호출, first_info 정보 띄우기
+'''
+@csrf_exempt
+def first_info_view(request):
+    if request.method == "POST":
+        # POST 데이터 받아오기
+        filename = request.POST.get("filename")
+        selected_materials = request.POST.getlist("materials[]")  # 다중 선택 고려
+        selected_stains = request.POST.getlist("stains[]")
+
+        # first_info 함수 호출
+        result = first_info(
+            filename=filename,
+            selected_materials=selected_materials,
+            selected_stains=selected_stains
+        )
+
+        # 템플릿에 전달
+        return render(request, "laundry_manager/result.html", {
+            "materials": result.get("materials", []),
+            "symbols": result.get("symbols", []),
+            "stains": result.get("stains", []),
+            "filename": filename,  # 이후 final_info에 넘기기 위함
+        })
+
+    # GET 요청 시는 업로드 페이지 보여줌
+    return render(request, "laundry_manager/upload_form.html")
+
+'''
+이름 : final_info_view
+인자 : request
+기능 :
+1. 이미지는 그대로, Post(사용자가 수정한 내용) 받기
+2. final_info 호출
+3. laundry_info.html 호출, final_info 정보 띄우기
+'''
+@csrf_exempt
+def final_info_view(request):
+    if request.method == "POST":
+        # 기존 이미지 filename 받기
+        filename = request.POST.get("filename")
+
+        # result.html에서 수정된 값 받기
+        manual_materials = request.POST.getlist("manual_materials[]")
+        manual_symbols = request.POST.getlist("manual_symbols[]")
+        manual_stains = request.POST.getlist("manual_stains[]")
+
+        # 1차 info 먼저 재호출 (filename 기반)
+        first_result = first_info(filename=filename)
+
+        # 최종 정제
+        final_result = final_info(
+            first_info=first_result,
+            manual_materials=manual_materials,
+            manual_symbols=manual_symbols,
+            manual_stains=manual_stains
+        )
+
+        return render(request, "laundry_manager/laundry_info.html", {
+            "materials": final_result.get("materials", []),
+            "symbols": final_result.get("symbols", []),
+            "stains": final_result.get("stains", []),
+        })
+
+    return JsonResponse({"error": "Invalid request"}, status=400)
 
 
 # 아직 미완

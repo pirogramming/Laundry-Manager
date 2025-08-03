@@ -21,5 +21,7 @@ urlpatterns = [
     path('result/', views.result_page, name='result'),  
     path('laundry-info/', views.laundry_info_page, name='laundry-info'),  
 
+    path('first-info/', views.first_info_view, name='first_info'),
+    path('final-info/', views.final_info_view, name='final_info'),
 
 ]
