@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>얼룩 제거 가이드</title>
+    <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}"> 
+    <link rel="stylesheet" href="{% static 'laundry_manager/stain-upload-style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <div class="mobile-container input-page">
+        <section class="upload-header-section">
+            <nav class="top-nav">
+                <button class="icon-btn" onclick="history.back()"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="header-tabs">
+                    <a href="{% url 'laundry-upload' %}" class="tab-btn">세탁 정보 가이드</a>
+                    <button class="tab-btn active">얼룩 제거 가이드</button> 
+                </div>
+            </nav>
+        </section>
+
+        <section class="manual-input-section">
+            <div class="content-block">
+                <div class="section-header">
+                    <h2>많이 검색한 얼룩</h2>
+                </div>
+                <div class="horizontal-scroll-container">
+                    {% if frequent_stains %}
+                        {% for stain in frequent_stains %}
+                        <a href="{% url 'stain_detail' slug=stain.slug %}" class="h-scroll-item">
+                            <div class="h-scroll-img-placeholder">
+                                </div>
+                            <span>{{ stain.title }}</span>
+                        </a>
+                        {% endfor %}
+                    {% else %}
+                        <p>자주 찾는 얼룩 정보가 없습니다.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="content-block vertical-scroll-block">
+                <div class="section-header">
+                    <h2>전체 얼룩 유형</h2>
+                    {% comment %} <button class="icon-btn arrow-btn"><i class="fa-solid fa-arrow-right"></i></button> {% endcomment %}
+                </div>
+                <div class="vertical-scroll-content">
+                    {% if categorized_stains.음식 %}
+                    <h3 class="stain-group-title">음식 관련 얼룩</h3>
+                    <div class="stain-grid">
+                        {% for stain in categorized_stains.음식 %}
+                        <a href="{% url 'stain_detail' slug=stain.slug %}" class="stain-grid-item">
+                            <div class="stain-image-placeholder"></div>
+                            <div class="stain-label">{{ stain.title }}</div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    {% if categorized_stains.생활 %}
+                    <h3 class="stain-group-title">생활 관련 얼룩</h3>
+                     <div class="stain-grid">
+                        {% for stain in categorized_stains.생활 %}
+                        <a href="{% url 'stain_detail' slug=stain.slug %}" class="stain-grid-item">
+                            <div class="stain-image-placeholder"></div>
+                            <div class="stain-label">{{ stain.title }}</div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    {% if not categorized_stains.음식 and not categorized_stains.생활 %}
+                        <p>표시할 얼룩 정보가 없습니다.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="{% static 'laundry_manager/upload-script.js' %}"></script>
+</body>
+</html>

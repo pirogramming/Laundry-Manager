@@ -294,7 +294,7 @@ def stain_guide_view(request):
         "frequent_stains": frequent_stains,
         "categorized_stains": categorized_stains,
     }
-    return render(request, "laundry_manager/stain_guide.html", context)
+    return render(request, "laundry_manager/stain-upload.html", context)
 
 
 # 아직 미완
@@ -344,3 +344,7 @@ def result_page(request):
     return render(request, 'laundry_manager/result.html')
 def laundry_info_page(request):
     return render(request, 'laundry_manager/laundry-info.html')
+def stain_guide_page(request):
+    return render(request, 'laundry_manager/stain_guide.html')
+def stain_detail_page(request):
+    return render(request, 'laundry_manager/stain_detail.html')
