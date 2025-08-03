@@ -15,7 +15,7 @@
 <body>
     <div class="mobile-container result-page">
         <nav class="top-nav-white">
-            <button class="icon-btn-bordered"><i class="fa-solid fa-arrow-left"></i></button>
+            <a href="% 'laundy-upload' %"><button class="icon-btn-bordered"><i class="fa-solid fa-arrow-left"></i></button></a>
             <h2>인식 정보 확인</h2>
             <button class="text-btn-dark">Cancel <i class="fa-solid fa-xmark"></i></button>
         </nav>
@@ -50,7 +50,8 @@
                     </div>
                 </div>
                 <a href="#" class="extra-info-link">추가 정보 입력하기</a>
-                <button class="confirm-button">확인하기</button>
+                <a href="{% url 'laundry-info' %}" class="confirm-button">확인하기</a>
+
             </div>
         </main>
     </div>
