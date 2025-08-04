@@ -17,10 +17,7 @@ urlpatterns = [
     # path('stain-upload/', views.stain_upload_page, name='stain-upload'),
     path('result/', views.result_view, name='result'),  
     path('laundry-info/', views.laundry_info_page, name='laundry-info'),  
-<<<<<<< HEAD
     path('stain-info/', views.stain_info_page, name='stain-info'),
-=======
->>>>>>> d0dd2d040d0670db06fe8814562ae64c3e4d1491
     path('first-info/', views.first_info_view, name='first_info'),
     path('final-info/', views.final_info_view, name='final_info'),
 
