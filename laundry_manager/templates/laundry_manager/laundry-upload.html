@@ -21,14 +21,24 @@
                     <a href="{% url 'stain-upload' %}" class="tab-btn">얼룩 제거 가이드</a>
                 </div>
             </nav>
+            
             <div class="upload-card">
-                <h3>세탁 정보 업로드</h3>
-                <p>원하는 옷의 세탁 태그를 찍으면 세탁 정보를 알려드려요</p>
-                <hr class="upload-divider">
+            <h3>세탁 정보 업로드</h3>
+            <p>원하는 옷의 세탁 태그를 찍으면 세탁 정보를 알려드려요</p>
+            <hr class="upload-divider">
+            
+            <form method="POST" enctype="multipart/form-data" action="{% url 'upload_image' %}">
+                {% csrf_token %}
                 <div class="drop-zone">
-                    <p>사진을 직접 찍거나 눌러서 파일을 업로드 하세요.</p>
+                    <label for="id_image" style="cursor:pointer;">
+                        {{ form.image }}
+                    </label>
+                    <button type="submit" class="submit-button">업로드</button>
                 </div>
-            </div>
+            </form>
+
+        </div>
+
         </header>
 
         <main class="manual-input-section">

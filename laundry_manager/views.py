@@ -125,8 +125,9 @@ def upload_view(request):
 
             return redirect('result')
 
-    # ✅ GET 요청일 경우 index.html 보여주기
-    return render(request, 'laundry_manager/index.html', context)
+    # 업로드 실패 or GET일 때
+    return render(request, 'laundry_manager/laundry-upload.html', context)
+
 
 
 def result_view(request):
@@ -171,11 +172,11 @@ def upload_and_classify(request):
     else:
         form = ImageUploadForm()
 
-    return render(request, "laundry_manager/upload.html", {
+    return render(request, "laundry_manager/laundry-upload.html", {
         "form": form,
         "result": result,
     })
-  
+
 
 # 2. 뷰 함수 정의
 def laundry_info_view(request):
