@@ -168,6 +168,7 @@
     width: 100%;
     height: 100%;
     display: block;
+
 }
 
 .h-scroll-item span {
@@ -225,12 +226,17 @@
 
 .stain-image-placeholder {
     width: 100%;
-    background-color: var(--color-background);
+    /*background-color: var(--color-background);*/
+    /*이부분도 수정함*/
     border: 2px solid transparent;
     transition: border-color 0.2s;
     border-radius: 15px;
     aspect-ratio: 1 / 1;
     /* flex-grow: 1;  */
+
+    /*새로추가한 css - 권준희 */
+    height: 75px;
+    gap: 15px;
 }
 
 .stain-label {
@@ -273,4 +279,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/*새로 추가*/
+.stain-thumbnail {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

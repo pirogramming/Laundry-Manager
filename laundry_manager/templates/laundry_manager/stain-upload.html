@@ -56,7 +56,8 @@
             <div class="content-block vertical-scroll-block">
                 <div class="section-header">
                     <h2>전체 얼룩 유형</h2>
-                    {% comment %} <button class="icon-btn arrow-btn"><i class="fa-solid fa-arrow-right"></i></button> {%endcomment %}
+                    {% comment %} <button class="icon-btn arrow-btn"><i class="fa-solid fa-arrow-right"></i></button>
+                    {%endcomment %}
                 </div>
                 <div class="vertical-scroll-content">
                     {% if categorized_stains.음식 %}
@@ -64,7 +65,17 @@
                     <div class="stain-grid">
                         {% for stain in categorized_stains.음식 %}
                         <a href="{% url 'stain_detail' slug=stain.slug %}" class="stain-grid-item">
-                            <div class="stain-image-placeholder"></div>
+                            <div class="stain-image-placeholder">
+                                {# 여기에 이미지 태그 추가 시작 #}
+                                {% if stain.image_url %}
+                                <img src="{% static stain.image_url %}" alt="{{ stain.title }} 이미지"
+                                    class="stain-thumbnail">
+                                {% else %}
+                                <img src="{% static 'images/default_stain.webp' %}" alt="기본 얼룩 이미지"
+                                    class="stain-thumbnail">
+                                {% endif %}
+                                {# 이미지 태그 추가 끝 #}
+                            </div>
                             <div class="stain-label">{{ stain.title }}</div>
                         </a>
                         {% endfor %}
@@ -76,15 +87,21 @@
                     <div class="stain-grid">
                         {% for stain in categorized_stains.생활 %}
                         <a href="{% url 'stain_detail' slug=stain.slug %}" class="stain-grid-item">
-                            <div class="stain-image-placeholder"></div>
+                            <div class="stain-image-placeholder">
+                                {# 여기에 이미지 태그 추가 시작 #}
+                                {% if stain.image_url %}
+                                <img src="{% static stain.image_url %}" alt="{{ stain.title }} 이미지"
+                                    class="stain-thumbnail">
+                                {% else %}
+                                <img src="{% static 'images/default_stain.webp' %}" alt="기본 얼룩 이미지"
+                                    class="stain-thumbnail">
+                                {% endif %}
+                                {# 이미지 태그 추가 끝 #}
+                            </div>
                             <div class="stain-label">{{ stain.title }}</div>
                         </a>
                         {% endfor %}
                     </div>
-                    {% endif %}
-
-                    {% if not categorized_stains.음식 and not categorized_stains.생활 %}
-                    <p>표시할 얼룩 정보가 없습니다.</p>
                     {% endif %}
                 </div>
             </div>

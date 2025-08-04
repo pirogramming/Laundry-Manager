@@ -216,7 +216,7 @@ def laundry_info_view(request):
 PROJECT_ROOT_DIR = (
     Path(__file__).resolve().parent.parent
 )  # 전체 루트 디렉토리(Laundry-Manager)
-JSON_FILE_PATH = PROJECT_ROOT_DIR / "json_data" / "persil_v2.json"
+JSON_FILE_PATH = PROJECT_ROOT_DIR / "laundry_manager" / "json_data" / "persil_v2.json"
 _all_stains_data = (
     None  # 얼룩 정보를 담은 json 파일에 대한 정보를 저장함..파이썬 딕셔너리 같은 기능
 )
