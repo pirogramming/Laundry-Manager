@@ -4,26 +4,23 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # legacy
-    # path("", views.upload_and_classify, name="home"),  # 루트 경로는 upload 중심으로 설정
+    path('', views.main_page, name='main'),
     path("upload/", views.upload_and_classify, name="upload"),
     path("uploadimage/", views.upload_view, name="upload_image"),
-    # path("info/", laundry_result_view, name="laundry_info"),
-    # path("result/", laundry_result_view, name="laundry_result"),
-    # path("laundry/", views.laundry_info_view, name="laundry_view"),
-    # path("stain_guide/", views.stain_guide_view, name="stain_guide"),
-    # path("stain_detail/<str:slug>/", views.stain_detail_view, name="stain_detail"),
-    path("laundry/", views.laundry_info_view, name="laundry_view"),
-    # path("stain_guide/", views.stain_guide_view, name="stain_guide"),
+    path("stain-guide/", views.stain_guide_view, name="stain-guide"),
     path("stain_detail/<str:slug>/", views.stain_detail_view, name="stain_detail"),
-    # 프론트 기본 연결
-    path('', views.main_page, name='main'),
+    path("laundry/", views.laundry_info_view, name="laundry_view"),
     path('laundry-upload/', views.upload_view, name='laundry-upload'),
     # path('laundry-upload/', views.upload_and_classify, name='laundry-upload'),
-    path('stain-upload/', views.stain_upload_page, name='stain-upload'),
+    path("stain-upload/", views.stain_guide_view, name="stain-upload"), 
+    path("stain-info/", views.stain_info_page, name="stain-info"),
+    # path('stain-upload/', views.stain_upload_page, name='stain-upload'),
     path('result/', views.result_view, name='result'),  
     path('laundry-info/', views.laundry_info_page, name='laundry-info'),  
+<<<<<<< HEAD
     path('stain-info/', views.stain_info_page, name='stain-info'),
+=======
+>>>>>>> d0dd2d040d0670db06fe8814562ae64c3e4d1491
     path('first-info/', views.first_info_view, name='first_info'),
     path('final-info/', views.final_info_view, name='final_info'),
 
