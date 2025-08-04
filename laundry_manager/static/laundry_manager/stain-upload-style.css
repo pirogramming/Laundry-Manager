@@ -128,6 +128,7 @@
     height: 110px;
     background-color: var(--color-background);
     border-radius: 15px;
+    
 }
 .h-scroll-item span {
     font-size: 14px;

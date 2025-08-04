@@ -33,7 +33,7 @@
                     {% if frequent_stains %}
                         {% for stain in frequent_stains %}
                         <a href="{% url 'stain_detail' slug=stain.slug %}" class="h-scroll-item">
-                            <div class="h-scroll-img-placeholder"></div>
+                            <div class="h-scroll-img-placeholder"  ></div>
                             <span>{{ stain.title }}</span>
                         </a>
                         {% endfor %}
@@ -81,7 +81,9 @@
             <a href="{% url 'stain-info' %}" class="submit-button">다음으로</a>
         </section>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
+    
+    <script type="module" src="{% static 'laundry_manager/stain-upload-script.js' %}"></script>
 
-    <script src="{% static 'laundry_manager/upload-script.js' %}"></script>
 </body>
 </html>

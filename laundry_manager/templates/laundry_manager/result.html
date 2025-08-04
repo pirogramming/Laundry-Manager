@@ -17,7 +17,7 @@
         <nav class="top-nav-white">
             <a href="{% url 'upload' %}"><button class="icon-btn-bordered"><i class="fa-solid fa-arrow-left"></i></button></a>
             <h2>인식 정보 확인</h2>
-            <button class="text-btn-dark">Cancel <i class="fa-solid fa-xmark"></i></button>
+            <a href="{% url 'main' %}"><button class="text-btn-dark">Cancel <i class="fa-solid fa-xmark"></i></button></a>
         </nav>
 
         <main class="result-card-section">
@@ -62,6 +62,8 @@
             </div>
         </main>
     </div>
-    <script src="result-script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
+    
+    <script type="module" src="{% static 'laundry_manager/result-script.js' %}"></script>
 </body>
 </html>
