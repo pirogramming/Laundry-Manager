@@ -216,7 +216,7 @@ def laundry_info_view(request):
 PROJECT_ROOT_DIR = (
     Path(__file__).resolve().parent.parent
 )  # 전체 루트 디렉토리(Laundry-Manager)
-JSON_FILE_PATH = PROJECT_ROOT_DIR / "laundry_temp_json" / "persil_v2.json"
+JSON_FILE_PATH = PROJECT_ROOT_DIR / "json_data" / "persil_v2.json"
 _all_stains_data = (
     None  # 얼룩 정보를 담은 json 파일에 대한 정보를 저장함..파이썬 딕셔너리 같은 기능
 )
@@ -305,19 +305,15 @@ def stain_guide_view(request):
     }
 
     food_keywords = [
-        "커피",
-        "차",
         "주스",
         "카레",
         "토마토",
         "음식",
         "과일",
-        "채소",
         "초콜릿",
         "적포도주",
         "아이스크림",
         "아보카도",
-        "소스",
         "강황",
     ]
     life_keywords = [
@@ -334,23 +330,12 @@ def stain_guide_view(request):
         "껌",
         "섬유 유연제",
         "땀",
-        "겨드랑이",
-        "윤활유",
         "기름",
-        "자외선",
         "먼지",
-        "진흙",
         "곰팡이",
         "잔디",
-        "혈흔",
-        "화장품",
-        "펜",
-        "잉크",
-        "세탁",
-        "건조",
         "모발 염료",
         "염색약",
-        "페인트",
         "치약",
     ]
 
