@@ -2,7 +2,8 @@
 
 .page-container {
     position: relative; width: 100%; max-width: 420px; height: 100vh;
-    margin: 0 auto; background-color: var(--color-background);
+    margin: 0 auto; 
+    background-color: var(--color-primary);
     display: flex; flex-direction: column; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     overflow: hidden;
 }
@@ -30,7 +31,10 @@
 
 /* --- 메인 콘텐츠 --- */
 .info-content { 
-    padding: 20px; background-color: var(--color-background);
+    padding: 20px; 
+    background-color: white;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
     margin-top: -20px; position: relative; z-index: 10;
 }
 .card {
@@ -76,13 +80,16 @@
 .step-item p { font-size: 14px; line-height: 1.5; color: var(--color-text-secondary); }
 
 /* --- 피해야 하는 얼룩 제거법 --- */
-.avoid-card { background-color: #f7f7f9; }
+.avoid-card { background-color: #E8F0FE; 
+    border:solid 0.01px var(--color-primary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
 .avoid-card h3 { color: var(--color-primary); display: flex; align-items: center; gap: 8px; }
 .avoid-card h3 i { font-size: 20px; }
 .avoid-card .avoid-item { display: flex; align-items: center; gap: 10px; }
-.avoid-card .avoid-item:not(:last-child) { margin-bottom: 12px; }
+.avoid-card .avoid-item:not(:last-child) { margin-bottom: 10px; }
 .avoid-card .avoid-item i { color: var(--color-primary); }
-.avoid-card .avoid-item p { font-size: 14px; color: var(--color-text-secondary); }
+.avoid-card .avoid-item p { font-size: 14px; }
 
 /* --- 세탁 방법 팁 (아코디언 스타일) --- */
 .tips-header { display: flex; align-items: center; gap: 8px; margin-bottom: 15px; }
@@ -112,6 +119,7 @@
     display: flex; justify-content: space-around; align-items: center;
     border-top: 1px solid var(--color-border); flex-shrink: 0;
     box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    z-index: 9999; 
 }
 .nav-item {
     display: flex; flex-direction: column; align-items: center;

@@ -20,7 +20,7 @@
                     {% comment %} 여기다가 뒤로가기 버튼 추가 {% endcomment %}
                     <a href="{% url 'result' %}"><button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button></a>
                     <h1>당신의 세탁 가이드</h1>
-                    <button class="text-btn">Cancel <i class="fa-solid fa-xmark"></i></button>
+                    <a href="{% url 'main' %}"><button class="text-btn">Cancel <i class="fa-solid fa-xmark"></i></button></a>
                 </nav>
                 <div class="laundry-item-title">
                     <p>세탁물 이름</p>
@@ -142,12 +142,14 @@
         <nav class="bottom-nav">
             <a href="#" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
             <a href="#" class="nav-item"><i class="fa-solid fa-chart-simple"></i><span>Dictionary</span></a>
-            <a href="#" class="nav-item-main"><i class="fa-solid fa-camera-retro"></i></a>
+            <a href="#" class="nav-item-main"><i class="fa-solid fa-camera"></i></a>
             <a href="#" class="nav-item"><i class="fa-solid fa-credit-card"></i><span>Payment</span></a>
             <a href="#" class="nav-item"><i class="fa-solid fa-user"></i><span>Profile</span></a>
         </nav>
     </div>
 
-    <script src="laundry-info-script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
+    
+    <script type="module" src="{% static 'laundry_manager/laundry-info-script.js' %}"></script>
 </body>
 </html>

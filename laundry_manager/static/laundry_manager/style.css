@@ -32,6 +32,10 @@ body {
     padding: 20px 0;
 }
 
+.page-container, .mobile-container {
+    opacity: 0;
+}
+
 /* 모바일 화면 구현 */
 .mobile-container {
     width: 100%;
@@ -257,8 +261,10 @@ body {
     box-shadow: 0 4px 12px rgba(74, 108, 255, 0.4);
     border: 5px solid var(--color-container);
     cursor: pointer;
+    text-decoration: none;
 }
 .nav-item-main i {
     font-size: 28px;
+
 }
 
