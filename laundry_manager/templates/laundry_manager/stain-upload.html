@@ -34,7 +34,7 @@
                 <div class="horizontal-scroll-container">
                     {% if frequent_stains %}
                     {% for stain in frequent_stains %}
-                    <a href="{% url 'stain_detail' slug=stain.slug %}" class="h-scroll-item">
+                    <a href="#" class="h-scroll-item">
                         <div class="h-scroll-img-placeholder">
                             {% if stain.image_url %}
                             {# frequent_stains 섹션의 이미지 태그 #}
@@ -64,7 +64,7 @@
                     <h3 class="stain-group-title">음식 관련 얼룩</h3>
                     <div class="stain-grid">
                         {% for stain in categorized_stains.음식 %}
-                        <a href="{% url 'stain_detail' slug=stain.slug %}" class="stain-grid-item">
+                        <a href="#" class="stain-grid-item">
                             <div class="stain-image-placeholder">
                                 {# 여기에 이미지 태그 추가 시작 #}
                                 {% if stain.image_url %}
@@ -86,7 +86,7 @@
                     <h3 class="stain-group-title">생활 관련 얼룩</h3>
                     <div class="stain-grid">
                         {% for stain in categorized_stains.생활 %}
-                        <a href="{% url 'stain_detail' slug=stain.slug %}" class="stain-grid-item">
+                        <a href="#" class="stain-grid-item">
                             <div class="stain-image-placeholder">
                                 {# 여기에 이미지 태그 추가 시작 #}
                                 {% if stain.image_url %}
