@@ -98,8 +98,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
 }
-
+.image-upload{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
 /* 하단 흰색 콘텐츠 영역 */
 .manual-input-section {
     background-color: var(--color-container); 

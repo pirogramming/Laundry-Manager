@@ -14,8 +14,10 @@ urlpatterns = [
     path("stain-upload/", views.stain_guide_view, name="stain-upload"),
     path("stain-info/", views.stain_info_page, name="stain-info"),
     # path('stain-upload/', views.stain_upload_page, name='stain-upload'),
-    path("result/", views.result_view, name="result"),
-    path("laundry-info/", views.laundry_info_page, name="laundry-info"),
-    path("first-info/", views.first_info_view, name="first_info"),
-    path("final-info/", views.final_info_view, name="final_info"),
+
+    path('result/', views.result_view, name='result'),  
+    path('laundry-info/', views.laundry_info_page, name='laundry-info'),  
+    path('stain-info/', views.stain_info_page, name='stain-info'),
+    path('first-info/', views.first_info_view, name='first_info'),
+    path('final-info/', views.final_info_view, name='final_info'),
 ]
