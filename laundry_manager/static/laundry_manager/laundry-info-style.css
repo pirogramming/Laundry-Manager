@@ -4,7 +4,7 @@
     position: relative;
     width: 100%;
     max-width: 420px;
-    height: 100vh;
+    max-height: 1100px;
     margin: 0 auto;
     background-color: var(--color-primary);
     display: flex;
@@ -13,7 +13,7 @@
 }
 
 .content-wrapper {
-    flex-grow: 1;
+    
     overflow-y: auto; /* 이 영역만 스크롤되도록 설정 */
     -ms-overflow-style: none; /* IE, Edge */
     scrollbar-width: none; /* Firefox */

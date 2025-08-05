@@ -30,10 +30,11 @@
             <form method="POST" enctype="multipart/form-data" action="{% url 'upload_image' %}">
                 {% csrf_token %}
                 <div class="drop-zone">
-                    <label for="id_image" style="cursor:pointer;">
-                        {{ form.image }}
-                    </label>
-                    <button type="submit" class="submit-button">업로드</button>
+                    <div class="image-upload">
+                        <label for="id_image" style="cursor:pointer;">
+                            {{ form.image }}
+                        </label>
+                    </div>
                 </div>
             </form>
 
@@ -73,6 +74,8 @@
         </main>
     </div>
 
-    <script src="input-guide-script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
+    
+    <script type="module" src="{% static 'laundry_manager/laundry-upload-script.js' %}"></script>
 </body>
 </html>
