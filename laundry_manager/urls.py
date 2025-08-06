@@ -22,4 +22,7 @@ urlpatterns = [
     path('final-info/', views.final_info_view, name='final_info'),
     # path('laundry-upload/', UploadView.as_view(), name='laundry-upload'),
     path('laundry-info-v1/', views.laundry_info_view1, name='laundry-info-v1'),
+
+    #권준희 - 백과사전 URL 연결
+    path('dictionary/', views.dictionary, name='dictionary'),
 ]

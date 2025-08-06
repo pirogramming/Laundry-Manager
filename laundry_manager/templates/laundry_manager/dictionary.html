@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>세탁 백과사전</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 기본 스타일 */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .dictionary-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .search-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .search-section h2 {
+            color: #007bff;
+            font-size: 2.5em;
+        }
+        .search-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .search-form input {
+            width: 400px;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px 0 0 5px;
+            font-size: 1em;
+            outline: none;
+        }
+        .search-form button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .search-form button:hover {
+            background-color: #0056b3;
+        }
+
+        /* 게시판 UI */
+        .boards-section {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .boards-title {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #343a40;
+        }
+        .board-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .board-list li {
+            flex: 1 1 auto;
+            min-width: 150px;
+        }
+        .board-button {
+            display: block;
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #fff;
+            background-color: #007bff;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .board-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        /* 메인 컨텐츠 영역 */
+        .content-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .dictionary-content {
+            flex-grow: 1;
+        }
+        .category {
+            margin-bottom: 30px;
+        }
+        .category h4 {
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+            color: #343a40;
+        }
+        .item {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            background-color: #fcfcfc;
+            cursor: pointer;
+        }
+        .item h5 {
+            margin-top: 0;
+            color: #0056b3;
+        }
+        .item p {
+            margin: 5px 0;
+        }
+        .item ul {
+            padding-left: 20px;
+        }
+
+        /* 인기 검색어 */
+        .frequent-searches-list {
+            flex-shrink: 0;
+            width: 250px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .frequent-searches-list h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            color: #343a40;
+        }
+        .frequent-searches-list ul {
+            list-style: none;
+            padding: 0;
+        }
+        .frequent-searches-list li {
+            margin-bottom: 8px;
+        }
+        .frequent-searches-list a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: 500;
+        }
+        .frequent-searches-list a:hover {
+            text-decoration: underline;
+        }
+
+        /* 상세정보 카드 스타일 */
+        .detail-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none; /* 초기에는 숨김 */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .detail-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+            max-width: 90%;
+            max-height: 80%;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #888;
+        }
+
+        .detail-content-section {
+            margin-bottom: 15px;
+        }
+        .detail-content-section h5 {
+            margin-top: 0;
+            color: #0056b3;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        .detail-content-section ul,
+        .detail-content-section p {
+            margin: 0;
+            padding: 0;
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        .detail-content-section ul li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dictionary-container">
+        <div class="search-section">
+            <h2>세탁 백과사전</h2>
+            <form method="get" action="{% url 'dictionary' %}" class="search-form">
+                <input type="text" name="query" placeholder="궁금한 내용을 검색하세요 (예: 얼룩, 곰팡이)" value="{{ query|default:'' }}">
+                <button type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="boards-section">
+            <h3 class="boards-title">카테고리별 게시판</h3>
+            <ul class="board-list">
+                {% for category in category_list %}
+                <li>
+                    <a href="{% url 'dictionary' %}?query={{ category }}" class="board-button">{{ category }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="content-container">
+            <div class="dictionary-content">
+                {% if query and is_category_query %}
+                    <h3>{{ query }}</h3>
+                    {% for items in dictionary_data.values %}
+                        {% for item in items %}
+                            <div class="item" onclick="showDetailCard('{{ item.json_data|escapejs }}')">
+                                <h5>{{ item.title }}</h5>
+                                {% comment %}
+                                    {% if item.description %}<p>{{ item.description }}</p>{% endif %}
+                                {% endcomment %}
+                                <p>자세히 보기</p>
+                            </div>
+                        {% empty %}
+                            <p>해당 게시판에 내용이 없습니다.</p>
+                        {% endfor %}
+                    {% endfor %}
+                {% elif query %}
+                    <h3>'{{ query }}' 검색 결과</h3>
+                    {% for category_name, items in dictionary_data.items %}
+                        <div class="category">
+                            <h4>{{ category_name }}</h4>
+                            {% for item in items %}
+                                <div class="item" onclick="showDetailCard('{{ item.json_data|escapejs }}')">
+                                    <h5>{{ item.title }}</h5>
+                                    {% if item.description %}<p>{{ item.description }}</p>{% endif %}
+                                </div>
+                            {% empty %}
+                                <p>해당 카테고리에서 검색 결과가 없습니다.</p>
+                            {% endfor %}
+                        </div>
+                    {% empty %}
+                        <p>검색 결과가 없습니다.</p>
+                    {% endfor %}
+                {% else %}
+                    <h3>카테고리별 정보</h3>
+                    {% for category_name, items in dictionary_data.items %}
+                        <div class="category">
+                            <h4>{{ category_name }}</h4>
+                            {% for item in items %}
+                                <div class="item" onclick="showDetailCard('{{ item.json_data|escapejs }}')">
+                                    <h5>{{ item.title }}</h5>
+                                    {% if item.description %}<p>{{ item.description }}</p>{% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="frequent-searches-list">
+                <h3>자주 검색한 기록</h3>
+                <ul>
+                    {% for search in frequent_searches %}
+                    <li><a href="{% url 'dictionary' %}?query={{ search.term }}">{{ search.term }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="detailOverlay" class="detail-overlay" onclick="closeDetailCard(event)">
+        <div class="detail-card">
+            <button class="close-button" onclick="closeDetailCard()">✖</button>
+            <h4 id="cardTitle"></h4>
+            <div id="detailContent"></div>
+        </div>
+    </div>
+
+    <script>
+        const KEY_MAP = {
+            'description': '설명',
+            'content': '상세 내용',
+            'Washing_Steps': '세탁 단계',
+            'tip': '팁',
+            'not_to_do': '주의 사항',
+            'Other_Information': '기타 정보'
+        };
+
+        function showDetailCard(json_data_str) {
+            const item = JSON.parse(json_data_str);
+            document.getElementById('cardTitle').innerText = item.title;
+            
+            const detailContent = document.getElementById('detailContent');
+            detailContent.innerHTML = ''; // 기존 내용 초기화
+
+            for (const key in KEY_MAP) {
+                if (item.hasOwnProperty(key)) {
+                    const value = item[key];
+                    const section = document.createElement('div');
+                    section.className = 'detail-content-section';
+                    section.innerHTML = `<h5>${KEY_MAP[key]}</h5>`;
+
+                    if (Array.isArray(value)) {
+                        const ul = document.createElement('ul');
+                        value.forEach(text => {
+                            const li = document.createElement('li');
+                            li.innerText = text;
+                            ul.appendChild(li);
+                        });
+                        section.appendChild(ul);
+                    } else if (typeof value === 'object') {
+                        for (const subKey in value) {
+                            const p = document.createElement('p');
+                            p.innerText = `${subKey}: ${value[subKey]}`;
+                            section.appendChild(p);
+                        }
+                    } else {
+                        const p = document.createElement('p');
+                        p.innerText = value;
+                        section.appendChild(p);
+                    }
+                    detailContent.appendChild(section);
+                }
+            }
+
+            document.getElementById('detailOverlay').style.display = 'flex';
+        }
+
+        function closeDetailCard(event) {
+            if (event && event.target !== event.currentTarget && event.target.className !== 'close-button') {
+                return;
+            }
+            document.getElementById('detailOverlay').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
