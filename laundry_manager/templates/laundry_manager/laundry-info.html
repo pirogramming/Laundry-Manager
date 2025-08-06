@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>세탁 정보 확인</title>
-    <link rel="stylesheet"href="{% static 'laundry_manager/style.css' %}"> 
+    <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}"> 
     <link rel="stylesheet" href="{% static 'laundry_manager/laundry-info-style.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,14 +17,13 @@
         <div class="content-wrapper">
             <header class="info-header">
                 <nav class="top-nav">
-                    {% comment %} 여기다가 뒤로가기 버튼 추가 {% endcomment %}
                     <a href="{% url 'result' %}"><button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button></a>
                     <h1>당신의 세탁 가이드</h1>
                     <a href="{% url 'main' %}"><button class="text-btn">Cancel <i class="fa-solid fa-xmark"></i></button></a>
                 </nav>
                 <div class="laundry-item-title">
                     <p>세탁물 이름</p>
-                    <h2>{{ info.material }} / {{ info.stains }}</h2> <!--이것도 소재이름이랑 얼룩 이름 받아와야 할 듯-->
+                    <h2>{{ material_name }}{% if stains %} / {{ stains|join:" / " }}{% endif %}</h2>
                 </div>
             </header>
 
@@ -70,6 +69,7 @@
 
                 <section class="card accordion-guide">
                     <h3>단계별 상세 가이드</h3>
+
                     <details class="accordion-item">
                         <summary>
                             <div class="summary-icon" style="background-color: #E8F0FE;"><i class="fa-solid fa-hand-sparkles" style="color: #4A6CFF;"></i></div>
@@ -83,6 +83,7 @@
                             <p>{{ stain.Washing_Steps|linebreaks }}</p>
                         </div>
                     </details>
+
                     <details class="accordion-item">
                         <summary>
                             <div class="summary-icon" style="background-color: #E6F8F2;"><i class="fa-solid fa-lightbulb" style="color: #00BFA6;"></i></div>
@@ -103,6 +104,7 @@
                             {% endif %}
                         </div>
                     </details>
+
                     <details class="accordion-item">
                         <summary>
                             <div class="summary-icon" style="background-color: #FEF4E8;"><i class="fa-solid fa-droplet" style="color: #FF8A00;"></i></div>
@@ -128,7 +130,7 @@
                         <button class="chip">#자연건조</button>
                     </div>
                     <div class="scope-info">
-                        <P>뭐가 가능한 지 알려드림</P>
+                        <p>뭐가 가능한 지 알려드림</p>
                     </div>
                 </section>
 
@@ -149,7 +151,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
-    
     <script type="module" src="{% static 'laundry_manager/laundry-info-script.js' %}"></script>
 </body>
 </html>

@@ -1,0 +1,198 @@
+{
+    "filename": "resized_icon_2_as1VaQs.png",
+    "recognized_texts": [
+        "(WHERE",
+        "IS",
+        "O",
+        "MY)",
+        "O'",
+        "세탁매니저"
+    ],
+    "symbol_definition": "인식된 기호 설명 없음",
+    "ocr_raw_response": {
+        "version": "V2",
+        "requestId": "e8b5d77e-3127-444a-a9d8-2a946ffc1fb8",
+        "timestamp": 1754458465221,
+        "images": [
+            {
+                "uid": "f89bc0cf42ed4a98b3f73c89a471dee5",
+                "name": "resized_icon_2_as1VaQs.png",
+                "inferResult": "SUCCESS",
+                "message": "SUCCESS",
+                "validationResult": {
+                    "result": "NO_REQUESTED"
+                },
+                "convertedImageInfo": {
+                    "width": 128,
+                    "height": 128,
+                    "pageIndex": 0,
+                    "longImage": false
+                },
+                "fields": [
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 26.0,
+                                    "y": 20.0
+                                },
+                                {
+                                    "x": 64.0,
+                                    "y": 13.0
+                                },
+                                {
+                                    "x": 66.0,
+                                    "y": 23.0
+                                },
+                                {
+                                    "x": 28.0,
+                                    "y": 31.0
+                                }
+                            ]
+                        },
+                        "inferText": "(WHERE",
+                        "inferConfidence": 0.997,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 66.0,
+                                    "y": 15.0
+                                },
+                                {
+                                    "x": 78.0,
+                                    "y": 15.0
+                                },
+                                {
+                                    "x": 78.0,
+                                    "y": 25.0
+                                },
+                                {
+                                    "x": 66.0,
+                                    "y": 25.0
+                                }
+                            ]
+                        },
+                        "inferText": "IS",
+                        "inferConfidence": 0.9542,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 33.0,
+                                    "y": 36.0
+                                },
+                                {
+                                    "x": 33.0,
+                                    "y": 44.0
+                                },
+                                {
+                                    "x": 25.0,
+                                    "y": 44.0
+                                },
+                                {
+                                    "x": 25.0,
+                                    "y": 36.0
+                                }
+                            ]
+                        },
+                        "inferText": "O",
+                        "inferConfidence": 0.3923,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 79.0,
+                                    "y": 16.0
+                                },
+                                {
+                                    "x": 99.0,
+                                    "y": 21.0
+                                },
+                                {
+                                    "x": 97.0,
+                                    "y": 30.0
+                                },
+                                {
+                                    "x": 77.0,
+                                    "y": 25.0
+                                }
+                            ]
+                        },
+                        "inferText": "MY)",
+                        "inferConfidence": 0.9935,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 95.0,
+                                    "y": 49.0
+                                },
+                                {
+                                    "x": 95.0,
+                                    "y": 33.0
+                                },
+                                {
+                                    "x": 104.0,
+                                    "y": 33.0
+                                },
+                                {
+                                    "x": 104.0,
+                                    "y": 49.0
+                                }
+                            ]
+                        },
+                        "inferText": "O'",
+                        "inferConfidence": 0.5767,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 12.0,
+                                    "y": 85.0
+                                },
+                                {
+                                    "x": 114.0,
+                                    "y": 85.0
+                                },
+                                {
+                                    "x": 114.0,
+                                    "y": 111.0
+                                },
+                                {
+                                    "x": 12.0,
+                                    "y": 111.0
+                                }
+                            ]
+                        },
+                        "inferText": "세탁매니저",
+                        "inferConfidence": 0.9994,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    }
+                ]
+            }
+        ]
+    }
+}

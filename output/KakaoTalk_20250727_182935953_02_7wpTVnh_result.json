@@ -1,0 +1,142 @@
+{
+    "filename": "KakaoTalk_20250727_182935953_02_7wpTVnh.png",
+    "recognized_texts": [
+        "(WHERE",
+        "IS",
+        "MY)",
+        "세탁매니저"
+    ],
+    "symbol_definition": "인식된 기호 설명 없음",
+    "ocr_raw_response": {
+        "version": "V2",
+        "requestId": "4f786364-5389-4666-80d8-e3fe898c25e2",
+        "timestamp": 1754456423976,
+        "images": [
+            {
+                "uid": "c1e7bd89f6f542c796056a5222214425",
+                "name": "KakaoTalk_20250727_182935953_02_7wpTVnh.png",
+                "inferResult": "SUCCESS",
+                "message": "SUCCESS",
+                "validationResult": {
+                    "result": "NO_REQUESTED"
+                },
+                "convertedImageInfo": {
+                    "width": 1024,
+                    "height": 1024,
+                    "pageIndex": 0,
+                    "longImage": false
+                },
+                "fields": [
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 210.0,
+                                    "y": 167.0
+                                },
+                                {
+                                    "x": 515.0,
+                                    "y": 105.0
+                                },
+                                {
+                                    "x": 533.0,
+                                    "y": 192.0
+                                },
+                                {
+                                    "x": 227.0,
+                                    "y": 253.0
+                                }
+                            ]
+                        },
+                        "inferText": "(WHERE",
+                        "inferConfidence": 0.9999,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 534.0,
+                                    "y": 124.0
+                                },
+                                {
+                                    "x": 623.0,
+                                    "y": 124.0
+                                },
+                                {
+                                    "x": 623.0,
+                                    "y": 202.0
+                                },
+                                {
+                                    "x": 534.0,
+                                    "y": 202.0
+                                }
+                            ]
+                        },
+                        "inferText": "IS",
+                        "inferConfidence": 0.9978,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 643.0,
+                                    "y": 125.0
+                                },
+                                {
+                                    "x": 802.0,
+                                    "y": 174.0
+                                },
+                                {
+                                    "x": 777.0,
+                                    "y": 255.0
+                                },
+                                {
+                                    "x": 618.0,
+                                    "y": 207.0
+                                }
+                            ]
+                        },
+                        "inferText": "MY)",
+                        "inferConfidence": 0.9997,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 110.0,
+                                    "y": 685.0
+                                },
+                                {
+                                    "x": 906.0,
+                                    "y": 687.0
+                                },
+                                {
+                                    "x": 906.0,
+                                    "y": 885.0
+                                },
+                                {
+                                    "x": 109.0,
+                                    "y": 884.0
+                                }
+                            ]
+                        },
+                        "inferText": "세탁매니저",
+                        "inferConfidence": 0.992,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 
 from .forms import ImageUploadForm
 from .models import UploadedImage
-from .functions.recommend import laundry_recommend
+from .functions.recommend import laundry_recommend, get_material_guide, get_stain_guide
 from .functions.result import format_result
 from django.contrib import messages
 from .functions.info import first_info, final_info 
@@ -23,9 +23,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 # from functions.info import laundry_info, apply_user_correction
 from .utils import load_washing_definitions
-from rest_framework.views import APIView
+# from rest_framework.views import APIView
 from django.shortcuts import render
-from rest_framework.decorators import api_view
+# from rest_framework.decorators import api_view
 
 
 
@@ -42,10 +42,10 @@ from .utils import (
     save_classification_result_json,
 )
 
-class UploadView(APIView):
-    def info_check_view(self, request):
-        if request.method == 'GET':
-            return render(request, 'laundry_manager/recommend.html')
+# class UploadView(APIView):
+#     def info_check_view(self, request):
+#         if request.method == 'GET':
+#             return render(request, 'laundry_manager/recommend.html')
 
 # 세탁 정보 담긴 json 파일들 불러옴
 def load_json(filename):
@@ -206,6 +206,30 @@ def laundry_info_view(request):
 
     # JSON 응답 반환
     return JsonResponse(result, json_dumps_params={"ensure_ascii": False})
+
+# laundry_info_view1을 만들었는데 런드리 인포에서 
+# 소재랑 얼룩이 뜨게하는 함수임
+
+def laundry_info_view1(request):
+    material_name = request.session.get('material', '')
+    stains = request.session.get('stains', [])
+
+    material_info = get_material_guide(material_name) if material_name else {}
+    stain_info = get_stain_guide(stains[0]) if stains else {}
+
+    return render(request, 'laundry_manager/laundry_info.html', {
+        'material_name': material_name,
+        'stains': stains,
+        'material': material_info,
+        'stain': stain_info,
+        'symbols': request.session.get('symbols', []),
+        'info': {
+            'material': material_name,
+            'stains': " / ".join(stains)
+        }
+    })
+
+
 
 
 PROJECT_ROOT_DIR = (
