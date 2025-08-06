@@ -556,3 +556,5 @@ def stain_guide_page(request):
 
 def stain_detail_page(request):
     return render(request, "laundry_manager/stain_detail.html")
+def login_page(request):
+    return render(request, "laundry_manager/login.html")

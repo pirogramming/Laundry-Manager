@@ -20,5 +20,5 @@ urlpatterns = [
     path('stain-info/', views.stain_info_page, name='stain-info'),
     path('first-info/', views.first_info_view, name='first_info'),
     path('final-info/', views.final_info_view, name='final_info'),
-
+    path('login/', views.login_page, name='login'),  
 ]
