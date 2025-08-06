@@ -13,3 +13,4 @@ tzdata
 urllib3
 oauthlib
 requests-oauthlib
+drf-yasg

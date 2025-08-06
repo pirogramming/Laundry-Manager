@@ -22,6 +22,21 @@
     box-sizing: border-box;
 }
 
+.alert-box {
+    margin: 20px 0;
+    padding: 14px 20px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.8); /* 반투명 흰색 */
+    border: 1px solid #58b0f7;
+    color: #1877d2;
+    font-size: 15px;
+    font-weight: 500;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    animation: fadeInSlideDown 0.4s ease-in-out;
+}
+
+
 body {
     font-family: 'Noto Sans KR', sans-serif;
     background-color: var(--color-background);

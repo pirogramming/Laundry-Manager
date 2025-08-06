@@ -1,0 +1,28 @@
+{
+    "filename": "IMG_8292.jpeg",
+    "recognized_texts": [],
+    "symbol_definition": "텍스트 인식 실패",
+    "ocr_raw_response": {
+        "version": "V2",
+        "requestId": "1c92d8c9-1ab9-4ec0-ad85-f71b224925fc",
+        "timestamp": 1754356232572,
+        "images": [
+            {
+                "uid": "5a93f9ef2f854975872860f3f4ea0ace",
+                "name": "IMG_8292.jpeg",
+                "inferResult": "SUCCESS",
+                "message": "SUCCESS",
+                "validationResult": {
+                    "result": "NO_REQUESTED"
+                },
+                "convertedImageInfo": {
+                    "width": 1170,
+                    "height": 760,
+                    "pageIndex": 0,
+                    "longImage": false
+                },
+                "fields": []
+            }
+        ]
+    }
+}

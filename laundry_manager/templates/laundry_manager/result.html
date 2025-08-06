@@ -27,7 +27,12 @@
                 </div>
                 <div class="result-title">
                     <p>세탁물 분류</p>
-                    <h2>흰색 니트 / 김치 자국 <i class="fa-solid fa-pen-to-square"></i></h2>
+                    <h2>
+                        {% if materials %}{{ materials.0 }}{% endif %}
+                        /
+                        {% if stains %}{{ stains.0 }}{% endif %}
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </h2>
                 </div>
                 <div class="notice-box">
                     <i class="fa-solid fa-circle-info"></i>
@@ -36,7 +41,6 @@
                 <div class="info-list">
                     <div class="info-item">
                         <span>인식된 텍스트</span>
-                        <p style="color: red;">[DEBUG] recognized_texts: {{ recognized_texts }}</p>
                         {% if recognized_texts %}
                             <strong>{{ recognized_texts|join:", " }}</strong>
                         {% else %}
@@ -44,26 +48,40 @@
                         {% endif %}
                     </div>
 
-
                     <hr class="info-divider">
                     <div class="info-item">
                         <span>의류 소재</span>
-                        <strong>린넨 80%, 울 20%</strong>
+                        <strong>{% for m in materials %}{{ m }}{% if not forloop.last %}, {% endif %}{% endfor %}</strong>
                     </div>
                     <hr class="info-divider">
                     <div class="info-item">
                         <span>선택한 얼룩 유형</span>
-                        <strong>김칫국물 자국</strong>
+                        <strong>{% for s in stains %}{{ s }}{% if not forloop.last %}, {% endif %}{% endfor %}</strong>
                     </div>
                 </div>
+
                 <a href="#" class="extra-info-link">추가 정보 입력하기</a>
-                <a href="{% url 'laundry-info' %}" class="confirm-button">확인하기</a>
+
+                <!-- ✅ Hidden form -->
+                <form method="POST" action="{% url 'first_info' %}">
+    {% csrf_token %}
+    <input type="hidden" name="filename" value="{{ filename }}">
+    {% for m in materials %}
+        <input type="hidden" name="materials[]" value="{{ m }}">
+    {% endfor %}
+    {% for s in stains %}
+        <input type="hidden" name="stains[]" value="{{ s }}">
+    {% endfor %}
+    {% for sy in symbols %}
+        <input type="hidden" name="symbols[]" value="{{ sy }}">
+    {% endfor %}
+    <button type="submit" class="confirm-button">확인하기</button>
+</form>
 
             </div>
         </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
-    
     <script type="module" src="{% static 'laundry_manager/result-script.js' %}"></script>
 </body>
 </html>

@@ -17,11 +17,15 @@ from .forms import ImageUploadForm
 from .models import UploadedImage
 from .functions.recommend import laundry_recommend
 from .functions.result import format_result
+from django.contrib import messages
 from .functions.info import first_info, final_info 
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 # from functions.info import laundry_info, apply_user_correction
 from .utils import load_washing_definitions
+from rest_framework.views import APIView
+from django.shortcuts import render
+from rest_framework.decorators import api_view
 
 
 
@@ -38,10 +42,10 @@ from .utils import (
     save_classification_result_json,
 )
 
-
-def info_check_view(request):
-    if request.method == 'GET':
-        return render(request, 'laundry_manager/recommend.html')
+class UploadView(APIView):
+    def info_check_view(self, request):
+        if request.method == 'GET':
+            return render(request, 'laundry_manager/recommend.html')
 
 # 세탁 정보 담긴 json 파일들 불러옴
 def load_json(filename):
@@ -52,35 +56,29 @@ def load_json(filename):
 # 세탁 정보 보여주는 함수 연결
 def laundry_result_view(request):
     if request.method == "POST":
-        # info 준비
-        material = request.POST.get('material')
-        stains = request.POST.get('stains')
-        symbols = request.POST.getlist('symbols')
-
         info = {
             "material": request.POST.get("material"),
-            "stains": request.POST.getlist("stains"),
+            "stains": request.POST.get("stains"),  # 여기! getlist ❌
             "symbols": request.POST.getlist("symbols"),
         }
 
-        #json 파일들이랑 연결
         material_json = load_json('blackup.json')
         stain_json = load_json('persil_v2.json')
         symbol_json = load_json('washing_symbol.json')
 
-        # 세탁 추천 결과 함수 실행해서 받아옴
         guides = laundry_recommend(info, material_json, stain_json, symbol_json)
-    
-        # 템플릿에 전달
-        return render(request, "laundry_manager/laundry_info.html", {
-                    "material" : guides.get('material_guide'),
-                    "stain" : guides.get("stain_guide"),
-                    "symbols" : guides.get("symbol_guide"),
-                    "info": info
-                })
 
-    else:
-        return redirect("laundry-upload")
+        return render(request, "laundry_manager/laundry_info.html", {
+            "material": guides.get('material_guide'),
+            "stain": guides.get("stain_guide"),
+            "symbols": guides.get("symbol_guide"),
+            "info": info,
+            "materials": [info["material"]], 
+            "stains": [info["stains"]],
+        })
+
+    return redirect("laundry-upload")
+
 
 
 def upload_view(request):
@@ -97,35 +95,39 @@ def upload_view(request):
         form = ImageUploadForm(request.POST, request.FILES)
         if form.is_valid():
             uploaded_instance = form.save()
+            messages.success(request, "사진이 업로드 됐습니다!")
+
             image_path = uploaded_instance.image.path
             context["uploaded_image_url"] = uploaded_instance.image.url
             context["uploaded_image_name"] = uploaded_instance.image.name
 
             print(f"파일이 {image_path} 에 저장되었습니다.")
 
+            # OCR 수행
             ocr_result = perform_ocr(image_path)
 
-            print("🔍 OCR raw result:", ocr_result)
-            print("🔍 추출된 fields:", ocr_result.get('images', [{}])[0].get('fields', []))
-            
             if ocr_result.get("error"):
                 context["error_message"] = ocr_result["message"]
-                return render(request, 'laundry_manager/index.html', context)
+                return render(request, 'laundry_manager/laundry-upload.html', context)
 
-            # OCR 성공: 결과 파싱 및 저장
+            # OCR 결과 파싱
             definition, texts = get_washing_symbol_definition(ocr_result, WASHING_SYMBOLS_DEFINITIONS)
             print("OCR 결과:", texts)
 
-            # ✅ 세션에 저장
+            # 세션 저장
             request.session['recognized_texts'] = texts
-            print("OCR 결과 저장 전 texts:", texts)
             request.session['symbol_definition'] = definition
 
+            # ✅ 사용자 선택 값도 세션에 저장
+            request.session['material'] = request.POST.get("material")
+            request.session['stains'] = request.POST.getlist("stains")  # JS에서 배열로 보내면 getlist 사용
+
+            # JSON 저장
             save_result_json(image_path, texts, definition, ocr_result)
 
             return redirect('result')
 
-    # 업로드 실패 or GET일 때
+    # GET 요청 또는 유효하지 않은 POST
     return render(request, 'laundry_manager/laundry-upload.html', context)
 
 
@@ -133,13 +135,20 @@ def upload_view(request):
 def result_view(request):
     texts = request.session.get('recognized_texts', [])
     definition = request.session.get('symbol_definition', '')
-    print("세션에서 가져온 OCR 결과:", texts)
+    material = request.session.get('material', '')
+    stains = request.session.get('stains', [])  # 리스트로 저장된 경우
 
+    print("세션에서 가져온 OCR 결과:", texts)
+    print("세션에서 가져온 소재:", material)
+    print("세션에서 가져온 얼룩:", stains)
 
     return render(request, 'laundry_manager/result.html', {
         'recognized_texts': texts,
         'symbol_definition': definition,
+        'materials': [material] if material else [],
+        'stains': stains,
     })
+
 
 
 
@@ -353,31 +362,36 @@ def stain_guide_view(request):
 3. 템플릿에 전달
 4. upload.html 호출, first_info 정보 띄우기
 '''
+
 @csrf_exempt
 def first_info_view(request):
     if request.method == "POST":
-        # POST 데이터 받아오기
-        filename = request.POST.get("filename")
-        selected_materials = request.POST.getlist("materials[]")  # 다중 선택 고려
-        selected_stains = request.POST.getlist("stains[]")
+        form = ImageUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_instance = form.save()
+            filename = uploaded_instance.image.name  # 또는 image.path (파일 경로가 필요하다면)
 
-        # first_info 함수 호출
-        result = first_info(
-            filename=filename,
-            selected_materials=selected_materials,
-            selected_stains=selected_stains
-        )
+            selected_materials = request.POST.getlist("materials[]")
+            selected_stains = request.POST.getlist("stains[]")
 
-        # 템플릿에 전달
-        return render(request, "laundry_manager/result.html", {
-            "materials": result.get("materials", []),
-            "symbols": result.get("symbols", []),
-            "stains": result.get("stains", []),
-            "filename": filename,  # 이후 final_info에 넘기기 위함
-        })
+            result = first_info(
+                filename=filename,
+                selected_materials=selected_materials,
+                selected_stains=selected_stains
+            )
 
-    # GET 요청 시는 업로드 페이지 보여줌
+            return render(request, "laundry_manager/result.html", {
+                "materials": result.get("materials", []),
+                "symbols": result.get("symbols", []),
+                "stains": result.get("stains", []),
+                "filename": filename,
+            })
+        else:
+            return JsonResponse({"error": "이미지 업로드 실패"}, status=400)
+
     return render(request, "laundry_manager/result.html")
+
+
 
 '''
 이름 : final_info_view

@@ -19,7 +19,7 @@ SECRET_KEY = "django-insecure-3*gi@6uvrdvvb3#src+8h2oe+r0%0t7o1sr(25a@^f!1&r3&+x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['49.50.130.16', 'localhost', '127.0.0.1']
 
 
 # social login
@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.kakao',
 
     'laundry_manager',
+    'drf_yasg',
 ]
 
 

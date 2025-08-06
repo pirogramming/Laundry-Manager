@@ -1,0 +1,28 @@
+{
+    "filename": "IMG_8292_iljC48X.jpeg",
+    "recognized_texts": [],
+    "symbol_definition": "텍스트 인식 실패",
+    "ocr_raw_response": {
+        "version": "V2",
+        "requestId": "b9388c35-2eed-4750-9b23-666a58a0bef3",
+        "timestamp": 1754356234309,
+        "images": [
+            {
+                "uid": "1246ea4cb90c4f25a8b6ab35cd968418",
+                "name": "IMG_8292_iljC48X.jpeg",
+                "inferResult": "SUCCESS",
+                "message": "SUCCESS",
+                "validationResult": {
+                    "result": "NO_REQUESTED"
+                },
+                "convertedImageInfo": {
+                    "width": 1170,
+                    "height": 760,
+                    "pageIndex": 0,
+                    "longImage": false
+                },
+                "fields": []
+            }
+        ]
+    }
+}

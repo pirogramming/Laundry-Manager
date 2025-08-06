@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>세탁 정보 입력</title>
-    <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}"> 
-    <link rel="stylesheet" href="{% static 'laundry_manager/laundry-upload-style.css' %}"> <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}">
+    <link rel="stylesheet" href="{% static 'laundry_manager/laundry-upload-style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -21,25 +22,36 @@
                     <a href="{% url 'stain-upload' %}" class="tab-btn">얼룩 제거 가이드</a>
                 </div>
             </nav>
-            
+
             <div class="upload-card">
-            <h3>세탁 정보 업로드</h3>
-            <p>원하는 옷의 세탁 태그를 찍으면 세탁 정보를 알려드려요</p>
-            <hr class="upload-divider">
-            
-            <form method="POST" enctype="multipart/form-data" action="{% url 'upload_image' %}">
-                {% csrf_token %}
-                <div class="drop-zone">
-                    <div class="image-upload">
-                        <label for="id_image" style="cursor:pointer;">
-                            {{ form.image }}
-                        </label>
-                    </div>
+                <h3>세탁 정보 업로드</h3>
+                <p>원하는 옷의 세탁 태그를 찍으면 세탁 정보를 알려드려요</p>
+                <hr class="upload-divider">
+
+                {% if messages %}
+                <div class="alert-box">
+                    {% for message in messages %}
+                    <p>{{ message }}</p>
+                    {% endfor %}
                 </div>
-            </form>
+                {% endif %}
 
-        </div>
+                <!-- form 시작 -->
+                <form method="POST" enctype="multipart/form-data" action="{% url 'upload_image' %}" id="uploadForm">
+                    {% csrf_token %}
 
+                    <!-- 숨겨진 input들 -->
+                    <input type="hidden" name="material" id="selected-material">
+                    <input type="hidden" name="stains" id="selected-stains">
+
+                    <!-- 이미지 업로드 input -->
+                    <input type="file" name="image" id="id_image" hidden>
+
+                    <!-- 커스텀 드롭존 -->
+                    <label for="id_image" class="drop-zone">
+                        세탁 태그 이미지를 클릭해서 업로드하세요
+                    </label>
+            </div>
         </header>
 
         <main class="manual-input-section">
@@ -47,35 +59,64 @@
                 <h2>직접 입력하기</h2>
                 <button class="icon-btn arrow-btn"><i class="fa-solid fa-arrow-right"></i></button>
             </div>
+
             <div class="section-info">
                 <div class="selection-group">
                     <h3>의류 소재</h3>
                     <div class="item-list" id="material-selection">
-                        <div class="selectable-item active"><div class="item-box"></div><span>면</span></div>
-                        <div class="selectable-item"><div class="item-box"></div><span>니트</span></div>
-                        <div class="selectable-item"><div class="item-box"></div><span>실크</span></div>
-                        <div class="selectable-item"><div class="item-box"></div><span>린넨</span></div>
-                        <div class="selectable-item"><div class="item-box"></div><span>청</span></div>
+                        <div class="selectable-item" data-value="면"><div class="item-box"></div><span>면</span></div>
+                        <div class="selectable-item" data-value="니트"><div class="item-box"></div><span>니트</span></div>
+                        <div class="selectable-item" data-value="실크"><div class="item-box"></div><span>실크</span></div>
+                        <div class="selectable-item" data-value="린넨"><div class="item-box"></div><span>린넨</span></div>
+                        <div class="selectable-item" data-value="청"><div class="item-box"></div><span>청</span></div>
                     </div>
                 </div>
 
                 <div class="selection-group">
                     <h3>얼룩 유형</h3>
                     <div class="item-list" id="stain-selection">
-                        <div class="selectable-item active"><div class="item-box"></div><span>커피</span></div>
-                        <div class="selectable-item"><div class="item-box"></div><span>김치</span></div>
-                        <div class="selectable-item"><div class="item-box"></div><span>기름</span></div>
-                        <div class="selectable-item"><div class="item-box"></div><span>과일</span></div>
-                        <div class="selectable-item"><div class="item-box"></div><span>잉크</span></div>
+                        <div class="selectable-item" data-value="커피"><div class="item-box"></div><span>커피</span></div>
+                        <div class="selectable-item" data-value="김치"><div class="item-box"></div><span>김치</span></div>
+                        <div class="selectable-item" data-value="기름"><div class="item-box"></div><span>기름</span></div>
+                        <div class="selectable-item" data-value="과일"><div class="item-box"></div><span>과일</span></div>
+                        <div class="selectable-item" data-value="잉크"><div class="item-box"></div><span>잉크</span></div>
                     </div>
                 </div>
             </div>
-            <a href="{% url 'result' %}" class="submit-button">다음으로</a>
+
+            <!-- 하단 submit 버튼 -->
+            <button type="submit" class="submit-button">다음으로</button>
+            </form> <!-- form 종료 -->
         </main>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
-    
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const materialItems = document.querySelectorAll("#material-selection .selectable-item");
+        const stainItems = document.querySelectorAll("#stain-selection .selectable-item");
+        const materialInput = document.getElementById("selected-material");
+        const stainsInput = document.getElementById("selected-stains");
+
+        materialItems.forEach(item => {
+            item.addEventListener("click", () => {
+                materialItems.forEach(i => i.classList.remove("active"));
+                item.classList.add("active");
+                materialInput.value = item.dataset.value;
+            });
+        });
+
+        stainItems.forEach(item => {
+            item.addEventListener("click", () => {
+                stainItems.forEach(i => i.classList.remove("active"));
+                item.classList.add("active");
+                stainsInput.value = item.dataset.value;
+            });
+        });
+    });
+    </script>
+
     <script type="module" src="{% static 'laundry_manager/laundry-upload-script.js' %}"></script>
 </body>
 </html>
