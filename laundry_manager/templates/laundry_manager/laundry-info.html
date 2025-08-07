@@ -1,25 +1,30 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>세탁 정보 확인</title>
-    <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}"> 
+    <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}">
     <link rel="stylesheet" href="{% static 'laundry_manager/laundry-info-style.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
+
 <body>
     <div class="page-container">
         <div class="content-wrapper">
             <header class="info-header">
                 <nav class="top-nav">
-                    <a href="{% url 'result' %}"><button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button></a>
+                    <a href="{% url 'result' %}"><button class="icon-btn"><i
+                                class="fa-solid fa-arrow-left"></i></button></a>
                     <h1>당신의 세탁 가이드</h1>
-                    <a href="{% url 'main' %}"><button class="text-btn">Cancel <i class="fa-solid fa-xmark"></i></button></a>
+                    <a href="{% url 'main' %}"><button class="text-btn">Cancel <i
+                                class="fa-solid fa-xmark"></i></button></a>
                 </nav>
                 <div class="laundry-item-title">
                     <p>세탁물 이름</p>
@@ -72,7 +77,8 @@
 
                     <details class="accordion-item">
                         <summary>
-                            <div class="summary-icon" style="background-color: #E8F0FE;"><i class="fa-solid fa-hand-sparkles" style="color: #4A6CFF;"></i></div>
+                            <div class="summary-icon" style="background-color: #E8F0FE;"><i
+                                    class="fa-solid fa-hand-sparkles" style="color: #4A6CFF;"></i></div>
                             <div class="summary-text">
                                 <h4>얼룩 제거 방법</h4>
                                 <p>{{ info.stains }}</p>
@@ -86,7 +92,8 @@
 
                     <details class="accordion-item">
                         <summary>
-                            <div class="summary-icon" style="background-color: #E6F8F2;"><i class="fa-solid fa-lightbulb" style="color: #00BFA6;"></i></div>
+                            <div class="summary-icon" style="background-color: #E6F8F2;"><i
+                                    class="fa-solid fa-lightbulb" style="color: #00BFA6;"></i></div>
                             <div class="summary-text">
                                 <h4>세탁 방법</h4>
                                 <p>{{ info.material }}</p>
@@ -96,18 +103,19 @@
                         <div class="accordion-content">
                             <p>{{ material.description }}</p>
                             {% if symbols %}
-                                <ul>
+                            <ul>
                                 {% for desc in symbols %}
-                                    <li>{{ desc }}</li>
+                                <li>{{ desc }}</li>
                                 {% endfor %}
-                                </ul>
+                            </ul>
                             {% endif %}
                         </div>
                     </details>
 
                     <details class="accordion-item">
                         <summary>
-                            <div class="summary-icon" style="background-color: #FEF4E8;"><i class="fa-solid fa-droplet" style="color: #FF8A00;"></i></div>
+                            <div class="summary-icon" style="background-color: #FEF4E8;"><i class="fa-solid fa-droplet"
+                                    style="color: #FF8A00;"></i></div>
                             <div class="summary-text">
                                 <h4>건조 방법</h4>
                                 <p>W-346961 • Jul 1, 2025</p>
@@ -134,7 +142,7 @@
                     </div>
                 </section>
 
-                <a href="#" class="dictionary-link">
+                <a href="{% url 'dictionary' %}" class="dictionary-link">
                     <span>세탁 백과사전으로 가기</span>
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
@@ -153,4 +161,5 @@
     <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
     <script type="module" src="{% static 'laundry_manager/laundry-info-script.js' %}"></script>
 </body>
+
 </html>

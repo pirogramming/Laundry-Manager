@@ -18,21 +18,26 @@ from .models import UploadedImage
 from .functions.recommend import laundry_recommend, get_material_guide, get_stain_guide
 from .functions.result import format_result
 from django.contrib import messages
-from .functions.info import first_info, final_info 
+from .functions.info import first_info, final_info
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+
 # from functions.info import laundry_info, apply_user_correction
 from .utils import load_washing_definitions
+
 # from rest_framework.views import APIView
 from django.shortcuts import render
+
 # from rest_framework.decorators import api_view
 
-# 백과사전 관련 함수 - 권준희
 
+# 백과사전 관련 함수 - 권준희
 def load_dictionary_data():
     try:
-        dictionary_path = os.path.join(settings.BASE_DIR, 'laundry_manager', 'json_data', 'dictionary.json')
-        with open(dictionary_path, 'r', encoding='utf-8') as f:
+        dictionary_path = os.path.join(
+            settings.BASE_DIR, "laundry_manager", "json_data", "dictionary.json"
+        )
+        with open(dictionary_path, "r", encoding="utf-8") as f:
             return json.load(f)
     except FileNotFoundError:
         print("Error: dictionary.json not found.")
@@ -44,42 +49,53 @@ def load_dictionary_data():
 
 def dictionary(request):
     dictionary_data = load_dictionary_data()
-    query = request.GET.get('query')
-
+    query = request.GET.get("query")
     category_map = {
-        "how_to_use_machine": "세탁 방법",
-        "dry_method": "건조 방법",
-        "storage_method": "보관 방법",
-        "removal_smell": "냄새 제거 방법",
+        "material_laundry_method": "소재별 세탁 방법",
+        "dry_storage_method": "건조 및 보관 방법",
+        "removal": "냄새 및 얼룩제거 방법",
         "words": "용어 사전",
+        "how_laundry": "세탁 방법",
     }
     category_list = list(category_map.values())
     processed_data = {}
 
     def preprocess_item(item):
         processed = item.copy()
-        processed['json_data'] = json.dumps(item, ensure_ascii=False)
+        processed["json_data"] = json.dumps(item, ensure_ascii=False)
         return processed
 
     if query:
         is_category_query = query in category_list
         if is_category_query:
-            category_key = next((key for key, value in category_map.items() if value == query), None)
+            category_key = next(
+                (key for key, value in category_map.items() if value == query), None
+            )
             if category_key and category_key in dictionary_data:
-                processed_data[query] = [preprocess_item(item) for item in dictionary_data[category_key]]
+                processed_data[query] = [
+                    preprocess_item(item) for item in dictionary_data[category_key]
+                ]
         else:
             for category_key, display_name in category_map.items():
                 items = dictionary_data.get(category_key, [])
                 filtered_items = []
                 for item in items:
                     search_string = (
-                        item.get("title", "").lower() +
-                        item.get("description", "").lower() +
-                        json.dumps(item.get("content", ""), ensure_ascii=False).lower() +
-                        json.dumps(item.get("Washing_Steps", []), ensure_ascii=False).lower() +
-                        json.dumps(item.get("tip", []), ensure_ascii=False).lower() +
-                        json.dumps(item.get("not_to_do", []), ensure_ascii=False).lower() +
-                        json.dumps(item.get("Other_Information", []), ensure_ascii=False).lower()
+                        item.get("title", "").lower()
+                        + item.get("description", "").lower()
+                        + json.dumps(
+                            item.get("content", ""), ensure_ascii=False
+                        ).lower()
+                        + json.dumps(
+                            item.get("Washing_Steps", []), ensure_ascii=False
+                        ).lower()
+                        + json.dumps(item.get("tip", []), ensure_ascii=False).lower()
+                        + json.dumps(
+                            item.get("not_to_do", []), ensure_ascii=False
+                        ).lower()
+                        + json.dumps(
+                            item.get("Other_Information", []), ensure_ascii=False
+                        ).lower()
                     )
                     if query.lower() in search_string:
                         filtered_items.append(preprocess_item(item))
@@ -87,21 +103,20 @@ def dictionary(request):
                     processed_data[display_name] = filtered_items
     else:
         for category_key, display_name in category_map.items():
-            processed_data[display_name] = [preprocess_item(item) for item in dictionary_data.get(category_key, [])]
-    
-    frequent_searches = [
-        
-    ]
-
+            processed_data[display_name] = [
+                preprocess_item(item) for item in dictionary_data.get(category_key, [])
+            ]
+    frequent_searches = []
     context = {
-        'query': query,
-        'is_category_query': query in category_list if query else False,
-        'category_list': category_list,
-        'dictionary_data': processed_data,
-        'frequent_searches': frequent_searches,
+        "query": query,
+        "is_category_query": query in category_list if query else False,
+        "category_list": category_list,
+        "dictionary_data": processed_data,
+        "frequent_searches": frequent_searches,
     }
 
-    return render(request, 'laundry_manager/dictionary.html', context)
+    return render(request, "laundry_manager/dictionary.html", context)
+
 
 load_dotenv()
 WASHING_SYMBOLS_DEFINITIONS = load_washing_definitions()
@@ -121,11 +136,13 @@ from .utils import (
 #         if request.method == 'GET':
 #             return render(request, 'laundry_manager/recommend.html')
 
+
 # 세탁 정보 담긴 json 파일들 불러옴
 def load_json(filename):
-    path = os.path.join(settings.BASE_DIR, 'laundry_manager', 'json_data', filename)
-    with open(path, 'r', encoding='utf-8') as f:
+    path = os.path.join(settings.BASE_DIR, "laundry_manager", "json_data", filename)
+    with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
+
 
 # 세탁 정보 보여주는 함수 연결
 def laundry_result_view(request):
@@ -136,23 +153,26 @@ def laundry_result_view(request):
             "symbols": request.POST.getlist("symbols"),
         }
 
-        material_json = load_json('blackup.json')
-        stain_json = load_json('persil_v2.json')
-        symbol_json = load_json('washing_symbol.json')
+        material_json = load_json("blackup.json")
+        stain_json = load_json("persil_v2.json")
+        symbol_json = load_json("washing_symbol.json")
 
         guides = laundry_recommend(info, material_json, stain_json, symbol_json)
 
-        return render(request, "laundry_manager/laundry_info.html", {
-            "material": guides.get('material_guide'),
-            "stain": guides.get("stain_guide"),
-            "symbols": guides.get("symbol_guide"),
-            "info": info,
-            "materials": [info["material"]], 
-            "stains": [info["stains"]],
-        })
+        return render(
+            request,
+            "laundry_manager/laundry_info.html",
+            {
+                "material": guides.get("material_guide"),
+                "stain": guides.get("stain_guide"),
+                "symbols": guides.get("symbol_guide"),
+                "info": info,
+                "materials": [info["material"]],
+                "stains": [info["stains"]],
+            },
+        )
 
     return redirect("laundry-upload")
-
 
 
 def upload_view(request):
@@ -182,49 +202,53 @@ def upload_view(request):
 
             if ocr_result.get("error"):
                 context["error_message"] = ocr_result["message"]
-                return render(request, 'laundry_manager/laundry-upload.html', context)
+                return render(request, "laundry_manager/laundry-upload.html", context)
 
             # OCR 결과 파싱
-            definition, texts = get_washing_symbol_definition(ocr_result, WASHING_SYMBOLS_DEFINITIONS)
+            definition, texts = get_washing_symbol_definition(
+                ocr_result, WASHING_SYMBOLS_DEFINITIONS
+            )
             print("OCR 결과:", texts)
 
             # 세션 저장
-            request.session['recognized_texts'] = texts
-            request.session['symbol_definition'] = definition
+            request.session["recognized_texts"] = texts
+            request.session["symbol_definition"] = definition
 
             # ✅ 사용자 선택 값도 세션에 저장
-            request.session['material'] = request.POST.get("material")
-            request.session['stains'] = request.POST.getlist("stains")  # JS에서 배열로 보내면 getlist 사용
+            request.session["material"] = request.POST.get("material")
+            request.session["stains"] = request.POST.getlist(
+                "stains"
+            )  # JS에서 배열로 보내면 getlist 사용
 
             # JSON 저장
             save_result_json(image_path, texts, definition, ocr_result)
 
-            return redirect('result')
+            return redirect("result")
 
     # GET 요청 또는 유효하지 않은 POST
-    return render(request, 'laundry_manager/laundry-upload.html', context)
-
+    return render(request, "laundry_manager/laundry-upload.html", context)
 
 
 def result_view(request):
-    texts = request.session.get('recognized_texts', [])
-    definition = request.session.get('symbol_definition', '')
-    material = request.session.get('material', '')
-    stains = request.session.get('stains', [])  # 리스트로 저장된 경우
+    texts = request.session.get("recognized_texts", [])
+    definition = request.session.get("symbol_definition", "")
+    material = request.session.get("material", "")
+    stains = request.session.get("stains", [])  # 리스트로 저장된 경우
 
     print("세션에서 가져온 OCR 결과:", texts)
     print("세션에서 가져온 소재:", material)
     print("세션에서 가져온 얼룩:", stains)
 
-    return render(request, 'laundry_manager/result.html', {
-        'recognized_texts': texts,
-        'symbol_definition': definition,
-        'materials': [material] if material else [],
-        'stains': stains,
-    })
-
-
-
+    return render(
+        request,
+        "laundry_manager/result.html",
+        {
+            "recognized_texts": texts,
+            "symbol_definition": definition,
+            "materials": [material] if material else [],
+            "stains": stains,
+        },
+    )
 
 
 # 이거는 roboflow에서 사용되는 함수임
@@ -255,10 +279,14 @@ def upload_and_classify(request):
     else:
         form = ImageUploadForm()
 
-    return render(request, "laundry_manager/laundry-upload.html", {
-        "form": form,
-        "result": result,
-    })
+    return render(
+        request,
+        "laundry_manager/laundry-upload.html",
+        {
+            "form": form,
+            "result": result,
+        },
+    )
 
 
 # 2. 뷰 함수 정의
@@ -281,29 +309,30 @@ def laundry_info_view(request):
     # JSON 응답 반환
     return JsonResponse(result, json_dumps_params={"ensure_ascii": False})
 
-# laundry_info_view1을 만들었는데 런드리 인포에서 
+
+# laundry_info_view1을 만들었는데 런드리 인포에서
 # 소재랑 얼룩이 뜨게하는 함수임
 
+
 def laundry_info_view1(request):
-    material_name = request.session.get('material', '')
-    stains = request.session.get('stains', [])
+    material_name = request.session.get("material", "")
+    stains = request.session.get("stains", [])
 
     material_info = get_material_guide(material_name) if material_name else {}
     stain_info = get_stain_guide(stains[0]) if stains else {}
 
-    return render(request, 'laundry_manager/laundry_info.html', {
-        'material_name': material_name,
-        'stains': stains,
-        'material': material_info,
-        'stain': stain_info,
-        'symbols': request.session.get('symbols', []),
-        'info': {
-            'material': material_name,
-            'stains': " / ".join(stains)
-        }
-    })
-
-
+    return render(
+        request,
+        "laundry_manager/laundry_info.html",
+        {
+            "material_name": material_name,
+            "stains": stains,
+            "material": material_info,
+            "stain": stain_info,
+            "symbols": request.session.get("symbols", []),
+            "info": {"material": material_name, "stains": " / ".join(stains)},
+        },
+    )
 
 
 PROJECT_ROOT_DIR = (
@@ -451,7 +480,8 @@ def stain_guide_view(request):
     }
     return render(request, "laundry_manager/stain-upload.html", context)
 
-'''
+
+"""
 이름 : first_info_view
 인자 : request
 기능 : 
@@ -459,7 +489,8 @@ def stain_guide_view(request):
 2. first_info 함수 호출
 3. 템플릿에 전달
 4. upload.html 호출, first_info 정보 띄우기
-'''
+"""
+
 
 @csrf_exempt
 def first_info_view(request):
@@ -467,7 +498,9 @@ def first_info_view(request):
         form = ImageUploadForm(request.POST, request.FILES)
         if form.is_valid():
             uploaded_instance = form.save()
-            filename = uploaded_instance.image.name  # 또는 image.path (파일 경로가 필요하다면)
+            filename = (
+                uploaded_instance.image.name
+            )  # 또는 image.path (파일 경로가 필요하다면)
 
             selected_materials = request.POST.getlist("materials[]")
             selected_stains = request.POST.getlist("stains[]")
@@ -475,30 +508,35 @@ def first_info_view(request):
             result = first_info(
                 filename=filename,
                 selected_materials=selected_materials,
-                selected_stains=selected_stains
+                selected_stains=selected_stains,
             )
 
-            return render(request, "laundry_manager/result.html", {
-                "materials": result.get("materials", []),
-                "symbols": result.get("symbols", []),
-                "stains": result.get("stains", []),
-                "filename": filename,
-            })
+            return render(
+                request,
+                "laundry_manager/result.html",
+                {
+                    "materials": result.get("materials", []),
+                    "symbols": result.get("symbols", []),
+                    "stains": result.get("stains", []),
+                    "filename": filename,
+                },
+            )
         else:
             return JsonResponse({"error": "이미지 업로드 실패"}, status=400)
 
     return render(request, "laundry_manager/result.html")
 
 
-
-'''
+"""
 이름 : final_info_view
 인자 : request
 기능 :
 1. 이미지는 그대로, Post(사용자가 수정한 내용) 받기
 2. final_info 호출
 3. laundry_info.html 호출, final_info 정보 띄우기
-'''
+"""
+
+
 @csrf_exempt
 def final_info_view(request):
     if request.method == "POST":
@@ -518,18 +556,23 @@ def final_info_view(request):
             first_info=first_result,
             manual_materials=manual_materials,
             manual_symbols=manual_symbols,
-            manual_stains=manual_stains
+            manual_stains=manual_stains,
         )
 
-        return render(request, "laundry_manager/laundry_info.html", {
-            "materials": final_result.get("materials", []),
-            "symbols": final_result.get("symbols", []),
-            "stains": final_result.get("stains", []),
-        })
+        return render(
+            request,
+            "laundry_manager/laundry_info.html",
+            {
+                "materials": final_result.get("materials", []),
+                "symbols": final_result.get("symbols", []),
+                "stains": final_result.get("stains", []),
+            },
+        )
 
     return JsonResponse({"error": "Invalid request"}, status=400)
 
-'''
+
+"""
 이름 : first_info_view
 인자 : request
 기능 : 
@@ -537,7 +580,9 @@ def final_info_view(request):
 2. first_info 함수 호출
 3. 템플릿에 전달
 4. upload.html 호출, first_info 정보 띄우기
-'''
+"""
+
+
 @csrf_exempt
 def first_info_view(request):
     if request.method == "POST":
@@ -550,28 +595,35 @@ def first_info_view(request):
         result = first_info(
             filename=filename,
             selected_materials=selected_materials,
-            selected_stains=selected_stains
+            selected_stains=selected_stains,
         )
 
         # 템플릿에 전달
-        return render(request, "laundry_manager/result.html", {
-            "materials": result.get("materials", []),
-            "symbols": result.get("symbols", []),
-            "stains": result.get("stains", []),
-            "filename": filename,  # 이후 final_info에 넘기기 위함
-        })
+        return render(
+            request,
+            "laundry_manager/result.html",
+            {
+                "materials": result.get("materials", []),
+                "symbols": result.get("symbols", []),
+                "stains": result.get("stains", []),
+                "filename": filename,  # 이후 final_info에 넘기기 위함
+            },
+        )
 
     # GET 요청 시는 업로드 페이지 보여줌
     return render(request, "laundry_manager/result.html")
 
-'''
+
+"""
 이름 : final_info_view
 인자 : request
 기능 :
 1. 이미지는 그대로, Post(사용자가 수정한 내용) 받기
 2. final_info 호출
 3. laundry_info.html 호출, final_info 정보 띄우기
-'''
+"""
+
+
 @csrf_exempt
 def final_info_view(request):
     if request.method == "POST":
@@ -591,14 +643,18 @@ def final_info_view(request):
             first_info=first_result,
             manual_materials=manual_materials,
             manual_symbols=manual_symbols,
-            manual_stains=manual_stains
+            manual_stains=manual_stains,
         )
 
-        return render(request, "laundry_manager/laundry_info.html", {
-            "materials": final_result.get("materials", []),
-            "symbols": final_result.get("symbols", []),
-            "stains": final_result.get("stains", []),
-        })
+        return render(
+            request,
+            "laundry_manager/laundry_info.html",
+            {
+                "materials": final_result.get("materials", []),
+                "symbols": final_result.get("symbols", []),
+                "stains": final_result.get("stains", []),
+            },
+        )
 
     return JsonResponse({"error": "Invalid request"}, status=400)
 
@@ -636,6 +692,8 @@ def stain_detail_view(request, slug):
         "slug": slug,
     }
     return render(request, "laundry_manager/stain_detail.html", context)
+
+
 from django.shortcuts import render
 
 
@@ -656,8 +714,23 @@ def result_page(request):
     return render(request, "laundry_manager/result.html")
 
 
+# 결과 페이지에서 단어 호버하면 백과사전 페이지로 넘어가는 로직 짬
 def laundry_info_page(request):
-    return render(request, "laundry_manager/laundry-info.html")
+    # 백과사전 페이지로 링크할 용어 목록
+    dictionary_terms = [
+        "레이온",
+        "스웨이드",
+        "쉬폰",
+        "세제",
+        "중성세제",
+        "알칼리성세제",
+        "산성세제",
+    ]
+
+    context = {"dictionary_terms": dictionary_terms}
+    return render(request, "laundry_manager/laundry-info.html", context)
+
+
 def stain_info_page(request):
     return render(request, "laundry_manager/stain-info.html")
 
