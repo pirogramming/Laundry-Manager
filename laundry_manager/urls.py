@@ -21,4 +21,9 @@ urlpatterns = [
     path('first-info/', views.first_info_view, name='first_info'),
     path('final-info/', views.final_info_view, name='final_info'),
     path('login/', views.login_page, name='login'),  
+    path('dictionary/', views.dictionary_page, name='dictionary'), 
+    path('main2/', views.main2_page, name='main2'), 
+    path('profile/', views.profile_page, name='profile'), 
+    path('settings/', views.settings_page, name='settings'), 
+    path('account-settings/', views.account_settings_page, name='acount-settings'), 
 ]

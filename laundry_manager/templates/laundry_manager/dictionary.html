@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>세탁 백과사전</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}">
+    <link rel="stylesheet" href="{% static 'laundry_manager/dictionary-style.css' %}">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <div class="mobile-container dictionary-page">
+        <nav class="top-nav-white">
+            <button class="icon-btn-bordered"><i class="fa-solid fa-arrow-left"></i></button>
+            <h2>세탁 백과사전</h2>
+        </nav>
+
+        <div class="search-bar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="니트 세탁법">
+        </div>
+
+        <section class="popular-info">
+            <h3>인기 세탁 정보</h3>
+            <div class="swiper popular-swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="https://images.unsplash.com/photo-1626025437759-d335a2a53d37?q=80&w=800" alt="니트">
+                        <div class="slide-content">
+                            <h4>겨울철 니트, 줄어들지 않게 세탁하는 법</h4>
+                            <a href="#">자세히 보기 <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://images.unsplash.com/photo-1593030103065-220448083883?q=80&w=800" alt="청바지">
+                        <div class="slide-content">
+                            <h4>청바지 물빠짐 없이 오래 입는 세탁 꿀팁</h4>
+                            <a href="#">자세히 보기 <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=800" alt="흰 셔츠">
+                        <div class="slide-content">
+                            <h4>누렇게 변한 흰 셔츠, 새것처럼 만드는 비법</h4>
+                            <a href="#">자세히 보기 <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </section>
+
+        <section class="all-info">
+            <h3>모든 세탁 정보</h3>
+            <div class="filter-chips">
+                <button class="chip active">인기 정보</button>
+                <button class="chip">세탁 용어</button>
+                <button class="chip">얼룩 정보</button>
+                <button class="chip">소재별 정보</button>
+            </div>
+            <div class="info-grid">
+                <div class="info-grid-item">
+                    <img src="https://images.unsplash.com/photo-1545127552-3a27541f5589?q=80&w=400" alt="세탁 정보">
+                    <div class="item-content">
+                        <h4>니트 상의 세탁하는 방법</h4>
+                        <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                    </div>
+                </div>
+                <div class="info-grid-item">
+                    <img src="https://images.unsplash.com/photo-1586368388484-87895d852033?q=80&w=400" alt="세탁 정보">
+                    <div class="item-content">
+                        <h4>김칫자국 지우는 방법</h4>
+                        <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                    </div>
+                </div>
+                 <div class="info-grid-item">
+                    <img src="https://images.unsplash.com/photo-1557340809-c43c2a7a4023?q=80&w=400" alt="세탁 정보">
+                    <div class="item-content">
+                        <h4>패딩 점퍼 세탁법</h4>
+                        <button class="like-btn active"><i class="fa-solid fa-heart"></i></button>
+                    </div>
+                </div>
+                <div class="info-grid-item">
+                    <img src="https://images.unsplash.com/photo-1596901841263-99975a6f208f?q=80&w=400" alt="세탁 정보">
+                    <div class="item-content">
+                        <h4>커피 얼룩 지우는 방법</h4>
+                        <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
+    
+    <script type="module" src="{% static 'laundry_manager/dictionary-script.js' %}"></script>
+</body>
+</html>

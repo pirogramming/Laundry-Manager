@@ -558,3 +558,13 @@ def stain_detail_page(request):
     return render(request, "laundry_manager/stain_detail.html")
 def login_page(request):
     return render(request, "laundry_manager/login.html")
+def dictionary_page(request):
+    return render(request, "laundry_manager/dictionary.html")
+def main2_page(request):
+    return render(request, "laundry_manager/main2.html")
+def profile_page(request):
+    return render(request, "laundry_manager/profile.html")
+def settings_page(request):
+    return render(request, "laundry_manager/settings.html")
+def account_settings_page(request):
+    return render(request, "laundry_manager/account-settings.html")
