@@ -27,7 +27,81 @@ from .utils import load_washing_definitions
 from django.shortcuts import render
 # from rest_framework.decorators import api_view
 
+# 백과사전 관련 함수 - 권준희
 
+def load_dictionary_data():
+    try:
+        dictionary_path = os.path.join(settings.BASE_DIR, 'laundry_manager', 'json_data', 'dictionary.json')
+        with open(dictionary_path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print("Error: dictionary.json not found.")
+        return {}
+    except json.JSONDecodeError:
+        print("Error: dictionary.json is not a valid JSON file.")
+        return {}
+
+
+def dictionary(request):
+    dictionary_data = load_dictionary_data()
+    query = request.GET.get('query')
+
+    category_map = {
+        "how_to_use_machine": "세탁 방법",
+        "dry_method": "건조 방법",
+        "storage_method": "보관 방법",
+        "removal_smell": "냄새 제거 방법",
+        "words": "용어 사전",
+    }
+    category_list = list(category_map.values())
+    processed_data = {}
+
+    def preprocess_item(item):
+        processed = item.copy()
+        processed['json_data'] = json.dumps(item, ensure_ascii=False)
+        return processed
+
+    if query:
+        is_category_query = query in category_list
+        if is_category_query:
+            category_key = next((key for key, value in category_map.items() if value == query), None)
+            if category_key and category_key in dictionary_data:
+                processed_data[query] = [preprocess_item(item) for item in dictionary_data[category_key]]
+        else:
+            for category_key, display_name in category_map.items():
+                items = dictionary_data.get(category_key, [])
+                filtered_items = []
+                for item in items:
+                    search_string = (
+                        item.get("title", "").lower() +
+                        item.get("description", "").lower() +
+                        json.dumps(item.get("content", ""), ensure_ascii=False).lower() +
+                        json.dumps(item.get("Washing_Steps", []), ensure_ascii=False).lower() +
+                        json.dumps(item.get("tip", []), ensure_ascii=False).lower() +
+                        json.dumps(item.get("not_to_do", []), ensure_ascii=False).lower() +
+                        json.dumps(item.get("Other_Information", []), ensure_ascii=False).lower()
+                    )
+                    if query.lower() in search_string:
+                        filtered_items.append(preprocess_item(item))
+                if filtered_items:
+                    processed_data[display_name] = filtered_items
+    else:
+        for category_key, display_name in category_map.items():
+            processed_data[display_name] = [preprocess_item(item) for item in dictionary_data.get(category_key, [])]
+    
+    frequent_searches = [
+        
+    ]
+
+    context = {
+        'query': query,
+        'is_category_query': query in category_list if query else False,
+        'category_list': category_list,
+        'dictionary_data': processed_data,
+        'frequent_searches': frequent_searches,
+    }
+
+    return render(request, 'laundry_manager/dictionary.html', context)
 
 load_dotenv()
 WASHING_SYMBOLS_DEFINITIONS = load_washing_definitions()
