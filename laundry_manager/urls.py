@@ -22,4 +22,9 @@ urlpatterns = [
     path('final-info/', views.final_info_view, name='final_info'),
     # path('laundry-upload/', UploadView.as_view(), name='laundry-upload'),
     path('laundry-info-v1/', views.laundry_info_view1, name='laundry-info-v1'),
+    path('records/', views.record_list_view, name='record_list'),
+    path('record/<int:pk>/', views.record_detail_view, name='record-detail'),
+    path('profile/', views.profile_view, name='profile'),
+
+
 ]
