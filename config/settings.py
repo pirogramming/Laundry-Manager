@@ -21,6 +21,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['49.50.130.16', 'localhost', '127.0.0.1']
 
+# Naver Map API 클라 아이디와 시크릿
+NAVER_MAP_CLIENT_KEY = config("NAVER_MAP_CLIENT_KEY")
+NAVER_MAP_CLIENT_SECRET = config("NAVER_MAP_CLIENT_SECRET")
+
+
 
 # social login
 SOCIALACCOUNT_PROVIDERS = {
@@ -155,3 +160,5 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+print("✅ NAVER_MAP_CLIENT_ID:", NAVER_MAP_CLIENT_KEY)

@@ -106,6 +106,20 @@ def dictionary(request):
 load_dotenv()
 WASHING_SYMBOLS_DEFINITIONS = load_washing_definitions()
 
+# Naver Map API 설정
+# Naver Map API 클라이언트 ID와 시크릿을 환경 변수에서 가져옴
+def map_test_view(request):
+    return render(request, 'laundry_manager/map-test.html', {
+        'NAVER_MAP_CLIENT_KEY': settings.NAVER_MAP_CLIENT_KEY
+    })
+
+
+
+
+###### 잠깐 테스트해보는거
+
+
+
 # utils.py를 만들어서 함수들 분리했음
 from .utils import (
     perform_ocr,

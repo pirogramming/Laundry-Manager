@@ -25,4 +25,7 @@ urlpatterns = [
 
     #권준희 - 백과사전 URL 연결
     path('dictionary/', views.dictionary, name='dictionary'),
+    #이재욱 - map-test 연결
+    path('map-test/', views.map_test_view, name='map-test'),
+
 ]
