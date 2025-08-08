@@ -88,9 +88,19 @@
                 <i class="fa-solid fa-chart-simple"></i>
                 <span>Dictionary</span>
             </a>
-            <a href="{% url 'laundry-upload' %}" class="nav-item-main">
-                <i class="fa-solid fa-camera"></i>
-            </a>
+            <form method="POST" action="{% url 'laundry-upload' %}" enctype="multipart/form-data" class="nav-item-main" style="display:flex; align-items:center; justify-content:center;">
+                {% csrf_token %}
+                <input type="file"
+                    id="cameraInput"
+                    name="image"
+                    accept="image/*"
+                    capture="environment"
+                    style="display:none;"
+                    onchange="this.form.submit()">
+                <button type="button" onclick="document.getElementById('cameraInput').click()" style="all:unset; cursor:pointer;">
+                    <i class="fa-solid fa-camera"></i>
+                </button>
+            </form>
             <a href="#" class="nav-item">
                 <i class="fa-solid fa-credit-card"></i>
                 <span>Payment</span>
