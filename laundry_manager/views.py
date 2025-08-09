@@ -31,7 +31,69 @@ from django.shortcuts import render
 # from rest_framework.decorators import api_view
 
 
-# 백과사전 관련 함수 - 권준희
+import requests
+import json
+import os
+from datetime import datetime, timedelta
+
+from django.conf import settings
+from django.shortcuts import render
+from decouple import config
+
+# Naver Trend API 키 로드
+NAVER_CLIENT_ID = config("NAVER_CLIENT_ID")
+NAVER_CLIENT_SECRET = config("NAVER_CLIENT_SECRET")
+
+
+# Naver Trend API 키를 .env 파일에서 로드
+NAVER_CLIENT_ID = config("NAVER_CLIENT_ID", default="")
+NAVER_CLIENT_SECRET = config("NAVER_CLIENT_SECRET", default="")
+
+
+def get_naver_trend_data(keywords, timeframe="today 3-m"):
+    url = "https://naveropenapi.apigw.ntruss.com/datalab/v1/search"
+    headers = {
+        "X-NCP-APIGW-API-KEY-ID": NAVER_CLIENT_ID,
+        "X-NCP-APIGW-API-KEY": NAVER_CLIENT_SECRET,
+        "Content-Type": "application/json",
+    }
+
+    # API 호출을 위해 키워드 그룹을 구성
+    # API는 최대 5개의 키워드 그룹을 지원하지만, 여기서는 전체 키워드를 하나의 그룹으로 묶습니다.
+    # 키워드 수가 너무 많으면 API 오류가 발생할 수 있으니 주의해야 합니다.
+    keyword_groups = [
+        {"groupName": "인기 검색어", "keywords": keywords[:5]}
+    ]  # 최대 5개 키워드만 사용 예시
+
+    body = {
+        "startDate": "2023-01-01",  # 더 긴 기간으로 설정
+        "endDate": "2024-08-31",
+        "timeUnit": "month",
+        "keywordGroups": keyword_groups,
+    }
+
+    try:
+        response = requests.post(url, data=json.dumps(body), headers=headers)
+        # --- 디버깅용 코드 추가 ---
+        print(f"디버깅: API 호출 상태 코드 -> {response.status_code}")
+        print(f"디버깅: API 응답 내용 -> {response.text}")
+        # ------------------------
+
+        if response.status_code == 200:
+            result = response.json()
+
+            # 키워드 데이터를 직접 가져와 반환
+            # result['results'][0]['keywords']에는 API 호출에 사용된 키워드가 들어있습니다.
+            if "results" in result and len(result["results"]) > 0:
+                return result["results"][0]["keywords"]
+            else:
+                return []
+
+    except requests.exceptions.RequestException as e:
+        print(f"네트워크 오류: {e}")
+        return []
+
+
 def load_dictionary_data():
     try:
         dictionary_path = os.path.join(
@@ -106,7 +168,19 @@ def dictionary(request):
             processed_data[display_name] = [
                 preprocess_item(item) for item in dictionary_data.get(category_key, [])
             ]
-    frequent_searches = []
+
+    # Naver Trend API를 활용하여 인기 검색어 목록을 가져오는 로직 추가
+    # 수정할 코드 (views.py 파일 내)
+    all_keywords = []
+    for category_key in dictionary_data:
+        for item in dictionary_data.get(category_key, []):
+            title = item.get("title")
+            if title:
+                all_keywords.append(title)
+
+    unique_keywords = list(set(all_keywords))
+    frequent_searches = get_naver_trend_data(unique_keywords)
+
     context = {
         "query": query,
         "is_category_query": query in category_list if query else False,

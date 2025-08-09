@@ -335,7 +335,7 @@
                 <h3>자주 검색한 기록</h3>
                 <ul>
                     {% for search in frequent_searches %}
-                    <li><a href="{% url 'dictionary' %}?query={{ search.term }}">{{ search.term }}</a></li>
+                    <li><a href="{% url 'dictionary' %}?query={{ search }}">{{ search }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
