@@ -6,6 +6,9 @@
 # import requests
 # from pathlib import Path
 
+########이거는 지금 안씁니다
+
+
 # from django.shortcuts import render, redirect, get_object_or_404
 # from django.http import JsonResponse, Http404
 # from django.conf import settings

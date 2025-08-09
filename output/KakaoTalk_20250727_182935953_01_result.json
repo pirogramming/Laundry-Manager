@@ -9,11 +9,11 @@
     "symbol_definition": "인식된 기호 설명 없음",
     "ocr_raw_response": {
         "version": "V2",
-        "requestId": "837f3eb5-174b-4c21-a99b-c73c5591fd20",
-        "timestamp": 1754313270388,
+        "requestId": "4e7cd4a0-6c13-4d4d-be01-8a78686fdecd",
+        "timestamp": 1754752969306,
         "images": [
             {
-                "uid": "6d129b32a7c8412c9a133647d2ec5d7b",
+                "uid": "3023b06fb0c443f1a9410e6782e5b986",
                 "name": "KakaoTalk_20250727_182935953_01.png",
                 "inferResult": "SUCCESS",
                 "message": "SUCCESS",

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,26 +16,31 @@
             padding: 20px;
             background-color: #f4f4f4;
         }
+
         .dictionary-container {
             max-width: 1200px;
             margin: 0 auto;
             background: #fff;
             padding: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         .search-section {
             text-align: center;
             margin-bottom: 30px;
         }
+
         .search-section h2 {
             color: #007bff;
             font-size: 2.5em;
         }
+
         .search-form {
             display: flex;
             justify-content: center;
             align-items: center;
         }
+
         .search-form input {
             width: 400px;
             padding: 10px;
@@ -43,6 +49,7 @@
             font-size: 1em;
             outline: none;
         }
+
         .search-form button {
             padding: 10px 15px;
             border: none;
@@ -52,26 +59,29 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
+
         .search-form button:hover {
             background-color: #0056b3;
         }
 
         /* 게시판 UI */
         .boards-section {
-        
+
             margin-top: 20px;
             padding: 20px;
             background-color: #f8f9fa;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
         .boards-title {
             font-size: 1.5em;
             margin-bottom: 15px;
             color: #343a40;
         }
+
         .board-list {
-            width:1100px;
+            width: 1100px;
             list-style: none;
             padding: 0;
             margin: 0;
@@ -79,10 +89,12 @@
             flex-wrap: wrap;
             gap: 10px;
         }
+
         .board-list li {
             flex: 1 1 auto;
             min-width: 150px;
         }
+
         .board-button {
             display: block;
             width: 100%;
@@ -97,6 +109,7 @@
             text-decoration: none;
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
+
         .board-button:hover {
             background-color: #0056b3;
             transform: translateY(-2px);
@@ -110,17 +123,21 @@
             gap: 30px;
             margin-top: 30px;
         }
+
         .dictionary-content {
             flex-grow: 1;
         }
+
         .category {
             margin-bottom: 30px;
         }
+
         .category h4 {
             border-bottom: 2px solid #ddd;
             padding-bottom: 5px;
             color: #343a40;
         }
+
         .item {
             margin-bottom: 20px;
             padding: 15px;
@@ -129,13 +146,16 @@
             background-color: #fcfcfc;
             cursor: pointer;
         }
+
         .item h5 {
             margin-top: 0;
             color: #0056b3;
         }
+
         .item p {
             margin: 5px 0;
         }
+
         .item ul {
             padding-left: 20px;
         }
@@ -147,26 +167,31 @@
             padding: 20px;
             background-color: #f8f9fa;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
         .frequent-searches-list h3 {
             margin-top: 0;
             margin-bottom: 15px;
             font-size: 1.2em;
             color: #343a40;
         }
+
         .frequent-searches-list ul {
             list-style: none;
             padding: 0;
         }
+
         .frequent-searches-list li {
             margin-bottom: 8px;
         }
+
         .frequent-searches-list a {
             text-decoration: none;
             color: #007bff;
             font-weight: 500;
         }
+
         .frequent-searches-list a:hover {
             text-decoration: underline;
         }
@@ -179,7 +204,8 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.7);
-            display: none; /* 초기에는 숨김 */
+            display: none;
+            /* 초기에는 숨김 */
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -210,12 +236,14 @@
         .detail-content-section {
             margin-bottom: 15px;
         }
+
         .detail-content-section h5 {
             margin-top: 0;
             color: #0056b3;
             border-bottom: 1px solid #eee;
             padding-bottom: 5px;
         }
+
         .detail-content-section ul,
         .detail-content-section p {
             margin: 0;
@@ -223,11 +251,13 @@
             list-style-type: disc;
             padding-left: 20px;
         }
+
         .detail-content-section ul li {
             margin-bottom: 5px;
         }
     </style>
 </head>
+
 <body>
     <div class="dictionary-container">
         <div class="search-section">
@@ -254,50 +284,50 @@
         <div class="content-container">
             <div class="dictionary-content">
                 {% if query and is_category_query %}
-                    <h3>{{ query }}</h3>
-                    {% for items in dictionary_data.values %}
-                        {% for item in items %}
-                            <div class="item" onclick="showDetailCard('{{ item.json_data|escapejs }}')">
-                                <h5>{{ item.title }}</h5>
-                                {% comment %}
-                                    {% if item.description %}<p>{{ item.description }}</p>{% endif %}
-                                {% endcomment %}
-                                <p>자세히 보기</p>
-                            </div>
-                        {% empty %}
-                            <p>해당 게시판에 내용이 없습니다.</p>
-                        {% endfor %}
-                    {% endfor %}
+                <h3>{{ query }}</h3>
+                {% for items in dictionary_data.values %}
+                {% for item in items %}
+                <div class="item" onclick="showDetailCard('{{ item.json_data|escapejs }}')">
+                    <h5>{{ item.title }}</h5>
+                    {% comment %}
+                    {% if item.description %}<p>{{ item.description }}</p>{% endif %}
+                    {% endcomment %}
+                    <p>자세히 보기</p>
+                </div>
+                {% empty %}
+                <p>해당 게시판에 내용이 없습니다.</p>
+                {% endfor %}
+                {% endfor %}
                 {% elif query %}
-                    <h3>'{{ query }}' 검색 결과</h3>
-                    {% for category_name, items in dictionary_data.items %}
-                        <div class="category">
-                            <h4>{{ category_name }}</h4>
-                            {% for item in items %}
-                                <div class="item" onclick="showDetailCard('{{ item.json_data|escapejs }}')">
-                                    <h5>{{ item.title }}</h5>
-                                    {% if item.description %}<p>{{ item.description }}</p>{% endif %}
-                                </div>
-                            {% empty %}
-                                <p>해당 카테고리에서 검색 결과가 없습니다.</p>
-                            {% endfor %}
-                        </div>
+                <h3>'{{ query }}' 검색 결과</h3>
+                {% for category_name, items in dictionary_data.items %}
+                <div class="category">
+                    <h4>{{ category_name }}</h4>
+                    {% for item in items %}
+                    <div class="item" onclick="showDetailCard('{{ item.json_data|escapejs }}')">
+                        <h5>{{ item.title }}</h5>
+                        {% if item.description %}<p>{{ item.description }}</p>{% endif %}
+                    </div>
                     {% empty %}
-                        <p>검색 결과가 없습니다.</p>
+                    <p>해당 카테고리에서 검색 결과가 없습니다.</p>
                     {% endfor %}
+                </div>
+                {% empty %}
+                <p>검색 결과가 없습니다.</p>
+                {% endfor %}
                 {% else %}
-                    <h3>카테고리별 정보</h3>
-                    {% for category_name, items in dictionary_data.items %}
-                        <div class="category">
-                            <h4>{{ category_name }}</h4>
-                            {% for item in items %}
-                                <div class="item" onclick="showDetailCard('{{ item.json_data|escapejs }}')">
-                                    <h5>{{ item.title }}</h5>
-                                    {% if item.description %}<p>{{ item.description }}</p>{% endif %}
-                                </div>
-                            {% endfor %}
-                        </div>
+                <h3>카테고리별 정보</h3>
+                {% for category_name, items in dictionary_data.items %}
+                <div class="category">
+                    <h4>{{ category_name }}</h4>
+                    {% for item in items %}
+                    <div class="item" onclick="showDetailCard('{{ item.json_data|escapejs }}')">
+                        <h5>{{ item.title }}</h5>
+                        <p>자세히 보기</p>
+                    </div>
                     {% endfor %}
+                </div>
+                {% endfor %}
                 {% endif %}
             </div>
 
@@ -305,7 +335,7 @@
                 <h3>자주 검색한 기록</h3>
                 <ul>
                     {% for search in frequent_searches %}
-                    <li><a href="{% url 'dictionary' %}?query={{ search.term }}">{{ search.term }}</a></li>
+                    <li><a href="{% url 'dictionary' %}?query={{ search }}">{{ search }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
@@ -333,7 +363,7 @@
         function showDetailCard(json_data_str) {
             const item = JSON.parse(json_data_str);
             document.getElementById('cardTitle').innerText = item.title;
-            
+
             const detailContent = document.getElementById('detailContent');
             detailContent.innerHTML = ''; // 기존 내용 초기화
 
@@ -378,4 +408,5 @@
         }
     </script>
 </body>
+
 </html>
