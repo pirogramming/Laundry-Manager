@@ -1,29 +1,78 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>네이버 지도 테스트</title>
-    <style>
-        #map {
-            width: 100%;
-            height: 500px;
-        }
-    </style>
-
-    <!-- ✅ JS SDK 로드 -->
-    <script src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ NAVER_MAP_CLIENT_KEY }}"></script>
+  <meta charset="UTF-8">
+  <title>내 위치 기반 네이버 지도</title>
+  <style>#map{width:100%;height:500px}</style>
+  <!-- 지도 SDK -->
+  <script src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ NAVER_MAP_CLIENT_KEY }}"></script>
+  <!-- jQuery (infowindow 예제에 쓰길래 포함) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <h1>네이버 지도</h1>
-    <div id="map"></div>
+  <h1>내 위치 기반 지도</h1>
+  <div id="map"></div>
 
-    <script>
-        var mapOptions = {
-            center: new naver.maps.LatLng(37.3595704, 127.105399), // 기본 위치
-            zoom: 10
-        };
+  <script>
+    // 지도 기본 생성 (서울 시청 기준)
+    var map = new naver.maps.Map('map', {
+      center: new naver.maps.LatLng(37.5666805, 126.9784147),
+      zoom: 10,
+      mapTypeId: naver.maps.MapTypeId.NORMAL
+    });
 
-        var map = new naver.maps.Map('map', mapOptions);
-    </script>
+    var infowindow = new naver.maps.InfoWindow();
+
+    function onSuccessGeolocation(position) {
+      var location = new naver.maps.LatLng(
+        position.coords.latitude,
+        position.coords.longitude
+      );
+
+      // 중심과 줌 변경
+      map.setCenter(location);
+      map.setZoom(14);
+
+      // 마커 표시
+      var marker = new naver.maps.Marker({
+        position: location,
+        map: map
+      });
+
+      // 인포윈도우 표시
+      infowindow.setContent(
+        '<div style="padding:10px;">현재 위치<br>(' +
+        location.lat().toFixed(6) + ', ' + location.lng().toFixed(6) + ')</div>'
+      );
+      infowindow.open(map, marker);
+
+      console.log('Coordinates:', location.toString());
+    }
+
+    function onErrorGeolocation() {
+      var center = map.getCenter();
+      infowindow.setContent(
+        '<div style="padding:10px;color:#f00;">위치 정보 가져오기 실패<br>' +
+        'latitude: ' + center.lat() + '<br>' +
+        'longitude: ' + center.lng() + '</div>'
+      );
+      infowindow.open(map, center);
+    }
+
+    $(window).on("load", function() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          onSuccessGeolocation,
+          onErrorGeolocation
+        );
+      } else {
+        var center = map.getCenter();
+        infowindow.setContent(
+          '<div style="padding:10px;color:#f00;">브라우저가 위치 정보를 지원하지 않습니다.</div>'
+        );
+        infowindow.open(map, center);
+      }
+    });
+  </script>
 </body>
 </html>

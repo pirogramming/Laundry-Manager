@@ -1078,3 +1078,497 @@ Performing system checks...
 
 세탁 기호 정의 로드 오류: [Errno 2] No such file or directory: '/root/Laundry-Manager/laundry_app/washing_symbol.json'
 Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+[08/Aug/2025 08:55:02] "GET /laundry-upload/ HTTP/1.1" 200 5717
+[08/Aug/2025 08:55:03] "GET /static/laundry_manager/laundry-upload-style.css HTTP/1.1" 304 0
+[08/Aug/2025 08:55:03] "GET /static/laundry_manager/laundry-upload-script.js HTTP/1.1" 304 0
+[08/Aug/2025 08:55:11] "GET /result/ HTTP/1.1" 200 3882
+[08/Aug/2025 08:55:15] "GET / HTTP/1.1" 200 13616
+[08/Aug/2025 08:55:22,322] - Broken pipe from ('116.35.177.243', 57657)
+[08/Aug/2025 10:12:33] "GET / HTTP/1.1" 200 13616
+Not Found: /favicon.ico
+[08/Aug/2025 10:12:42] "GET /favicon.ico HTTP/1.1" 404 7539
+[08/Aug/2025 10:12:49] code 505, message Invalid HTTP version (2.0)
+[08/Aug/2025 10:12:49] "PRI * HTTP/2.0" 505 -
+Not Found: /favicon.ico
+[08/Aug/2025 10:13:49] "GET /favicon.ico HTTP/1.1" 404 7539
+[08/Aug/2025 10:13:53] code 505, message Invalid HTTP version (2.0)
+[08/Aug/2025 10:13:53] "PRI * HTTP/2.0" 505 -
+[08/Aug/2025 10:14:21] code 400, message Bad request version ('À\x14À')
+[08/Aug/2025 10:14:21] You're accessing the development server over HTTPS, but it only supports HTTP.
+Not Found: /sitemap.xml
+[08/Aug/2025 10:14:25] "GET /sitemap.xml HTTP/1.1" 404 7539
+[08/Aug/2025 10:15:03] code 400, message Bad request version ('À\x14À')
+[08/Aug/2025 10:15:03] You're accessing the development server over HTTPS, but it only supports HTTP.
+[08/Aug/2025 10:15:03] code 400, message Bad request version ('À\x14À')
+[08/Aug/2025 10:15:03] You're accessing the development server over HTTPS, but it only supports HTTP.
+[08/Aug/2025 10:15:04] "GET / HTTP/1.1" 200 13616
+Not Found: /login
+[08/Aug/2025 10:15:04] "GET /login HTTP/1.1" 404 7521
+[08/Aug/2025 11:07:38] "GET / HTTP/1.1" 200 13616
+Not Found: /npm/framer-motion@12.23.12/dom/+esm
+[08/Aug/2025 11:07:39] "GET /npm/framer-motion@12.23.12/dom/+esm HTTP/1.1" 404 7611
+Not Found: /npm/motion-utils@12.23.6/+esm
+Not Found: /npm/motion-dom@12.23.12/+esm
+[08/Aug/2025 11:07:39] "GET /npm/motion-utils@12.23.6/+esm HTTP/1.1" 404 7593
+[08/Aug/2025 11:07:39] "GET /npm/motion-dom@12.23.12/+esm HTTP/1.1" 404 7590
+[08/Aug/2025 11:07:40] "GET / HTTP/1.1" 200 13616
+[08/Aug/2025 11:23:12] "POST /laundry-upload/ HTTP/1.1" 302 0
+[08/Aug/2025 11:23:12] "GET /result/ HTTP/1.1" 200 3376
+[08/Aug/2025 11:52:22] "GET /laundry-upload/ HTTP/1.1" 200 5717
+[08/Aug/2025 11:52:24] "GET / HTTP/1.1" 200 13616
+[08/Aug/2025 12:10:42] "GET /result/ HTTP/1.1" 200 3376
+Not Found: /npm/framer-motion@12.23.12/dom/+esm
+[08/Aug/2025 12:10:42] "GET /npm/framer-motion@12.23.12/dom/+esm HTTP/1.1" 404 7611
+Not Found: /npm/motion-utils@12.23.6/+esm
+Not Found: /npm/motion-dom@12.23.12/+esm
+[08/Aug/2025 12:10:42] "GET /npm/motion-utils@12.23.6/+esm HTTP/1.1" 404 7593
+[08/Aug/2025 12:10:42] "GET /npm/motion-dom@12.23.12/+esm HTTP/1.1" 404 7590
+[08/Aug/2025 12:10:47,453] - Broken pipe from ('116.35.177.243', 64170)
+[08/Aug/2025 12:10:47,453] - Broken pipe from ('116.35.177.243', 64173)
+[08/Aug/2025 12:10:47,454] - Broken pipe from ('116.35.177.243', 64172)
+Not Found: /aaa9
+[08/Aug/2025 13:18:35] "GET /aaa9 HTTP/1.1" 404 7518
+Not Found: /aab8
+[08/Aug/2025 13:18:36] "GET /aab8 HTTP/1.1" 404 7518
+[08/Aug/2025 13:18:36] "GET / HTTP/1.1" 200 13616
+[08/Aug/2025 15:44:18] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00{\x01\x00\x00w\x03\x03õR\x84çÿà$\x01ï\x8e\x8d\x14Fv\x88\x8bd\x99µÃ²)\x93Z»7\x8aæçK\x8d*\x00\x00\x1aÀ/À+À\x11À\x07À\x13À')
+[08/Aug/2025 15:44:18] You're accessing the development server over HTTPS, but it only supports HTTP.
+[08/Aug/2025 15:44:18] code 400, message Bad request syntax ('MGLNDD_49.50.130.16_8000')
+[08/Aug/2025 15:44:18] "MGLNDD_49.50.130.16_8000" 400 -
+[08/Aug/2025 16:38:53] "GET / HTTP/1.1" 200 13616
+[08/Aug/2025 16:38:53] "GET /static/laundry_manager/style.css HTTP/1.1" 304 0
+[08/Aug/2025 19:32:29,584] - Broken pipe from ('50.116.26.161', 42174)
+[08/Aug/2025 19:32:29] "GET / HTTP/1.1" 200 13616
+[08/Aug/2025 19:32:30,024] - Broken pipe from ('50.116.26.161', 42175)
+[08/Aug/2025 20:29:06] code 400, message Bad request syntax ('JDWP-Handshake')
+[08/Aug/2025 20:29:06] "JDWP-Handshake" 400 -
+[08/Aug/2025 21:44:27] "GET / HTTP/1.1" 200 13616
+[08/Aug/2025 23:33:04] "GET / HTTP/1.1" 200 13616
+[08/Aug/2025 23:33:04] "GET /static/laundry_manager/style.css HTTP/1.1" 200 5897
+[08/Aug/2025 23:33:04] "GET /static/laundry_manager/main-script.js HTTP/1.1" 200 1178
+Not Found: /favicon.ico
+[08/Aug/2025 23:33:05] "GET /favicon.ico HTTP/1.1" 404 7539
+[08/Aug/2025 23:33:11] "GET /laundry-upload/ HTTP/1.1" 200 5717
+[08/Aug/2025 23:33:11] "GET /static/laundry_manager/laundry-upload-style.css HTTP/1.1" 200 4498
+[08/Aug/2025 23:33:11] "GET /static/laundry_manager/laundry-upload-script.js HTTP/1.1" 200 1852
+[08/Aug/2025 23:33:46] "GET / HTTP/1.1" 200 13616
+[08/Aug/2025 23:33:46] "GET /static/laundry_manager/style.css HTTP/1.1" 200 5897
+[08/Aug/2025 23:33:46] "GET /static/laundry_manager/main-script.js HTTP/1.1" 200 1178
+[08/Aug/2025 23:38:52] "GET / HTTP/1.1" 200 13616
+[08/Aug/2025 23:38:52] "GET /static/laundry_manager/style.css HTTP/1.1" 200 5897
+[08/Aug/2025 23:38:52] "GET /static/laundry_manager/main-script.js HTTP/1.1" 200 1178
+[08/Aug/2025 23:38:56] "GET /laundry-upload/ HTTP/1.1" 200 5717
+[08/Aug/2025 23:38:56] "GET /static/laundry_manager/laundry-upload-style.css HTTP/1.1" 200 4498
+[08/Aug/2025 23:38:56] "GET /static/laundry_manager/laundry-upload-script.js HTTP/1.1" 200 1852
+[08/Aug/2025 23:38:58] "GET / HTTP/1.1" 200 13616
+[08/Aug/2025 23:47:40] "GET / HTTP/1.1" 200 13616
+[08/Aug/2025 23:47:40] "GET /static/laundry_manager/main-script.js HTTP/1.1" 200 1178
+[08/Aug/2025 23:47:40] "GET /static/laundry_manager/style.css HTTP/1.1" 200 5897
+Not Found: /npm/framer-motion@12.23.12/dom/+esm
+[08/Aug/2025 23:47:40] "GET /npm/framer-motion@12.23.12/dom/+esm HTTP/1.1" 404 7611
+Not Found: /npm/motion-dom@12.23.12/+esm
+[08/Aug/2025 23:47:40] "GET /npm/motion-dom@12.23.12/+esm HTTP/1.1" 404 7590
+Not Found: /npm/motion-utils@12.23.6/+esm
+[08/Aug/2025 23:47:40] "GET /npm/motion-utils@12.23.6/+esm HTTP/1.1" 404 7593
+[08/Aug/2025 23:47:42] "GET /laundry-upload/ HTTP/1.1" 200 5717
+[08/Aug/2025 23:47:42] "GET /static/laundry_manager/laundry-upload-style.css HTTP/1.1" 200 4498
+[08/Aug/2025 23:47:42] "GET /static/laundry_manager/laundry-upload-script.js HTTP/1.1" 200 1852
+[08/Aug/2025 23:47:47] "GET /stain-upload/ HTTP/1.1" 200 2438
+[08/Aug/2025 23:47:47] "GET /static/laundry_manager/stain-upload-style.css HTTP/1.1" 200 5500
+[08/Aug/2025 23:47:47] "GET /static/laundry_manager/stain-upload-script.js HTTP/1.1" 200 1121
+[08/Aug/2025 23:47:50] "GET /laundry-upload/ HTTP/1.1" 200 5717
+[08/Aug/2025 23:48:01] "POST /uploadimage/ HTTP/1.1" 302 0
+[08/Aug/2025 23:48:03] "POST /uploadimage/ HTTP/1.1" 302 0
+[08/Aug/2025 23:48:03] "POST /uploadimage/ HTTP/1.1" 302 0
+[08/Aug/2025 23:48:04] "POST /uploadimage/ HTTP/1.1" 302 0
+[08/Aug/2025 23:48:05] "POST /uploadimage/ HTTP/1.1" 302 0
+[08/Aug/2025 23:48:05] "POST /uploadimage/ HTTP/1.1" 302 0
+[08/Aug/2025 23:48:05] "GET /result/ HTTP/1.1" 200 3593
+[08/Aug/2025 23:48:05] "GET /static/laundry_manager/result-style.css HTTP/1.1" 200 3407
+[08/Aug/2025 23:48:05] "GET /static/laundry_manager/result-script.js HTTP/1.1" 200 1121
+[08/Aug/2025 23:48:05] "GET /upload/ HTTP/1.1" 200 5900
+[08/Aug/2025 23:48:06] "GET / HTTP/1.1" 200 13616
+Not Found: /npm/framer-motion@12.23.12/dom/+esm
+[09/Aug/2025 00:32:19] "GET /npm/framer-motion@12.23.12/dom/+esm HTTP/1.1" 404 7611
+Not Found: /npm/motion-dom@12.23.12/+esm
+[09/Aug/2025 00:32:19] "GET /npm/motion-dom@12.23.12/+esm HTTP/1.1" 404 7590
+Not Found: /npm/motion-utils@12.23.6/+esm
+[09/Aug/2025 00:32:19] "GET /npm/motion-utils@12.23.6/+esm HTTP/1.1" 404 7593
+[09/Aug/2025 00:47:33] code 400, message Bad request version ('À\x14À')
+[09/Aug/2025 00:47:33] You're accessing the development server over HTTPS, but it only supports HTTP.
+[09/Aug/2025 01:51:59] code 400, message Bad request version ('À\x14À')
+[09/Aug/2025 01:51:59] You're accessing the development server over HTTPS, but it only supports HTTP.
+[09/Aug/2025 02:18:07,554] - Broken pipe from ('104.234.140.138', 13758)
+Invalid HTTP_HOST header: 's19874474abe:8000'. You may need to add 's19874474abe' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/root/Laundry-Manager/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/root/Laundry-Manager/venv/lib/python3.12/site-packages/django/utils/deprecation.py", line 119, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/Laundry-Manager/venv/lib/python3.12/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/root/Laundry-Manager/venv/lib/python3.12/site-packages/django/http/request.py", line 202, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 's19874474abe:8000'. You may need to add 's19874474abe' to ALLOWED_HOSTS.
+[09/Aug/2025 02:43:49] "GET / HTTP/1.0" 400 68498
+[09/Aug/2025 02:43:54] code 400, message Bad HTTP/0.9 request type ('l\x00')
+[09/Aug/2025 02:43:54] "l          " 400 -
+[09/Aug/2025 02:44:00] code 400, message Bad request syntax ('\x05\x04\x00\x01\x02\x80\x05\x01\x00\x03')
+[09/Aug/2025 02:44:00] "  " 400 -
+[09/Aug/2025 02:44:05] code 400, message Bad request syntax ('\x04\x01\x00\x16\x7f\x00\x00\x01root\x00')
+[09/Aug/2025 02:44:05] "   root " 400 -
+Invalid HTTP_HOST header: 's19874474abe:8000'. You may need to add 's19874474abe' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/root/Laundry-Manager/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/root/Laundry-Manager/venv/lib/python3.12/site-packages/django/utils/deprecation.py", line 119, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/Laundry-Manager/venv/lib/python3.12/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/root/Laundry-Manager/venv/lib/python3.12/site-packages/django/http/request.py", line 202, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 's19874474abe:8000'. You may need to add 's19874474abe' to ALLOWED_HOSTS.
+[09/Aug/2025 02:44:05] "OPTIONS / HTTP/1.0" 400 68526
+[09/Aug/2025 02:44:05] code 400, message Bad request version ('RTSP/1.0')
+[09/Aug/2025 02:44:05] "OPTIONS / RTSP/1.0" 400 -
+[09/Aug/2025 02:44:10] code 400, message Bad request version ('\x00\x01\x97|\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00')
+[09/Aug/2025 02:44:10] "  (rþ          |                    " 400 -
+[09/Aug/2025 02:44:15] code 400, message Bad HTTP/0.9 request type ('\x00')
+[09/Aug/2025 02:44:15] "          versionbind   " 400 -
+[09/Aug/2025 02:44:15] code 400, message Bad request syntax ('HELP')
+[09/Aug/2025 02:44:15] "HELP" 400 -
+[09/Aug/2025 02:44:16] code 400, message Bad request syntax ('\x16\x03\x00\x00S\x01\x00\x00O\x03\x00?G×÷º,îê²`~ó\x00ý\x82{¹Õ\x96Èw\x9bæÄÛ<=Ûoï\x10n\x00\x00(\x00\x16\x00\x13\x00')
+[09/Aug/2025 02:44:16] You're accessing the development server over HTTPS, but it only supports HTTP.
+[09/Aug/2025 02:44:16] code 400, message Bad request version ('\x00/\x00')
+[09/Aug/2025 02:44:16] You're accessing the development server over HTTPS, but it only supports HTTP.
+[09/Aug/2025 02:44:16] code 400, message Bad request syntax ('\x00\x00\x00qj\x81n0\x81k¡\x03\x02\x01\x05¢\x03\x02\x01')
+[09/Aug/2025 02:44:16] "   qjn0k¡¢" 400 -
+[09/Aug/2025 02:44:21] code 400, message Bad request version ('0.12\x00')
+[09/Aug/2025 02:44:21] "   ¤ÿSMBr    @              @     PC NETWORK PROGRAM 1.0 MICROSOFT NETWORKS 1.03 MICROSOFT NETWORKS 3.0 LANMAN1.0 LM1.2X002 Samba NT LANMAN 1.0 NT LM 0.12 " 400 -
+[09/Aug/2025 02:44:34] code 400, message Bad HTTP/0.9 request type ('AMQP\x00\x00')
+[09/Aug/2025 02:44:34] "AMQP  	" 400 -
+Invalid HTTP_HOST header: 's19874474abe:8000'. You may need to add 's19874474abe' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/root/Laundry-Manager/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/root/Laundry-Manager/venv/lib/python3.12/site-packages/django/utils/deprecation.py", line 119, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/Laundry-Manager/venv/lib/python3.12/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/root/Laundry-Manager/venv/lib/python3.12/site-packages/django/http/request.py", line 202, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 's19874474abe:8000'. You may need to add 's19874474abe' to ALLOWED_HOSTS.
+[09/Aug/2025 02:44:34] "GET /devicedesc.xml HTTP/1.1" 400 68543
+[09/Aug/2025 02:44:34] code 400, message Bad request version ('\x00/\x00')
+[09/Aug/2025 02:44:34] You're accessing the development server over HTTPS, but it only supports HTTP.
+[09/Aug/2025 02:44:34] "GET / HTTP/1.1" 200 13616
+Not Found: /webui
+[09/Aug/2025 02:44:34] "GET /webui HTTP/1.1" 404 7521
+Not Found: /favicon.ico
+[09/Aug/2025 02:44:34] "GET /favicon.ico HTTP/1.1" 404 7539
+[09/Aug/2025 02:44:34] "GET / HTTP/1.1" 200 13616
+[09/Aug/2025 02:44:34] "GET / HTTP/1.1" 200 13616
+Not Found: /owa/
+[09/Aug/2025 02:44:35] "GET /owa/ HTTP/1.1" 404 7518
+Not Found: /owa/
+[09/Aug/2025 02:44:35] "GET /owa/ HTTP/1.1" 404 7518
+[09/Aug/2025 02:44:44] code 400, message Bad request version ("ÛÄ¡*.0Í*\x95é¸îw'\x00\x9c\x13\x02\x13\x03\x13\x01\x003\x009\x005\x00/À,À0\x00£\x00\x9fÌ©Ì¨ÌªÀ¯À\xadÀ£À\x9fÀ]ÀaÀWÀSÀ+À/\x00¢\x00\x9eÀ®À¬À¢À\x9eÀ\\À`ÀVÀRÀ$À(\x00k\x00jÀsÀw\x00Ä\x00ÃÀ#À'\x00g\x00@ÀrÀv\x00¾\x00½À")
+[09/Aug/2025 02:44:44] You're accessing the development server over HTTPS, but it only supports HTTP.
+[09/Aug/2025 02:44:44] "GET / HTTP/1.1" 200 13616
+[09/Aug/2025 02:44:44,813] - Broken pipe from ('172.236.137.159', 59860)
+[09/Aug/2025 03:00:32] "GET / HTTP/1.1" 200 13616
+[09/Aug/2025 03:00:32] "GET /static/laundry_manager/style.css HTTP/1.1" 200 5897
+[09/Aug/2025 03:00:32] "GET /static/laundry_manager/main-script.js HTTP/1.1" 200 1178
+Not Found: /favicon.ico
+[09/Aug/2025 03:00:36] "GET /favicon.ico HTTP/1.1" 404 7539
+[09/Aug/2025 03:58:01] code 400, message Bad request syntax ('MGLNDD_49.50.130.16_8000')
+[09/Aug/2025 03:58:01] "MGLNDD_49.50.130.16_8000" 400 -
+[09/Aug/2025 05:45:15] code 400, message Bad request version ('ÉðIÒW^\x9b¸»ï\x14Eì\x86á&Ó')
+[09/Aug/2025 05:45:15] You're accessing the development server over HTTPS, but it only supports HTTP.
+Forbidden (CSRF cookie not set.): /uploadimage/
+[09/Aug/2025 06:28:41] "POST /uploadimage/ HTTP/1.1" 403 2855
+[09/Aug/2025 07:17:03,825] - Broken pipe from ('104.234.140.138', 46534)
+[09/Aug/2025 07:47:27] "GET / HTTP/1.1" 200 13616
+[09/Aug/2025 07:47:27] "GET /static/laundry_manager/style.css HTTP/1.1" 200 5897
+[09/Aug/2025 07:47:27] "GET /static/laundry_manager/main-script.js HTTP/1.1" 200 1178
+Not Found: /favicon.ico
+[09/Aug/2025 07:47:28] "GET /favicon.ico HTTP/1.1" 404 7539
+[09/Aug/2025 08:21:47] code 400, message Bad request version ('À\x14À')
+[09/Aug/2025 08:21:47] You're accessing the development server over HTTPS, but it only supports HTTP.
+[09/Aug/2025 08:21:47] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00{\x01\x00\x00w\x03\x03$ß®=i\x16í\x86|y\x88\x91yldß\x0f¶d¹\x13\x03\x03tH¬Û\x8a/\x98øü\x00\x00\x1aÀ/À+À\x11À\x07À\x13À')
+[09/Aug/2025 08:21:47] You're accessing the development server over HTTPS, but it only supports HTTP.
+[09/Aug/2025 08:21:47] "GET / HTTP/1.1" 200 13616
+Not Found: /login
+[09/Aug/2025 08:21:48] "GET /login HTTP/1.1" 404 7521
+[09/Aug/2025 11:02:07] "GET / HTTP/1.1" 200 13616
+Not Found: /favicon.ico
+[09/Aug/2025 11:02:10] "GET /favicon.ico HTTP/1.1" 404 7539
+[09/Aug/2025 11:02:13] code 505, message Invalid HTTP version (2.0)
+[09/Aug/2025 11:02:13] "PRI * HTTP/2.0" 505 -
+Not Found: /favicon.ico
+[09/Aug/2025 11:04:23] "GET /favicon.ico HTTP/1.1" 404 7539
+[09/Aug/2025 11:04:27] code 505, message Invalid HTTP version (2.0)
+[09/Aug/2025 11:04:27] "PRI * HTTP/2.0" 505 -
+[09/Aug/2025 11:04:46] code 400, message Bad request version ('À\x14À')
+[09/Aug/2025 11:04:46] You're accessing the development server over HTTPS, but it only supports HTTP.
+Not Found: /login
+[09/Aug/2025 11:04:51] "GET /login HTTP/1.1" 404 7521
+[09/Aug/2025 12:53:29,331] - Broken pipe from ('104.234.140.138', 43803)
+[09/Aug/2025 14:22:19] "GET / HTTP/1.1" 200 13616
+[09/Aug/2025 14:22:20] "GET /static/laundry_manager/style.css HTTP/1.1" 304 0
+[09/Aug/2025 14:22:20] "GET /static/laundry_manager/main-script.js HTTP/1.1" 304 0
+[09/Aug/2025 14:22:28] "GET /map-test HTTP/1.1" 301 0
+[09/Aug/2025 14:22:29] "GET /map-test/ HTTP/1.1" 200 659
+Not Found: /favicon.ico
+[09/Aug/2025 14:22:29] "GET /favicon.ico HTTP/1.1" 404 7539
+[09/Aug/2025 14:22:31] "GET /map-test/ HTTP/1.1" 200 659
+[09/Aug/2025 14:22:35] "GET /map-test/ HTTP/1.1" 200 659
+[09/Aug/2025 14:22:49] "GET /map-test/ HTTP/1.1" 200 659
+[09/Aug/2025 14:23:07] "GET /map-test/ HTTP/1.1" 200 649
+[09/Aug/2025 14:23:13] "GET /map-test/ HTTP/1.1" 200 662
+[09/Aug/2025 14:23:19] "GET /map-test/ HTTP/1.1" 200 662
+[09/Aug/2025 14:23:20] "GET /map-test/ HTTP/1.1" 200 660
+[09/Aug/2025 14:26:27] "GET /map-test/ HTTP/1.1" 200 659
+[09/Aug/2025 14:26:33] "GET /map-test/ HTTP/1.1" 200 659
+[09/Aug/2025 14:26:34] "GET /map-test/ HTTP/1.1" 200 659
+[09/Aug/2025 14:28:45] "GET /map-test/ HTTP/1.1" 200 646
+[09/Aug/2025 14:36:02] "GET /map-test/ HTTP/1.1" 200 666
+/root/Laundry-Manager/laundry_manager/views.py changed, reloading.
+✅ NAVER_MAP_CLIENT_ID: omig7fijn3
+Performing system checks...
+
+세탁 기호 정의 로드 오류: [Errno 2] No such file or directory: '/root/Laundry-Manager/laundry_app/washing_symbol.json'
+Error: JSON file not found at /root/Laundry-Manager/laundry_temp_json/persil_v2.json
+System check identified no issues (0 silenced).
+August 08, 2025 - 08:54:59
+Django version 5.2.4, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+세션에서 가져온 OCR 결과: ['세탁', '정보', '입력', '세탁', '라벨을', '인식해', '정확한', '세탁', '방법을', '알려드려요!', '사진', '찍고', '세탁법', '받기', '기록보기', 'imgbb.', '.com', '블랙', '니트', '/', '핏자국', '제거', 'image not found', '12시간', '전', '검색', 'imgbb.', '블랙', '니트', '/', '얼룩', '.com', '제거', 'image not found', '12시간', '전', '검색', 'Home', 'Dictionary', 'Payment', 'Profile', 'TALK', 'A', '))', 'F3', 'F4', 'AURA', 'CA', '꿈', '+', 'F9', 'F10', '$', '%', 'A', '5', 'A', '6', 'B', '7', 'CC', '77', 'M', 'C', 'R', '7', 'T', '스', 'Y', 'U', 'H', 'P', 'F', '[', 'H', 'F', 'O', '2', '흐', 'H', 'J', 'T', 'L', 'C', 'V']
+세션에서 가져온 소재: None
+세션에서 가져온 얼룩: []
+파일이 /root/Laundry-Manager/media/laundry_symbols/image_ITJiQ2h.jpg 에 저장되었습니다.
+OCR 결과: []
+결과 저장 완료: output/image_ITJiQ2h_result.json
+세션에서 가져온 OCR 결과: []
+세션에서 가져온 소재: None
+세션에서 가져온 얼룩: []
+세션에서 가져온 OCR 결과: []
+세션에서 가져온 소재: None
+세션에서 가져온 얼룩: []
+파일이 /root/Laundry-Manager/media/laundry_symbols/IMG_9346.png 에 저장되었습니다.
+OCR 결과: ['LAUNDRY', 'MANAGER']
+결과 저장 완료: output/IMG_9346_result.json
+파일이 /root/Laundry-Manager/media/laundry_symbols/IMG_9346_w6DHF3F.png 에 저장되었습니다.
+파일이 /root/Laundry-Manager/media/laundry_symbols/IMG_9346_IxWzLzv.png 에 저장되었습니다.
+파일이 /root/Laundry-Manager/media/laundry_symbols/IMG_9346_RVIJIwv.png 에 저장되었습니다.
+OCR 결과: ['LAUNDRY', 'MANAGER']
+결과 저장 완료: output/IMG_9346_w6DHF3F_result.json
+파일이 /root/Laundry-Manager/media/laundry_symbols/IMG_9346_ipzHO5I.png 에 저장되었습니다.
+OCR 결과: ['LAUNDRY', 'MANAGER']
+결과 저장 완료: output/IMG_9346_IxWzLzv_result.json
+OCR 결과: ['LAUNDRY', 'MANAGER']
+결과 저장 완료: output/IMG_9346_RVIJIwv_result.json
+파일이 /root/Laundry-Manager/media/laundry_symbols/IMG_9346_l7mnl29.png 에 저장되었습니다.
+OCR 결과: ['LAUNDRY', 'MANAGER']
+결과 저장 완료: output/IMG_9346_ipzHO5I_result.json
+OCR 결과: ['LAUNDRY', 'MANAGER']
+결과 저장 완료: output/IMG_9346_l7mnl29_result.json
+세션에서 가져온 OCR 결과: ['LAUNDRY', 'MANAGER']
+세션에서 가져온 소재: 면
+세션에서 가져온 얼룩: ['커피']
+Watching for file changes with StatReloader
+/root/Laundry-Manager/laundry_manager/views.py changed, reloading.
+✅ NAVER_MAP_CLIENT_ID: omig7fijn3
+Performing system checks...
+
+세탁 기호 정의 로드 오류: [Errno 2] No such file or directory: '/root/Laundry-Manager/laundry_app/washing_symbol.json'
+Error: JSON file not found at /root/Laundry-Manager/laundry_temp_json/persil_v2.json
+System check identified no issues (0 silenced).
+August 09, 2025 - 14:39:37
+Django version 5.2.4, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+/root/Laundry-Manager/laundry_manager/views.py changed, reloading.
+✅ NAVER_MAP_CLIENT_ID: omig7fijn3
+Performing system checks...
+
+세탁 기호 정의 로드 오류: [Errno 2] No such file or directory: '/root/Laundry-Manager/laundry_app/washing_symbol.json'
+Error: JSON file not found at /root/Laundry-Manager/laundry_temp_json/persil_v2.json
+System check identified no issues (0 silenced).
+August 09, 2025 - 14:39:46
+Django version 5.2.4, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+/root/Laundry-Manager/laundry_manager/urls.py changed, reloading.
+✅ NAVER_MAP_CLIENT_ID: omig7fijn3
+Performing system checks...
+
+세탁 기호 정의 로드 오류: [Errno 2] No such file or directory: '/root/Laundry-Manager/laundry_app/washing_symbol.json'
+Error: JSON file not found at /root/Laundry-Manager/laundry_temp_json/persil_v2.json
+System check identified no issues (0 silenced).
+August 09, 2025 - 14:39:55
+Django version 5.2.4, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+[09/Aug/2025 14:40:58] "GET /map-test/ HTTP/1.1" 200 1312
+Internal Server Error: /api/shops/mapo/
+Traceback (most recent call last):
+  File "/root/Laundry-Manager/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/root/Laundry-Manager/venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/Laundry-Manager/laundry_manager/views.py", line 57, in shops_mapo
+    with open(data_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/root/Laundry-Manager/data/서울시 마포구 세탁업 인허가 정보.json'
+[09/Aug/2025 14:40:58] "GET /api/shops/mapo/ HTTP/1.1" 500 66414
+[09/Aug/2025 14:41:21] "GET /map-test/ HTTP/1.1" 200 1312
+Internal Server Error: /api/shops/mapo/
+Traceback (most recent call last):
+  File "/root/Laundry-Manager/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/root/Laundry-Manager/venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/Laundry-Manager/laundry_manager/views.py", line 57, in shops_mapo
+    with open(data_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/root/Laundry-Manager/data/서울시 마포구 세탁업 인허가 정보.json'
+[09/Aug/2025 14:41:21] "GET /api/shops/mapo/ HTTP/1.1" 500 66265
+[09/Aug/2025 14:44:39] "GET /map-test/ HTTP/1.1" 200 2008
+[09/Aug/2025 14:45:28] "GET /map-test/ HTTP/1.1" 200 2008
+[09/Aug/2025 14:45:29] "GET /map-test/ HTTP/1.1" 200 2008
+[09/Aug/2025 14:45:29] "GET /map-test/ HTTP/1.1" 200 2008
+[09/Aug/2025 14:45:30] "GET /map-test/ HTTP/1.1" 200 2008
+[09/Aug/2025 14:45:30] "GET /map-test/ HTTP/1.1" 200 2008
+[09/Aug/2025 14:45:30] "GET /map-test/ HTTP/1.1" 200 2008
+[09/Aug/2025 14:45:30] "GET /map-test/ HTTP/1.1" 200 2008
+[09/Aug/2025 14:45:30] "GET /map-test/ HTTP/1.1" 200 2008
+[09/Aug/2025 14:45:31] "GET /map-test/ HTTP/1.1" 200 2008
+[09/Aug/2025 14:45:31] "GET /map-test/ HTTP/1.1" 200 2008
+[09/Aug/2025 14:45:31] "GET /map-test/ HTTP/1.1" 200 2008
+[09/Aug/2025 14:45:31] "GET /map-test/ HTTP/1.1" 200 2008
+[09/Aug/2025 14:45:31] "GET /map-test/ HTTP/1.1" 200 2008
+[09/Aug/2025 14:45:32] "GET /map-test/ HTTP/1.1" 200 2008
+[09/Aug/2025 14:45:32] "GET /map-test/ HTTP/1.1" 200 2008
+[09/Aug/2025 14:46:36] "GET /map-test/ HTTP/1.1" 200 2279
+[09/Aug/2025 14:46:38] "GET /map-test/ HTTP/1.1" 200 2279
+[09/Aug/2025 14:46:38] "GET /map-test/ HTTP/1.1" 200 2279
+[09/Aug/2025 14:46:38] "GET /map-test/ HTTP/1.1" 200 2279
+[09/Aug/2025 14:46:38] "GET /map-test/ HTTP/1.1" 200 2279
+[09/Aug/2025 14:46:39] "GET /map-test/ HTTP/1.1" 200 2279
+[09/Aug/2025 14:46:39] "GET /map-test/ HTTP/1.1" 200 2279
+[09/Aug/2025 14:46:39] "GET /map-test/ HTTP/1.1" 200 2279
+[09/Aug/2025 14:46:39] "GET /map-test/ HTTP/1.1" 200 2279
+[09/Aug/2025 14:46:39] "GET /map-test/ HTTP/1.1" 200 2279
+[09/Aug/2025 14:46:40] "GET /map-test/ HTTP/1.1" 200 2279
+[09/Aug/2025 14:46:40] "GET /map-test/ HTTP/1.1" 200 2279
+[09/Aug/2025 14:50:23] "GET /map-test/ HTTP/1.1" 200 2279
+/root/Laundry-Manager/laundry_manager/urls.py changed, reloading.
+✅ NAVER_MAP_CLIENT_ID: omig7fijn3
+Performing system checks...
+
+세탁 기호 정의 로드 오류: [Errno 2] No such file or directory: '/root/Laundry-Manager/laundry_app/washing_symbol.json'
+Error: JSON file not found at /root/Laundry-Manager/laundry_temp_json/persil_v2.json
+System check identified no issues (0 silenced).
+August 09, 2025 - 14:40:31
+Django version 5.2.4, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.12/threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "/root/Laundry-Manager/venv/lib/python3.12/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/root/Laundry-Manager/venv/lib/python3.12/site-packages/django/core/management/commands/runserver.py", line 134, in inner_run
+    self.check(**check_kwargs)
+  File "/root/Laundry-Manager/venv/lib/python3.12/site-packages/django/core/management/base.py", line 492, in check
+    all_issues = checks.run_checks(
+                 ^^^^^^^^^^^^^^^^^^
+  File "/root/Laundry-Manager/venv/lib/python3.12/site-packages/django/core/checks/registry.py", line 89, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/Laundry-Manager/venv/lib/python3.12/site-packages/django/core/checks/urls.py", line 136, in check_custom_error_handlers
+    handler = resolver.resolve_error_handler(status_code)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/Laundry-Manager/venv/lib/python3.12/site-packages/django/urls/resolvers.py", line 732, in resolve_error_handler
+    callback = getattr(self.urlconf_module, "handler%s" % view_type, None)
+                       ^^^^^^^^^^^^^^^^^^^
+  File "/root/Laundry-Manager/venv/lib/python3.12/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/root/Laundry-Manager/venv/lib/python3.12/site-packages/django/urls/resolvers.py", line 711, in urlconf_module
+    return import_module(self.urlconf_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/root/Laundry-Manager/config/urls.py", line 23, in <module>
+    path('', include('laundry_manager.urls')),  # 앱 메인 연결
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/Laundry-Manager/venv/lib/python3.12/site-packages/django/urls/conf.py", line 39, in include
+    urlconf_module = import_module(urlconf_module)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/root/Laundry-Manager/laundry_manager/urls.py", line 34, in <module>
+    path('dictionary/', dictionary.dictionary, name='dictionary'),
+                        ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'function' object has no attribute 'dictionary'
+/root/Laundry-Manager/laundry_manager/urls.py changed, reloading.
+✅ NAVER_MAP_CLIENT_ID: omig7fijn3
+Performing system checks...
+
+세탁 기호 정의 로드 오류: [Errno 2] No such file or directory: '/root/Laundry-Manager/laundry_app/washing_symbol.json'
+Watching for file changes with StatReloader
+Error: That port is already in use.
+✅ NAVER_MAP_CLIENT_ID: omig7fijn3

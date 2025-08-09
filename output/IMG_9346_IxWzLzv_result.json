@@ -1,0 +1,86 @@
+{
+    "filename": "IMG_9346_IxWzLzv.png",
+    "recognized_texts": [
+        "LAUNDRY",
+        "MANAGER"
+    ],
+    "symbol_definition": "인식된 기호 설명 없음",
+    "ocr_raw_response": {
+        "version": "V2",
+        "requestId": "5184a852-dfda-4208-b5a0-fae18888760b",
+        "timestamp": 1754696883639,
+        "images": [
+            {
+                "uid": "b1a45e062983412f89374529487104a6",
+                "name": "IMG_9346_IxWzLzv.png",
+                "inferResult": "SUCCESS",
+                "message": "SUCCESS",
+                "validationResult": {
+                    "result": "NO_REQUESTED"
+                },
+                "convertedImageInfo": {
+                    "width": 1024,
+                    "height": 1024,
+                    "pageIndex": 0,
+                    "longImage": false
+                },
+                "fields": [
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 299.0,
+                                    "y": 703.0
+                                },
+                                {
+                                    "x": 722.0,
+                                    "y": 702.0
+                                },
+                                {
+                                    "x": 722.0,
+                                    "y": 768.0
+                                },
+                                {
+                                    "x": 299.0,
+                                    "y": 769.0
+                                }
+                            ]
+                        },
+                        "inferText": "LAUNDRY",
+                        "inferConfidence": 1.0,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 384.0,
+                                    "y": 786.0
+                                },
+                                {
+                                    "x": 643.0,
+                                    "y": 786.0
+                                },
+                                {
+                                    "x": 643.0,
+                                    "y": 824.0
+                                },
+                                {
+                                    "x": 384.0,
+                                    "y": 824.0
+                                }
+                            ]
+                        },
+                        "inferText": "MANAGER",
+                        "inferConfidence": 1.0,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    }
+                ]
+            }
+        ]
+    }
+}
