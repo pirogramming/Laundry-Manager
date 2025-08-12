@@ -1,0 +1,106 @@
+/* contact.html 페이지 전용 스타일 */
+
+.page-container {
+    position: relative; width: 100%; max-width: 420px; height: 100vh;
+    margin: 0 auto; background-color: var(--color-background);
+    display: flex; flex-direction: column; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    overflow: hidden; opacity: 0; /* Motion One 애니메이션용 */
+}
+.content-wrapper {
+    flex-grow: 1; overflow-y: auto; padding-bottom: 85px;
+}
+.content-wrapper::-webkit-scrollbar { display: none; }
+
+/* --- 상단 파란색 헤더 --- */
+.contact-header {
+    background-color: var(--color-primary); color: var(--color-container);
+    padding: 15px 20px; height: 120px; flex-shrink: 0;
+}
+.contact-header .top-nav {
+    display: flex; justify-content: space-between; align-items: center;
+}
+.top-nav h1 { font-size: 18px; font-weight: 700; flex-grow: 1; text-align: center; }
+.contact-header .icon-btn {
+    background: none; border: none; color: var(--color-container);
+    cursor: pointer; font-size: 16px; text-decoration: none;
+}
+.top-nav .icon-btn:last-child { visibility: hidden; }
+
+/* --- 메인 콘텐츠 (흰색 카드) --- */
+.contact-content {
+    background-color: var(--color-container); padding: 30px 25px;
+    border-radius: 30px; margin: -50px 15px 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    position: relative; z-index: 10;
+}
+
+/* --- 각 섹션 스타일 --- */
+.intro-section { text-align: center; margin-bottom: 25px; }
+.intro-section h3 { font-size: 20px; font-weight: 700; margin-bottom: 10px; }
+.intro-section p { font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; }
+
+.contact-methods {
+    display: flex; justify-content: center; gap: 15px;
+    margin-bottom: 30px; padding-bottom: 30px;
+    border-bottom: 1px solid var(--color-border);
+}
+.contact-item {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    text-decoration: none; color: var(--color-text-secondary); font-size: 13px;
+}
+.contact-item i {
+    width: 40px; height: 40px; border-radius: 50%;
+    background-color: var(--color-background); color: var(--color-primary);
+    display: flex; justify-content: center; align-items: center; font-size: 18px;
+}
+
+/* --- 문의 폼 --- */
+.inquiry-form .input-group { margin-bottom: 15px; }
+.input-group label {
+    display: block; font-size: 14px; font-weight: 500;
+    color: var(--color-text-primary); margin-bottom: 8px;
+}
+.input-group input, .input-group textarea, .select-wrapper {
+    width: 100%; background-color: var(--color-background);
+    border: 1px solid var(--color-border); border-radius: 10px;
+    padding: 12px 15px; font-size: 15px; font-family: 'Noto Sans KR', sans-serif;
+}
+.input-group input:focus, .input-group textarea:focus {
+    outline: none; border-color: var(--color-primary);
+}
+.select-wrapper { position: relative; }
+.select-wrapper select {
+    width: 100%; -webkit-appearance: none; appearance: none;
+    background: transparent; border: none; outline: none;
+}
+.select-wrapper i {
+    position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
+    color: var(--color-text-tertiary); pointer-events: none;
+}
+.privacy-consent {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin-top: 20px;
+}
+.privacy-consent input { margin-top: 3px; }
+.privacy-consent label { font-size: 12px; color: var(--color-text-tertiary); line-height: 1.5; }
+.submit-button {
+    width: 100%; background-color: var(--color-primary); color: var(--color-container);
+    padding: 16px; border-radius: 12px; font-size: 16px; font-weight: 700;
+    border: none; cursor: pointer; margin-top: 20px;
+}
+
+/* --- FAQ 및 안내 --- */
+.faq-link {
+    display: flex; justify-content: space-between; align-items: center;
+    background-color: var(--color-background); padding: 15px; border-radius: 12px;
+    text-decoration: none; margin-top: 30px;
+}
+.faq-link-text h4 { font-size: 15px; font-weight: 700; color: var(--color-text-primary); }
+.faq-link-text p { font-size: 12px; color: var(--color-text-secondary); }
+.faq-link i { color: var(--color-primary); }
+.response-info {
+    text-align: center; font-size: 12px; color: var(--color-text-tertiary);
+    margin-top: 20px;
+}
+
+/* (하단 네비게이션 바 스타일은 style.css의 것을 재사용) */

@@ -1,0 +1,100 @@
+/* faq.html 페이지 전용 스타일 */
+
+.page-container {
+    position: relative; width: 100%; max-width: 420px; height: 100vh;
+    margin: 0 auto; background-color: var(--color-background);
+    display: flex; flex-direction: column; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    overflow: hidden; opacity: 0; /* Motion One 애니메이션용 */
+}
+.content-wrapper {
+    flex-grow: 1; overflow-y: auto; padding-bottom: 85px;
+}
+.content-wrapper::-webkit-scrollbar { display: none; }
+
+/* --- 상단 파란색 헤더 --- */
+.faq-header {
+    background-color: var(--color-primary); color: var(--color-container);
+    padding: 15px 20px; height: 120px; flex-shrink: 0;
+}
+.faq-header .top-nav {
+    display: flex; justify-content: space-between; align-items: center;
+}
+.top-nav h1 { font-size: 18px; font-weight: 700; flex-grow: 1; text-align: center; }
+.faq-header .icon-btn {
+    background: none; border: none; color: var(--color-container);
+    cursor: pointer; font-size: 16px; text-decoration: none;
+}
+.top-nav .icon-btn:last-child { visibility: hidden; } /* 제목 중앙 정렬용 */
+
+/* --- 메인 콘텐츠 (흰색 카드) --- */
+.faq-content {
+    background-color: var(--color-container); padding: 30px 25px;
+    border-radius: 30px; margin: -50px 15px 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    position: relative; z-index: 10;
+}
+
+/* --- FAQ 카테고리 --- */
+.faq-group { margin-bottom: 30px; }
+.faq-category {
+    font-size: 16px; font-weight: 700;
+    color:black; margin-bottom: 10px;
+}
+
+/* --- 아코디언 리스트 --- */
+.accordion-list { border-top: 1px solid var(--color-border); }
+.accordion-item { border-bottom: 1px solid var(--color-border); }
+
+.accordion-item summary {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 5px; cursor: pointer; list-style: none; /* 기본 마커 제거 */
+}
+.accordion-item summary::-webkit-details-marker { display: none; }
+
+.summary-title {
+    font-weight: 500;
+    color: var(--color-text-primary);
+    padding-right: 15px; /* 긴 질문이 아이콘과 겹치지 않도록 */
+}
+.arrow-icon {
+    color: var(--color-text-tertiary);
+    transition: transform 0.3s ease;
+    flex-shrink: 0; /* 아이콘이 찌그러지지 않도록 */
+}
+.accordion-item[open] > summary .arrow-icon {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    overflow: hidden; /* 애니메이션을 위해 필수 */
+}
+.accordion-content p {
+    padding: 0px 10px 20px 10px; font-size: 14px;
+    line-height: 1.7; color: var(--color-text-secondary);
+    border-top: 1px solid var(--color-border);
+    padding-top: 15px;
+}
+
+
+/* (하단 네비게이션 바 스타일은 style.css의 것을 재사용) */
+.bottom-nav {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 85px;
+    background-color: var(--color-container); display: flex;
+    justify-content: space-around; align-items: center;
+    border-top: 1px solid var(--color-border); flex-shrink: 0;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+}
+.nav-item {
+    display: flex; flex-direction: column; align-items: center;
+    text-decoration: none; color: var(--color-text-nav); font-size: 12px;
+}
+.nav-item.active { color: var(--color-primary); }
+.nav-item i { font-size: 22px; margin-bottom: 5px; }
+.nav-item-main {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    color: var(--color-container); width: 65px; height: 65px; border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    transform: translateY(-40%); box-shadow: 0 4px 12px rgba(74, 108, 255, 0.4);
+    border: 5px solid var(--color-container); cursor: pointer;
+}
+.nav-item-main i { font-size: 28px; }

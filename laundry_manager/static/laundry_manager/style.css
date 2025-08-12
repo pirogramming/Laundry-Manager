@@ -248,6 +248,7 @@ body {
     border-bottom-right-radius: 0px;
 
     box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    z-index: 999;
 }
 .nav-item {
     display: flex;

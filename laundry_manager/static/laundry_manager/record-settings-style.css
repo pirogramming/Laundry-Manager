@@ -1,0 +1,52 @@
+/* record-settings.html 페이지 전용 스타일 */
+
+.page-container {
+    position: relative; width: 100%; max-width: 420px; height: 100vh;
+    margin: 0 auto; background-color: var(--color-background);
+    display: flex; flex-direction: column; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    overflow: hidden; opacity: 0; /* Motion One 애니메이션용 */
+}
+.content-wrapper {
+    flex-grow: 1; overflow-y: auto; padding-bottom: 35px;
+}
+.content-wrapper::-webkit-scrollbar { display: none; }
+
+/* --- 상단 파란색 헤더 --- */
+.record-header {
+    background-color: var(--color-primary);
+    color: var(--color-container);
+    padding: 15px 20px;
+    height: 120px;
+    flex-shrink: 0;
+}
+.record-header .top-nav {
+    display: flex; justify-content: space-between; align-items: center;
+}
+.top-nav h1 { font-size: 18px; font-weight: 700; 
+    flex:1;
+    text-align: center;
+    margin:0;
+}
+.record-header .icon-btn, .record-header .text-btn {
+    background: none; border: none; color: var(--color-container);
+    cursor: pointer; font-size: 14px; text-decoration: none; opacity: 0.9;
+}
+
+/* --- 메인 콘텐츠 (흰색 카드) --- */
+.record-content {
+    background-color: var(--color-container);
+    padding: 25px;
+    border-radius: 30px;
+    margin: -50px 15px 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 10;
+    min-height: 80%;
+}
+.history-item{
+    text-decoration: none;
+    color: inherit;
+    opacity: 0; /* Motion One stagger 애니메이션용 */
+}
+
+/* (하단 네비게이션 바 스타일은 style.css의 것을 재사용) */
