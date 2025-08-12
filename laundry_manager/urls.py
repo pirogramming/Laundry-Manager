@@ -1,12 +1,11 @@
 # laundry_manager/urls.py
 from django.urls import path
-from .views import pages, ocr, stains, info_flow, maps
+from .views import pages, ocr, stains, info_flow, maps, history
 import laundry_manager.views.dictionary as dictionary_views  # 이전 이슈 피하려고 모듈 임포트
 
 urlpatterns = [
     path('', pages.main_page, name='main'),
 
-    # ✅ 예전 이름 복구 (템플릿 호환)
     path('laundry-upload/', ocr.upload_view, name='laundry-upload'),
 
     # (페이지 전용 라우트는 계속 유지하고 싶다면 별도 경로 사용)
@@ -46,6 +45,7 @@ urlpatterns = [
     
     path('contact-settings/', pages.contact_settings_page, name='contact-settings'), 
     
-    path('record-settings/', pages.record_settings_page, name='record-settings'), 
+    path('record-settings/', history.record_settings_page, name='record-settings'), 
+    path('history/<int:history_id>/', history.laundry_history_detail_view, name='laundry_history_detail'),
     
 ]

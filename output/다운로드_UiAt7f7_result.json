@@ -1,5 +1,5 @@
 {
-    "filename": "다운로드.jpg",
+    "filename": "다운로드_UiAt7f7.jpg",
     "recognized_texts": [
         "wookimiabick",
         "###",
@@ -10,12 +10,12 @@
     "symbol_definition": "인식된 기호 설명 없음",
     "ocr_raw_response": {
         "version": "V2",
-        "requestId": "cfa7d88e-c515-4e5a-9c3c-dabbff4cd464",
-        "timestamp": 1754978966536,
+        "requestId": "a8e554a8-3d74-4f97-b2ef-f9542d586d72",
+        "timestamp": 1754989854355,
         "images": [
             {
-                "uid": "a6046511387e43fc9977aa2582a4619b",
-                "name": "다운로드.jpg",
+                "uid": "cb4d95c4db4b42899e85f4d4d473a6a9",
+                "name": "다운로드_UiAt7f7.jpg",
                 "inferResult": "SUCCESS",
                 "message": "SUCCESS",
                 "validationResult": {

@@ -25,47 +25,19 @@
 
             <main class="record-content">
                 <div class="history-list">
-                    <a href="#" class="history-item">
-                        <img src="https://i.ibb.co/L5w2S9h/scooter.png" alt="블랙 니트" class="history-img">
+                    {% for record in records %}
+                    <a href="{% url 'laundry_history_detail' record.pk %}" class="history-item">
+                        <img src="{{ record.get_stain_image_url }}" alt="{{ record.stains }}" class="history-img">
                         <div class="history-details">
-                            <h4>블랙 니트 / 핏자국 제거</h4>
-                            <p>12시간 전 검색</p>
+                            <h4>{{ record.materials }} / {{ record.stains }} 제거</h4>
+                            <p>{{ record.created_at|timesince }} 전 검색</p>
                         </div>
                         <i class="fa-solid fa-chevron-right"></i>
                     </a>
-                    <a href="#" class="history-item">
-                        <img src="https://i.ibb.co/L5w2S9h/scooter.png" alt="블랙 니트" class="history-img">
-                        <div class="history-details">
-                            <h4>블랙 니트 / 얼룩 제거</h4>
-                            <p>1일 전 검색</p>
-                        </div>
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </a>
-                    <a href="#" class="history-item">
-                        <img src="https://i.ibb.co/L5w2S9h/scooter.png" alt="블랙 니트" class="history-img">
-                        <div class="history-details">
-                            <h4>청바지 / 커피 얼룩</h4>
-                            <p>2일 전 검색</p>
-                        </div>
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </a>
-                    <a href="#" class="history-item">
-                        <img src="https://i.ibb.co/L5w2S9h/scooter.png" alt="블랙 니트" class="history-img">
-                        <div class="history-details">
-                            <h4>흰 셔츠 / 와인 자국</h4>
-                            <p>5일 전 검색</p>
-                        </div>
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </a>
-                     <a href="#" class="history-item">
-                        <img src="https://i.ibb.co/L5w2S9h/scooter.png" alt="블랙 니트" class="history-img">
-                        <div class="history-details">
-                            <h4>면 티셔츠 / 땀 얼룩</h4>
-                            <p>1주 전 검색</p>
-                        </div>
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </a>
-                </div>
+                    {% empty %}
+                        <p style="text-align: center; color: #888;">아직 기록이 없습니다.</p>
+                    {% endfor %}
+                    </div>
             </main>
         </div>
 

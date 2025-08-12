@@ -26,7 +26,9 @@
                 <div class="user-info">
                     <div class="avatar-placeholder"></div>
                     <div class="user-details">
-                        <h4>Hayun Kim</h4>
+                        {% if user.is_authenticated %}
+                            <h2>{{ display_name }} 님</h2>
+                        {% endif %}
                         <p>0123-4567-890</p>
                     </div>
                 </div>
@@ -54,12 +56,15 @@
                     </a>
                 </div>
 
-                <button class="logout-button">로그아웃</button>
+                <form method="post" action="{% url 'account_logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-button">로그아웃</button>
+                </form>
             </main>
         </div>
 
         <nav class="bottom-nav">
-            <a href="{% url 'main2' %}" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+            <a href="{% url 'main' %}" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
             <a href="{% url 'dictionary' %}" class="nav-item"><i class="fa-solid fa-book-open"></i><span>Dictionary</span></a>
             <a href="{% url 'laundry-upload' %}" class="nav-item-main"><i class="fa-solid fa-camera"></i></a>
             <a href="#" class="nav-item"><i class="fa-solid fa-credit-card"></i><span>My Cards</span></a>

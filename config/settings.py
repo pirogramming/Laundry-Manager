@@ -21,6 +21,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['49.50.130.16', 'localhost', '127.0.0.1']
 
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+    'http://49.50.130.16:8000',
+    'https://yourdomain.com',
+]
+
 # Naver Map API 클라 아이디와 시크릿
 NAVER_MAP_CLIENT_KEY = config("NAVER_MAP_CLIENT_KEY")
 NAVER_MAP_CLIENT_SECRET = config("NAVER_MAP_CLIENT_SECRET")
@@ -42,7 +49,9 @@ SOCIALACCOUNT_PROVIDERS = {
             'client_id': os.getenv('KAKAO_CLIENT_ID'),
             'secret': os.getenv('KAKAO_CLIENT_SECRET'),
             'key': ''
-        }
+        },
+        'SCOPE': ['profile_nickname'],  # 콘솔 동의항목과 일치시켜야 함
+        'AUTH_PARAMS': {'prompt': 'select_account'},
     }
 }
 
@@ -77,14 +86,18 @@ AUTHENTICATION_BACKENDS = [
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'http'
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_AUTO_SIGNUP = True
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
-    "allauth.account.middleware.AccountMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",  # ← 이게 먼저
+    "allauth.account.middleware.AccountMiddleware",            # ← 그 다음
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -151,15 +164,30 @@ USE_I18N = True
 
 USE_TZ = True
 
+# 디버깅에 도움되는 로깅
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {'console': {'class': 'logging.StreamHandler'}},
+    'loggers': {
+        'allauth': {'handlers': ['console'], 'level': 'DEBUG'},
+        'allauth.socialaccount': {'handlers': ['console'], 'level': 'DEBUG'},  # ← 추가
+        'django.security.csrf': {'handlers': ['console'], 'level': 'DEBUG'},
+    },
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = "static/"
+#STATICFILES_DIRS = [
+#    os.path.join(BASE_DIR, 'stain_image'),
+#]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-print("✅ NAVER_MAP_CLIENT_ID:", NAVER_MAP_CLIENT_KEY)
+
+
