@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.templatetags.static import static
 
 class UploadedImage(models.Model):
     image = models.ImageField(upload_to='laundry_symbols/')
@@ -76,6 +77,54 @@ class LaundryHistory(models.Model):
     
     # 기록 생성일
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def get_stain_image_url(self):
+        STAIN_IMAGE_MAP = {
+            '혈흔' :'blood.webp',
+            '화장품 얼룩' :'cosmetic.webp',
+            '땀 얼룩': 'sweat-armpit.webp',
+            '커피와 차 얼룩': 'coffee.webp',
+            '펜과 잉크 얼룩': 'pen.webp',
+            '강황 얼룩': 'curcuma.webp',
+            '겨자, 케첩, 소스 얼룩': 'sauce.webp',
+            '곰팡이 얼룩': 'mold.webp',
+            '과일 및 야채 얼룩': 'fruit.webp',
+            '껌 얼룩': 'gum.webp',
+            '꽃가루 얼룩': 'flower.webp',
+            '녹 얼룩': 'rust.webp',
+            '대변, 소변, 구토 얼룩': 'poop.webp',
+            '먼지와 진흙얼룩': 'dust.webp',
+            '모발 염료 및 염색약 얼룩': 'hair-dye.webp',
+            '매니큐어 얼룩': 'manicure.webp',
+            '반려동물 소변 및 배설물 얼룩': 'poop.webp',
+            '세탁과 건조 후 생긴 얼룩': 'after-laundry.webp',
+            '섬유 유연제 얼룩': 'fabric-softner.webp',
+            '아보카도 얼룩': 'avocado.webp',
+            '아이스크림 얼룩': 'icecream.webp',
+            '염색약, 페인트 등의 색상 얼룩': 'hair-dye.webp',
+            '음식 얼룩': 'food-stain.webp',
+            '윤활유 및 기름 얼룩': 'oil.webp',
+            '적포도주 얼룩': 'wine.webp',
+            '주스 얼룩': 'juice.webp',
+            '자외선 차단제, 크림 및 로션 얼룩': 'suncream.webp',
+            '잔디의 녹색 색소 얼룩': 'grass.webp',
+            '청바지 얼룩': 'jean.webp',
+            '초콜릿 얼룩': 'chocolate.webp',
+            '치약 얼룩': 'toothpaste.webp',
+            '카레와 향신료 얼룩': 'curry.webp',
+            '크레용 및 염색약 얼룩': 'crayon.webp', # '왁스'에서 '염색약'으로 수정 제안
+            '탈취제 얼룩': 'deodorant.webp',
+            '토마토 얼룩': 'tomato.webp',
+        }
+
+        if not self.stains:
+            return static('stain_image/default.webp') 
+
+        primary_stain = self.stains.split(',')[0].strip()
+
+        image_filename = STAIN_IMAGE_MAP.get(primary_stain, 'default.webp')
+
+        return static(f'stain_image/{image_filename}')
 
     def __str__(self):
         # Django 기본 User 모델은 username 속성을 가집니다.
