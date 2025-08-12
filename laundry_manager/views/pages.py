@@ -3,25 +3,66 @@ from django.contrib.auth.decorators import login_required
 from allauth.socialaccount.models import SocialAccount
 from django.shortcuts import render
 
+def _social_name_and_image(user):
+    """
+    allauth SocialAccount.extra_data에서
+    Google/Kakao 공통으로 이름, 프로필 이미지 URL을 추출
+    """
+    social = SocialAccount.objects.filter(user=user).first()
+    if not social:
+        return (user.get_full_name() or user.username, None)
+
+    data = social.extra_data
+    provider = social.provider
+
+    # Google
+    if provider == "google":
+        name = data.get("name") or user.get_full_name() or user.username
+        image = data.get("picture")
+
+    # Kakao
+    elif provider == "kakao":
+        # 신규 스키마
+        kakao_account = data.get("kakao_account", {}) or {}
+        profile = kakao_account.get("profile", {}) or {}
+        # 구 스키마 호환 (properties)
+        properties = data.get("properties", {}) or {}
+
+        name = (
+            profile.get("nickname")
+            or properties.get("nickname")
+            or user.get_full_name()
+            or user.username
+        )
+        image = (
+            profile.get("profile_image_url")
+            or properties.get("profile_image")
+        )
+
+    else:
+        name = user.get_full_name() or user.username
+        image = None
+
+    return name, image
+
+
 @login_required
 def main_page(request):
-    profile_image = None
-    display_name = request.user.username  # 기본값
+    display_name, profile_image = _social_name_and_image(request.user)
 
-    try:
-        social_account = SocialAccount.objects.get(user=request.user, provider='google')
-        extra_data = social_account.extra_data
-        profile_image = extra_data.get('picture')   # 구글 프로필 사진 URL
-        display_name = extra_data.get('name', request.user.username)
-    except SocialAccount.DoesNotExist:
-        pass  # 일반 로그인 유저일 경우
+    # 기존 records 로직 유지
+    records = []  # 실제 쿼리로 대체
 
-    records = []  # 필요 시 DB 조회
-    return render(request, 'laundry_manager/main.html', {
-        'records': records,
-        'profile_image': profile_image,
-        'display_name': display_name
-    })
+    return render(
+        request,
+        "laundry_manager/main.html",
+        {
+            "records": records,
+            "display_name": display_name,
+            "profile_image": profile_image,
+        },
+    )
+
 
 
 def laundry_upload_page(request):
