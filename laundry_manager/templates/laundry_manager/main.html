@@ -46,21 +46,15 @@
                 <h3>기록보기</h3>
                 <div class="history-list">
                     {% for record in records %}
-                    <a href="{% url 'record-detail' record.pk %}" class="history-item">
-                        <img src="https://i.ibb.co/L5w2S9h/scooter.png" alt="블랙 니트" class="history-img">
-                            <div class="history-details">
-                                <h4>{{ record.clothing.name }} / {{ record.stain.name }} 제거</h4>
-                                <p>{{ record.created_at|timesince }} 전 검색</p>
-                                <!-- <div class="rating">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>                                        <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-regular fa-star"></i>
-                                </div> -->
-                            </div>
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </a>
-                    {% empty %}
+                    <a href="{% url 'laundry_history_detail' record.pk %}" class="history-item">
+                    <img src="https://i.ibb.co/L5w2S9h/scooter.png" alt="세탁 기록" class="history-img">
+                    <div class="history-details">
+                        <h4>{{ record.materials }} / {{ record.stains }} 제거</h4>
+                        <p>{{ record.created_at|timesince }} 전 검색</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </a>
+                {% empty %}
                     <p>아직 기록이 없습니다.</p>
                     {% endfor %}
                 </div>
