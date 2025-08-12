@@ -1,7 +1,28 @@
+# views/pages.py (또는 main_page 뷰)
+from django.contrib.auth.decorators import login_required
+from allauth.socialaccount.models import SocialAccount
 from django.shortcuts import render
 
+@login_required
 def main_page(request):
-    return render(request, "laundry_manager/main.html")
+    profile_image = None
+    display_name = request.user.username  # 기본값
+
+    try:
+        social_account = SocialAccount.objects.get(user=request.user, provider='google')
+        extra_data = social_account.extra_data
+        profile_image = extra_data.get('picture')   # 구글 프로필 사진 URL
+        display_name = extra_data.get('name', request.user.username)
+    except SocialAccount.DoesNotExist:
+        pass  # 일반 로그인 유저일 경우
+
+    records = []  # 필요 시 DB 조회
+    return render(request, 'laundry_manager/main.html', {
+        'records': records,
+        'profile_image': profile_image,
+        'display_name': display_name
+    })
+
 
 def laundry_upload_page(request):
     return render(request, "laundry_manager/laundry-upload.html")
