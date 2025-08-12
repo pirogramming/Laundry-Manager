@@ -2,17 +2,22 @@
 from django.contrib.auth.decorators import login_required
 from allauth.socialaccount.models import SocialAccount
 from django.shortcuts import render
+from ..models import LaundryHistory
 
 def _social_name_and_image(user):
-    """
-    allauth SocialAccount.extra_data에서
-    Google/Kakao 공통으로 이름, 프로필 이미지 URL을 추출
-    """
+    # 1) 로그인 안 되어 있으면 안전하게 빠르게 종료
+    if not getattr(user, "is_authenticated", False):
+        # 원하는 기본 표시 이름/이미지
+        return ("손님", None)
+
+    # 2) 로그인된 경우만 소셜 계정 조회 (FK는 객체로 비교!)
     social = SocialAccount.objects.filter(user=user).first()
     if not social:
-        return (user.get_full_name() or user.username, None)
+        # 일반 회원(소셜 연결 없음)
+        name = user.get_full_name() or user.first_name or user.username or "사용자"
+        return (name, None)
 
-    data = social.extra_data
+    data = social.extra_data or {}
     provider = social.provider
 
     # Google
@@ -22,12 +27,9 @@ def _social_name_and_image(user):
 
     # Kakao
     elif provider == "kakao":
-        # 신규 스키마
         kakao_account = data.get("kakao_account", {}) or {}
         profile = kakao_account.get("profile", {}) or {}
-        # 구 스키마 호환 (properties)
         properties = data.get("properties", {}) or {}
-
         name = (
             profile.get("nickname")
             or properties.get("nickname")
@@ -47,20 +49,27 @@ def _social_name_and_image(user):
 
 
 def main_page(request):
-    display_name, profile_image = _social_name_and_image(request.user)
+    profile_image = None
+    display_name = request.user.username if request.user.is_authenticated else '' # 기본값
 
-    # 기존 records 로직 유지
-    records = []  # 실제 쿼리로 대체
+    if request.user.is_authenticated:
+        try:
+            social_account = SocialAccount.objects.get(user=request.user, provider='google')
+            extra_data = social_account.extra_data
+            profile_image = extra_data.get('picture')   # 구글 프로필 사진 URL
+            display_name = extra_data.get('name', request.user.username)
+        except SocialAccount.DoesNotExist:
+            pass  # 일반 로그인 유저일 경우
 
-    return render(
-        request,
-        "laundry_manager/main.html",
-        {
-            "records": records,
-            "display_name": display_name,
-            "profile_image": profile_image,
-        },
-    )
+    records = []  # 필요 시 DB 조회
+    # 로그인한 사용자일 경우에만 DB에서 최근 기록 3개를 조회합니다.
+    if request.user.is_authenticated:
+        records = LaundryHistory.objects.filter(user=request.user)[:3]
+    return render(request, 'laundry_manager/main.html', {
+        'records': records,
+        'profile_image': profile_image,
+        'display_name': display_name
+    })
 
 
 

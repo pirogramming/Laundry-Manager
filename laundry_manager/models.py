@@ -12,10 +12,11 @@ class UploadedImage(models.Model):
     name = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
-    social_id = models.CharField(max_length=225, null=True, blank=True)'''
+    social_id = models.CharField(max_length=225, null=True, blank=True)
+'''
 
 class Clothing(models.Model):
-   #user = models.ForeignKey(User, on_delete=models.CASCADE)
+    #user = models.ForeignKey(User, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, null=True, blank=True)
     clothing_type = models.CharField(max_length=255, null=True, blank=True)
