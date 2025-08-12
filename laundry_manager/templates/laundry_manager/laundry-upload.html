@@ -13,12 +13,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
-    <div class="mobile-container upload-page">
+<div class="mobile-container upload-page">
+    
+    <!-- form을 header 열기 전에 시작 -->
+    <form method="POST" enctype="multipart/form-data" action="{% url 'upload_image' %}" id="uploadForm">
+        {% csrf_token %}
+
         <header class="upload-header-section">
             <nav class="top-nav">
                 <a href="{% url 'main2' %}" class="icon-btn"><i class="fa-solid fa-arrow-left"></i></a>
                 <div class="header-tabs">
-                    <button class="tab-btn active">세탁 정보 가이드</button>
+                    <button type="button" class="tab-btn active">세탁 정보 가이드</button>
                     <a href="{% url 'stain-upload' %}" class="tab-btn">얼룩 제거 가이드</a>
                 </div>
             </nav>
@@ -36,28 +41,25 @@
                 </div>
                 {% endif %}
 
-                <!-- form 시작 -->
-                <form method="POST" enctype="multipart/form-data" action="{% url 'upload_image' %}" id="uploadForm">
-                    {% csrf_token %}
+                <!-- 숨겨진 input들 -->
+                <input type="hidden" name="material" id="selected-material">
+                <input type="hidden" name="stains" id="selected-stains">
 
-                    <!-- 숨겨진 input들 -->
-                    <input type="hidden" name="material" id="selected-material">
-                    <input type="hidden" name="stains" id="selected-stains">
+                <!-- 이미지 업로드 input -->
+                <input type="file" name="image" id="id_image" hidden>
 
-                    <!-- 이미지 업로드 input -->
-                    <input type="file" name="image" id="id_image" hidden>
-
-                    <!-- 커스텀 드롭존 -->
-                    <label for="id_image" class="drop-zone">
-                        세탁 태그 이미지를 클릭해서 업로드하세요
-                    </label>
+                <!-- 커스텀 드롭존 -->
+                <label for="id_image" class="drop-zone">
+                    <span class="dz-text">세탁 태그 이미지를 업로드하세요</span>
+                    <span class="dz-filename" aria-live="polite" style="display:block;margin-top:8px;font-weight:700;"></span>
+                </label>
             </div>
         </header>
 
         <main class="manual-input-section">
             <div class="section-header">
                 <h2>직접 입력하기</h2>
-                <button class="icon-btn arrow-btn"><i class="fa-solid fa-arrow-right"></i></button>
+                <button type="button" class="icon-btn arrow-btn"><i class="fa-solid fa-arrow-right"></i></button>
             </div>
 
             <div class="section-info">
@@ -85,37 +87,18 @@
             </div>
 
             <!-- 하단 submit 버튼 -->
-            <a href="{% url 'result' %}"><button type="submit" class="submit-button">다음으로</button><a>
-            </form> <!-- form 종료 -->
+            <button type="submit" class="submit-button">다음으로</button>
         </main>
-    </div>
+
+    </form> <!-- form 종료 -->
+
+</div>
+
+
 
     <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
 
-    <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const materialItems = document.querySelectorAll("#material-selection .selectable-item");
-        const stainItems = document.querySelectorAll("#stain-selection .selectable-item");
-        const materialInput = document.getElementById("selected-material");
-        const stainsInput = document.getElementById("selected-stains");
-
-        materialItems.forEach(item => {
-            item.addEventListener("click", () => {
-                materialItems.forEach(i => i.classList.remove("active"));
-                item.classList.add("active");
-                materialInput.value = item.dataset.value;
-            });
-        });
-
-        stainItems.forEach(item => {
-            item.addEventListener("click", () => {
-                stainItems.forEach(i => i.classList.remove("active"));
-                item.classList.add("active");
-                stainsInput.value = item.dataset.value;
-            });
-        });
-    });
-    </script>
+    
 
     <script type="module" src="{% static 'laundry_manager/laundry-upload-script.js' %}"></script>
 </body>
