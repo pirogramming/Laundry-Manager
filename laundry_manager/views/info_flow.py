@@ -6,6 +6,10 @@ from ..functions.recommend import laundry_recommend, get_material_guide, get_sta
 from ..functions.info import first_info, final_info
 from django.conf import settings
 
+from ..models import LaundryHistory
+from ..functions.recommend import laundry_recommend
+from ..functions.result import format_result
+
 def load_json(filename):
     path = os.path.join(settings.BASE_DIR, 'laundry_manager', 'json_data', filename)
     with open(path, 'r', encoding='utf-8') as f:
@@ -73,9 +77,33 @@ def final_info_view(request):
                                   manual_materials=manual_materials,
                                   manual_symbols=manual_symbols,
                                   manual_stains=manual_stains)
+        # 1. 추천 결과 텍스트 생성
+        material_json = load_json('blackup.json')
+        stain_json = load_json('persil_v2.json')
+        symbol_json = load_json('washing_symbol.json')
+        guides = laundry_recommend(final_result, material_json, stain_json, symbol_json)
+        recommendation_text = format_result(guides)
+
+        # 2. 로그인 상태이면 DB에 저장
+        if request.user.is_authenticated:
+            LaundryHistory.objects.create(
+                user=request.user,
+                materials=', '.join(final_result.get("materials", [])),
+                symbols=', '.join(final_result.get("symbols", [])),
+                stains=', '.join(final_result.get("stains", [])),
+                recommendation_result=recommendation_text
+            )
+        
         return render(request, "laundry_manager/laundry_info.html", {
             "materials": final_result.get("materials", []),
             "symbols": final_result.get("symbols", []),
             "stains": final_result.get("stains", []),
+            "material_name": ", ".join(final_result.get("materials", [])), 
+            "material" : guides.get('material_guide'),
+            "stain": guides.get('stain_guide'),
+            "info": {
+                'stains': ", ".join(final_result.get("stains", [])),
+                'material': ", ".join(final_result.get("materials", []))
+            }
         })
     return JsonResponse({"error": "Invalid request"}, status=400)

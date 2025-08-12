@@ -23,6 +23,16 @@ def laundry_history_detail_view(request, history_id):
     }
     return render(request, 'laundry_manager/laundry_history_detail.html', context)
 
+#profile에서 기록보기 눌렀을 때 모든 기록 표시
+@login_required 
+def record_settings_page(request):
+    
+    all_records = LaundryHistory.objects.filter(user=request.user) 
+    
+    context = {
+        'records': all_records 
+    }
+    return render(request, "laundry_manager/record-settings.html", context)
 
 # 사용자 기록 리스트 뷰 
 '''사용자 기록들 records리스트로 반환'''

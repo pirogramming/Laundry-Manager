@@ -46,7 +46,7 @@ urlpatterns = [
     
     path('contact-settings/', pages.contact_settings_page, name='contact-settings'), 
     
-    path('record-settings/', pages.record_settings_page, name='record-settings'), 
+    path('record-settings/', history.record_settings_page, name='record-settings'), 
     path('history/<int:history_id>/', history.laundry_history_detail_view, name='laundry_history_detail'),
     
 ]

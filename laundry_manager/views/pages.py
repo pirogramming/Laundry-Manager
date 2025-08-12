@@ -2,21 +2,25 @@
 from django.contrib.auth.decorators import login_required
 from allauth.socialaccount.models import SocialAccount
 from django.shortcuts import render
+from ..models import LaundryHistory
 
-@login_required
 def main_page(request):
     profile_image = None
-    display_name = request.user.username  # 기본값
+    display_name = request.user.username if request.user.is_authenticated else '' # 기본값
 
-    try:
-        social_account = SocialAccount.objects.get(user=request.user, provider='google')
-        extra_data = social_account.extra_data
-        profile_image = extra_data.get('picture')   # 구글 프로필 사진 URL
-        display_name = extra_data.get('name', request.user.username)
-    except SocialAccount.DoesNotExist:
-        pass  # 일반 로그인 유저일 경우
+    if request.user.is_authenticated:
+        try:
+            social_account = SocialAccount.objects.get(user=request.user, provider='google')
+            extra_data = social_account.extra_data
+            profile_image = extra_data.get('picture')   # 구글 프로필 사진 URL
+            display_name = extra_data.get('name', request.user.username)
+        except SocialAccount.DoesNotExist:
+            pass  # 일반 로그인 유저일 경우
 
     records = []  # 필요 시 DB 조회
+    # 로그인한 사용자일 경우에만 DB에서 최근 기록 3개를 조회합니다.
+    if request.user.is_authenticated:
+        records = LaundryHistory.objects.filter(user=request.user)[:3]
     return render(request, 'laundry_manager/main.html', {
         'records': records,
         'profile_image': profile_image,

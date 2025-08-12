@@ -34,7 +34,7 @@
                 </div>
 
                 <div class="settings-menu">
-                    <a href="#" class="menu-item">
+                    <a href="{% url 'record-settings' %}" class="menu-item">
                         <div class="menu-icon"><i class="fa-solid fa-location-dot"></i></div>
                         <span>기록 보기</span>
                         <i class="fa-solid fa-chevron-right"></i>
@@ -72,36 +72,5 @@
     <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
     
     <script type="module" src="{% static 'laundry_manager/profile-script.js' %}"></script>
-</body>
-</html>
-
-{% load static %}
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>프로필</title>
-  <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}">
-</head>
-
-    <main>
-        <h2>📄 기록</h2>
-          <div class="history-list1">
-            {% for record in records %}
-              <a href="{% url 'record-detail' record.pk %}" class="history-item1">
-                <div class="history-details1">
-                  <h4>{{ record.clothing.name }} / {{ record.stain.name }} 제거</h4>
-                  <p>{{ record.created_at|timesince }} 전 검색</p>
-                </div>
-                <i class="fa-solid fa-chevron-right1"></i>
-              </a>
-            {% empty %}
-              <p>아직 기록이 없습니다.</p>
-            {% endfor %}
-          </div>
-        
-      
-    </main>
-
 </body>
 </html>
