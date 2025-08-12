@@ -1,6 +1,6 @@
 // static/laundry_manager/account-settings-script.js
 
-import { animate } from "https://cdn.jsdelivr.net/npm/motion@10.18.0/dist/motion.es.js";
+import { animate } from "https://cdn.jsdelivr.net/npm/motion@latest/+esm"
 
 // --- 페이지 로드 시 화면 전환 애니메이션 ---
 animate(
@@ -9,18 +9,18 @@ animate(
     { duration: 0.5, easing: "ease-out" }
 );
 
-// --- 비밀번호 보이기/숨기기 토글 ---
-const togglePassword = document.querySelector('.toggle-password');
-const passwordInput = document.getElementById('password');
-
-if (togglePassword && passwordInput) {
-    togglePassword.addEventListener('click', () => {
-        // 아이콘 모양 변경
-        const isPassword = passwordInput.type === 'password';
-        togglePassword.classList.toggle('fa-eye-slash', !isPassword);
-        togglePassword.classList.toggle('fa-eye', isPassword);
-
-        // input 타입 변경
-        passwordInput.type = isPassword ? 'text' : 'password';
+// --- 모든 버튼/링크에 대한 인터랙션 피드백 ---
+const interactiveElements = document.querySelectorAll('button, .change-pic-link');
+interactiveElements.forEach(element => {
+    element.addEventListener('pointerdown', () => {
+        animate(element, { scale: 0.98 }, { duration: 0.1 });
     });
-}
+
+    element.addEventListener('pointerup', () => {
+        animate(element, { scale: 1 }, { duration: 0.1 });
+    });
+    
+    element.addEventListener('pointerleave', () => {
+        animate(element, { scale: 1 }, { duration: 0.1 });
+    });
+});

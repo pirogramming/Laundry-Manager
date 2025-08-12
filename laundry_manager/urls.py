@@ -25,5 +25,14 @@ urlpatterns = [
     path('main2/', views.main2_page, name='main2'), 
     path('profile/', views.profile_page, name='profile'), 
     path('settings/', views.settings_page, name='settings'), 
+    path('settings-developer/', views.settings_developer_page, name='settings-developer'), 
+    path('settings-faq/', views.settings_faq_page, name='settings-faq'), 
+    path('settings-opensource/', views.settings_opensource_page, name='settings-opensource'), 
+    path('settings-terms/', views.settings_terms_page, name='settings-terms'), 
+    path('settings-privacy/', views.settings_privacy_page, name='settings-privacy'), 
+        
     path('account-settings/', views.account_settings_page, name='acount-settings'), 
+    
+    path('contact-settings/', views.contact_settings_page, name='contact-settings'), 
+    
 ]

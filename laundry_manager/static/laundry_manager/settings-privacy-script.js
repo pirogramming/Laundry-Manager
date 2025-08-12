@@ -1,4 +1,4 @@
-// static/laundry_manager/profile-script.js
+// static/laundry_manager/settings-privacy-script.js
 
 import { animate } from "https://cdn.jsdelivr.net/npm/motion@latest/+esm"
 
@@ -9,17 +9,15 @@ animate(
     { duration: 0.5, easing: "ease-out" }
 );
 
-// --- 모든 버튼/링크에 대한 인터랙션 피드백 ---
-const interactiveElements = document.querySelectorAll('button, a.menu-item');
+// --- 헤더 버튼 인터랙션 피드백 ---
+const interactiveElements = document.querySelectorAll('.icon-btn');
 interactiveElements.forEach(element => {
     element.addEventListener('pointerdown', () => {
-        animate(element, { scale: 0.98 }, { duration: 0.1 });
+        animate(element, { scale: 0.95 }, { duration: 0.1 });
     });
-
     element.addEventListener('pointerup', () => {
         animate(element, { scale: 1 }, { duration: 0.1 });
     });
-    
     element.addEventListener('pointerleave', () => {
         animate(element, { scale: 1 }, { duration: 0.1 });
     });

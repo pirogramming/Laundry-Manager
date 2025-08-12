@@ -1,4 +1,4 @@
-/* settings.html 페이지 전용 스타일 */
+/* opensource.html 페이지 전용 스타일 */
 
 .page-container {
     position: relative; width: 100%; max-width: 420px; height: 100vh;
@@ -8,101 +8,80 @@
 }
 .content-wrapper {
     flex-grow: 1; overflow-y: auto; padding-bottom: 85px;
-    background-color: var(--white-background);
-    
 }
 .content-wrapper::-webkit-scrollbar { display: none; }
 
 /* --- 상단 파란색 헤더 --- */
-.settings-header {
+.opensource-header {
     background-color: var(--color-primary);
     color: var(--color-container);
     padding: 15px 20px;
-    height: 150px;
+    height: 120px;
     flex-shrink: 0;
 }
-.settings-header .top-nav {
-    display: flex; justify-content: space-between; align-items: center;
-    
-}
-.top-nav h1 { font-size: 18px; font-weight: 700; 
-    flex:1;
-    text-align: center;
-    margin:0;
-}
-.settings-header .icon-btn, .settings-header .text-btn {
-    background: none; border: none; color: var(--color-container);
-    cursor: pointer; font-size: 14px; text-decoration: none; opacity: 0.9;
-}
-
-/* --- 메인 콘텐츠 (흰색 카드) --- */
-.settings-content {
-    background-color: var(--color-container);
-    padding: 25px;
-    border-radius: 30px;
-    margin: -80px 15px 0;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    position: relative;
-    z-index: 10;
-    min-height: 900px;  
-}
-
-/* --- 설정 그룹 --- */
-.settings-group {
-    margin-bottom: 15px;
-}
-.group-title {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--color-text-tertiary);
-    margin-bottom: 5px;
-    padding-left: 5px;
-}
-.menu-list {
-    border-top: 1px solid var(--color-border);
-}
-.menu-item {
+.opensource-header .top-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 18px 5px;
-    text-decoration: none;
-    color: var(--color-text-primary);
-    font-size: 16px;
-    font-weight: 500;
+}
+.top-nav h1 {
+    font-size: 18px;
+    font-weight: 700;
+    flex-grow: 1;
+    text-align: center;
+}
+.opensource-header .icon-btn {
+    background: none; border: none; color: var(--color-container);
+    cursor: pointer; font-size: 16px; text-decoration: none;
+}
+/* 제목 중앙 정렬을 위해 오른쪽에도 버튼과 같은 공간 차지하는 요소 배치 */
+.top-nav .icon-btn:last-child { visibility: hidden; } 
+
+/* --- 메인 콘텐츠 (흰색 카드) --- */
+.opensource-content {
+    background-color: var(--color-container);
+    padding: 30px 25px;
+    border-radius: 30px;
+    margin: -50px 15px 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 10;
+}
+
+/* --- 라이선스 목록 스타일 --- */
+.license-item {
+    padding: 15px 0;
     border-bottom: 1px solid var(--color-border);
 }
-.menu-value {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--color-text-tertiary);
-    font-weight: 400;
+.license-item:first-child {
+    padding-top: 0;
 }
-.menu-item > i.fa-chevron-right,
-.menu-value > i.fa-chevron-right {
-    font-size: 14px;
+.license-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
 }
-
-/* --- 로그아웃 버튼 --- */
-.logout-button {
-    width: 100%;
-    background-color: var(--color-primary);
-    color: var(--color-container);
-    padding: 16px;
-    border-radius: 15px;
+.license-item h3 {
     font-size: 16px;
     font-weight: 700;
-    border: none;
-    cursor: pointer;
-    margin-top: 25px;
+    color: var(--color-text-primary);
+    margin-bottom: 8px;
+}
+.license-item p {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+}
+.license-item .license-type {
+    font-weight: 500;
+    color: var(--color-primary);
+    margin-top: 4px;
 }
 
-/* --- 하단 네비게이션 바 (메인 CSS 재사용) --- */
+/* --- 하단 네비게이션 바 --- */
 .bottom-nav {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    height: 85px; background-color: var(--color-container);
-    display: flex; justify-content: space-around; align-items: center;
+    position: absolute; bottom: 0; left: 0; right: 0; height: 85px;
+    background-color: var(--color-container); display: flex;
+    justify-content: space-around; align-items: center;
     border-top: 1px solid var(--color-border); flex-shrink: 0;
     box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
 }

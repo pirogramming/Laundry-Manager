@@ -1,8 +1,8 @@
 // static/laundry_manager/main-script.js
 
-// 1. Motion One 라이브러리 함수들을 CDN에서 직접 import 합니다.
+
 import { animate, scroll } from "https://cdn.jsdelivr.net/npm/motion@latest/+esm"
-// --- 페이지 로드 시 화면 전환 애니메이션 ---
+
 animate(
     ".mobile-container",
     { opacity: [0, 1] },
@@ -10,10 +10,13 @@ animate(
 );
 
 // --- Swiper.js 캐러셀 초기화 (새로 추가) ---
+
+
 const swiper = new Swiper('.main-swiper', {
-    slidesPerView: 'auto', // 한 번에 보이는 슬라이드 개수 (CSS 너비에 따라 자동)
-    spaceBetween: -20,     // 슬라이드 간 간격 (겹쳐보이게)
-    centeredSlides: true,  // 활성 슬라이드를 가운데로
+    slidesPerView: 1, // 한 번에 보이는 슬라이드 개수 (CSS 너비에 따라 자동)
+    spaceBetween: 12,
+  
+// 활성 슬라이드를 가운데로
     loop: true,            // 무한 루프
     
     // 자동 재생
@@ -27,7 +30,22 @@ const swiper = new Swiper('.main-swiper', {
       el: '.swiper-pagination',
       clickable: true,
     },
+    
 });
+function updateEdgePeek(sw) {
+  const el = sw.el; // .main-swiper
+  // 먼저 싹 지우고
+  el.classList.remove('is-first', 'is-last');
+
+  // 원본 슬라이드 개수 (클론 제외)
+  const originalCount =3;
+
+  if (sw.realIndex === 0) {
+    el.classList.add('is-first');     // 맨 왼쪽: 오른쪽만 살짝 보이게
+  } else if (sw.realIndex === originalCount - 1) {
+    el.classList.add('is-last');      // 맨 오른쪽: 왼쪽만 살짝 보이게
+  }
+}
 
 // --- 모든 버튼에 대한 인터랙션 피드백 ---
 const buttons = document.querySelectorAll('button, a.cta-button, a.nav-item, a.nav-item-main');

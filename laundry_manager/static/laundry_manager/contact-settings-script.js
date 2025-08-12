@@ -1,4 +1,4 @@
-// static/laundry_manager/profile-script.js
+// static/laundry_manager/contact-script.js
 
 import { animate } from "https://cdn.jsdelivr.net/npm/motion@latest/+esm"
 
@@ -10,16 +10,14 @@ animate(
 );
 
 // --- 모든 버튼/링크에 대한 인터랙션 피드백 ---
-const interactiveElements = document.querySelectorAll('button, a.menu-item');
+const interactiveElements = document.querySelectorAll('button, a.contact-item, a.faq-link');
 interactiveElements.forEach(element => {
     element.addEventListener('pointerdown', () => {
         animate(element, { scale: 0.98 }, { duration: 0.1 });
     });
-
     element.addEventListener('pointerup', () => {
         animate(element, { scale: 1 }, { duration: 0.1 });
     });
-    
     element.addEventListener('pointerleave', () => {
         animate(element, { scale: 1 }, { duration: 0.1 });
     });

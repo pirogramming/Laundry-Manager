@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오픈소스 라이선스</title>
+    <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}">
+    <link rel="stylesheet" href="{% static 'laundry_manager/settings-opensource-style.css' %}">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+            <header class="opensource-header">
+                <nav class="top-nav">
+                    <button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button>
+                    <h1>오픈소스 라이선스</h1>
+                </nav>
+            </header>
+
+            <main class="opensource-content">
+                <div class="license-list">
+                    <div class="license-item">
+                        <h3>Motion One</h3>
+                        <p class="copyright">Copyright (c) 2021 Matt Perry</p>
+                        <p class="license-type">MIT License</p>
+                    </div>
+                    <div class="license-item">
+                        <h3>Swiper</h3>
+                        <p class="copyright">Copyright (c) 2014 Vladimir Kharlampidi</p>
+                        <p class="license-type">MIT License</p>
+                    </div>
+                    <div class="license-item">
+                        <h3>Font Awesome Free</h3>
+                        <p class="copyright">Copyright (c) @fontawesome</p>
+                        <p class="license-type">SIL OFL 1.1 (Font), MIT License (Code)</p>
+                    </div>
+                    <div class="license-item">
+                        <h3>Noto Sans KR (Google Fonts)</h3>
+                        <p class="copyright">Copyright 2010 Google, Inc.</p>
+                        <p class="license-type">Open Font License</p>
+                    </div>
+                     <div class="license-item">
+                        <h3>Django</h3>
+                        <p class="copyright">Copyright (c) Django Software Foundation and individual contributors.</p>
+                        <p class="license-type">BSD 3-Clause "New" or "Revised" License</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+            <a href="#" class="nav-item"><i class="fa-solid fa-chart-simple"></i><span>Stats</span></a>
+            <a href="#" class="nav-item-main"><i class="fa-solid fa-camera-retro"></i></a>
+            <a href="#" class="nav-item"><i class="fa-solid fa-credit-card"></i><span>My Cards</span></a>
+            <a href="#" class="nav-item active"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+        </nav>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
+    <script type="module" src="{% static 'laundry_manager/settings-opensource-script.js' %}"></script>
+</body>
+</html>

@@ -58,9 +58,14 @@ body {
 .main-carousel-section .swiper {
     width: 100%;
     height: 150px;
+    padding-left: 8%;
+    padding-right: 8%;
     padding-bottom: 30px; /* 페이지네이션 공간 */
 }
 .main-carousel-section .swiper-slide {
+    /* width: 70% !important; <-- 이 라인을 삭제! */
+    
+    /* --- 나머지 기존 스타일은 그대로 유지 --- */
     background-color: #e9ecef;
     border-radius: 20px;
     overflow: hidden;
@@ -68,9 +73,18 @@ body {
     color: white;
     background-size: cover;
     background-position: center;
-    margin: 0 10px; /* 슬라이드 좌우 간격 */
-    width: 85% !important; /* 슬라이드 너비 고정 */
 }
+.main-carousel-section .swiper.is-first {
+    /* transform을 조절하여 왼쪽으로 살짝 붙입니다. */
+    transform: translateX(8%);
+}
+
+/* 마지막 슬라이드일 때 (왼쪽만 보이게) */
+.main-carousel-section .swiper.is-last {
+    /* transform을 조절하여 오른쪽으로 살짝 붙입니다. */
+    transform: translateX(-8%);
+}
+
 .slide-content {
     position: absolute;
     bottom: 0;

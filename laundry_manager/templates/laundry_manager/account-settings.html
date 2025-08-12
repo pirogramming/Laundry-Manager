@@ -20,7 +20,7 @@
                 <nav class="top-nav">
                     <button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button>
                     <h1>나의 계정</h1>
-                    <button class="text-btn">Cancel <i class="fa-solid fa-xmark"></i></button>
+                
                 </nav>
             </header>
 
@@ -43,29 +43,26 @@
                         </div>
                     </div>
                     <div class="input-group">
-                        <label for="email">이메일</label>
+                        <label for="nickname">닉네임</label>
                         <div class="input-field">
-                            <i class="fa-regular fa-envelope"></i>
-                            <input type="email" id="email" value="onamsarker@gmail.com">
+                            <i class="fa-regular fa-id-badge"></i>
+                            <input type="text" id="nickname" value="hdavidkim">
                         </div>
                     </div>
                     <div class="input-group">
-                        <label for="password">비밀번호</label>
-                        <div class="input-field">
-                            <i class="fa-solid fa-lock"></i>
-                            <input type="password" id="password" value="123456">
-                            <i class="fa-regular fa-eye-slash toggle-password"></i>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <label for="phone">전화번호</label>
-                        <div class="input-field">
-                            <i class="fa-solid fa-phone"></i>
-                            <input type="tel" id="phone" value="(+1) 234 567 890">
+                        <label for="gender">성별</label>
+                        <div class="input-field select-wrapper">
+                            <i class="fa-solid fa-venus-mars"></i>
+                            <select id="gender">
+                                <option>남성</option>
+                                <option>여성</option>
+                                <option>선택 안함</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down"></i>
                         </div>
                     </div>
 
-                    <button type="submit" class="save-button">Save Changes</button>
+                    <button type="submit" class="save-button">저장하기</button>
                 </form>
             </main>
         </div>
@@ -73,14 +70,13 @@
         <nav class="bottom-nav">
             <a href="#" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
             <a href="#" class="nav-item"><i class="fa-solid fa-chart-simple"></i><span>Stats</span></a>
-            <a href="#" class="nav-item-main"><i class="fa-solid fa-camera-retro"></i></a>
+            <a href="#" class="nav-item-main"><i class="fa-solid fa-camera"></i></a>
             <a href="#" class="nav-item"><i class="fa-solid fa-credit-card"></i><span>My Cards</span></a>
             <a href="#" class="nav-item active"><i class="fa-solid fa-user"></i><span>Profile</span></a>
         </nav>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
-    
     <script type="module" src="{% static 'laundry_manager/account-settings-script.js' %}"></script>
 </body>
 </html>

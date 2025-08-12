@@ -20,7 +20,7 @@
                 <nav class="top-nav">
                     <button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button>
                     <h1>환경 설정</h1>
-                    <button class="text-btn">Cancel <i class="fa-solid fa-xmark"></i></button>
+                    
                 </nav>
             </header>
 
@@ -32,11 +32,27 @@
                             <span>언어</span>
                             <div class="menu-value">
                                 <span>한국어</span>
-                                <i class="fa-solid fa-chevron-right"></i>
+                                
                             </div>
                         </a>
                         <a href="#" class="menu-item">
-                            <span>Contact Us</span>
+                            <span>개발자 정보</span>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <h3 class="group-title"> 정보 및 제안</h3>
+                    <div class="menu-list">
+                        <a href="#" class="menu-item">
+                            <span>버전 정보</span>
+                            <div class="menu-value">
+                                <span>v1.1.0-release.1</span>
+                                
+                            </div>
+                        </a>
+                        <a href="#" class="menu-item">
+                            <span>FAQ</span>
                             <i class="fa-solid fa-chevron-right"></i>
                         </a>
                     </div>
@@ -46,21 +62,21 @@
                     <h3 class="group-title">보안 설정</h3>
                     <div class="menu-list">
                         <a href="#" class="menu-item">
-                            <span>Change Wallet Pin</span>
+                            <span>오픈소스 라이선스</span>
                             <i class="fa-solid fa-chevron-right"></i>
                         </a>
                         <a href="#" class="menu-item">
-                            <span>Privacy Policy</span>
+                            <span>서비스 약관</span>
                             <i class="fa-solid fa-chevron-right"></i>
                         </a>
                         <a href="#" class="menu-item">
-                            <span>Location Policy</span>
+                            <span>개인정보처리방침</span>
                             <i class="fa-solid fa-chevron-right"></i>
                         </a>
                     </div>
                 </div>
 
-                <button class="logout-button">Logout</button>
+                <button class="logout-button">로그아웃</button>
             </main>
         </div>
 
@@ -74,7 +90,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
-    
-    <script type="module" src="{% static 'laundry_manager/main-script.js' %}"></script>
+    <script type="module" src="{% static 'laundry_manager/settings-script.js' %}"></script>
 </body>
 </html>
