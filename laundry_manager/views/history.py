@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 
 # 같은 앱(models.py)에 있다면 점 하나(.) 사용
-from models import LaundryHistory, Recommendation  # 필요하면 Clothing, Stain 등도 추가
+from ..models import LaundryHistory, Recommendation  # 필요하면 Clothing, Stain 등도 추가
 
 User = get_user_model()
 
