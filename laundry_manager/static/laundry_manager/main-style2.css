@@ -47,17 +47,18 @@ body {
     padding: 0 25px;
 }
 .greeting-text p { font-size: 14px; color: var(--color-text-secondary); }
-.greeting-text h2 { font-size: 22px; font-weight: 700; color: var(--color-text-primary); }
+.title { font-size: 22px; font-weight: 400; color: var(--color-text-primary); }
+.greeting-main{color:var(--color-primary); font-weight: 700;}
 .profile-pic { width: 50px; height: 50px; border-radius: 50%; cursor: pointer; }
 
 
 /* --- 메인 캐러셀 (새로 추가) --- */
 .main-carousel-section {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 .main-carousel-section .swiper {
     width: 100%;
-    height: 150px;
+    height: 200px;
     padding-left: 8%;
     padding-right: 8%;
     padding-bottom: 30px; /* 페이지네이션 공간 */
@@ -73,6 +74,7 @@ body {
     color: white;
     background-size: cover;
     background-position: center;
+    cursor: pointer;
 }
 .main-carousel-section .swiper.is-first {
     /* transform을 조절하여 왼쪽으로 살짝 붙입니다. */
@@ -175,6 +177,13 @@ body {
 .nav-item {
     display: flex; flex-direction: column; align-items: center;
     text-decoration: none; color: var(--color-text-nav); font-size: 12px;
+}
+.nav-item.active i{
+    color: var(--color-primary);
+}
+.nav-item.active span{
+    color:  var(--color-primary);
+    
 }
 .nav-item i { font-size: 22px; margin-bottom: 5px; }
 .nav-item-main {

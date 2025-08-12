@@ -1,13 +1,17 @@
 /* record-settings.html 페이지 전용 스타일 */
 
 .page-container {
-    position: relative; width: 100%; max-width: 420px; height: 100vh;
+    position: relative; width: 100%; max-width: 420px; 
+    min-height: clamp(720px, 100svh, 920px);
     margin: 0 auto; background-color: var(--color-background);
     display: flex; flex-direction: column; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     overflow: hidden; opacity: 0; /* Motion One 애니메이션용 */
 }
 .content-wrapper {
-    flex-grow: 1; overflow-y: auto; padding-bottom: 35px;
+    flex-grow: 1; overflow-y: auto; padding-bottom: 0px;
+    display: flex;
+    flex-direction: column;
+    
 }
 .content-wrapper::-webkit-scrollbar { display: none; }
 
@@ -35,13 +39,17 @@
 /* --- 메인 콘텐츠 (흰색 카드) --- */
 .record-content {
     background-color: var(--color-container);
-    padding: 25px;
+    padding: 25px 25px 100px;
     border-radius: 30px;
-    margin: -50px 15px 10px;
+    
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     position: relative;
     z-index: 10;
-    min-height: 80%;
+    min-height: 100%;
+    flex: 1;                 /* 남는 공간 채우기 */
+     margin: -50px 15px 100px;    /* 아래 틈 없애기 */
+     padding: 25px 25px 100px;/* 바텀네비 높이만큼 패딩 */
+
 }
 .history-item{
     text-decoration: none;
