@@ -35,4 +35,6 @@ urlpatterns = [
     
     path('contact-settings/', views.contact_settings_page, name='contact-settings'), 
     
+    path('record-settings/', views.record_settings_page, name='record-settings'), 
+    
 ]

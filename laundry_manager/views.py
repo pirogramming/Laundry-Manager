@@ -582,3 +582,5 @@ def account_settings_page(request):
     return render(request, "laundry_manager/account-settings.html")
 def contact_settings_page(request):
     return render(request, "laundry_manager/contact-settings.html")
+def record_settings_page(request):
+    return render(request, "laundry_manager/record-settings.html")
