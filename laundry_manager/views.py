@@ -22,32 +22,31 @@ from .functions.info import first_info, final_info
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
-# from functions.info import laundry_info, apply_user_correction
-from .utils import load_washing_definitions
+from .functions.info import laundry_info, apply_user_correction
+from .utils import (
+    load_washing_definitions,
+    perform_ocr,
+    get_washing_symbol_definition,
+    classify_laundry_symbol,
+    classify_symbols_via_roboflow,
+    detect_symbols_via_roboflow,
+    normalize_to_canon,
+    _post_conflict_resolution,
+    save_result_json,
+    save_classification_result_json,
+    )
 
 # from rest_framework.views import APIView
 from django.shortcuts import render
 
 # from rest_framework.decorators import api_view
 
-
-import requests
-import json
-import os
 from datetime import datetime, timedelta
 
-from django.conf import settings
-from django.shortcuts import render
-from decouple import config
 
 # Naver Trend API 키 로드
 NAVER_CLIENT_ID = config("NAVER_CLIENT_ID")
 NAVER_CLIENT_SECRET = config("NAVER_CLIENT_SECRET")
-
-
-# Naver Trend API 키를 .env 파일에서 로드
-NAVER_CLIENT_ID = config("NAVER_CLIENT_ID", default="")
-NAVER_CLIENT_SECRET = config("NAVER_CLIENT_SECRET", default="")
 
 
 def get_naver_trend_data(keywords, timeframe="today 3-m"):
@@ -196,14 +195,6 @@ load_dotenv()
 WASHING_SYMBOLS_DEFINITIONS = load_washing_definitions()
 
 # utils.py를 만들어서 함수들 분리했음
-from .utils import (
-    perform_ocr,
-    get_washing_symbol_definition,
-    classify_laundry_symbol,
-    load_washing_definitions,
-    save_result_json,
-    save_classification_result_json,
-)
 
 # class UploadView(APIView):
 #     def info_check_view(self, request):
@@ -223,8 +214,8 @@ def laundry_result_view(request):
     if request.method == "POST":
         info = {
             "material": request.POST.get("material"),
-            "stains": request.POST.get("stains"),  # 여기! getlist ❌
-            "symbols": request.POST.getlist("symbols"),
+            "stains": request.POST.getlist("stains"),
+            "symbols": request.POST.getlist("symbols") or request.session.get("symbol_labels", []),
         }
 
         material_json = load_json("blackup.json")
@@ -242,7 +233,7 @@ def laundry_result_view(request):
                 "symbols": guides.get("symbol_guide"),
                 "info": info,
                 "materials": [info["material"]],
-                "stains": [info["stains"]],
+                "stains": info["stains"],
             },
         )
 
@@ -279,23 +270,49 @@ def upload_view(request):
                 return render(request, "laundry_manager/laundry-upload.html", context)
 
             # OCR 결과 파싱
-            definition, texts = get_washing_symbol_definition(
-                ocr_result, WASHING_SYMBOLS_DEFINITIONS
-            )
+            defs = WASHING_SYMBOLS_DEFINITIONS
+            definition, texts = get_washing_symbol_definition(ocr_result, defs)
             print("OCR 결과:", texts)
+
+            rf_preds = classify_symbols_via_roboflow(image_path)
+            threshold = 0.30
+            scored = {}
+
+            for t in texts:
+                canon = normalize_to_canon(t)
+                if canon:
+                    scored[canon] = scored.get(canon, 0.0) + 0.55
+            
+            for p in rf_preds:
+                lab = p.get("class", "")
+                conf = float(p.get("confidence", 0) or 0)
+                canon = normalize_to_canon(lab)
+                if canon and conf >= threshold:
+                    scored[canon] = scored.get(canon, 0.0) + 0.45 * conf
+            
+            resolved = _post_conflict_resolution(scored)
+
+            selected_labels = [k for k, v in resolved.items() if v >= 0.5]
+            selected_labels.sort(key=lambda k: resolved[k], reverse=True)
+
 
             # 세션 저장
             request.session["recognized_texts"] = texts
             request.session["symbol_definition"] = definition
-
-            # ✅ 사용자 선택 값도 세션에 저장
+            request.session["symbol_labels"] = selected_labels
             request.session["material"] = request.POST.get("material")
-            request.session["stains"] = request.POST.getlist(
-                "stains"
-            )  # JS에서 배열로 보내면 getlist 사용
+            request.session["stains"] = request.POST.getlist("stains")
 
             # JSON 저장
-            save_result_json(image_path, texts, definition, ocr_result)
+            save_result_json(
+                image_path, 
+                texts, 
+                definition, 
+                ocr_result,
+                rf_detect_raw=None,
+                rf_class_raw=rf_preds,
+                fused_scores=resolved
+                )
 
             return redirect("result")
 
@@ -308,6 +325,7 @@ def result_view(request):
     definition = request.session.get("symbol_definition", "")
     material = request.session.get("material", "")
     stains = request.session.get("stains", [])  # 리스트로 저장된 경우
+    symbol_labels = request.session.get("symbol_labels", [])
 
     print("세션에서 가져온 OCR 결과:", texts)
     print("세션에서 가져온 소재:", material)
@@ -321,6 +339,7 @@ def result_view(request):
             "symbol_definition": definition,
             "materials": [material] if material else [],
             "stains": stains,
+            "symbol_labels" : symbol_labels,
         },
     )
 
@@ -334,7 +353,6 @@ def upload_and_classify(request):
         if form.is_valid():
             image_file = request.FILES["image"]
             os.makedirs("temp", exist_ok=True)
-
             ext = image_file.name.split(".")[-1]
             filename = f"{uuid.uuid4().hex}.{ext}"
             image_path = os.path.join("temp", filename)
@@ -553,98 +571,6 @@ def stain_guide_view(request):
         "categorized_stains": categorized_stains,
     }
     return render(request, "laundry_manager/stain-upload.html", context)
-
-
-"""
-이름 : first_info_view
-인자 : request
-기능 : 
-1. post(사용자) 데이터 받기
-2. first_info 함수 호출
-3. 템플릿에 전달
-4. upload.html 호출, first_info 정보 띄우기
-"""
-
-
-@csrf_exempt
-def first_info_view(request):
-    if request.method == "POST":
-        form = ImageUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            uploaded_instance = form.save()
-            filename = (
-                uploaded_instance.image.name
-            )  # 또는 image.path (파일 경로가 필요하다면)
-
-            selected_materials = request.POST.getlist("materials[]")
-            selected_stains = request.POST.getlist("stains[]")
-
-            result = first_info(
-                filename=filename,
-                selected_materials=selected_materials,
-                selected_stains=selected_stains,
-            )
-
-            return render(
-                request,
-                "laundry_manager/result.html",
-                {
-                    "materials": result.get("materials", []),
-                    "symbols": result.get("symbols", []),
-                    "stains": result.get("stains", []),
-                    "filename": filename,
-                },
-            )
-        else:
-            return JsonResponse({"error": "이미지 업로드 실패"}, status=400)
-
-    return render(request, "laundry_manager/result.html")
-
-
-"""
-이름 : final_info_view
-인자 : request
-기능 :
-1. 이미지는 그대로, Post(사용자가 수정한 내용) 받기
-2. final_info 호출
-3. laundry_info.html 호출, final_info 정보 띄우기
-"""
-
-
-@csrf_exempt
-def final_info_view(request):
-    if request.method == "POST":
-        # 기존 이미지 filename 받기
-        filename = request.POST.get("filename")
-
-        # result.html에서 수정된 값 받기
-        manual_materials = request.POST.getlist("manual_materials[]")
-        manual_symbols = request.POST.getlist("manual_symbols[]")
-        manual_stains = request.POST.getlist("manual_stains[]")
-
-        # 1차 info 먼저 재호출 (filename 기반)
-        first_result = first_info(filename=filename)
-
-        # 최종 정제
-        final_result = final_info(
-            first_info=first_result,
-            manual_materials=manual_materials,
-            manual_symbols=manual_symbols,
-            manual_stains=manual_stains,
-        )
-
-        return render(
-            request,
-            "laundry_manager/laundry_info.html",
-            {
-                "materials": final_result.get("materials", []),
-                "symbols": final_result.get("symbols", []),
-                "stains": final_result.get("stains", []),
-            },
-        )
-
-    return JsonResponse({"error": "Invalid request"}, status=400)
-
 
 """
 이름 : first_info_view
