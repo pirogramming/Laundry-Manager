@@ -29,7 +29,13 @@ from .utils import load_washing_definitions
 from django.shortcuts import render
 
 # from rest_framework.decorators import api_view
-
+from django.contrib.auth.decorators import login_required
+from .models import Recommendation
+from django.contrib.auth import get_user_model
+#
+#from laundry_manager.models import User  
+from laundry_manager.models import Recommendation
+from django.http import HttpResponse
 
 import requests
 import json
@@ -633,20 +639,47 @@ def final_info_view(request):
             manual_stains=manual_stains,
         )
 
-        return render(
-            request,
-            "laundry_manager/laundry_info.html",
-            {
-                "materials": final_result.get("materials", []),
-                "symbols": final_result.get("symbols", []),
-                "stains": final_result.get("stains", []),
-            },
-        )
+        material_json = load_json('blackup.json')
+        stain_json = load_json('persil_v2.json')
+        symbol_json = load_json('washing_symbol.json')
+        guides = laundry_recommend(final_result, material_json, stain_json, symbol_json)
+        try:
+            recommendation_text = format_result(guides)
+        except NameError:
+            recommendation_text = f"소재 가이드: {guides.get('material_guide')}\n얼룩 가이드: {guides.get('stain_guide')}\n기호 가이드: {guides.get('symbol_guide')}"
+
+
+
+        # 2. 로그인 상태인지 확인하고, 그렇다면 DB에 저장하기
+        if request.user.is_authenticated:
+            LaundryHistory.objects.create(
+                user=request.user,
+                materials=', '.join(final_result.get("materials", [])),
+                symbols=', '.join(final_result.get("symbols", [])),
+                stains=', '.join(final_result.get("stains", [])),
+                recommendation_result=recommendation_text
+            )
+        
+
+        # 기존 코드: 최종 결과를 템플릿에 전달하여 렌더링
+        return render(request, "laundry_manager/laundry_info.html", {
+            # ... (이전 코드와 동일: 템플릿에 전달할 context 내용) ...
+            "materials": final_result.get("materials", []),
+            "symbols": guides.get("symbol_guide", []),
+            "stains": final_result.get("stains", []),
+            "material_name": ", ".join(final_result.get("materials", [])), 
+            "material" : guides.get('material_guide'),
+            "stain": guides.get('stain_guide'),
+            "info": {
+                'stains': ", ".join(final_result.get("stains", [])),
+                'material': ", ".join(final_result.get("materials", []))
+            }
+        })
 
     return JsonResponse({"error": "Invalid request"}, status=400)
 
-
 """
+'''
 이름 : first_info_view
 인자 : request
 기능 : 
@@ -675,12 +708,12 @@ def first_info_view(request):
         # 템플릿에 전달
         return render(
             request,
-            "laundry_manager/result.html",
+            "laundry_manager/result.html",``
             {
                 "materials": result.get("materials", []),
                 "symbols": result.get("symbols", []),
                 "stains": result.get("stains", []),
-                "filename": filename,  # 이후 final_info에 넘기기 위함
+                "filename": filename,  # 이후 final_i`nfo에 넘기기 위함
             },
         )
 
@@ -731,7 +764,7 @@ def final_info_view(request):
         )
 
     return JsonResponse({"error": "Invalid request"}, status=400)
-
+"""
 
 # 아직 미완
 def stain_detail_view(request, slug):
@@ -815,31 +848,107 @@ def stain_guide_page(request):
 
 def stain_detail_page(request):
     return render(request, "laundry_manager/stain_detail.html")
-def login_page(request):
-    return render(request, "laundry_manager/login.html")
-def dictionary_page(request):
-    return render(request, "laundry_manager/dictionary.html")
-def main2_page(request):
-    return render(request, "laundry_manager/main2.html")
-def profile_page(request):
-    return render(request, "laundry_manager/profile.html")
-def settings_page(request):
-    return render(request, "laundry_manager/settings.html")
 
-def settings_developer_page(request):
-    return render(request, "laundry_manager/settings-developer.html")
-def settings_faq_page(request):
-    return render(request, "laundry_manager/settings-faq.html")
-def settings_opensource_page(request):
-    return render(request, "laundry_manager/settings-opensource.html")
-def settings_terms_page(request):
-    return render(request, "laundry_manager/settings-terms.html")
-def settings_privacy_page(request):
-    return render(request, "laundry_manager/settings-privacy.html")
 
-def account_settings_page(request):
-    return render(request, "laundry_manager/account-settings.html")
-def contact_settings_page(request):
-    return render(request, "laundry_manager/contact-settings.html")
-def record_settings_page(request):
-    return render(request, "laundry_manager/record-settings.html")
+@login_required
+def laundry_history_detail_view(request, history_id):
+    """
+    특정 세탁 기록(pk=history_id)의 상세 정보를 보여주는 뷰
+    """
+    # get_object_or_404: 객체를 찾되, 없으면 404 에러를 냄
+    # user=request.user: 다른 사람이 내 기록을 보지 못하도록 현재 로그인한 유저의 기록만 조회
+    record = get_object_or_404(LaundryHistory, pk=history_id, user=request.user)
+
+    context = {
+        'record': record
+    }
+    return render(request, 'laundry_manager/laundry_history_detail.html', context)
+
+"""
+# 사용자 기록 리스트 뷰 
+'''사용자 기록들 records리스트로 반환'''
+
+#@login_required
+def record_list_view(request):
+    '''User = get_user_model()
+    temp_user = User.objects.get(username='sje')
+    records = Recommendation.objects.filter(clothing__user=temp_user)
+    #records = Recommendation.objects.filter(clothing__user=request.user).order_by('-created_at')[:2]
+    return render(request, 'main.html', {
+        'records': records
+    })'''
+    try:
+        temp_user = User.objects.get(name="sje")
+    except User.DoesNotExist:
+        temp_user = None
+
+    # temp_user가 있으면 해당 유저의 기록만 가져오고, 없으면 빈 쿼리셋 반환
+    if temp_user:
+        records = Recommendation.objects.filter(clothing__user=temp_user).order_by('-created_at')[:3]
+    else:
+        records = []
+
+    return render(request, 'laundry_manager/main.html', {'records': records})
+
+#사용자 기록 디테일 뷰
+#@login_required
+def record_detail_view(request, pk):
+    '''record = get_object_or_404(Recommendation, pk=pk, clothing__user=request.user)
+    return render(request, 'laundry_manager/laundry-info.html', {
+        'record': record
+    })'''
+    try:
+        temp_user = User.objects.get(name="sje")  # 임시 유저
+    except User.DoesNotExist:
+        temp_user = None
+
+    if not temp_user:
+        return HttpResponse("User not found", status=404)
+
+    record = get_object_or_404(Recommendation, pk=pk, clothing__user=temp_user)
+
+    # record 안에 연결된 모든 foreign key 객체들 꺼냄
+    clothing = record.clothing
+    stain = record.stain
+    laundry = record.laundry
+    course = record.course
+    mode = record.mode
+
+    # symbols = laundry.description + image_url 정도로 구성
+    symbols = []
+    if laundry.description:
+        symbols.append(laundry.description)
+    if laundry.image_url:
+        symbols.append(f"관련 이미지 URL: {laundry.image_url}")
+
+    # info = 정리된 내용들
+    info = {
+        "stains": f"{stain.category} 계열 얼룩",
+        "material": f"{clothing.fabric} 소재로 분류"
+    }
+
+    return render(request, 'laundry_manager/laundry-info.html', {
+        "material_name": clothing.name or "이름 없는 의류",
+        "stains": [stain.name],
+        "material": clothing,
+        "stain": stain,
+        "symbols": symbols,
+        "info": info,
+        "record": record,
+    })
+#임시 프로필창 뷰
+def profile_view(request):
+    #return render(request, 'laundry_manager/profile.html')
+    try:
+        temp_user = User.objects.get(name="sje")  # ← 로그인 기능 전이라서
+    except User.DoesNotExist:
+        temp_user = None
+
+    if temp_user:
+        records = Recommendation.objects.filter(clothing__user=temp_user).order_by('-created_at')[:10]
+    else:
+        records = []
+
+    return render(request, 'laundry_manager/profile.html', {'records': records})"""
+
+

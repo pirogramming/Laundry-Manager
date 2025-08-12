@@ -74,3 +74,34 @@
     <script type="module" src="{% static 'laundry_manager/profile-script.js' %}"></script>
 </body>
 </html>
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>프로필</title>
+  <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}">
+</head>
+
+    <main>
+        <h2>📄 기록</h2>
+          <div class="history-list1">
+            {% for record in records %}
+              <a href="{% url 'record-detail' record.pk %}" class="history-item1">
+                <div class="history-details1">
+                  <h4>{{ record.clothing.name }} / {{ record.stain.name }} 제거</h4>
+                  <p>{{ record.created_at|timesince }} 전 검색</p>
+                </div>
+                <i class="fa-solid fa-chevron-right1"></i>
+              </a>
+            {% empty %}
+              <p>아직 기록이 없습니다.</p>
+            {% endfor %}
+          </div>
+        
+      
+    </main>
+
+</body>
+</html>

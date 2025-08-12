@@ -45,36 +45,18 @@
             <section class="history-section">
                 <h3>기록보기</h3>
                 <div class="history-list">
-                    <div class="history-item">
-                        <img src="https://i.ibb.co/L5w2S9h/scooter.png" alt="블랙 니트" class="history-img">
-                        <div class="history-details">
-                            <h4>블랙 니트 / 핏자국 제거</h4>
-                            <p>12시간 전 검색</p>
-                            <!-- <div class="rating">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-regular fa-star"></i>
-                            </div> -->
-                        </div>
-                        <i class="fa-solid fa-chevron-right"></i>
+                    {% for record in records %}
+                    <a href="{% url 'laundry_history_detail' record.pk %}" class="history-item">
+                    <img src="https://i.ibb.co/L5w2S9h/scooter.png" alt="세탁 기록" class="history-img">
+                    <div class="history-details">
+                        <h4>{{ record.materials }} / {{ record.stains }} 제거</h4>
+                        <p>{{ record.created_at|timesince }} 전 검색</p>
                     </div>
-                    <div class="history-item">
-                        <img src="https://i.ibb.co/L5w2S9h/scooter.png" alt="블랙 니트" class="history-img">
-                        <div class="history-details">
-                            <h4>블랙 니트 / 얼룩 제거</h4>
-                            <p>12시간 전 검색</p>
-                            <!-- <div class="rating">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                            </div> -->
-                        </div>
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </div>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </a>
+                {% empty %}
+                    <p>아직 기록이 없습니다.</p>
+                    {% endfor %}
                 </div>
             </section>
         </main>
