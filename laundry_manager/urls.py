@@ -6,7 +6,6 @@ import laundry_manager.views.dictionary as dictionary_views  # 이전 이슈 피
 urlpatterns = [
     path('', pages.main_page, name='main'),
 
-    # ✅ 예전 이름 복구 (템플릿 호환)
     path('laundry-upload/', ocr.upload_view, name='laundry-upload'),
 
     # (페이지 전용 라우트는 계속 유지하고 싶다면 별도 경로 사용)
