@@ -13,6 +13,7 @@
 
 	--color-border-trasparent: rgba(238,238,238,0.3);
     --white-background: #FAFBFF;
+    --color-black: #000;
 }
 
 /* 기본 스타일 리셋 및 기본 설정 */
@@ -261,6 +262,13 @@ body {
 .nav-item i {
     font-size: 22px;
     margin-bottom: 5px;
+}
+.nav-item.active i{
+    color: var(--color-primary);
+}
+.nav-item.active span{
+    color:  var(--color-primary);
+    
 }
 
 /* 중앙 메인 버튼 */

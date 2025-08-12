@@ -42,7 +42,7 @@ urlpatterns = [
     path('settings-terms/', pages.settings_terms_page, name='settings-terms'), 
     path('settings-privacy/', pages.settings_privacy_page, name='settings-privacy'), 
         
-    path('account-settings/', pages.account_settings_page, name='acount-settings'), 
+    path('account-settings/', pages.account_settings_page, name='account-settings'), 
     
     path('contact-settings/', pages.contact_settings_page, name='contact-settings'), 
     

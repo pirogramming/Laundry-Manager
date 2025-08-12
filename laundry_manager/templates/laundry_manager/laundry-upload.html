@@ -16,7 +16,7 @@
     <div class="mobile-container upload-page">
         <header class="upload-header-section">
             <nav class="top-nav">
-                <a href="{% url 'main' %}" class="icon-btn"><i class="fa-solid fa-arrow-left"></i></a>
+                <a href="{% url 'main2' %}" class="icon-btn"><i class="fa-solid fa-arrow-left"></i></a>
                 <div class="header-tabs">
                     <button class="tab-btn active">세탁 정보 가이드</button>
                     <a href="{% url 'stain-upload' %}" class="tab-btn">얼룩 제거 가이드</a>
@@ -85,7 +85,7 @@
             </div>
 
             <!-- 하단 submit 버튼 -->
-            <button type="submit" class="submit-button">다음으로</button>
+            <a href="{% url 'result' %}"><button type="submit" class="submit-button">다음으로</button><a>
             </form> <!-- form 종료 -->
         </main>
     </div>

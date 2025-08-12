@@ -1,13 +1,17 @@
 /* account-settings.html 페이지 전용 스타일 */
 
 .page-container {
-    position: relative; width: 100%; max-width: 420px; height: 100vh;
+    position: relative; width: 100%; max-width: 420px; 
+    min-height: clamp(720px, 100svh, 920px);
     margin: 0 auto; background-color: var(--color-background);
     display: flex; flex-direction: column; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     overflow: hidden; opacity: 0; /* Motion One 애니메이션용 */
 }
 .content-wrapper {
     flex-grow: 1; overflow-y: auto; padding-bottom: 85px;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .content-wrapper::-webkit-scrollbar { display: none; }
 
@@ -29,9 +33,11 @@
 /* --- 메인 콘텐츠 (흰색 카드) --- */
 .account-content {
     background-color: var(--color-container); padding: 25px;
-    border-radius: 30px; margin: -80px 15px 0;
+    border-radius: 30px; margin: -80px 15px 100px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     position: relative; z-index: 10;
+    flex: 1;                 /* 남는 공간 채우기 */
+     
 }
 
 /* --- 프로필 사진 --- */

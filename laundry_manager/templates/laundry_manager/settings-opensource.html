@@ -18,7 +18,7 @@
         <div class="content-wrapper">
             <header class="opensource-header">
                 <nav class="top-nav">
-                    <button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button>
+                    <a href={% url 'settings' %}><button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button></a>
                     <h1>오픈소스 라이선스</h1>
                 </nav>
             </header>
@@ -55,11 +55,11 @@
         </div>
 
         <nav class="bottom-nav">
-            <a href="#" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
-            <a href="#" class="nav-item"><i class="fa-solid fa-chart-simple"></i><span>Stats</span></a>
-            <a href="#" class="nav-item-main"><i class="fa-solid fa-camera-retro"></i></a>
-            <a href="#" class="nav-item"><i class="fa-solid fa-credit-card"></i><span>My Cards</span></a>
-            <a href="#" class="nav-item active"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+            <a href="{% url 'main2' %}" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+            <a href="{% url 'dictionary' %}" class="nav-item"><i class="fa-solid fa-book-open"></i><span>Dictionary</span></a>
+            <a href="{% url 'laundry-upload' %}" class="nav-item-main"><i class="fa-solid fa-camera"></i></a>
+            <a href="#" class="nav-item"><i class="fa-solid fa-credit-card"></i><span>Payment</span></a>
+            <a href="{% url 'profile' %}" class="nav-item"><i class="fa-solid fa-user"></i><span>Profile</span></a>
         </nav>
     </div>
 

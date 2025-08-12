@@ -48,7 +48,7 @@ function updateEdgePeek(sw) {
 }
 
 // --- 모든 버튼에 대한 인터랙션 피드백 ---
-const buttons = document.querySelectorAll('button, a.cta-button, a.nav-item, a.nav-item-main');
+const buttons = document.querySelectorAll('button, a.cta-button, a.nav-item ');
 
 buttons.forEach(button => {
     button.addEventListener('pointerdown', () => {

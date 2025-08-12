@@ -35,7 +35,7 @@
                                 
                             </div>
                         </a>
-                        <a href="#" class="menu-item">
+                        <a href="{% url 'settings-developer' %}" class="menu-item">
                             <span>개발자 정보</span>
                             <i class="fa-solid fa-chevron-right"></i>
                         </a>
@@ -51,7 +51,7 @@
                                 
                             </div>
                         </a>
-                        <a href="#" class="menu-item">
+                        <a href="{% url 'settings-faq' %}" class="menu-item">
                             <span>FAQ</span>
                             <i class="fa-solid fa-chevron-right"></i>
                         </a>
@@ -61,15 +61,15 @@
                 <div class="settings-group">
                     <h3 class="group-title">보안 설정</h3>
                     <div class="menu-list">
-                        <a href="#" class="menu-item">
+                        <a href="{% url 'settings-opensource' %}" class="menu-item">
                             <span>오픈소스 라이선스</span>
                             <i class="fa-solid fa-chevron-right"></i>
                         </a>
-                        <a href="#" class="menu-item">
+                        <a href="{% url 'settings-terms' %}" class="menu-item">
                             <span>서비스 약관</span>
                             <i class="fa-solid fa-chevron-right"></i>
                         </a>
-                        <a href="#" class="menu-item">
+                        <a href="{% url 'settings-privacy' %}" class="menu-item">
                             <span>개인정보처리방침</span>
                             <i class="fa-solid fa-chevron-right"></i>
                         </a>
@@ -81,11 +81,11 @@
         </div>
 
         <nav class="bottom-nav">
-            <a href="#" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
-            <a href="#" class="nav-item"><i class="fa-solid fa-chart-simple"></i><span>Stats</span></a>
-            <a href="#" class="nav-item-main"><i class="fa-solid fa-camera-retro"></i></a>
+            <a href="{% url 'main2' %}" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+            <a href="{% url 'dictionary' %}" class="nav-item"><i class="fa-solid fa-book-open"></i><span>Dictionary</span></a>
+            <a href="{% url 'laundry-upload' %}" class="nav-item-main"><i class="fa-solid fa-camera"></i></a>
             <a href="#" class="nav-item"><i class="fa-solid fa-credit-card"></i><span>My Cards</span></a>
-            <a href="#" class="nav-item active"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+            <a href="{% url 'profile' %}" class="nav-item active"><i class="fa-solid fa-user"></i><span>Profile</span></a>
         </nav>
     </div>
 

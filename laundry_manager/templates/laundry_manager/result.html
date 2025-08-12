@@ -15,13 +15,9 @@
 <body>
     <div class="mobile-container result-page">
         <nav class="top-nav-white">
-            <a href="{% url 'upload' %}">
-                <button class="icon-btn-bordered"><i class="fa-solid fa-arrow-left"></i></button>
-            </a>
+            <a href="{% url 'upload' %}"><button class="icon-btn-bordered"><i class="fa-solid fa-arrow-left"></i></button></a>
             <h2>인식 정보 확인</h2>
-            <a href="{% url 'main' %}">
-                <button class="text-btn-dark">Cancel <i class="fa-solid fa-xmark"></i></button>
-            </a>
+            <a href="{% url 'main' %}"><button class="text-btn-dark">Cancel <i class="fa-solid fa-xmark"></i></button></a>
         </nav>
 
         <main class="result-card-section">
@@ -31,64 +27,102 @@
                 </div>
                 <div class="result-title">
                     <p>세탁물 분류</p>
-                    <h2>
-                        {{ materials|join:" / " }} / {{ stains|join:" / " }}
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </h2>
+                    <h2 id="laundry-item-name">흰색 니트 / 김치 자국 <i class="fa-solid fa-pen-to-square"></i></h2>
                 </div>
-
                 <div class="notice-box">
                     <i class="fa-solid fa-circle-info"></i>
                     <span>세탁 결과에 대한 책임은 개인에게 있습니다</span>
                 </div>
-
                 <div class="info-list">
                     <div class="info-item">
                         <span>인식된 텍스트</span>
-                        {% if recognized_texts %}
-                            <strong>{{ recognized_texts|join:", " }}</strong>
-                        {% else %}
-                            <strong>결과 없음</strong>
-                        {% endif %}
+                        <strong>{{ recognized_texts|join:", " | default:"결과 없음" }}</strong>
                     </div>
-
                     <hr class="info-divider">
                     <div class="info-item">
                         <span>의류 소재</span>
-                        <strong>{{ materials|join:", " }}</strong>
+                        <strong>린넨 80%, 울 20%</strong>
                     </div>
-
                     <hr class="info-divider">
                     <div class="info-item">
                         <span>선택한 얼룩 유형</span>
-                        <strong>{{ stains|join:", " }}</strong>
+                        <strong>김칫국물 자국</strong>
                     </div>
                 </div>
-
-                <a href="#" class="extra-info-link">추가 정보 입력하기</a>
-
-                <!-- ✅ 수정된 POST form -->
-                <form method="POST" action="{% url 'first_info' %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="filename" value="{{ filename }}">
-                    {% for m in materials %}
-                        <input type="hidden" name="materials[]" value="{{ m }}">
-                    {% endfor %}
-                    {% for s in stains %}
-                        <input type="hidden" name="stains[]" value="{{ s }}">
-                    {% endfor %}
-                    {% for sy in symbols %}
-                        <input type="hidden" name="symbols[]" value="{{ sy }}">
-                    {% endfor %}
-                    {% comment %} <button type="submit" class="confirm-button">확인하기</button> {% endcomment %}
-                    <a href="{% url 'laundry-info' %}" class="confirm-button">확인하기</a>
-                </form>
-
+                <a href="#" class="extra-info-link" id="open-modal-btn">추가 정보 입력하기</a>
+                <a href="{% url 'laundry-info' %}" class="confirm-button">확인하기</a>
             </div>
         </main>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
+    <div class="modal-overlay" id="edit-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>인식 정보 수정하기</h3>
+                <button class="close-modal-btn" id="close-modal-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <form class="modal-form">
+                <div class="input-group">
+                    <label for="edit-name">세탁물 이름</label>
+                    <div class="input-field">
+                        <input type="text" id="edit-name" value="흰색 니트 / 김치 자국">
+                        <i class="fa-solid fa-pen"></i>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>세탁 태그 선택</label>
+                    <div class="tag-selection-list">
+                        <div class="tag-item active">
+                            <div class="tag-image-placeholder"></div>
+                            <span>드라이클리닝</span>
+                        </div>
+                        <div class="tag-item">
+                            <div class="tag-image-placeholder"></div>
+                            <span>물세탁 가능</span>
+                        </div>
+                        <div class="tag-item">
+                            <div class="tag-image-placeholder"></div>
+                            <span>염소계 표백</span>
+                        </div>
+                        <div class="tag-item">
+                            <div class="tag-image-placeholder"></div>
+                            <span>다림질</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="edit-material">의류 소재</label>
+                    <div class="input-field select-field">
+                        <select id="edit-material">
+                            <option>린넨 80%, 울 20%</option>
+                            <option>면 100%</option>
+                            <option>폴리에스터 100%</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="edit-stain">선택한 얼룩 유형</label>
+                    <div class="input-field select-field">
+                        <select id="edit-stain">
+                            <option>김칫국물 자국</option>
+                            <option>커피</option>
+                            <option>기름때</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-button">다음으로</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/motion@10.18.0/dist/motion.es.js"></script>
     <script type="module" src="{% static 'laundry_manager/result-script.js' %}"></script>
 </body>
 </html>

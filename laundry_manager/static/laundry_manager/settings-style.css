@@ -1,7 +1,8 @@
 /* settings.html 페이지 전용 스타일 */
 
 .page-container {
-    position: relative; width: 100%; max-width: 420px; height: 100vh;
+    position: relative; width: 100%; max-width: 420px; 
+    min-height: clamp(720px, 100svh, 920px);
     margin: 0 auto; background-color: var(--color-background);
     display: flex; flex-direction: column; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     overflow: hidden; opacity: 0; /* Motion One 애니메이션용 */
@@ -38,13 +39,13 @@
 /* --- 메인 콘텐츠 (흰색 카드) --- */
 .settings-content {
     background-color: var(--color-container);
-    padding: 25px;
+    padding: 25px 25px 50px;
     border-radius: 30px;
-    margin: -80px 15px 0;
+    margin: -80px 15px ;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     position: relative;
     z-index: 10;
-    min-height: 900px;  
+     
 }
 
 /* --- 설정 그룹 --- */
