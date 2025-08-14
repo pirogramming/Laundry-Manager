@@ -4,12 +4,12 @@ from datetime import date
 import requests
 from django.conf import settings
 from django.shortcuts import render
-from decouple import config
 
 logger = logging.getLogger(__name__)
 
-NAVER_CLIENT_ID = config("NAVER_CLIENT_ID", default="")
-NAVER_CLIENT_SECRET = config("NAVER_CLIENT_SECRET", default="")
+# ★ settings.py에서 정의한 값을 사용 (decouple 사용 X)
+NAVER_CLIENT_ID = getattr(settings, "NAVER_CLIENT_ID", "")
+NAVER_CLIENT_SECRET = getattr(settings, "NAVER_CLIENT_SECRET", "")
 
 def _load_dictionary_data():
     try:
@@ -26,105 +26,152 @@ def _ymd(d: date) -> str:
 def _start_end_for_months(months_back: int = 18):
     today = date.today()
     total = today.year * 12 + (today.month - 1) - months_back
-    sy, sm = divmod(total, 12)
-    sm += 1
+    sy, sm = divmod(total, 12); sm += 1
     start = date(sy, sm, 1)
     return _ymd(start), _ymd(today)
 
-def get_naver_trend_data(keywords, months_back=18, time_unit="month", max_keywords=5):
-    if not NAVER_CLIENT_ID or not NAVER_CLIENT_SECRET:
-        return []
+
+def get_naver_trend_data(keywords, timeframe="today 3-m"):
     url = "https://naveropenapi.apigw.ntruss.com/datalab/v1/search"
     headers = {
         "X-NCP-APIGW-API-KEY-ID": NAVER_CLIENT_ID,
         "X-NCP-APIGW-API-KEY": NAVER_CLIENT_SECRET,
         "Content-Type": "application/json",
     }
-    start, end = _start_end_for_months(months_back)
-    kw = [k.strip() for k in (keywords or []) if isinstance(k, str) and k.strip()][:max_keywords]
-    if not kw:
-        return []
+
+    # API 호출을 위해 키워드 그룹을 구성
+    # API는 최대 5개의 키워드 그룹을 지원하지만, 여기서는 전체 키워드를 하나의 그룹으로 묶습니다.
+    # 키워드 수가 너무 많으면 API 오류가 발생할 수 있으니 주의해야 합니다.
+    keyword_groups = [
+        {"groupName": "인기 검색어", "keywords": keywords[:5]}
+    ]  # 최대 5개 키워드만 사용 예시
+
     body = {
-        "startDate": start,
-        "endDate": end,
-        "timeUnit": time_unit,
-        "keywordGroups": [{"groupName": "인기 검색어", "keywords": kw}],
+        "startDate": "2023-01-01",  # 더 긴 기간으로 설정
+        "endDate": "2024-08-31",
+        "timeUnit": "month",
+        "keywordGroups": keyword_groups,
     }
+
     try:
-        r = requests.post(url, data=json.dumps(body), headers=headers, timeout=10)
-        if r.status_code != 200:
-            logger.warning("Naver Datalab 실패 status=%s text=%s", r.status_code, r.text[:200])
-            return []
-        # 그래프 데이터가 필요하면 r.json()["results"][0]["data"] 사용
-        return kw
-    except requests.RequestException as e:
-        logger.warning("Naver Datalab 예외: %s", e)
+        response = requests.post(url, data=json.dumps(body), headers=headers)
+        # --- 디버깅용 코드 추가 ---
+        print(f"디버깅: API 호출 상태 코드 -> {response.status_code}")
+        print(f"디버깅: API 응답 내용 -> {response.text}")
+        # ------------------------
+
+        if response.status_code == 200:
+            result = response.json()
+
+            # 키워드 데이터를 직접 가져와 반환
+            # result['results'][0]['keywords']에는 API 호출에 사용된 키워드가 들어있습니다.
+            if "results" in result and len(result["results"]) > 0:
+                return result["results"][0]["keywords"]
+            else:
+                return []
+
+    except requests.exceptions.RequestException as e:
+        print(f"네트워크 오류: {e}")
         return []
 
-def dictionary_view(request):
-    data = _load_dictionary_data()
-    query = request.GET.get("query")
 
+def load_dictionary_data():
+    try:
+        dictionary_path = os.path.join(
+            settings.BASE_DIR, "laundry_manager", "json_data", "dictionary.json"
+        )
+        with open(dictionary_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print("Error: dictionary.json not found.")
+        return {}
+    except json.JSONDecodeError:
+        print("Error: dictionary.json is not a valid JSON file.")
+        return {}
+
+
+def dictionary(request):
+    dictionary_data = load_dictionary_data()
+    query = request.GET.get("query")
     category_map = {
-        "how_to_use_machine": "세탁 방법",
-        "dry_method": "건조 방법",
-        "storage_method": "보관 방법",
-        "removal_smell": "냄새 제거 방법",
+        "material_laundry_method": "소재별 세탁 방법",
+        "dry_storage_method": "건조 및 보관 방법",
+        "removal": "냄새 및 얼룩제거 방법",
         "words": "용어 사전",
+        "how_laundry": "세탁 방법",
     }
     category_list = list(category_map.values())
-    processed = {}
+    processed_data = {}
 
-    def prep(item):
-        i = item.copy()
-        i["json_data"] = json.dumps(item, ensure_ascii=False)
-        return i
+    def preprocess_item(item):
+        processed = item.copy()
+        processed["json_data"] = json.dumps(item, ensure_ascii=False)
+        return processed
 
     if query:
-        if query in category_list:
-            key = next((k for k, v in category_map.items() if v == query), None)
-            if key and key in data:
-                processed[query] = [prep(i) for i in data[key]]
+        is_category_query = query in category_list
+        if is_category_query:
+            category_key = next(
+                (key for key, value in category_map.items() if value == query), None
+            )
+            if category_key and category_key in dictionary_data:
+                processed_data[query] = [
+                    preprocess_item(item) for item in dictionary_data[category_key]
+                ]
         else:
-            for key, display in category_map.items():
-                items = data.get(key, [])
-                filt = []
+            for category_key, display_name in category_map.items():
+                items = dictionary_data.get(category_key, [])
+                filtered_items = []
                 for item in items:
-                    s = (
-                        item.get("title", "")
-                        + item.get("description", "")
-                        + json.dumps(item.get("content", ""), ensure_ascii=False)
-                        + json.dumps(item.get("Washing_Steps", []), ensure_ascii=False)
-                        + json.dumps(item.get("tip", []), ensure_ascii=False)
-                        + json.dumps(item.get("not_to_do", []), ensure_ascii=False)
-                        + json.dumps(item.get("Other_Information", []), ensure_ascii=False)
-                    ).lower()
-                    if query.lower() in s:
-                        filt.append(prep(item))
-                if filt:
-                    processed[display] = filt
+                    search_string = (
+                        item.get("title", "").lower()
+                        + item.get("description", "").lower()
+                        + json.dumps(
+                            item.get("content", ""), ensure_ascii=False
+                        ).lower()
+                        + json.dumps(
+                            item.get("Washing_Steps", []), ensure_ascii=False
+                        ).lower()
+                        + json.dumps(item.get("tip", []), ensure_ascii=False).lower()
+                        + json.dumps(
+                            item.get("not_to_do", []), ensure_ascii=False
+                        ).lower()
+                        + json.dumps(
+                            item.get("Other_Information", []), ensure_ascii=False
+                        ).lower()
+                    )
+                    if query.lower() in search_string:
+                        filtered_items.append(preprocess_item(item))
+                if filtered_items:
+                    processed_data[display_name] = filtered_items
     else:
-        for key, display in category_map.items():
-            processed[display] = [prep(i) for i in data.get(key, [])]
+        for category_key, display_name in category_map.items():
+            processed_data[display_name] = [
+                preprocess_item(item) for item in dictionary_data.get(category_key, [])
+            ]
 
-    # 인기 검색어(제목 기반 상위 5개만)
-    titles = []
-    for key in data:
-        for item in data.get(key, []):
-            t = item.get("title")
-            if t:
-                titles.append(t.strip())
-    uniq_titles = list(dict.fromkeys(titles))[:5]
-    frequent_searches = get_naver_trend_data(uniq_titles)
+    # Naver Trend API를 활용하여 인기 검색어 목록을 가져오는 로직 추가
+    # 수정할 코드 (views.py 파일 내)
+    all_keywords = []
+    for category_key in dictionary_data:
+        for item in dictionary_data.get(category_key, []):
+            title = item.get("title")
+            if title:
+                all_keywords.append(title)
 
-    ctx = {
+    unique_keywords = list(set(all_keywords))
+    frequent_searches = get_naver_trend_data(unique_keywords)
+
+    context = {
         "query": query,
-        "is_category_query": (query in category_list) if query else False,
+        "is_category_query": query in category_list if query else False,
         "category_list": category_list,
-        "dictionary_data": processed,
+        "dictionary_data": processed_data,
         "frequent_searches": frequent_searches,
     }
-    return render(request, "laundry_manager/dictionary.html", ctx)
 
-# 과거 호환용 별칭
-dictionary = dictionary_view
+    return render(request, "laundry_manager/dictionary.html", context)
+
+# 과거 호환
+# dictionary = dictionary_view
+dictionary_view = dictionary

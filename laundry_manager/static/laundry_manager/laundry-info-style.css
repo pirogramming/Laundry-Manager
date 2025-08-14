@@ -44,6 +44,9 @@
     transform: translateX(-50%);
     font-size: 21px;
     font-weight: bold;
+    flex:1;
+    text-align: center;
+    margin:0;
     
 }
 .info-header .icon-btn, .info-header .text-btn {
@@ -82,12 +85,35 @@
     color: var(--color-primary); 
 }
 
+.summary-card >h3{
+    color: var(--color-primary);
+}
+.accordion-guide >h3{
+    color: var(--color-black);
+}
+.scope-card >h3{
+    color: var(--color-black);
+}
+.summary-card .ai-icon { color: var(--color-primary); 
+    width: 18px;
+    height: 18px;
+}
+.summary-card h3 span {
+    font-weight: 500;
+}
+
 /* 요약 카드 */
 .summary-card{
+    background-color: #E8F0FE; 
+    border:solid 0.01px var(--color-primary);
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    
+
 }
+
 .summary-card .stain-info { 
     font-size: 14px; 
+    margin-top: 15px; 
     margin-bottom: 15px; 
     margin-left: 0px;
     font-weight: 400;
@@ -104,8 +130,8 @@
     gap: 20px; 
 }
 .summary-card .laundry-tag-img{
-    width: 50px;
-    height: 50px;
+    width: 80px;
+    height: 60px;
     border-radius: 15px;
     margin-bottom: 5px;
 }
@@ -115,6 +141,13 @@
     align-items: center; 
     gap: 8px; 
     font-size: 14px; 
+}
+.summary-card .icon-info h4 { 
+    align-self: flex-start;
+    text-align: left;
+    font-weight: 700;
+    font-size: 14px;
+    /* color: var(--color-primary); */
 }
 .summary-card .icon-info-text{
     display: flex;
@@ -128,15 +161,19 @@
 
 /* 피해야 하는 세탁법 카드 */
 .avoid-card { 
-    background-color: #E8F0FE; 
-    border:solid 0.01px var(--color-primary);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1 );
 }
 .avoid-card .avoid-item { 
     display: flex; align-items: center; gap: 10px; 
 }
+
+
 .avoid-card .avoid-item:not(:last-child) { margin-bottom: 10px; }
-.avoid-card .avoid-item i { color: var(--color-primary); }
+.avoid-card .avoid-item i { 
+    
+    color: var(--color-primary); 
+ }
 .avoid-card .avoid-item p { font-size: 14px; }
 
 /* 아코디언 가이드 */

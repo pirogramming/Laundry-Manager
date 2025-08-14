@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>환경 설정</title>
+    <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}">
+    <link rel="stylesheet" href="{% static 'laundry_manager/settings-style.css' %}">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+            <header class="settings-header">
+                <nav class="top-nav">
+                    <button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button>
+                    <h1>환경 설정</h1>
+                    
+                </nav>
+            </header>
+
+            <main class="settings-content">
+                <div class="settings-group">
+                    <h3 class="group-title">일반 설정</h3>
+                    <div class="menu-list">
+                        <a href="#" class="menu-item">
+                            <span>언어</span>
+                            <div class="menu-value">
+                                <span>한국어</span>
+                                
+                            </div>
+                        </a>
+                        <a href="{% url 'settings-developer' %}" class="menu-item">
+                            <span>개발자 정보</span>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <h3 class="group-title"> 정보 및 제안</h3>
+                    <div class="menu-list">
+                        <a href="#" class="menu-item">
+                            <span>버전 정보</span>
+                            <div class="menu-value">
+                                <span>v1.1.0-release.1</span>
+                                
+                            </div>
+                        </a>
+                        <a href="{% url 'settings-faq' %}" class="menu-item">
+                            <span>FAQ</span>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h3 class="group-title">보안 설정</h3>
+                    <div class="menu-list">
+                        <a href="{% url 'settings-opensource' %}" class="menu-item">
+                            <span>오픈소스 라이선스</span>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </a>
+                        <a href="{% url 'settings-terms' %}" class="menu-item">
+                            <span>서비스 약관</span>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </a>
+                        <a href="{% url 'settings-privacy' %}" class="menu-item">
+                            <span>개인정보처리방침</span>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <form method="post" action="{% url 'account_logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-button">로그아웃</button>
+                </form>
+            </main>
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="{% url 'main' %}" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+            <a href="{% url 'dictionary' %}" class="nav-item"><i class="fa-solid fa-book-open"></i><span>Dictionary</span></a>
+            <a href="{% url 'laundry-upload' %}" class="nav-item-main"><i class="fa-solid fa-camera"></i></a>
+            <a href="#" class="nav-item"><i class="fa-solid fa-credit-card"></i><span>My Cards</span></a>
+            <a href="{% url 'profile' %}" class="nav-item active"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+        </nav>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
+    <script type="module" src="{% static 'laundry_manager/settings-script.js' %}"></script>
+</body>
+</html>

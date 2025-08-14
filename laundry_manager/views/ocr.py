@@ -1,11 +1,13 @@
-import os, uuid, json
+import os, uuid
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.conf import settings
+
 from ..forms import ImageUploadForm
 from ..utils import (
-    perform_ocr, get_washing_symbol_definition, classify_laundry_symbol,
-    load_washing_definitions, save_result_json, save_classification_result_json,
+    perform_ocr, load_washing_definitions, save_result_json,
+    extract_ocr_texts, parse_symbols_from_texts, parse_material_from_texts,
+    should_call_roboflow, pick_rf_symbols_for_targets, filter_non_rf_symbols,
+    symbols_to_guides,
 )
 
 WASHING_SYMBOLS_DEFINITIONS = load_washing_definitions()
@@ -16,14 +18,15 @@ def upload_view(request):
         "uploaded_image_url": None,
         "uploaded_image_name": None,
         "recognized_texts": [],
-        "symbol_definition": "",
         "error_message": None,
     }
+
     if request.method == "POST":
         form = ImageUploadForm(request.POST, request.FILES)
         if form.is_valid():
             uploaded_instance = form.save()
             messages.success(request, "사진이 업로드 됐습니다!")
+
             image_path = uploaded_instance.image.path
             context["uploaded_image_url"] = uploaded_instance.image.url
             context["uploaded_image_name"] = uploaded_instance.image.name
@@ -32,44 +35,66 @@ def upload_view(request):
             if ocr_result.get("error"):
                 context["error_message"] = ocr_result["message"]
                 return render(request, 'laundry_manager/laundry-upload.html', context)
+            
+            #ocr에서 텍스트 추출
+            texts = extract_ocr_texts(ocr_result)
 
-            definition, texts = get_washing_symbol_definition(ocr_result, WASHING_SYMBOLS_DEFINITIONS)
+            # ocr 텍스트에서 세탁 라벨 후보 추출
+            ocr_labels_all = parse_symbols_from_texts(texts)
+
+            # 9개 기호는 ocr 후보에서 제외 (roboflow로 인식하도록)
+            ocr_labels_non_rf = filter_non_rf_symbols(ocr_labels_all)
+
+            # 필요시 roboflow로 9개 기호만 분류해서 보완
+            rf_labels = []
+            if should_call_roboflow():
+                rf_labels = pick_rf_symbols_for_targets(image_path)
+            
+            # 최종 라벨 병합
+            merged_labels = list(dict.fromkeys(ocr_labels_non_rf + rf_labels))
+
+            # ocr 텍스트에서 소재 키워드 매칭
+            material_canon, material_display = parse_material_from_texts(texts)
+
+            # 세탁 기호랑 설명 배열 생성
+            symbol_guides = symbols_to_guides(merged_labels, WASHING_SYMBOLS_DEFINITIONS)
+
+            # 세션 저장
             request.session['recognized_texts'] = texts
-            request.session['symbol_definition'] = definition
-            request.session['material'] = request.POST.get("material")
-            request.session['stains'] = request.POST.getlist("stains")
-            save_result_json(image_path, texts, definition, ocr_result)
+            request.session['symbol_labels'] = merged_labels
+            request.session['symbol_guides'] = symbol_guides
+            request.session['symbols'] = merged_labels
+            # 사용자가 폼에서 선택한 것도 같이
+            request.session['material'] = material_display or request.POST.get("material")
+            request.session['stains'] = request.POST.getlist("stains") or request.POST.getlist("stains[]")
+
+            #json으로 저장
+            save_result_json(
+                image_path=image_path,
+                texts=texts,
+                definition=None,
+                ocr_raw=ocr_result,
+                rf_detect_raw=None, 
+                rf_class_raw=rf_labels,
+                fused_scores=None 
+            )
+
             return redirect('result')
+        
     return render(request, 'laundry_manager/laundry-upload.html', context)
 
 def result_view(request):
     texts = request.session.get('recognized_texts', [])
-    definition = request.session.get('symbol_definition', '')
     material = request.session.get('material', '')
     stains = request.session.get('stains', [])
-    return render(request, 'laundry_manager/result.html', {
-        'recognized_texts': texts,
-        'symbol_definition': definition,
+    symbol_labels = request.session.get("symbol_labels", [])
+    symbol_guides = request.session.get("symbol_guides", [])
+
+    return render(request, 'laundry_manager/result.html', 
+        {
         'materials': [material] if material else [],
         'stains': stains,
-    })
-
-def upload_and_classify(request):
-    result = None
-    if request.method == "POST":
-        form = ImageUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            image_file = request.FILES["image"]
-            os.makedirs("temp", exist_ok=True)
-            ext = image_file.name.split(".")[-1]
-            filename = f"{uuid.uuid4().hex}.{ext}"
-            image_path = os.path.join("temp", filename)
-            with open(image_path, "wb+") as dst:
-                for chunk in image_file.chunks():
-                    dst.write(chunk)
-            result = classify_laundry_symbol(image_path)
-            save_classification_result_json(image_path, result)
-            os.remove(image_path)
-    else:
-        form = ImageUploadForm()
-    return render(request, "laundry_manager/laundry-upload.html", {"form": form, "result": result})
+        "symbol_labels": symbol_labels,
+        "symbol_guides" : symbol_guides,
+    },
+    )

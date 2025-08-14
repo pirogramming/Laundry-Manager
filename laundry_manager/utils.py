@@ -135,7 +135,7 @@ def detect_symbols_via_roboflow(image_path, model_slug=None, version=None, confi
             for p in (data.get("predictions") or [])
         ]
     except Exception as e:
-        print("Roboflow dectect 오류:", e)
+        print("Roboflow detect 오류:", e)
         return []
 
 #라벨 정규화
@@ -236,7 +236,7 @@ def pick_rf_symbols_for_targets(image_path, threshold=None, model_slug=None, ver
         canon = normalize_to_canon(lab)
         if canon in RF_TARGET_LABELS and conf >= threshold:
             picked.append((canon, conf))
-    picked.sort(Key=lambda x:x[1], reverse=True)
+    picked.sort(key=lambda x:x[1], reverse=True)
     return [lab for lab, _ in picked]
 
 
