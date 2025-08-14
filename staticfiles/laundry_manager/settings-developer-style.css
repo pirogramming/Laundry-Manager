@@ -1,0 +1,129 @@
+/* developer-info.html 페이지 전용 스타일 */
+
+.page-container {
+    position: relative; width: 100%; max-width: 420px;
+    min-height: clamp(720px, 100svh, 920px);
+    
+    margin: 0 auto; background-color: var(--color-background);
+    display: flex; flex-direction: column; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    overflow: hidden; opacity: 0; /* Motion One 애니메이션용 */
+}
+.content-wrapper {
+    flex-grow: 1; overflow-y: auto; padding-bottom: 85px;
+}
+.content-wrapper::-webkit-scrollbar { display: none; }
+
+/* --- 상단 파란색 헤더 --- */
+.dev-info-header {
+    background-color: var(--color-primary);
+    color: var(--color-container);
+    padding: 15px 20px;
+    height: 120px;
+    flex-shrink: 0;
+}
+.dev-info-header .top-nav {
+    display: flex; justify-content: space-between; align-items: center;
+}
+.top-nav h1 { font-size: 18px; font-weight: 700; flex-grow: 1; text-align: center; margin:0;}
+.dev-info-header .icon-btn {
+    background: none; border: none; color: var(--color-container);
+    cursor: pointer; font-size: 16px; text-decoration: none;
+}
+/* 헤더 중앙 정렬을 위해 뒤로가기 버튼과 같은 너비의 투명 div 추가 가능 */
+.top-nav .icon-btn:last-child { visibility: hidden; }
+
+/* --- 메인 콘텐츠 (흰색 카드) --- */
+.dev-info-content {
+    background-color: var(--color-container);
+    padding: 25px;
+    border-radius: 30px;
+    margin: -50px 15px 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 10;
+}
+
+/* --- 팀 소개 --- */
+.team-intro {
+    text-align: center;
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid var(--color-border);
+}
+.team-intro h3 {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+}
+.team-intro h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+/* --- 팀원 카드 리스트 --- */
+.team-members {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.member-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: var(--color-background);
+    padding: 15px;
+    border-radius: 15px;
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    opacity: 0; /* Motion One stagger 애니메이션용 */
+}
+.member-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+}
+
+.member-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    flex-shrink: 0;
+}
+.member-details {
+    flex-grow: 1;
+}
+.member-details h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+.role-tag {
+    font-size: 10px;
+    font-weight: 700;
+    background-color: var(--color-primary);
+    color: var(--color-container);
+    padding: 3px 8px;
+    border-radius: 8px;
+}
+.member-role {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    margin-bottom: 6px;
+}
+.member-contact {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+.member-contact:hover {
+    text-decoration: underline;
+}
+
+/* (하단 네비게이션 바 스타일은 style.css의 것을 재사용하므로 여기에 추가할 필요 없음) */

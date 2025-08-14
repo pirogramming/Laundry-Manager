@@ -1,0 +1,1153 @@
+{
+    "filename": "스크린샷_2025-08-14_225932.png",
+    "recognized_texts": [
+        "(venv)",
+        "(r1198198744/4abe:~/eeploy/LauHary-Manaager#",
+        "python",
+        "manage.py",
+        "collectsatic",
+        "--noinput",
+        "253",
+        "static",
+        "files",
+        "copied",
+        "to",
+        ".",
+        "/var/www/launoIry-manager/static'",
+        "(venv)",
+        "root@s19874474abe:~/deploy/Laundry-Marager#",
+        "1s",
+        "/root/deploy/L.aundry-Manager/staticfiles",
+        "I",
+        "head",
+        "account",
+        "admin",
+        "drf-yasg",
+        "laundry_manager",
+        "stain",
+        "image",
+        "(venv)",
+        "root@s19874474abe:~/deploy/L.aundry-Manager#",
+        "0",
+        "2",
+        "(())",
+        "2",
+        "lio1010",
+        "12",
+        "wooks",
+        ")",
+        "In",
+        "23",
+        "C1",
+        "Snacos",
+        "^"
+    ],
+    "symbol_definition": "인식된 기호 설명 없음",
+    "ocr_raw_response": {
+        "version": "V2",
+        "requestId": "f34cee54-8dc3-44bc-a9af-ac971c8e245d",
+        "timestamp": 1755180267412,
+        "images": [
+            {
+                "uid": "04788f73d9634556b3e7763dfb22b95e",
+                "name": "스크린샷_2025-08-14_225932.png",
+                "inferResult": "SUCCESS",
+                "message": "SUCCESS",
+                "validationResult": {
+                    "result": "NO_REQUESTED"
+                },
+                "convertedImageInfo": {
+                    "width": 1649,
+                    "height": 353,
+                    "pageIndex": 0,
+                    "longImage": false
+                },
+                "fields": [
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 62.0,
+                                    "y": 0.0
+                                },
+                                {
+                                    "x": 156.0,
+                                    "y": 0.0
+                                },
+                                {
+                                    "x": 156.0,
+                                    "y": 19.0
+                                },
+                                {
+                                    "x": 62.0,
+                                    "y": 19.0
+                                }
+                            ]
+                        },
+                        "inferText": "(venv)",
+                        "inferConfidence": 0.9815,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 168.0,
+                                    "y": 0.0
+                                },
+                                {
+                                    "x": 816.0,
+                                    "y": 0.0
+                                },
+                                {
+                                    "x": 816.0,
+                                    "y": 18.0
+                                },
+                                {
+                                    "x": 168.0,
+                                    "y": 18.0
+                                }
+                            ]
+                        },
+                        "inferText": "(r1198198744/4abe:~/eeploy/LauHary-Manaager#",
+                        "inferConfidence": 0.405,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 829.0,
+                                    "y": 0.0
+                                },
+                                {
+                                    "x": 919.0,
+                                    "y": 0.0
+                                },
+                                {
+                                    "x": 919.0,
+                                    "y": 18.0
+                                },
+                                {
+                                    "x": 829.0,
+                                    "y": 18.0
+                                }
+                            ]
+                        },
+                        "inferText": "python",
+                        "inferConfidence": 0.9817,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 933.0,
+                                    "y": 0.0
+                                },
+                                {
+                                    "x": 1070.0,
+                                    "y": 0.0
+                                },
+                                {
+                                    "x": 1070.0,
+                                    "y": 18.0
+                                },
+                                {
+                                    "x": 933.0,
+                                    "y": 18.0
+                                }
+                            ]
+                        },
+                        "inferText": "manage.py",
+                        "inferConfidence": 0.9988,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 1081.0,
+                                    "y": 0.0
+                                },
+                                {
+                                    "x": 1281.0,
+                                    "y": 0.0
+                                },
+                                {
+                                    "x": 1281.0,
+                                    "y": 16.0
+                                },
+                                {
+                                    "x": 1081.0,
+                                    "y": 16.0
+                                }
+                            ]
+                        },
+                        "inferText": "collectsatic",
+                        "inferConfidence": 0.8985,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 1294.0,
+                                    "y": 0.0
+                                },
+                                {
+                                    "x": 1431.0,
+                                    "y": 0.0
+                                },
+                                {
+                                    "x": 1431.0,
+                                    "y": 16.0
+                                },
+                                {
+                                    "x": 1294.0,
+                                    "y": 16.0
+                                }
+                            ]
+                        },
+                        "inferText": "--noinput",
+                        "inferConfidence": 0.9793,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 63.0,
+                                    "y": 60.0
+                                },
+                                {
+                                    "x": 109.0,
+                                    "y": 60.0
+                                },
+                                {
+                                    "x": 109.0,
+                                    "y": 82.0
+                                },
+                                {
+                                    "x": 63.0,
+                                    "y": 82.0
+                                }
+                            ]
+                        },
+                        "inferText": "253",
+                        "inferConfidence": 0.9999,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 125.0,
+                                    "y": 60.0
+                                },
+                                {
+                                    "x": 213.0,
+                                    "y": 60.0
+                                },
+                                {
+                                    "x": 213.0,
+                                    "y": 82.0
+                                },
+                                {
+                                    "x": 125.0,
+                                    "y": 82.0
+                                }
+                            ]
+                        },
+                        "inferText": "static",
+                        "inferConfidence": 1.0,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 228.0,
+                                    "y": 59.0
+                                },
+                                {
+                                    "x": 304.0,
+                                    "y": 61.0
+                                },
+                                {
+                                    "x": 303.0,
+                                    "y": 83.0
+                                },
+                                {
+                                    "x": 228.0,
+                                    "y": 81.0
+                                }
+                            ]
+                        },
+                        "inferText": "files",
+                        "inferConfidence": 0.9997,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 317.0,
+                                    "y": 63.0
+                                },
+                                {
+                                    "x": 409.0,
+                                    "y": 58.0
+                                },
+                                {
+                                    "x": 410.0,
+                                    "y": 83.0
+                                },
+                                {
+                                    "x": 318.0,
+                                    "y": 87.0
+                                }
+                            ]
+                        },
+                        "inferText": "copied",
+                        "inferConfidence": 0.9994,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 423.0,
+                                    "y": 62.0
+                                },
+                                {
+                                    "x": 455.0,
+                                    "y": 62.0
+                                },
+                                {
+                                    "x": 455.0,
+                                    "y": 82.0
+                                },
+                                {
+                                    "x": 423.0,
+                                    "y": 82.0
+                                }
+                            ]
+                        },
+                        "inferText": "to",
+                        "inferConfidence": 0.9998,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 474.0,
+                                    "y": 63.0
+                                },
+                                {
+                                    "x": 481.0,
+                                    "y": 63.0
+                                },
+                                {
+                                    "x": 481.0,
+                                    "y": 74.0
+                                },
+                                {
+                                    "x": 474.0,
+                                    "y": 74.0
+                                }
+                            ]
+                        },
+                        "inferText": ".",
+                        "inferConfidence": 0.5186,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 481.0,
+                                    "y": 62.0
+                                },
+                                {
+                                    "x": 970.0,
+                                    "y": 60.0
+                                },
+                                {
+                                    "x": 970.0,
+                                    "y": 85.0
+                                },
+                                {
+                                    "x": 481.0,
+                                    "y": 87.0
+                                }
+                            ]
+                        },
+                        "inferText": "/var/www/launoIry-manager/static'",
+                        "inferConfidence": 0.9396,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 66.0,
+                                    "y": 96.0
+                                },
+                                {
+                                    "x": 153.0,
+                                    "y": 96.0
+                                },
+                                {
+                                    "x": 153.0,
+                                    "y": 119.0
+                                },
+                                {
+                                    "x": 66.0,
+                                    "y": 119.0
+                                }
+                            ]
+                        },
+                        "inferText": "(venv)",
+                        "inferConfidence": 1.0,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 169.0,
+                                    "y": 96.0
+                                },
+                                {
+                                    "x": 816.0,
+                                    "y": 96.0
+                                },
+                                {
+                                    "x": 816.0,
+                                    "y": 119.0
+                                },
+                                {
+                                    "x": 169.0,
+                                    "y": 119.0
+                                }
+                            ]
+                        },
+                        "inferText": "root@s19874474abe:~/deploy/Laundry-Marager#",
+                        "inferConfidence": 0.9401,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 827.0,
+                                    "y": 94.0
+                                },
+                                {
+                                    "x": 858.0,
+                                    "y": 94.0
+                                },
+                                {
+                                    "x": 858.0,
+                                    "y": 116.0
+                                },
+                                {
+                                    "x": 827.0,
+                                    "y": 116.0
+                                }
+                            ]
+                        },
+                        "inferText": "1s",
+                        "inferConfidence": 0.8619,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 874.0,
+                                    "y": 96.0
+                                },
+                                {
+                                    "x": 1474.0,
+                                    "y": 94.0
+                                },
+                                {
+                                    "x": 1474.0,
+                                    "y": 119.0
+                                },
+                                {
+                                    "x": 875.0,
+                                    "y": 121.0
+                                }
+                            ]
+                        },
+                        "inferText": "/root/deploy/L.aundry-Manager/staticfiles",
+                        "inferConfidence": 0.973,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 1494.0,
+                                    "y": 100.0
+                                },
+                                {
+                                    "x": 1502.0,
+                                    "y": 100.0
+                                },
+                                {
+                                    "x": 1502.0,
+                                    "y": 115.0
+                                },
+                                {
+                                    "x": 1494.0,
+                                    "y": 115.0
+                                }
+                            ]
+                        },
+                        "inferText": "I",
+                        "inferConfidence": 0.1794,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 1519.0,
+                                    "y": 96.0
+                                },
+                                {
+                                    "x": 1580.0,
+                                    "y": 96.0
+                                },
+                                {
+                                    "x": 1580.0,
+                                    "y": 116.0
+                                },
+                                {
+                                    "x": 1519.0,
+                                    "y": 116.0
+                                }
+                            ]
+                        },
+                        "inferText": "head",
+                        "inferConfidence": 1.0,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 63.0,
+                                    "y": 130.0
+                                },
+                                {
+                                    "x": 169.0,
+                                    "y": 130.0
+                                },
+                                {
+                                    "x": 169.0,
+                                    "y": 150.0
+                                },
+                                {
+                                    "x": 63.0,
+                                    "y": 150.0
+                                }
+                            ]
+                        },
+                        "inferText": "account",
+                        "inferConfidence": 0.9999,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 63.0,
+                                    "y": 163.0
+                                },
+                                {
+                                    "x": 140.0,
+                                    "y": 163.0
+                                },
+                                {
+                                    "x": 140.0,
+                                    "y": 184.0
+                                },
+                                {
+                                    "x": 63.0,
+                                    "y": 184.0
+                                }
+                            ]
+                        },
+                        "inferText": "admin",
+                        "inferConfidence": 1.0,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 64.0,
+                                    "y": 196.0
+                                },
+                                {
+                                    "x": 185.0,
+                                    "y": 200.0
+                                },
+                                {
+                                    "x": 184.0,
+                                    "y": 225.0
+                                },
+                                {
+                                    "x": 63.0,
+                                    "y": 220.0
+                                }
+                            ]
+                        },
+                        "inferText": "drf-yasg",
+                        "inferConfidence": 0.999,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 65.0,
+                                    "y": 231.0
+                                },
+                                {
+                                    "x": 289.0,
+                                    "y": 234.0
+                                },
+                                {
+                                    "x": 288.0,
+                                    "y": 258.0
+                                },
+                                {
+                                    "x": 64.0,
+                                    "y": 255.0
+                                }
+                            ]
+                        },
+                        "inferText": "laundry_manager",
+                        "inferConfidence": 0.9979,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 65.0,
+                                    "y": 265.0
+                                },
+                                {
+                                    "x": 140.0,
+                                    "y": 265.0
+                                },
+                                {
+                                    "x": 140.0,
+                                    "y": 286.0
+                                },
+                                {
+                                    "x": 65.0,
+                                    "y": 286.0
+                                }
+                            ]
+                        },
+                        "inferText": "stain",
+                        "inferConfidence": 0.9998,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 155.0,
+                                    "y": 265.0
+                                },
+                                {
+                                    "x": 230.0,
+                                    "y": 268.0
+                                },
+                                {
+                                    "x": 229.0,
+                                    "y": 290.0
+                                },
+                                {
+                                    "x": 154.0,
+                                    "y": 286.0
+                                }
+                            ]
+                        },
+                        "inferText": "image",
+                        "inferConfidence": 0.9998,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 66.0,
+                                    "y": 299.0
+                                },
+                                {
+                                    "x": 153.0,
+                                    "y": 299.0
+                                },
+                                {
+                                    "x": 153.0,
+                                    "y": 322.0
+                                },
+                                {
+                                    "x": 66.0,
+                                    "y": 322.0
+                                }
+                            ]
+                        },
+                        "inferText": "(venv)",
+                        "inferConfidence": 1.0,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 169.0,
+                                    "y": 298.0
+                                },
+                                {
+                                    "x": 814.0,
+                                    "y": 300.0
+                                },
+                                {
+                                    "x": 814.0,
+                                    "y": 324.0
+                                },
+                                {
+                                    "x": 169.0,
+                                    "y": 322.0
+                                }
+                            ]
+                        },
+                        "inferText": "root@s19874474abe:~/deploy/L.aundry-Manager#",
+                        "inferConfidence": 0.9559,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 118.0,
+                                    "y": 337.0
+                                },
+                                {
+                                    "x": 138.0,
+                                    "y": 337.0
+                                },
+                                {
+                                    "x": 138.0,
+                                    "y": 352.0
+                                },
+                                {
+                                    "x": 118.0,
+                                    "y": 352.0
+                                }
+                            ]
+                        },
+                        "inferText": "0",
+                        "inferConfidence": 0.9957,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 172.0,
+                                    "y": 339.0
+                                },
+                                {
+                                    "x": 190.0,
+                                    "y": 339.0
+                                },
+                                {
+                                    "x": 190.0,
+                                    "y": 352.0
+                                },
+                                {
+                                    "x": 172.0,
+                                    "y": 352.0
+                                }
+                            ]
+                        },
+                        "inferText": "2",
+                        "inferConfidence": 0.8719,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 221.0,
+                                    "y": 334.0
+                                },
+                                {
+                                    "x": 250.0,
+                                    "y": 334.0
+                                },
+                                {
+                                    "x": 250.0,
+                                    "y": 352.0
+                                },
+                                {
+                                    "x": 221.0,
+                                    "y": 352.0
+                                }
+                            ]
+                        },
+                        "inferText": "(())",
+                        "inferConfidence": 0.9362,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 255.0,
+                                    "y": 340.0
+                                },
+                                {
+                                    "x": 268.0,
+                                    "y": 340.0
+                                },
+                                {
+                                    "x": 268.0,
+                                    "y": 352.0
+                                },
+                                {
+                                    "x": 255.0,
+                                    "y": 352.0
+                                }
+                            ]
+                        },
+                        "inferText": "2",
+                        "inferConfidence": 0.5494,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 1090.0,
+                                    "y": 336.0
+                                },
+                                {
+                                    "x": 1173.0,
+                                    "y": 336.0
+                                },
+                                {
+                                    "x": 1173.0,
+                                    "y": 352.0
+                                },
+                                {
+                                    "x": 1090.0,
+                                    "y": 352.0
+                                }
+                            ]
+                        },
+                        "inferText": "lio1010",
+                        "inferConfidence": 0.966,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 1173.0,
+                                    "y": 339.0
+                                },
+                                {
+                                    "x": 1198.0,
+                                    "y": 339.0
+                                },
+                                {
+                                    "x": 1198.0,
+                                    "y": 352.0
+                                },
+                                {
+                                    "x": 1173.0,
+                                    "y": 352.0
+                                }
+                            ]
+                        },
+                        "inferText": "12",
+                        "inferConfidence": 0.6121,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 1200.0,
+                                    "y": 339.0
+                                },
+                                {
+                                    "x": 1272.0,
+                                    "y": 339.0
+                                },
+                                {
+                                    "x": 1272.0,
+                                    "y": 352.0
+                                },
+                                {
+                                    "x": 1200.0,
+                                    "y": 352.0
+                                }
+                            ]
+                        },
+                        "inferText": "wooks",
+                        "inferConfidence": 0.9075,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 1272.0,
+                                    "y": 339.0
+                                },
+                                {
+                                    "x": 1325.0,
+                                    "y": 339.0
+                                },
+                                {
+                                    "x": 1325.0,
+                                    "y": 352.0
+                                },
+                                {
+                                    "x": 1272.0,
+                                    "y": 352.0
+                                }
+                            ]
+                        },
+                        "inferText": ")",
+                        "inferConfidence": 0.6056,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 1352.0,
+                                    "y": 340.0
+                                },
+                                {
+                                    "x": 1383.0,
+                                    "y": 340.0
+                                },
+                                {
+                                    "x": 1383.0,
+                                    "y": 352.0
+                                },
+                                {
+                                    "x": 1352.0,
+                                    "y": 352.0
+                                }
+                            ]
+                        },
+                        "inferText": "In",
+                        "inferConfidence": 0.9965,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 1381.0,
+                                    "y": 336.0
+                                },
+                                {
+                                    "x": 1416.0,
+                                    "y": 336.0
+                                },
+                                {
+                                    "x": 1416.0,
+                                    "y": 352.0
+                                },
+                                {
+                                    "x": 1381.0,
+                                    "y": 352.0
+                                }
+                            ]
+                        },
+                        "inferText": "23",
+                        "inferConfidence": 0.9986,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 1421.0,
+                                    "y": 339.0
+                                },
+                                {
+                                    "x": 1480.0,
+                                    "y": 339.0
+                                },
+                                {
+                                    "x": 1480.0,
+                                    "y": 352.0
+                                },
+                                {
+                                    "x": 1421.0,
+                                    "y": 352.0
+                                }
+                            ]
+                        },
+                        "inferText": "C1",
+                        "inferConfidence": 0.7187,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 1508.0,
+                                    "y": 339.0
+                                },
+                                {
+                                    "x": 1590.0,
+                                    "y": 339.0
+                                },
+                                {
+                                    "x": 1590.0,
+                                    "y": 352.0
+                                },
+                                {
+                                    "x": 1508.0,
+                                    "y": 352.0
+                                }
+                            ]
+                        },
+                        "inferText": "Snacos",
+                        "inferConfidence": 0.8674,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 1590.0,
+                                    "y": 337.0
+                                },
+                                {
+                                    "x": 1611.0,
+                                    "y": 337.0
+                                },
+                                {
+                                    "x": 1611.0,
+                                    "y": 352.0
+                                },
+                                {
+                                    "x": 1590.0,
+                                    "y": 352.0
+                                }
+                            ]
+                        },
+                        "inferText": "^",
+                        "inferConfidence": 0.4236,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    }
+                ]
+            }
+        ]
+    },
+    "roboflow_detect_raw": null,
+    "roboflow_classify_raw": null,
+    "fused_scores": null
+}
