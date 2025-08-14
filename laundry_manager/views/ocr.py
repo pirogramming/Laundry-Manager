@@ -8,7 +8,10 @@ from ..utils import (
     load_washing_definitions, save_result_json, save_classification_result_json,
 )
 
+from ..services.text_rules import analyze_texts, load_latest_recognized_texts_from_output
+
 WASHING_SYMBOLS_DEFINITIONS = load_washing_definitions()
+
 
 def upload_view(request):
     context = {
@@ -33,26 +36,46 @@ def upload_view(request):
                 context["error_message"] = ocr_result["message"]
                 return render(request, 'laundry_manager/laundry-upload.html', context)
 
-            definition, texts = get_washing_symbol_definition(ocr_result, WASHING_SYMBOLS_DEFINITIONS)
-            request.session['recognized_texts'] = texts
-            request.session['symbol_definition'] = definition
+            definition, texts = get_washing_symbol_definition(
+                ocr_result, WASHING_SYMBOLS_DEFINITIONS
+            )
+
+            # 세션 저장
+            request.session['recognized_texts'] = texts or []
+            request.session['symbol_definition'] = definition or ""
             request.session['material'] = request.POST.get("material")
             request.session['stains'] = request.POST.getlist("stains")
+
+            # 결과 JSON 저장(이미 하고 있던 로깅)
             save_result_json(image_path, texts, definition, ocr_result)
+
             return redirect('result')
+
     return render(request, 'laundry_manager/laundry-upload.html', context)
 
+
 def result_view(request):
+    # 세션에서 기본값 가져오기
     texts = request.session.get('recognized_texts', [])
     definition = request.session.get('symbol_definition', '')
     material = request.session.get('material', '')
     stains = request.session.get('stains', [])
+
+    # 새로고침/직접 접근 등으로 세션이 비었을 때 보조 복구(옵션)
+    if not texts:
+        texts = load_latest_recognized_texts_from_output()
+
+    # ★ OCR 텍스트 → 룰 분석 → 지시문 생성
+    instructions = analyze_texts(texts)
+
     return render(request, 'laundry_manager/result.html', {
         'recognized_texts': texts,
         'symbol_definition': definition,
         'materials': [material] if material else [],
         'stains': stains,
+        'instructions': instructions,   # ← 템플릿에서 사용
     })
+
 
 def upload_and_classify(request):
     result = None
@@ -67,9 +90,14 @@ def upload_and_classify(request):
             with open(image_path, "wb+") as dst:
                 for chunk in image_file.chunks():
                     dst.write(chunk)
+
             result = classify_laundry_symbol(image_path)
             save_classification_result_json(image_path, result)
             os.remove(image_path)
     else:
         form = ImageUploadForm()
-    return render(request, "laundry_manager/laundry-upload.html", {"form": form, "result": result})
+
+    return render(
+        request, "laundry_manager/laundry-upload.html",
+        {"form": form, "result": result}
+    )

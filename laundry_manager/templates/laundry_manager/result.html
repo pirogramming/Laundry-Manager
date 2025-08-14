@@ -15,9 +15,13 @@
 <body>
     <div class="mobile-container result-page">
         <nav class="top-nav-white">
-            <a href="{% url 'upload' %}"><button class="icon-btn-bordered"><i class="fa-solid fa-arrow-left"></i></button></a>
+            <a href="{% url 'upload' %}">
+                <button class="icon-btn-bordered"><i class="fa-solid fa-arrow-left"></i></button>
+            </a>
             <h2>인식 정보 확인</h2>
-            <a href="{% url 'main' %}"><button class="text-btn-dark">Cancel <i class="fa-solid fa-xmark"></i></button></a>
+            <a href="{% url 'main' %}">
+                <button class="text-btn-dark">Cancel <i class="fa-solid fa-xmark"></i></button>
+            </a>
         </nav>
 
         <main class="result-card-section">
@@ -25,43 +29,72 @@
                 <div class="result-icon">
                     <i class="fa-solid fa-shirt"></i>
                 </div>
+
                 <div class="result-title">
                     <p>세탁물 분류</p>
+                    <!-- 필요 시 세탁물명을 동적으로 바꾸세요 -->
                     <h2 id="laundry-item-name">흰색 니트 / 김치 자국 <i class="fa-solid fa-pen-to-square"></i></h2>
                 </div>
+
                 <div class="notice-box">
                     <i class="fa-solid fa-circle-info"></i>
                     <span>세탁 결과에 대한 책임은 개인에게 있습니다</span>
                 </div>
+
                 <div class="info-list">
+                    <!-- 인식된 텍스트 -->
                     <div class="info-item">
                         <span>인식된 기호</span>
                         <strong>{{ recognized_texts|join:", " | default:"결과 없음" }}</strong>
                     </div>
+
                     <hr class="info-divider">
+
+                    <!-- 세탁 지시문 (룰 엔진 결과) -->
+                    <div class="info-item">
+                        <span>세탁 지시문</span>
+                        {% if instructions %}
+                            <ul class="instruction-list">
+                                {% for ins in instructions %}
+                                    <li class="instruction-item {{ ins.state }}">{{ ins.message }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <strong>분석된 지시문 없음</strong>
+                        {% endif %}
+                    </div>
+
+                    <hr class="info-divider">
+
+                    <!-- 의류 소재 -->
                     <div class="info-item">
                         <span>의류 소재</span>
-                        <strong>린넨 80%, 울 20%</strong>
+                        <strong>{{ materials|join:", " | default:"-" }}</strong>
                     </div>
+
                     <hr class="info-divider">
+
+                    <!-- 선택한 얼룩 -->
                     <div class="info-item">
                         <span>선택한 얼룩 유형</span>
-                        <strong>김칫국물 자국</strong>
+                        <strong>{{ stains|join:", " | default:"-" }}</strong>
                     </div>
                 </div>
+
                 <a href="#" class="extra-info-link" id="open-modal-btn">추가 정보 입력하기</a>
                 <a href="{% url 'laundry-info' %}" class="confirm-button">확인하기</a>
             </div>
         </main>
     </div>
 
+    <!-- 편집 모달 -->
     <div class="modal-overlay" id="edit-modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3>인식 정보 수정하기</h3>
                 <button class="close-modal-btn" id="close-modal-btn"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            
+
             <form class="modal-form">
                 <div class="input-group">
                     <label for="edit-name">세탁물 이름</label>
@@ -122,6 +155,7 @@
         </div>
     </div>
 
+    <!-- 스크립트 -->
     <script type="module" src="https://cdn.jsdelivr.net/npm/motion@10.18.0/dist/motion.es.js"></script>
     <script type="module" src="{% static 'laundry_manager/result-script.js' %}"></script>
 </body>
