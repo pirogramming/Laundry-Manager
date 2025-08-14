@@ -4,6 +4,10 @@ from datetime import date
 import requests
 from django.conf import settings
 from django.shortcuts import render
+from django.http import JsonResponse
+from urllib.parse import unquote  
+from django.template.loader import render_to_string
+
 
 logger = logging.getLogger(__name__)
 
@@ -183,3 +187,33 @@ def dictionary(request):
 # 과거 호환
 # dictionary = dictionary_view
 dictionary_view = dictionary
+
+def dictionary_detail(request, item_title):
+    decoded_title = unquote(item_title)
+    dictionary_data = load_dictionary_data()
+    item_data = None
+    
+    for category_key in dictionary_data:
+        for item in dictionary_data.get(category_key, []):
+            if item.get("title") == decoded_title:
+                item_data = item
+                break
+        if item_data:
+            break
+
+    if not item_data:
+        return render(request, "laundry_manager/not_found.html", {"message": f"'{decoded_title}'에 대한 세탁 정보를 찾을 수 없습니다."})
+
+    context = {
+        "item": item_data,
+        "category_map": {
+            "description": "설명",
+            "content": "상세 내용",
+            "Washing_Steps": "세탁 단계",
+            "tip": "팁",
+            "not_to_do": "주의 사항",
+            "Other_Information": "기타 정보"
+        }
+    }
+    
+    return render(request, "laundry_manager/dictionary-detail.html", context)
