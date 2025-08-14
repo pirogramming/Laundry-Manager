@@ -2,6 +2,10 @@
 from django.urls import path
 from .views import pages, ocr, stains, info_flow, maps, history, classify
 import laundry_manager.views.dictionary as dictionary_views  # 이전 이슈 피하려고 모듈 임포트
+## 테스트를 위한 import들 ##
+from django.views.generic import TemplateView
+from .views import laundry_res  # 이미 guide_from_result 추가해놨던 파일
+
 
 urlpatterns = [
     path('', pages.main_page, name='main'),
@@ -50,4 +54,14 @@ urlpatterns = [
     
     path("classify/", classify.classify_symbol_view, name="classify"),
 
+
+    # ... 기존 라우트들 ...
+    path("guide/from-result/", laundry_res.guide_from_result, name="guide_from_result"),
+
+    # ✅ 개발용 테스트 템플릿
+    path(
+        "dev/test-guide/",
+        TemplateView.as_view(template_name="laundry_manager/dev_test_guide.html"),
+        name="dev-test-guide",
+    ),
 ]

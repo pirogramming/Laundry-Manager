@@ -32,7 +32,7 @@ def laundry_result_view(request):
             "symbols": guides.get("symbol_guide"),
             "info": info,
             "materials": [info["material"]],
-            "stains": [info["stains"]],
+            "stains": info["stains"],
         })
     return redirect("laundry-upload")
 
@@ -71,17 +71,25 @@ def final_info_view(request):
         filename = request.POST.get("filename")
         manual_materials = request.POST.getlist("manual_materials[]")
         manual_symbols = request.POST.getlist("manual_symbols[]")
-        manual_stains = request.POST.getlist("manual_stains[]")
+        manual_stain = request.POST.get("manual_stain")
+
         first_result = first_info(filename=filename)
         final_result = final_info(first_info=first_result,
                                   manual_materials=manual_materials,
                                   manual_symbols=manual_symbols,
-                                  manual_stains=manual_stains)
+                                  manual_stain=manual_stain)
         # 1. 추천 결과 텍스트 생성
         material_json = load_json('blackup.json')
         stain_json = load_json('persil_v2.json')
         symbol_json = load_json('washing_symbol.json')
-        guides = laundry_recommend(final_result, material_json, stain_json, symbol_json)
+
+        stain_name = final_result.get("stain") or (manual_stain or "")
+        guides = laundry_recommend(
+            {"material": ", ".join(final_result.get("materials", [])),
+             "stains": stain_name,                     
+             "symbols": final_result.get("symbols", [])},
+            material_json, stain_json, symbol_json
+        )
         recommendation_text = format_result(guides)
 
         # 2. 로그인 상태이면 DB에 저장
@@ -90,20 +98,19 @@ def final_info_view(request):
                 user=request.user,
                 materials=', '.join(final_result.get("materials", [])),
                 symbols=', '.join(final_result.get("symbols", [])),
-                stains=', '.join(final_result.get("stains", [])),
+                stains=stain_name,
                 recommendation_result=recommendation_text
             )
         
         return render(request, "laundry_manager/laundry_info.html", {
             "materials": final_result.get("materials", []),
             "symbols": final_result.get("symbols", []),
-            "stains": final_result.get("stains", []),
+            "stains": stain_name,
             "material_name": ", ".join(final_result.get("materials", [])), 
             "material" : guides.get('material_guide'),
             "stain": guides.get('stain_guide'),
             "info": {
-                'stains': ", ".join(final_result.get("stains", [])),
+                'stains': stain_name,
                 'material': ", ".join(final_result.get("materials", []))
             }
         })
-    return JsonResponse({"error": "Invalid request"}, status=400)
