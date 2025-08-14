@@ -11,22 +11,28 @@ logger = logging.getLogger(__name__)
 NAVER_CLIENT_ID = getattr(settings, "NAVER_CLIENT_ID", "")
 NAVER_CLIENT_SECRET = getattr(settings, "NAVER_CLIENT_SECRET", "")
 
+
 def _load_dictionary_data():
     try:
-        p = os.path.join(settings.BASE_DIR, "laundry_manager", "json_data", "dictionary.json")
+        p = os.path.join(
+            settings.BASE_DIR, "laundry_manager", "json_data", "dictionary.json"
+        )
         with open(p, "r", encoding="utf-8") as f:
             return json.load(f)
     except Exception as e:
         logger.warning("dictionary.json 로드 실패: %s", e)
         return {}
 
+
 def _ymd(d: date) -> str:
     return d.strftime("%Y-%m-%d")
+
 
 def _start_end_for_months(months_back: int = 18):
     today = date.today()
     total = today.year * 12 + (today.month - 1) - months_back
-    sy, sm = divmod(total, 12); sm += 1
+    sy, sm = divmod(total, 12)
+    sm += 1
     start = date(sy, sm, 1)
     return _ymd(start), _ymd(today)
 
@@ -99,6 +105,7 @@ def dictionary(request):
         "removal": "냄새 및 얼룩제거 방법",
         "words": "용어 사전",
         "how_laundry": "세탁 방법",
+        "enjoy_looking": "즐겨찾기",
     }
     category_list = list(category_map.values())
     processed_data = {}
@@ -171,6 +178,7 @@ def dictionary(request):
     }
 
     return render(request, "laundry_manager/dictionary.html", context)
+
 
 # 과거 호환
 # dictionary = dictionary_view
