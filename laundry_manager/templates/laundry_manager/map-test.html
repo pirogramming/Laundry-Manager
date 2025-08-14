@@ -1,78 +1,127 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-  <meta charset="UTF-8">
-  <title>내 위치 기반 네이버 지도</title>
-  <style>#map{width:100%;height:500px}</style>
-  <!-- 지도 SDK -->
-  <script src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ NAVER_MAP_CLIENT_KEY }}"></script>
-  <!-- jQuery (infowindow 예제에 쓰길래 포함) -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <title>네이버 지도 API 예제</title>
+  <meta charset="utf-8" />
+  <style>
+    .map-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .map {
+      width: 500px;
+      height: 400px;
+      margin: 20px;
+      border: 1px solid #ccc;
+    }
+
+    h2 {
+      text-align: center;
+    }
+  </style>
+  <script type="text/javascript"
+    src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId={{ naver_map_client_key }}&submodules=geocoding,directions"></script>
 </head>
+
 <body>
-  <h1>내 위치 기반 지도</h1>
-  <div id="map"></div>
+  <h1>네이버 지도 기능</h1>
+
+  <div class="map-container">
+    <div>
+      <h2>동적 지도 (Dynamic Map)</h2>
+      <div id="dynamic-map" class="map"></div>
+    </div>
+
+    <div>
+      <h2>경로 표시 (Directions)</h2>
+      <div id="directions-map" class="map"></div>
+    </div>
+  </div>
 
   <script>
-    // 지도 기본 생성 (서울 시청 기준)
-    var map = new naver.maps.Map('map', {
-      center: new naver.maps.LatLng(37.5666805, 126.9784147),
-      zoom: 10,
-      mapTypeId: naver.maps.MapTypeId.NORMAL
-    });
+    // 전역 변수로 지도 객체를 선언
+    var dynamicMap;
 
-    var infowindow = new naver.maps.InfoWindow();
+    // 동적 지도 생성 및 현재 위치 마커 추가
+    function initDynamicMap() {
+      var mapOptions = {
+        center: new naver.maps.LatLng(37.56667, 126.97837),
+        zoom: 11
+      };
+      dynamicMap = new naver.maps.Map('dynamic-map', mapOptions);
 
-    function onSuccessGeolocation(position) {
-      var location = new naver.maps.LatLng(
-        position.coords.latitude,
-        position.coords.longitude
-      );
-
-      // 중심과 줌 변경
-      map.setCenter(location);
-      map.setZoom(14);
-
-      // 마커 표시
-      var marker = new naver.maps.Marker({
-        position: location,
-        map: map
-      });
-
-      // 인포윈도우 표시
-      infowindow.setContent(
-        '<div style="padding:10px;">현재 위치<br>(' +
-        location.lat().toFixed(6) + ', ' + location.lng().toFixed(6) + ')</div>'
-      );
-      infowindow.open(map, marker);
-
-      console.log('Coordinates:', location.toString());
-    }
-
-    function onErrorGeolocation() {
-      var center = map.getCenter();
-      infowindow.setContent(
-        '<div style="padding:10px;color:#f00;">위치 정보 가져오기 실패<br>' +
-        'latitude: ' + center.lat() + '<br>' +
-        'longitude: ' + center.lng() + '</div>'
-      );
-      infowindow.open(map, center);
-    }
-
-    $(window).on("load", function() {
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          onSuccessGeolocation,
-          onErrorGeolocation
-        );
+        navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
       } else {
-        var center = map.getCenter();
-        infowindow.setContent(
-          '<div style="padding:10px;color:#f00;">브라우저가 위치 정보를 지원하지 않습니다.</div>'
-        );
-        infowindow.open(map, center);
+        alert('Geolocation API를 사용할 수 없습니다.');
       }
-    });
+    }
+
+    // Geolocation 성공 시 호출되는 함수
+    function onSuccessGeolocation(position) {
+      var location = new naver.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+      dynamicMap.setCenter(location);
+      dynamicMap.setZoom(16);
+
+      // 현재 위치에 빨간색 핀 마커 추가
+      var marker = new naver.maps.Marker({
+        map: dynamicMap,
+        position: location,
+        icon: {
+          url: "http://googleusercontent.com/image_generation_content/0", // 제공해주신 이미지 URL을 사용
+          size: new naver.maps.Size(40, 58), // 이미지 크기에 맞게 조절
+          anchor: new naver.maps.Point(20, 58) // 마커 이미지의 중앙 하단에 핀이 위치하도록 설정
+        }
+      });
+    }
+
+    // Geolocation 실패 시 호출되는 함수
+    function onErrorGeolocation() {
+      alert('현재 위치 정보를 가져오는 데 실패했습니다.');
+    }
+
+    // 경로 표시 지도 생성
+    function initDirectionsMap() {
+      var mapOptions = {
+        center: new naver.maps.LatLng(37.56667, 126.97837),
+        zoom: 11
+      };
+      var map = new naver.maps.Map('directions-map', mapOptions);
+
+      var directionsService = new naver.maps.Service.DirectionsService();
+
+      var start = new naver.maps.LatLng(37.56667, 126.97837);
+      var end = new naver.maps.LatLng(37.50682, 127.05697);
+
+      directionsService.route({
+        start: start,
+        end: end
+      }, function (status, response) {
+        if (status !== naver.maps.Service.Status.OK) {
+          alert('경로 탐색에 실패했습니다: ' + status);
+          return;
+        }
+
+        var path = response.result.routes[0].path;
+        var polyline = new naver.maps.Polyline({
+          map: map,
+          path: path,
+          strokeColor: '#5347AA',
+          strokeWeight: 4
+        });
+      });
+    }
+
+    window.onload = function () {
+      initDynamicMap();
+      initDirectionsMap();
+    };
   </script>
 </body>
+
 </html>
