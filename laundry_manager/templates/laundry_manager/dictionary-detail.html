@@ -1,3 +1,4 @@
+{% load static custom_filters %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -16,52 +17,56 @@
 </head>
 <body>
     <div class="mobile-container detail-page">
-        <div class="detail-background-image"></div>
+        <div class="detail-background-image" {% if item.image_url %} style="background-image: url('{{ item.image_url }}');" {% endif %}></div>
 
         <nav class="top-nav-detail">
-            <a href="#" class="icon-btn-nav"><i class="fa-solid fa-arrow-left"></i></a>
+            <a href="{% url 'dictionary' %}" class="icon-btn-nav"><i class="fa-solid fa-arrow-left"></i></a>
         </nav>
         
         <div class="content-card">
             <section class="info-summary-section">
                 <div class="title-wrapper">
-                    <h1>커피 얼룩 지우는 방법</h1>
+                    <h1>{{ item.title }}</h1>
                     <button id="bookmarkBtn" class="icon-btn-nav"><i class="fa-regular fa-heart"></i></button>
                 </div>
-                <span class="info-category-tag"> # 얼룩 제거</span>
+                {% if item.category_name %}
+                <span class="info-category-tag"># {{ item.category_name }}</span>
+                {% endif %}
             </section>
 
+            {% for key, display_name in category_map.items %}
+            {% with value=item|get_item:key %}
+            {% if value %}
             <section class="detail-content-section">
-                <h3><i class="fa-solid fa-droplet"></i> 세탁 단계</h3>
-                <ol>
-                    <li>주방 세제를 미온수에 풀어 얼룩 부분에 바릅니다.</li>
-                    <li>부드러운 솔로 가볍게 문지른 후 10분간 방치합니다.</li>
-                    <li>따뜻한 물로 충분히 헹구어 냅니다.</li>
-                </ol>
-                
-                <h3><i class="fa-solid fa-circle-exclamation"></i> 주의 사항</h3>
-                <p>뜨거운 물을 바로 부으면 단백질이 응고되어 얼룩이 고착될 수 있으니 주의하세요.</p>
+                <h3>
+                    {% if key == "Washing_Steps" %}
+                    <i class="fa-solid fa-droplet"></i>
+                    {% elif key == "tip" %}
+                    <i class="fa-solid fa-lightbulb"></i>
+                    {% elif key == "not_to_do" %}
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    {% else %}
+                    <i class="fa-solid fa-info-circle"></i>
+                    {% endif %}
+                    {{ display_name }}
+                </h3>
+                {% if value|is_list %}
+                    <ul>
+                    {% for text in value %}
+                        <li>{{ text }}</li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>{{ value }}</p>
+                {% endif %}
             </section>
+            {% endif %}
+            {% endwith %}
+            {% endfor %}
             
-            <section class="related-tips-section">
-                <h3>관련 세탁 팁</h3>
-                <div class="related-list">
-                    <a href="#" class="history-item">
-                        <img src="https://images.unsplash.com/photo-1586368388484-87895d852033?q=80&w=400" alt="김치" class="history-img">
-                        <div class="history-details">
-                            <h4>김칫자국 지우는 방법</h4>
-                            <p>얼룩 제거</p>
-                        </div>
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </a>
-                </div>
-
-            </section>
-            <a href="{% url 'dictionary'%}" class="back-to-dict-button">백과사전 돌아가기</a>   
+            <a href="{% url 'dictionary'%}" class="back-to-dict-button">백과사전 돌아가기</a>
         </div>
         
-        
-
         <nav class="bottom-nav">
             <a href="{% url 'main' %}" class="nav-item">
                 <i class="fa-solid fa-house"></i>
@@ -83,7 +88,6 @@
                 <span>Profile</span>
             </a>
         </nav>
-
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
