@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상세 정보 - 세탁 매니저</title>
+    
+    <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}">
+    <link rel="stylesheet" href="{% static 'laundry_manager/dictionary-detail-style.css' %}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <div class="mobile-container detail-page">
+        <div class="detail-background-image"></div>
+
+        <nav class="top-nav-detail">
+            <a href="#" class="icon-btn-nav"><i class="fa-solid fa-arrow-left"></i></a>
+        </nav>
+        
+        <div class="content-card">
+            <section class="info-summary-section">
+                <div class="title-wrapper">
+                    <h1>커피 얼룩 지우는 방법</h1>
+                    <button id="bookmarkBtn" class="icon-btn-nav"><i class="fa-regular fa-heart"></i></button>
+                </div>
+                <span class="info-category-tag"> # 얼룩 제거</span>
+            </section>
+
+            <section class="detail-content-section">
+                <h3><i class="fa-solid fa-droplet"></i> 세탁 단계</h3>
+                <ol>
+                    <li>주방 세제를 미온수에 풀어 얼룩 부분에 바릅니다.</li>
+                    <li>부드러운 솔로 가볍게 문지른 후 10분간 방치합니다.</li>
+                    <li>따뜻한 물로 충분히 헹구어 냅니다.</li>
+                </ol>
+                
+                <h3><i class="fa-solid fa-circle-exclamation"></i> 주의 사항</h3>
+                <p>뜨거운 물을 바로 부으면 단백질이 응고되어 얼룩이 고착될 수 있으니 주의하세요.</p>
+            </section>
+            
+            <section class="related-tips-section">
+                <h3>관련 세탁 팁</h3>
+                <div class="related-list">
+                    <a href="#" class="history-item">
+                        <img src="https://images.unsplash.com/photo-1586368388484-87895d852033?q=80&w=400" alt="김치" class="history-img">
+                        <div class="history-details">
+                            <h4>김칫자국 지우는 방법</h4>
+                            <p>얼룩 제거</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                </div>
+
+            </section>
+            <a href="{% url 'dictionary'%}" class="back-to-dict-button">백과사전 돌아가기</a>   
+        </div>
+        
+        
+
+        <nav class="bottom-nav">
+            <a href="{% url 'main' %}" class="nav-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
+            <a href="{% url 'map' %}" class="nav-item">
+                <i class="fa-solid fa-map-location-dot"></i>
+                <span>Map</span>
+            </a>
+            <a href="{% url 'laundry-upload' %}" class="nav-item-main">
+                <i class="fa-solid fa-camera"></i>
+            </a>
+            <a href="{% url 'dictionary' %}" class="nav-item active">
+                <i class="fa-solid fa-book-open"></i>
+                <span>Dictionary</span>
+            </a>
+            <a href="{% url 'profile' %}" class="nav-item">
+                <i class="fa-solid fa-user"></i>
+                <span>Profile</span>
+            </a>
+        </nav>
+
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
+    <script type="module" src="{% static 'laundry_manager/dictionary-detail-script.js' %}"></script>
+</body>
+</html>

@@ -119,6 +119,27 @@
                 {% endif %}
             </div>
         </section>
+        <nav class="bottom-nav">
+            <a href="{% url 'main' %}" class="nav-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
+            <a href="{% url 'map' %}" class="nav-item">
+                <i class="fa-solid fa-map-location-dot"></i>
+                <span>Map</span>
+            </a>
+            <a href="{% url 'laundry-upload' %}" class="nav-item-main">
+                <i class="fa-solid fa-camera"></i>
+            </a>
+            <a href="{% url 'dictionary' %}" class="nav-item active">
+                <i class="fa-solid fa-book-open"></i>
+                <span>Dictionary</span>
+            </a>
+            <a href="{% url 'profile' %}" class="nav-item">
+                <i class="fa-solid fa-user"></i>
+                <span>Profile</span>
+            </a>
+        </nav>
     </div>
 
     <div id="detailOverlay" class="detail-overlay" onclick="closeDetailCard(event)">
