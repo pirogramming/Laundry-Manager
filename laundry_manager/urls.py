@@ -31,6 +31,8 @@ urlpatterns = [
     path("stain-info/", pages.stain_info_page, name="stain-info"),
     path("login/", pages.login_page, name="login"),
     path("dictionary/", pages.dictionary_page, name="dictionary"),
+    path("dictionary-detail/", pages.dictionary_detail_page, name="dictionary-detail"),
+    
     path("main2/", pages.main2_page, name="main2"),
     path("profile/", pages.profile_page, name="profile"),
     path("settings/", pages.settings_page, name="settings"),

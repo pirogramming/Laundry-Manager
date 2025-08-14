@@ -126,6 +126,8 @@ def login_page(request):
 
 def dictionary_page(request):
     return render(request, "laundry_manager/dictionary.html", base_context(request))
+def dictionary_detail_page(request):
+    return render(request, "laundry_manager/dictionary-detail.html", base_context(request))
 
 
 def main2_page(request):
