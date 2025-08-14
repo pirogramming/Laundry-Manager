@@ -1,0 +1,58 @@
+{
+    "filename": "image-removebg-preview_36_Vw3Wp9u.png",
+    "recognized_texts": [
+        "11111"
+    ],
+    "symbol_definition": "인식된 기호 설명 없음",
+    "ocr_raw_response": {
+        "version": "V2",
+        "requestId": "ec7e94cc-cbac-4bde-974d-41e407314a80",
+        "timestamp": 1755002626963,
+        "images": [
+            {
+                "uid": "88aa3947351c4915931ddb598c94ce31",
+                "name": "image-removebg-preview_36_Vw3Wp9u.png",
+                "inferResult": "SUCCESS",
+                "message": "SUCCESS",
+                "validationResult": {
+                    "result": "NO_REQUESTED"
+                },
+                "convertedImageInfo": {
+                    "width": 499,
+                    "height": 499,
+                    "pageIndex": 0,
+                    "longImage": false
+                },
+                "fields": [
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 83.0,
+                                    "y": 286.0
+                                },
+                                {
+                                    "x": 255.0,
+                                    "y": 250.0
+                                },
+                                {
+                                    "x": 268.0,
+                                    "y": 312.0
+                                },
+                                {
+                                    "x": 96.0,
+                                    "y": 348.0
+                                }
+                            ]
+                        },
+                        "inferText": "11111",
+                        "inferConfidence": 0.9716,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    }
+                ]
+            }
+        ]
+    }
+}

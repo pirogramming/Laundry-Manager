@@ -24,7 +24,7 @@
 .dev-info-header .top-nav {
     display: flex; justify-content: space-between; align-items: center;
 }
-.top-nav h1 { font-size: 18px; font-weight: 700; flex-grow: 1; text-align: center;}
+.top-nav h1 { font-size: 18px; font-weight: 700; flex-grow: 1; text-align: center; margin:0;}
 .dev-info-header .icon-btn {
     background: none; border: none; color: var(--color-container);
     cursor: pointer; font-size: 16px; text-decoration: none;

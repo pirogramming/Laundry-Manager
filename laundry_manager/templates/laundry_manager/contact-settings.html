@@ -18,7 +18,7 @@
         <div class="content-wrapper">
             <header class="contact-header">
                 <nav class="top-nav">
-                    <button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button>
+                    <a href="{% url 'profile' %}"  class="icon-btn"><i class="fa-solid fa-arrow-left"></i></a>
                     <h1>문의하기</h1>
                 </nav>
             </header>
@@ -83,7 +83,7 @@
                 </form>
 
                 <!-- 4. FAQ 바로가기 -->
-                <a href="#" class="faq-link">
+                <a href="{% url 'settings-faq' %}" class="faq-link">
                     <div class="faq-link-text">
                         <h4>FAQ 바로가기</h4>
                         <p>자주 묻는 질문에서 빠르게 답을 찾아보세요.</p>
@@ -97,11 +97,11 @@
         </div>
 
         <nav class="bottom-nav">
-            <a href="#" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
-            <a href="#" class="nav-item"><i class="fa-solid fa-chart-simple"></i><span>Stats</span></a>
-            <a href="#" class="nav-item-main"><i class="fa-solid fa-camera"></i></a>
+            <a href="{% url 'main2' %}" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+            <a href="{% url 'dictionary' %}" class="nav-item"><i class="fa-solid fa-book-open"></i><span>Dictionary</span></a>
+            <a href="{% url 'laundry-upload' %}" class="nav-item-main"><i class="fa-solid fa-camera"></i></a>
             <a href="#" class="nav-item"><i class="fa-solid fa-credit-card"></i><span>My Cards</span></a>
-            <a href="#" class="nav-item active"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+            <a href="{% url 'profile' %}" class="nav-item active"><i class="fa-solid fa-user"></i><span>Profile</span></a>
         </nav>
     </div>
 
