@@ -35,6 +35,22 @@ NAVER_MAP_CLIENT_SECRET = config("NAVER_MAP_CLIENT_SECRET")
 NAVER_CLIENT_ID = config("NAVER_CLIENT_ID", default="")
 NAVER_CLIENT_SECRET = config("NAVER_CLIENT_SECRET", default="")
 
+
+
+
+# 로보 플로우에서 쓰는 api 키
+ROBOFLOW_API_KEY = config("ROBOFLOW_API_KEY", default="")
+RF_CLASSIFY_MODEL = config("RF_CLASSIFY_MODEL", default="")
+RF_CLASSIFY_VERSION = config("RF_CLASSIFY_VERSION", default="1")
+RF_ENABLED = config("RF_ENABLED", default="false").lower() in ("1", "true", "yes", "y")
+# 분류 임계값(0.0~1.0) 0.5보다 낮을 시 표시하지 않음
+try:
+    RF_CLASSIFY_THRESHOLD = float(config("RF_CLASSIFY_THRESHOLD", default="0.5"))
+except ValueError:
+    RF_CLASSIFY_THRESHOLD = 0.1
+
+
+
 # social login
 SOCIALACCOUNT_PROVIDERS = {
     'google': {

@@ -1,6 +1,6 @@
 # laundry_manager/urls.py
 from django.urls import path
-from .views import pages, ocr, stains, info_flow, maps, history
+from .views import pages, ocr, stains, info_flow, maps, history, classify
 import laundry_manager.views.dictionary as dictionary_views  # 이전 이슈 피하려고 모듈 임포트
 
 urlpatterns = [
@@ -48,4 +48,6 @@ urlpatterns = [
     path('record-settings/', history.record_settings_page, name='record-settings'), 
     path('history/<int:history_id>/', history.laundry_history_detail_view, name='laundry_history_detail'),
     
+    path("classify/", classify.classify_symbol_view, name="classify"),
+
 ]
