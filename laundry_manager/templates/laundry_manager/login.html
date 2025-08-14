@@ -22,7 +22,7 @@
                 <span>로고 자리</span>
             </div>
             <a href="{% url 'main' %}" class="guest-link">로그인 없이 이용하기</a>
-            <a href="{% url 'main' %}" class="guest-button">비회원 이용하기</a>
+            {% comment %} <a href="{% url 'main' %}" class="guest-button">비회원 이용하기</a> {% endcomment %}
         </div>
 
         <div class="login-card">
@@ -45,9 +45,9 @@
                     <!-- Kakao (REST API Key 사용) -->
                     <a class="social-btn"
                        href="{% provider_login_url 'kakao' next=next_url %}">
-                        <img src="https://developers.kakao.com/tool/resource/static/img/button/login/full/ko/kakao_login_medium_wide.png"
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/KakaoTalk_logo.svg/640px-KakaoTalk_logo.svg.png"
                              alt="Kakao" style="height: 24px;">
-                        <span>카카오</span>
+                        <span>카카오 로그인</span>
                     </a>
                 </div>
 
