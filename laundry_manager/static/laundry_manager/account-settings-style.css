@@ -1,0 +1,96 @@
+/* account-settings.html 페이지 전용 스타일 */
+
+.page-container {
+    position: relative; width: 100%; max-width: 420px; 
+    min-height: clamp(720px, 100svh, 920px);
+    margin: 0 auto; background-color: var(--color-background);
+    display: flex; flex-direction: column; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    overflow: hidden; opacity: 0; /* Motion One 애니메이션용 */
+}
+.content-wrapper {
+    flex-grow: 1; overflow-y: auto; padding-bottom: 85px;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.content-wrapper::-webkit-scrollbar { display: none; }
+
+/* --- 상단 파란색 헤더 --- */
+.account-header {
+    background-color: var(--color-primary); color: var(--color-container);
+    padding: 15px 20px; height: 150px; flex-shrink: 0;
+}
+.account-header .top-nav { display: flex; justify-content: space-between; align-items: center; }
+.top-nav h1 { font-size: 18px; font-weight: 700; 
+    flex:1;
+    text-align: center;
+    margin:0;}
+.account-header .icon-btn, .account-header .text-btn {
+    background: none; border: none; color: var(--color-container);
+    cursor: pointer; font-size: 14px; text-decoration: none; opacity: 0.9;
+}
+
+/* --- 메인 콘텐츠 (흰색 카드) --- */
+.account-content {
+    background-color: var(--color-container); padding: 25px;
+    border-radius: 30px; margin: -80px 15px 100px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    position: relative; z-index: 10;
+    flex: 1;                 /* 남는 공간 채우기 */
+     
+}
+
+/* --- 프로필 사진 --- */
+.profile-picture-section {
+    display: flex; flex-direction: column; align-items: center; margin-bottom: 25px;
+}
+.avatar-placeholder {
+    width: 100px; height: 100px; border-radius: 50%;
+    background-color: var(--color-background); position: relative; margin-bottom: 10px;
+}
+.change-pic-btn {
+    position: absolute; bottom: 0; right: 0;
+    width: 32px; height: 32px; border-radius: 50%;
+    background-color: var(--color-primary); color: var(--color-container);
+    border: 2px solid var(--color-container);
+    display: flex; justify-content: center; align-items: center; cursor: pointer;
+}
+.change-pic-link { color: var(--color-primary); font-weight: 500; text-decoration: none; }
+
+/* --- 입력 폼 --- */
+.input-group { margin-bottom: 20px; }
+.input-group label {
+    display: block; font-size: 14px; font-weight: 500;
+    color: var(--color-text-secondary); margin-bottom: 8px;
+}
+.input-field {
+    display: flex; align-items: center;
+    background-color: var(--color-background);
+    border-radius: 12px; padding: 12px 15px;
+}
+.input-field i { color: var(--color-text-tertiary); margin-right: 12px; font-size: 16px; width: 18px; text-align: center;}
+.input-field input {
+    width: 100%; border: none; outline: none;
+    background-color: transparent; font-size: 16px; color: var(--color-text-primary);
+}
+
+/* 드롭다운 (select) 스타일 */
+.select-wrapper { position: relative; }
+.select-wrapper select {
+    width: 100%; -webkit-appearance: none; appearance: none;
+    background: transparent; border: none; outline: none;
+    font-size: 16px; color: var(--color-text-primary); cursor: pointer;
+}
+.select-wrapper .fa-chevron-down {
+    position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
+    color: var(--color-text-tertiary); pointer-events: none;
+}
+
+/* --- 저장 버튼 --- */
+.save-button {
+    width: 100%; background-color: var(--color-primary); color: var(--color-container);
+    padding: 16px; border-radius: 15px; font-size: 16px;
+    font-weight: 700; border: none; cursor: pointer; margin-top: 15px;
+}
+
+/* (하단 네비게이션 바 스타일은 style.css의 것을 재사용) */

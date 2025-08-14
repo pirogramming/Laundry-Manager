@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>개발자 정보</title>
+    <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}">
+    <link rel="stylesheet" href="{% static 'laundry_manager/settings-developer-style.css' %}">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+            <header class="dev-info-header">
+                <nav class="top-nav">
+                    <a href="{% url 'settings' %}" class="icon-btn"><i class="fa-solid fa-arrow-left"></i></a>
+                    <h1>개발자 정보</h1>
+                </nav>
+            </header>
+
+            <main class="dev-info-content">
+                <div class="team-intro">
+                    <h3>피로그래밍 23기</h3>
+                    <h2>세탁매니저 개발팀</h2>
+                </div>
+
+                <div class="team-members">
+                    <div class="member-card">
+                        <div class="member-avatar"></div>
+                        <div class="member-details">
+                            <h4>김유리 <span class="role-tag">팀장</span></h4>
+                            <a href="mailto:yuri.kim@gmail.com" class="member-contact">
+                                <i class="fa-regular fa-envelope"></i> yuri.kim@gmail.com
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="member-card">
+                        <div class="member-avatar"></div>
+                        <div class="member-details">
+                            <h4>김하윤 <span class="role-tag">팀원</span></h4>
+                            <p class="member-role">프론트엔드 개발</p>
+                            <a href="mailto:hdavidkim@snu.ac.kr" class="member-contact">
+                                <i class="fa-regular fa-envelope"></i> hdavidkim@snu.ac.kr
+                            </a>
+                        </div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-avatar"></div>
+                        <div class="member-details">
+                            <h4>김하윤 <span class="role-tag">팀원</span></h4>
+                            <p class="member-role">프론트엔드 개발</p>
+                            <a href="mailto:hdavidkim@snu.ac.kr" class="member-contact">
+                                <i class="fa-regular fa-envelope"></i> hdavidkim@snu.ac.kr
+                            </a>
+                        </div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-avatar"></div>
+                        <div class="member-details">
+                            <h4>김하윤 <span class="role-tag">팀원</span></h4>
+                            <p class="member-role">프론트엔드 개발</p>
+                            <a href="mailto:hdavidkim@snu.ac.kr" class="member-contact">
+                                <i class="fa-regular fa-envelope"></i> hdavidkim@snu.ac.kr
+                            </a>
+                        </div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-avatar"></div>
+                        <div class="member-details">
+                            <h4>김하윤 <span class="role-tag">팀원</span></h4>
+                            <p class="member-role">프론트엔드 개발</p>
+                            <a href="mailto:hdavidkim@snu.ac.kr" class="member-contact">
+                                <i class="fa-regular fa-envelope"></i> hdavidkim@snu.ac.kr
+                            </a>
+                        </div>
+                    </div>
+                     
+                </div>
+            </main>
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+            <a href="#" class="nav-item"><i class="fa-solid fa-chart-simple"></i><span>Stats</span></a>
+            <a href="#" class="nav-item-main"><i class="fa-solid fa-camera"></i></a>
+            <a href="#" class="nav-item"><i class="fa-solid fa-credit-card"></i><span>My Cards</span></a>
+            <a href="#" class="nav-item active"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+        </nav>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
+    <script type="module" src="{% static 'laundry_manager/settings-developer-script.js' %}"></script>
+</body>
+</html>

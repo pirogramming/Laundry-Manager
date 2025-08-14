@@ -1,0 +1,16 @@
+asgiref
+certifi
+charset-normalizer
+Django
+django-allauth
+idna
+pillow
+python-decouple
+python-dotenv
+requests
+sqlparse
+tzdata
+urllib3
+oauthlib
+requests-oauthlib
+drf-yasg

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>얼룩 제거 과정</title>
+    <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}"> 
+    <link rel="stylesheet" href="{% static 'laundry_manager/stain-info-style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+            <header class="info-header">
+                <nav class="top-nav">
+                    <a href="{% url 'stain-upload' %}" class="icon-btn"><i class="fa-solid fa-arrow-left"></i></a>
+                    <h1>당신의 세탁 정보</h1>
+                    <a href="{% url 'main' %}" class="text-btn">Cancel <i class="fa-solid fa-xmark"></i></a>
+                </nav>
+                <div class="laundry-item-title">
+                    <p>세탁물 이름</p>
+                    <h2>얼룩 유형</h2>
+                </div>
+            </header>
+
+            <main class="info-content">
+                <section class="card process-guide">
+                    <h3>얼룩 제거 과정</h3>
+                    <div class="process-steps">
+                        <div class="step-item">
+                            <div class="step-number">1</div>
+                            <h4>얼룩 제거</h4>
+                            <p>얼룩을 톡톡 두드려서 흡수시켜 주세요</p>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number">2</div>
+                            <h4>담가두기</h4>
+                            <p>중성 세제와 찬물을 섞고 10분간 담가 두세요</p>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number">3</div>
+                            <h4>세탁</h4>
+                            <p>손세탁 or 울코스 세탁, 고온은 피하세요</p>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number">4</div>
+                            <h4>건조</h4>
+                            <p>얼룩이 마르기 전에 건조시켜 주세요</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card avoid-card">
+                    <h3><i class="fa-solid fa-triangle-exclamation"></i> 피해야 하는 얼룩 제거법</h3>
+                    <div class="avoid-item">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <p>절대, **건조기**를 표준 이상으로 돌리면 안돼요</p>
+                    </div>
+                    <div class="avoid-item">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <p>절대, **표백제**를 함부로 사용하면 안돼요</p>
+                    </div>
+                </section>
+
+                <section class="card tips-guide">
+                    <div class="tips-header">
+                        <i class="fa-solid fa-lightbulb"></i>
+                        <h3>세탁 방법 팁</h3>
+                    </div>
+                    <div class="accordion-list">
+                        <details class="accordion-item">
+                            <summary>
+                                <span class="summary-title">얼룩 제거 방법</span>
+                                <i class="fa-solid fa-chevron-down arrow-icon"></i>
+                            </summary>
+                            <div class="accordion-content">
+                                <p>다양한 얼룩 종류에 따른 상세한 제거 방법이 여기에 표시됩니다.</p>
+                            </div>
+                        </details>
+                        <details class="accordion-item">
+                            <summary>
+                                <span class="summary-title">세탁 방법</span>
+                                <i class="fa-solid fa-chevron-down arrow-icon"></i>
+                            </summary>
+                            <div class="accordion-content">
+                                <p>의류 소재별, 세탁기 종류별 상세한 세탁 방법 가이드가 여기에 표시됩니다.</p>
+                            </div>
+                        </details>
+                        <details class="accordion-item">
+                            <summary>
+                                <span class="summary-title">건조 방법</span>
+                                <i class="fa-solid fa-chevron-down arrow-icon"></i>
+                            </summary>
+                            <div class="accordion-content">
+                                <p>의류 손상을 최소화하는 올바른 건조 방법이 여기에 표시됩니다.</p>
+                            </div>
+                        </details>
+                    </div>
+                </section>
+            </main>
+        </div>
+        <nav class="bottom-nav">
+            <a href="{% url 'main' %}" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+            <a href="{% url 'dictionary' %}" class="nav-item"><i class="fa-solid fa-book-open"></i><span>Dictionary</span></a>
+            <a href="{% url 'laundry-upload' %}" class="nav-item-main"><i class="fa-solid fa-camera"></i></a>
+            <a href="#" class="nav-item"><i class="fa-solid fa-credit-card"></i><span>Payment</span></a>
+            <a href="{% url 'profile' %}" class="nav-item"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+        </nav>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
+    
+    <script type="module" src="{% static 'laundry_manager/stain-info-script.js' %}"></script>
+</body>
+</html>
