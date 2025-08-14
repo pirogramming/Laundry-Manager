@@ -28,7 +28,11 @@
                 <div class="result-title">
                     <p>세탁물 분류</p>
                     <h2 id="laundry-item-name">
-                        {{ materials|default:list|join:", " }}{% if materials and stains %} / {% endif %}{{ stains|default:list|join:", " }}
+                        {% comment %} {{ materials|default:list|join:", " }}{% if materials and stains %} / {% endif %}{{ stains|default:list|join:", " }} {% endcomment %}
+                        {% if materials %}{{ materials|join:", " }}{% endif %}
+                        {% if materials and stains %} / {% endif %}
+                        {% if stains %}{{ stains|join:", " }}{% endif %}
+
                         <i class="fa-solid fa-pen-to-square"></i>
                     </h2>
                 </div>
@@ -39,25 +43,35 @@
                 <div class="info-list">
                     <div class="info-item">
                         <span>인식된 세탁 기호</span>
-                        {% with guides=symbol_guides|default:None %}
-                            {% if not guides %}{% with guides=symbols %}{% endwith %}{% endif %}
-                            {% if guides and guides|length > 0 %}
-                                <ul class="symbol-summary-list">
-                                    {% for g in guides %}
-                                        <li>
-                                            {% if g.desc %}{{ g.desc }}
-                                            {% elif g.description %}{{ g.description }}
-                                            {% elif g.label %}{{ g.label }}
-                                            {% elif g.code %}{{ g.code }}
-                                            {% else %}{{ g }}
-                                            {% endif %}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            {% else %}
-                                <strong>결과 없음</strong>
-                            {% endif %}
+                        {# 인식된 세탁 기호 #}
+                        {% if symbol_guides %}
+                        {% with guides=symbol_guides %}
+                            <ul class="symbol-summary-list">
+                            {% for g in guides %}
+                                <li>
+                                {% if g.desc %}{{ g.desc }}
+                                {% elif g.description %}{{ g.description }}
+                                {% elif g.label %}{{ g.label }}
+                                {% elif g.code %}{{ g.code }}
+                                {% else %}{{ g }}
+                                {% endif %}
+                                </li>
+                            {% endfor %}
+                            </ul>
                         {% endwith %}
+                        {% elif symbol_labels %}
+                        {% with guides=symbol_labels %}
+                            <ul class="symbol-summary-list">
+                            {% for g in guides %}
+                                <li>{{ g }}</li>
+                            {% endfor %}
+                            </ul>
+                        {% endwith %}
+                        {% else %}
+                        <strong>결과 없음</strong>
+                        {% endif %}
+
+
                     </div>
                     <hr class="info-divider">
 
@@ -133,8 +147,8 @@
                     <label for="edit-material">의류 소재</label>
                     <div class="input-field select-field">
                         <select id="edit-material">
-                            {% if materials and materials.0 %}
-                                <option selected>{{ materials.0 }}</option>
+                            {% if materials %}
+                                <option selected>{{ materials|first }}</option>
                             {% endif %}
                             <option>린넨</option>
                             <option>면</option>
