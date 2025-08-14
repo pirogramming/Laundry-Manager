@@ -35,6 +35,9 @@ urlpatterns = [
     
     path("main2/", pages.main2_page, name="main2"),
     path("profile/", pages.profile_page, name="profile"),
+    
+    path("map/", pages.map_page, name="map"),
+    
     path("settings/", pages.settings_page, name="settings"),
     path(
         "settings-developer/", pages.settings_developer_page, name="settings-developer"

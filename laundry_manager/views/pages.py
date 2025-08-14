@@ -137,6 +137,9 @@ def main2_page(request):
 def profile_page(request):
     return render(request, "laundry_manager/profile.html", base_context(request))
 
+def map_page(request):
+    return render(request, "laundry_manager/map.html", base_context(request))
+
 
 def settings_page(request):
     # settings 템플릿에서도 그대로 display_name/profile_image 사용 가능
