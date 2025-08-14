@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>세탁 매니저 - 메인</title>
+    <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+    <div class="mobile-container">
+        <div class="greeting-section">
+            <div class="greeting-text">
+                <p>안녕하세요 👋</p>
+                {% if user.is_authenticated %}
+                    <h2>{{ display_name }} 님</h2>
+                {% else %}
+                    <h2>방문자 님</h2>
+                {% endif %}
+            </div>
+
+            {% if profile_image %}
+                <img src="{{ profile_image }}" alt="프로필 사진" class="profile-pic">
+            {% else %}
+                <img src="{% static 'laundry_manager/default-profile.png' %}" alt="프로필 사진" class="profile-pic">
+            {% endif %}
+        </div>
+
+
+        <main>
+            <section class="main-title">
+                <h1>세탁 고민,<br><span class="highlight">세탁 매니저</span>로 해결하세요
+				</h1>
+            </section>
+
+            <section class="cta-card">
+                <div class="cta-icon-wrapper">
+                    <i class="fa-solid fa-shirt"></i>
+                </div>
+                <div class="cta-text">
+                    <h3>세탁 정보 입력</h3>
+                    <p>세탁 라벨을 인식해 정확한 세탁 방법을 알려드려요!</p>
+                </div>
+                <a href="{% url 'laundry-upload' %}" class="cta-button" id="takePictureBtn"> 
+                    사진 찍고 세탁법 받기
+                    <i class="fa-solid fa-play"></i>
+                </a>
+            </section>
+
+            <section class="history-section">
+                <h3>기록보기</h3>
+                <div class="history-list">
+                    {% for record in records %}
+                    <a href="{% url 'laundry_history_detail' record.pk %}" class="history-item">
+                    <img src="https://i.ibb.co/L5w2S9h/scooter.png" alt="세탁 기록" class="history-img">
+                    <div class="history-details">
+                        <h4>{{ record.materials }} / {{ record.stains }} 제거</h4>
+                        <p>{{ record.created_at|timesince }} 전 검색</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </a>
+                {% empty %}
+                    <p>아직 기록이 없습니다.</p>
+                    {% endfor %}
+                </div>
+            </section>
+        </main>
+        
+        <nav class="bottom-nav">
+            <a href="{% url 'main' %}" class="nav-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
+            <a href="{% url 'dictionary' %}" class="nav-item">
+                <i class="fa-solid fa-chart-simple"></i>
+                <span>Dictionary</span>
+            </a>
+            <form method="POST" action="{% url 'laundry-upload' %}" enctype="multipart/form-data" class="nav-item-main" style="display:flex; align-items:center; justify-content:center;">
+                {% csrf_token %}
+                <input type="file"
+                    id="cameraInput"
+                    name="image"
+                    accept="image/*"
+                    capture="environment"
+                    style="display:none;"
+                    onchange="this.form.submit()">
+                <button type="button" onclick="document.getElementById('cameraInput').click()" style="all:unset; cursor:pointer;">
+                    <i class="fa-solid fa-camera"></i>
+                </button>
+            </form>
+            <a href="#" class="nav-item">
+                <i class="fa-solid fa-credit-card"></i>
+                <span>Payment</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fa-solid fa-user"></i>
+                <span>Profile</span>
+            </a>
+        </nav>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
+    
+    <script type="module" src="{% static 'laundry_manager/main-script.js' %}"></script>
+</body>
+</html>

@@ -7,15 +7,69 @@ import requests
 from decouple import config
 from django.conf import settings
 
+# def load_washing_definitions():
+#     path = os.path.join(settings.BASE_DIR, 'laundry_app', 'washing_symbol.json')
+#     try:
+#         with open(path, 'r', encoding='utf-8') as f:
+#             print("세탁 기호 정의 파일 로드 완료.")
+#             return json.load(f)
+#     except Exception as e:
+#         print(f"세탁 기호 정의 로드 오류: {e}")
+#         return []
+
 def load_washing_definitions():
-    path = os.path.join(settings.BASE_DIR, 'laundry_app', 'washing_symbol.json')
-    try:
-        with open(path, 'r', encoding='utf-8') as f:
-            print("세탁 기호 정의 파일 로드 완료.")
-            return json.load(f)
-    except Exception as e:
-        print(f"세탁 기호 정의 로드 오류: {e}")
-        return []
+    default_path = os.path.join(settings.BASE_DIR, 'laundry_manager', 'json_data', 'washing_symbol.json')
+    env_path = config("WASHING_SYMBOL_PATH", default="")  # .env는 그대로 두되, 실패하면 자동 폴백
+
+    candidates = []
+    if env_path:
+        candidates.append(env_path)
+        if not os.path.isabs(env_path):
+            candidates.append(os.path.join(settings.BASE_DIR, env_path))
+    candidates.append(default_path)
+
+    for p in candidates:
+        try:
+            if p and os.path.exists(p):
+                with open(p, 'r', encoding='utf-8') as f:
+                    print(f"세탁 기호 정의 로드: {p}")
+                    return json.load(f)
+        except Exception as e:
+            print(f"세탁 기호 정의 로드 오류({p}): {e}")
+
+    print("세탁 기호 정의 파일을 찾지 못했습니다. 빈 정의로 계속합니다.")
+    return {}
+
+def symbols_to_guides(labels, definitions):
+    guides = []
+
+    if isinstance(definitions, dict):
+        for lab in labels or []:
+            meta = (definitions.get(lab) or {})
+            name = meta.get("name") or lab
+            desc = meta.get("description") or ""
+            guides.append({"label": lab, "name": name, "description": desc})
+
+    elif isinstance(definitions, list):
+        by_label = {}
+        for item in definitions or []:
+            key = (item or {}).get("label") or (item or {}).get("id")
+            if key:
+                by_label[key] = item
+
+        for lab in labels or []:
+            meta = (by_label.get(lab) or {})
+            name = meta.get("name") or lab
+            desc = meta.get("description") or ""
+            guides.append({"label": lab, "name": name, "description": desc})
+
+    else:
+        # 정의 형식이 불명확해도 최소 표시
+        for lab in labels or []:
+            guides.append({"label": lab, "name": lab, "description": ""})
+
+    return guides
+
 
 def perform_ocr(image_path):
     secret_key = os.getenv("SECRET_KEY_OCR")
@@ -106,18 +160,24 @@ def save_classification_result_json(image_path, classification_result):
         print(f"분류 결과 저장 오류: {e}")
 
 
-def save_result_json(image_path, texts, definition, ocr_raw):
-    folder = getattr(config, "OUTPUT_RESULTS_FOLDER", "output/")
+def save_result_json(image_path, texts, definition, ocr_raw,
+                     rf_detect_raw=None, rf_class_raw=None, fused_scores=None):
+    folder = config("OUTPUT_RESULTS_FOLDER", default="output/")
     os.makedirs(folder, exist_ok=True)
 
     output_data = {
         "filename": os.path.basename(image_path),
         "recognized_texts": texts,
         "symbol_definition": definition,
-        "ocr_raw_response": ocr_raw
+        "ocr_raw_response": ocr_raw,
+        "roboflow_detect_raw": rf_detect_raw,
+        "roboflow_classify_raw": rf_class_raw,
+        "fused_scores": fused_scores,
     }
 
-    filename = os.path.join(folder, f"{os.path.splitext(os.path.basename(image_path))[0]}_result.json")
+    filename = os.path.join(
+        folder, f"{os.path.splitext(os.path.basename(image_path))[0]}_result.json"
+    )
     try:
         with open(filename, 'w', encoding='utf-8') as f:
             json.dump(output_data, f, indent=4, ensure_ascii=False)

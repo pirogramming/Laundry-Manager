@@ -1,54 +1,51 @@
 {
-    "filename": "images.jpeg",
+    "filename": "images.jpg",
     "recognized_texts": [
-        "품질경영 및 공산품안전",
-        "관리법에 의한품질표시",
-        "재질:",
-        "소가죽",
-        "판매원:",
-        "(주)피앤케이보그",
-        "제조원:",
-        "(주)피앤케이보그",
-        "제조극:",
-        "대한민국",
-        "8",
-        "STEFANO",
-        "CONTI",
-        "취급주의사항",
-        "¥",
-        "¥¥",
-        "소비자상담실:",
-        "032-624-0795",
-        "경기도",
-        "부천시",
-        "오정구",
-        "상정품",
-        "36-1",
-        "테크노파크3차103-1005",
-        "안전·품질표시 기준에 규정한",
-        "(",
-        "유해성분",
-        "안전요건에",
-        "적합한",
-        "제품입니다"
+        "품질경영및공신김안진",
+        "관리법에의한접 사",
+        "호전:",
+        "C11",
+        "색상:",
+        "710/PINK",
+        "한·모",
+        "가을히로",
+        "850",
+        "SIOLMA",
+        "LOOK",
+        "6",
+        "유희주식)",
+        "2!",
+        "폴리에스터",
+        "OLIVE",
+        "DES",
+        "OLIVE",
+        "제조자:두진산업",
+        "판매원:올리브다올리브(주)",
+        "2014년02월",
+        "제조년물",
+        "소비자상담실",
+        "080-733-0114",
+        "사용특별시",
+        "강동구",
+        "갈등"
     ],
     "symbol_definition": "인식된 기호 설명 없음",
     "ocr_raw_response": {
         "version": "V2",
-        "requestId": "dd91b14b-5230-45a0-9a4f-c9722963475d",
-        "timestamp": 1754330337082,
+        "requestId": "45362ee7-c4d0-47c9-876e-6eb72e27b771",
+        "timestamp": 1755158324007,
         "images": [
             {
-                "uid": "db6de125d1514de1962c8e6dea043485",
-                "name": "images.jpeg",
+                "uid": "b26e8eb119b14c329d147207d23d1e5c",
+                "name": "images.jpg",
                 "inferResult": "SUCCESS",
                 "message": "SUCCESS",
                 "validationResult": {
                     "result": "NO_REQUESTED"
                 },
                 "convertedImageInfo": {
-                    "width": 171,
-                    "height": 294,
+                    "width": 261,
+                    "height": 193,
                     "pageIndex": 0,
                     "longImage": false
                 },
@@ -58,25 +55,25 @@
                         "boundingPoly": {
                             "vertices": [
                                 {
-                                    "x": 23.0,
-                                    "y": 15.0
+                                    "x": 77.0,
+                                    "y": 10.0
                                 },
                                 {
-                                    "x": 148.0,
-                                    "y": 15.0
+                                    "x": 162.0,
+                                    "y": 20.0
                                 },
                                 {
-                                    "x": 148.0,
-                                    "y": 31.0
-                                },
-                                {
-                                    "x": 23.0,
+                                    "x": 161.0,
                                     "y": 30.0
+                                },
+                                {
+                                    "x": 76.0,
+                                    "y": 20.0
                                 }
                             ]
                         },
-                        "inferText": "품질경영 및 공산품안전",
-                        "inferConfidence": 0.9472,
+                        "inferText": "품질경영및공신김안진",
+                        "inferConfidence": 0.6049,
                         "type": "NORMAL",
                         "lineBreak": true
                     },
@@ -85,25 +82,25 @@
                         "boundingPoly": {
                             "vertices": [
                                 {
-                                    "x": 23.0,
+                                    "x": 76.0,
+                                    "y": 20.0
+                                },
+                                {
+                                    "x": 162.0,
+                                    "y": 28.0
+                                },
+                                {
+                                    "x": 161.0,
+                                    "y": 37.0
+                                },
+                                {
+                                    "x": 76.0,
                                     "y": 29.0
-                                },
-                                {
-                                    "x": 148.0,
-                                    "y": 29.0
-                                },
-                                {
-                                    "x": 148.0,
-                                    "y": 44.0
-                                },
-                                {
-                                    "x": 23.0,
-                                    "y": 44.0
                                 }
                             ]
                         },
-                        "inferText": "관리법에 의한품질표시",
-                        "inferConfidence": 0.9987,
+                        "inferText": "관리법에의한접 사",
+                        "inferConfidence": 0.485,
                         "type": "NORMAL",
                         "lineBreak": true
                     },
@@ -112,25 +109,25 @@
                         "boundingPoly": {
                             "vertices": [
                                 {
-                                    "x": 15.0,
-                                    "y": 53.0
+                                    "x": 74.0,
+                                    "y": 34.0
                                 },
                                 {
-                                    "x": 42.0,
-                                    "y": 55.0
+                                    "x": 93.0,
+                                    "y": 35.0
                                 },
                                 {
-                                    "x": 41.0,
-                                    "y": 65.0
+                                    "x": 93.0,
+                                    "y": 41.0
                                 },
                                 {
-                                    "x": 14.0,
-                                    "y": 63.0
+                                    "x": 74.0,
+                                    "y": 40.0
                                 }
                             ]
                         },
-                        "inferText": "재질:",
-                        "inferConfidence": 0.9692,
+                        "inferText": "호전:",
+                        "inferConfidence": 0.7265,
                         "type": "NORMAL",
                         "lineBreak": false
                     },
@@ -139,25 +136,25 @@
                         "boundingPoly": {
                             "vertices": [
                                 {
-                                    "x": 42.0,
-                                    "y": 54.0
+                                    "x": 96.0,
+                                    "y": 36.0
                                 },
                                 {
-                                    "x": 73.0,
-                                    "y": 54.0
+                                    "x": 104.0,
+                                    "y": 36.0
                                 },
                                 {
-                                    "x": 73.0,
-                                    "y": 65.0
+                                    "x": 104.0,
+                                    "y": 41.0
                                 },
                                 {
-                                    "x": 42.0,
-                                    "y": 65.0
+                                    "x": 96.0,
+                                    "y": 41.0
                                 }
                             ]
                         },
-                        "inferText": "소가죽",
-                        "inferConfidence": 0.9999,
+                        "inferText": "C11",
+                        "inferConfidence": 0.7232,
                         "type": "NORMAL",
                         "lineBreak": true
                     },
@@ -166,25 +163,25 @@
                         "boundingPoly": {
                             "vertices": [
                                 {
-                                    "x": 14.0,
-                                    "y": 69.0
+                                    "x": 75.0,
+                                    "y": 42.0
                                 },
                                 {
-                                    "x": 48.0,
-                                    "y": 69.0
+                                    "x": 94.0,
+                                    "y": 44.0
                                 },
                                 {
-                                    "x": 48.0,
-                                    "y": 80.0
+                                    "x": 93.0,
+                                    "y": 50.0
                                 },
                                 {
-                                    "x": 14.0,
-                                    "y": 80.0
+                                    "x": 74.0,
+                                    "y": 49.0
                                 }
                             ]
                         },
-                        "inferText": "판매원:",
-                        "inferConfidence": 0.9894,
+                        "inferText": "색상:",
+                        "inferConfidence": 0.8452,
                         "type": "NORMAL",
                         "lineBreak": false
                     },
@@ -193,25 +190,25 @@
                         "boundingPoly": {
                             "vertices": [
                                 {
-                                    "x": 48.0,
-                                    "y": 69.0
+                                    "x": 97.0,
+                                    "y": 44.0
                                 },
                                 {
-                                    "x": 125.0,
-                                    "y": 69.0
+                                    "x": 131.0,
+                                    "y": 45.0
                                 },
                                 {
-                                    "x": 125.0,
-                                    "y": 81.0
+                                    "x": 131.0,
+                                    "y": 52.0
                                 },
                                 {
-                                    "x": 47.0,
-                                    "y": 80.0
+                                    "x": 96.0,
+                                    "y": 50.0
                                 }
                             ]
                         },
-                        "inferText": "(주)피앤케이보그",
-                        "inferConfidence": 0.9998,
+                        "inferText": "710/PINK",
+                        "inferConfidence": 0.8131,
                         "type": "NORMAL",
                         "lineBreak": true
                     },
@@ -220,52 +217,241 @@
                         "boundingPoly": {
                             "vertices": [
                                 {
-                                    "x": 14.0,
-                                    "y": 84.0
+                                    "x": 80.0,
+                                    "y": 52.0
                                 },
                                 {
-                                    "x": 51.0,
-                                    "y": 83.0
+                                    "x": 94.0,
+                                    "y": 52.0
                                 },
                                 {
-                                    "x": 52.0,
+                                    "x": 94.0,
+                                    "y": 58.0
+                                },
+                                {
+                                    "x": 80.0,
+                                    "y": 58.0
+                                }
+                            ]
+                        },
+                        "inferText": "한·모",
+                        "inferConfidence": 0.5959,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 71.0,
+                                    "y": 58.0
+                                },
+                                {
+                                    "x": 103.0,
+                                    "y": 58.0
+                                },
+                                {
+                                    "x": 103.0,
+                                    "y": 82.0
+                                },
+                                {
+                                    "x": 71.0,
+                                    "y": 82.0
+                                }
+                            ]
+                        },
+                        "inferText": "가을히로",
+                        "inferConfidence": 0.3636,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 146.0,
+                                    "y": 65.0
+                                },
+                                {
+                                    "x": 160.0,
+                                    "y": 66.0
+                                },
+                                {
+                                    "x": 160.0,
+                                    "y": 70.0
+                                },
+                                {
+                                    "x": 146.0,
+                                    "y": 69.0
+                                }
+                            ]
+                        },
+                        "inferText": "850",
+                        "inferConfidence": 0.6865,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 78.0,
+                                    "y": 67.0
+                                },
+                                {
+                                    "x": 110.0,
+                                    "y": 70.0
+                                },
+                                {
+                                    "x": 109.0,
+                                    "y": 76.0
+                                },
+                                {
+                                    "x": 78.0,
+                                    "y": 73.0
+                                }
+                            ]
+                        },
+                        "inferText": "SIOLMA",
+                        "inferConfidence": 0.692,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 145.0,
+                                    "y": 82.0
+                                },
+                                {
+                                    "x": 159.0,
+                                    "y": 82.0
+                                },
+                                {
+                                    "x": 159.0,
+                                    "y": 85.0
+                                },
+                                {
+                                    "x": 145.0,
+                                    "y": 85.0
+                                }
+                            ]
+                        },
+                        "inferText": "LOOK",
+                        "inferConfidence": 0.319,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 87.0,
+                                    "y": 85.0
+                                },
+                                {
+                                    "x": 98.0,
+                                    "y": 85.0
+                                },
+                                {
+                                    "x": 98.0,
+                                    "y": 91.0
+                                },
+                                {
+                                    "x": 87.0,
+                                    "y": 91.0
+                                }
+                            ]
+                        },
+                        "inferText": "6",
+                        "inferConfidence": 0.4213,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 102.0,
+                                    "y": 85.0
+                                },
+                                {
+                                    "x": 143.0,
+                                    "y": 87.0
+                                },
+                                {
+                                    "x": 143.0,
+                                    "y": 93.0
+                                },
+                                {
+                                    "x": 102.0,
+                                    "y": 92.0
+                                }
+                            ]
+                        },
+                        "inferText": "유희주식)",
+                        "inferConfidence": 0.806,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 86.0,
+                                    "y": 94.0
+                                },
+                                {
+                                    "x": 92.0,
+                                    "y": 94.0
+                                },
+                                {
+                                    "x": 92.0,
+                                    "y": 100.0
+                                },
+                                {
+                                    "x": 86.0,
+                                    "y": 100.0
+                                }
+                            ]
+                        },
+                        "inferText": "2!",
+                        "inferConfidence": 0.5948,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 101.0,
+                                    "y": 94.0
+                                },
+                                {
+                                    "x": 138.0,
                                     "y": 95.0
                                 },
                                 {
-                                    "x": 14.0,
-                                    "y": 96.0
+                                    "x": 138.0,
+                                    "y": 101.0
+                                },
+                                {
+                                    "x": 101.0,
+                                    "y": 100.0
                                 }
                             ]
                         },
-                        "inferText": "제조원:",
-                        "inferConfidence": 0.8997,
-                        "type": "NORMAL",
-                        "lineBreak": false
-                    },
-                    {
-                        "valueType": "ALL",
-                        "boundingPoly": {
-                            "vertices": [
-                                {
-                                    "x": 51.0,
-                                    "y": 84.0
-                                },
-                                {
-                                    "x": 129.0,
-                                    "y": 84.0
-                                },
-                                {
-                                    "x": 129.0,
-                                    "y": 96.0
-                                },
-                                {
-                                    "x": 51.0,
-                                    "y": 96.0
-                                }
-                            ]
-                        },
-                        "inferText": "(주)피앤케이보그",
-                        "inferConfidence": 0.9998,
+                        "inferText": "폴리에스터",
+                        "inferConfidence": 0.9628,
                         "type": "NORMAL",
                         "lineBreak": true
                     },
@@ -274,25 +460,25 @@
                         "boundingPoly": {
                             "vertices": [
                                 {
-                                    "x": 14.0,
-                                    "y": 100.0
+                                    "x": 81.0,
+                                    "y": 131.0
                                 },
                                 {
-                                    "x": 51.0,
-                                    "y": 100.0
+                                    "x": 106.0,
+                                    "y": 131.0
                                 },
                                 {
-                                    "x": 51.0,
-                                    "y": 111.0
+                                    "x": 106.0,
+                                    "y": 137.0
                                 },
                                 {
-                                    "x": 14.0,
-                                    "y": 110.0
+                                    "x": 81.0,
+                                    "y": 137.0
                                 }
                             ]
                         },
-                        "inferText": "제조극:",
-                        "inferConfidence": 0.8632,
+                        "inferText": "OLIVE",
+                        "inferConfidence": 0.9007,
                         "type": "NORMAL",
                         "lineBreak": false
                     },
@@ -301,25 +487,52 @@
                         "boundingPoly": {
                             "vertices": [
                                 {
-                                    "x": 51.0,
-                                    "y": 100.0
+                                    "x": 108.0,
+                                    "y": 131.0
                                 },
                                 {
-                                    "x": 93.0,
-                                    "y": 100.0
+                                    "x": 124.0,
+                                    "y": 131.0
                                 },
                                 {
-                                    "x": 93.0,
-                                    "y": 112.0
+                                    "x": 124.0,
+                                    "y": 136.0
                                 },
                                 {
-                                    "x": 51.0,
-                                    "y": 112.0
+                                    "x": 108.0,
+                                    "y": 136.0
                                 }
                             ]
                         },
-                        "inferText": "대한민국",
-                        "inferConfidence": 1.0,
+                        "inferText": "DES",
+                        "inferConfidence": 0.9705,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 124.0,
+                                    "y": 131.0
+                                },
+                                {
+                                    "x": 148.0,
+                                    "y": 130.0
+                                },
+                                {
+                                    "x": 148.0,
+                                    "y": 136.0
+                                },
+                                {
+                                    "x": 124.0,
+                                    "y": 136.0
+                                }
+                            ]
+                        },
+                        "inferText": "OLIVE",
+                        "inferConfidence": 0.9119,
                         "type": "NORMAL",
                         "lineBreak": true
                     },
@@ -328,106 +541,106 @@
                         "boundingPoly": {
                             "vertices": [
                                 {
-                                    "x": 38.0,
-                                    "y": 119.0
+                                    "x": 69.0,
+                                    "y": 143.0
                                 },
                                 {
-                                    "x": 48.0,
-                                    "y": 119.0
+                                    "x": 130.0,
+                                    "y": 141.0
                                 },
                                 {
-                                    "x": 48.0,
-                                    "y": 127.0
-                                },
-                                {
-                                    "x": 38.0,
-                                    "y": 127.0
-                                }
-                            ]
-                        },
-                        "inferText": "8",
-                        "inferConfidence": 0.916,
-                        "type": "NORMAL",
-                        "lineBreak": false
-                    },
-                    {
-                        "valueType": "ALL",
-                        "boundingPoly": {
-                            "vertices": [
-                                {
-                                    "x": 50.0,
-                                    "y": 119.0
-                                },
-                                {
-                                    "x": 94.0,
-                                    "y": 121.0
-                                },
-                                {
-                                    "x": 94.0,
-                                    "y": 129.0
-                                },
-                                {
-                                    "x": 50.0,
-                                    "y": 128.0
-                                }
-                            ]
-                        },
-                        "inferText": "STEFANO",
-                        "inferConfidence": 0.9803,
-                        "type": "NORMAL",
-                        "lineBreak": false
-                    },
-                    {
-                        "valueType": "ALL",
-                        "boundingPoly": {
-                            "vertices": [
-                                {
-                                    "x": 97.0,
-                                    "y": 120.0
-                                },
-                                {
-                                    "x": 128.0,
-                                    "y": 120.0
-                                },
-                                {
-                                    "x": 128.0,
-                                    "y": 128.0
-                                },
-                                {
-                                    "x": 97.0,
-                                    "y": 128.0
-                                }
-                            ]
-                        },
-                        "inferText": "CONTI",
-                        "inferConfidence": 0.9351,
-                        "type": "NORMAL",
-                        "lineBreak": true
-                    },
-                    {
-                        "valueType": "ALL",
-                        "boundingPoly": {
-                            "vertices": [
-                                {
-                                    "x": 57.0,
+                                    "x": 130.0,
                                     "y": 150.0
                                 },
                                 {
-                                    "x": 114.0,
-                                    "y": 151.0
+                                    "x": 69.0,
+                                    "y": 152.0
+                                }
+                            ]
+                        },
+                        "inferText": "제조자:두진산업",
+                        "inferConfidence": 0.9982,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 69.0,
+                                    "y": 152.0
                                 },
                                 {
-                                    "x": 114.0,
+                                    "x": 167.0,
+                                    "y": 148.0
+                                },
+                                {
+                                    "x": 167.0,
+                                    "y": 158.0
+                                },
+                                {
+                                    "x": 69.0,
+                                    "y": 161.0
+                                }
+                            ]
+                        },
+                        "inferText": "판매원:올리브다올리브(주)",
+                        "inferConfidence": 0.9335,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 105.0,
+                                    "y": 159.0
+                                },
+                                {
+                                    "x": 148.0,
+                                    "y": 158.0
+                                },
+                                {
+                                    "x": 148.0,
+                                    "y": 164.0
+                                },
+                                {
+                                    "x": 105.0,
+                                    "y": 165.0
+                                }
+                            ]
+                        },
+                        "inferText": "2014년02월",
+                        "inferConfidence": 0.9979,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 68.0,
                                     "y": 161.0
                                 },
                                 {
-                                    "x": 57.0,
-                                    "y": 160.0
+                                    "x": 103.0,
+                                    "y": 159.0
+                                },
+                                {
+                                    "x": 104.0,
+                                    "y": 168.0
+                                },
+                                {
+                                    "x": 69.0,
+                                    "y": 170.0
                                 }
                             ]
                         },
-                        "inferText": "취급주의사항",
-                        "inferConfidence": 0.9998,
+                        "inferText": "제조년물",
+                        "inferConfidence": 0.8776,
                         "type": "NORMAL",
                         "lineBreak": true
                     },
@@ -436,376 +649,25 @@
                         "boundingPoly": {
                             "vertices": [
                                 {
-                                    "x": 14.0,
-                                    "y": 165.0
-                                },
-                                {
-                                    "x": 35.0,
-                                    "y": 165.0
-                                },
-                                {
-                                    "x": 35.0,
-                                    "y": 184.0
-                                },
-                                {
-                                    "x": 14.0,
-                                    "y": 184.0
-                                }
-                            ]
-                        },
-                        "inferText": "¥",
-                        "inferConfidence": 0.4653,
-                        "type": "NORMAL",
-                        "lineBreak": false
-                    },
-                    {
-                        "valueType": "ALL",
-                        "boundingPoly": {
-                            "vertices": [
-                                {
-                                    "x": 77.0,
-                                    "y": 163.0
-                                },
-                                {
-                                    "x": 127.0,
-                                    "y": 163.0
-                                },
-                                {
-                                    "x": 127.0,
-                                    "y": 188.0
-                                },
-                                {
-                                    "x": 77.0,
-                                    "y": 188.0
-                                }
-                            ]
-                        },
-                        "inferText": "¥¥",
-                        "inferConfidence": 0.4417,
-                        "type": "NORMAL",
-                        "lineBreak": true
-                    },
-                    {
-                        "valueType": "ALL",
-                        "boundingPoly": {
-                            "vertices": [
-                                {
-                                    "x": 18.0,
-                                    "y": 195.0
-                                },
-                                {
-                                    "x": 84.0,
-                                    "y": 197.0
-                                },
-                                {
-                                    "x": 84.0,
-                                    "y": 207.0
-                                },
-                                {
-                                    "x": 18.0,
-                                    "y": 206.0
-                                }
-                            ]
-                        },
-                        "inferText": "소비자상담실:",
-                        "inferConfidence": 0.9991,
-                        "type": "NORMAL",
-                        "lineBreak": false
-                    },
-                    {
-                        "valueType": "ALL",
-                        "boundingPoly": {
-                            "vertices": [
-                                {
-                                    "x": 84.0,
-                                    "y": 197.0
-                                },
-                                {
-                                    "x": 154.0,
-                                    "y": 197.0
-                                },
-                                {
-                                    "x": 154.0,
-                                    "y": 206.0
-                                },
-                                {
-                                    "x": 84.0,
-                                    "y": 206.0
-                                }
-                            ]
-                        },
-                        "inferText": "032-624-0795",
-                        "inferConfidence": 0.9927,
-                        "type": "NORMAL",
-                        "lineBreak": true
-                    },
-                    {
-                        "valueType": "ALL",
-                        "boundingPoly": {
-                            "vertices": [
-                                {
-                                    "x": 23.0,
-                                    "y": 211.0
-                                },
-                                {
-                                    "x": 52.0,
-                                    "y": 212.0
-                                },
-                                {
-                                    "x": 52.0,
-                                    "y": 223.0
-                                },
-                                {
-                                    "x": 22.0,
-                                    "y": 223.0
-                                }
-                            ]
-                        },
-                        "inferText": "경기도",
-                        "inferConfidence": 1.0,
-                        "type": "NORMAL",
-                        "lineBreak": false
-                    },
-                    {
-                        "valueType": "ALL",
-                        "boundingPoly": {
-                            "vertices": [
-                                {
-                                    "x": 54.0,
-                                    "y": 211.0
-                                },
-                                {
-                                    "x": 84.0,
-                                    "y": 211.0
-                                },
-                                {
-                                    "x": 84.0,
-                                    "y": 223.0
-                                },
-                                {
-                                    "x": 54.0,
-                                    "y": 223.0
-                                }
-                            ]
-                        },
-                        "inferText": "부천시",
-                        "inferConfidence": 0.9999,
-                        "type": "NORMAL",
-                        "lineBreak": false
-                    },
-                    {
-                        "valueType": "ALL",
-                        "boundingPoly": {
-                            "vertices": [
-                                {
-                                    "x": 86.0,
-                                    "y": 212.0
-                                },
-                                {
-                                    "x": 116.0,
-                                    "y": 212.0
-                                },
-                                {
-                                    "x": 116.0,
-                                    "y": 223.0
-                                },
-                                {
-                                    "x": 86.0,
-                                    "y": 223.0
-                                }
-                            ]
-                        },
-                        "inferText": "오정구",
-                        "inferConfidence": 0.9999,
-                        "type": "NORMAL",
-                        "lineBreak": false
-                    },
-                    {
-                        "valueType": "ALL",
-                        "boundingPoly": {
-                            "vertices": [
-                                {
-                                    "x": 119.0,
-                                    "y": 212.0
-                                },
-                                {
-                                    "x": 148.0,
-                                    "y": 212.0
-                                },
-                                {
-                                    "x": 148.0,
-                                    "y": 223.0
-                                },
-                                {
-                                    "x": 119.0,
-                                    "y": 223.0
-                                }
-                            ]
-                        },
-                        "inferText": "상정품",
-                        "inferConfidence": 0.7264,
-                        "type": "NORMAL",
-                        "lineBreak": true
-                    },
-                    {
-                        "valueType": "ALL",
-                        "boundingPoly": {
-                            "vertices": [
-                                {
-                                    "x": 18.0,
-                                    "y": 228.0
-                                },
-                                {
-                                    "x": 41.0,
-                                    "y": 228.0
-                                },
-                                {
-                                    "x": 41.0,
-                                    "y": 237.0
-                                },
-                                {
-                                    "x": 18.0,
-                                    "y": 237.0
-                                }
-                            ]
-                        },
-                        "inferText": "36-1",
-                        "inferConfidence": 0.9995,
-                        "type": "NORMAL",
-                        "lineBreak": false
-                    },
-                    {
-                        "valueType": "ALL",
-                        "boundingPoly": {
-                            "vertices": [
-                                {
-                                    "x": 44.0,
-                                    "y": 228.0
-                                },
-                                {
-                                    "x": 154.0,
-                                    "y": 228.0
-                                },
-                                {
-                                    "x": 154.0,
-                                    "y": 238.0
-                                },
-                                {
-                                    "x": 44.0,
-                                    "y": 238.0
-                                }
-                            ]
-                        },
-                        "inferText": "테크노파크3차103-1005",
-                        "inferConfidence": 0.9576,
-                        "type": "NORMAL",
-                        "lineBreak": true
-                    },
-                    {
-                        "valueType": "ALL",
-                        "boundingPoly": {
-                            "vertices": [
-                                {
-                                    "x": 43.0,
-                                    "y": 243.0
-                                },
-                                {
-                                    "x": 155.0,
-                                    "y": 243.0
-                                },
-                                {
-                                    "x": 155.0,
-                                    "y": 253.0
-                                },
-                                {
-                                    "x": 43.0,
-                                    "y": 253.0
-                                }
-                            ]
-                        },
-                        "inferText": "안전·품질표시 기준에 규정한",
-                        "inferConfidence": 0.9832,
-                        "type": "NORMAL",
-                        "lineBreak": true
-                    },
-                    {
-                        "valueType": "ALL",
-                        "boundingPoly": {
-                            "vertices": [
-                                {
-                                    "x": 19.0,
-                                    "y": 254.0
-                                },
-                                {
-                                    "x": 31.0,
-                                    "y": 254.0
-                                },
-                                {
-                                    "x": 31.0,
-                                    "y": 267.0
-                                },
-                                {
-                                    "x": 19.0,
-                                    "y": 267.0
-                                }
-                            ]
-                        },
-                        "inferText": "(",
-                        "inferConfidence": 0.7086,
-                        "type": "NORMAL",
-                        "lineBreak": false
-                    },
-                    {
-                        "valueType": "ALL",
-                        "boundingPoly": {
-                            "vertices": [
-                                {
-                                    "x": 42.0,
-                                    "y": 254.0
-                                },
-                                {
-                                    "x": 76.0,
-                                    "y": 254.0
-                                },
-                                {
-                                    "x": 76.0,
-                                    "y": 264.0
-                                },
-                                {
-                                    "x": 42.0,
-                                    "y": 264.0
-                                }
-                            ]
-                        },
-                        "inferText": "유해성분",
-                        "inferConfidence": 1.0,
-                        "type": "NORMAL",
-                        "lineBreak": false
-                    },
-                    {
-                        "valueType": "ALL",
-                        "boundingPoly": {
-                            "vertices": [
-                                {
-                                    "x": 77.0,
-                                    "y": 254.0
+                                    "x": 70.0,
+                                    "y": 169.0
                                 },
                                 {
                                     "x": 120.0,
-                                    "y": 254.0
+                                    "y": 167.0
                                 },
                                 {
-                                    "x": 119.0,
-                                    "y": 264.0
+                                    "x": 120.0,
+                                    "y": 176.0
                                 },
                                 {
-                                    "x": 77.0,
-                                    "y": 263.0
+                                    "x": 70.0,
+                                    "y": 178.0
                                 }
                             ]
                         },
-                        "inferText": "안전요건에",
-                        "inferConfidence": 1.0,
+                        "inferText": "소비자상담실",
+                        "inferConfidence": 0.9995,
                         "type": "NORMAL",
                         "lineBreak": true
                     },
@@ -814,25 +676,52 @@
                         "boundingPoly": {
                             "vertices": [
                                 {
-                                    "x": 43.0,
-                                    "y": 264.0
+                                    "x": 105.0,
+                                    "y": 176.0
                                 },
                                 {
-                                    "x": 69.0,
-                                    "y": 265.0
+                                    "x": 160.0,
+                                    "y": 173.0
                                 },
                                 {
-                                    "x": 68.0,
-                                    "y": 276.0
+                                    "x": 160.0,
+                                    "y": 180.0
                                 },
                                 {
-                                    "x": 42.0,
-                                    "y": 275.0
+                                    "x": 105.0,
+                                    "y": 182.0
                                 }
                             ]
                         },
-                        "inferText": "적합한",
-                        "inferConfidence": 1.0,
+                        "inferText": "080-733-0114",
+                        "inferConfidence": 0.9974,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 71.0,
+                                    "y": 182.0
+                                },
+                                {
+                                    "x": 111.0,
+                                    "y": 185.0
+                                },
+                                {
+                                    "x": 111.0,
+                                    "y": 193.0
+                                },
+                                {
+                                    "x": 71.0,
+                                    "y": 190.0
+                                }
+                            ]
+                        },
+                        "inferText": "사용특별시",
+                        "inferConfidence": 0.861,
                         "type": "NORMAL",
                         "lineBreak": false
                     },
@@ -841,25 +730,52 @@
                         "boundingPoly": {
                             "vertices": [
                                 {
-                                    "x": 69.0,
-                                    "y": 265.0
+                                    "x": 113.0,
+                                    "y": 183.0
                                 },
                                 {
-                                    "x": 112.0,
-                                    "y": 265.0
+                                    "x": 139.0,
+                                    "y": 182.0
                                 },
                                 {
-                                    "x": 112.0,
-                                    "y": 276.0
+                                    "x": 139.0,
+                                    "y": 191.0
                                 },
                                 {
-                                    "x": 69.0,
-                                    "y": 276.0
+                                    "x": 113.0,
+                                    "y": 192.0
                                 }
                             ]
                         },
-                        "inferText": "제품입니다",
-                        "inferConfidence": 1.0,
+                        "inferText": "강동구",
+                        "inferConfidence": 0.9989,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 141.0,
+                                    "y": 183.0
+                                },
+                                {
+                                    "x": 157.0,
+                                    "y": 182.0
+                                },
+                                {
+                                    "x": 157.0,
+                                    "y": 191.0
+                                },
+                                {
+                                    "x": 141.0,
+                                    "y": 191.0
+                                }
+                            ]
+                        },
+                        "inferText": "갈등",
+                        "inferConfidence": 0.9161,
                         "type": "NORMAL",
                         "lineBreak": true
                     }

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>우리동네 세탁 지도</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+    
+    <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}">
+    <link rel="stylesheet" href="{% static 'laundry_manager/map-style.css' %}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="mobile-container map-page">
+        <header class="map-header">
+            <a href="#" class="header-back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+            <h1>우리동네 세탁 지도</h1>
+        </header>
+
+        <div class="map-container">
+            <div id="map"></div>
+            <section class="filter-section">
+                <button id="openNowBtn" class="filter-chip" aria-pressed="false">
+                    <i class="fa-regular fa-clock"></i> <span>영업중</span>
+                </button>
+                <div class="filter-chip select-chip">
+                    <i class="fa-solid fa-tags"></i>
+                    <select id="productFilter" title="세탁 상품">
+                        <option value="">모든 상품</option>
+                        <option>셀프 빨래방</option>
+                        <option>드라이클리닝</option>
+                        <option>수선</option>
+                        <option>이불세탁</option>
+                        <option>운동화 세탁</option>
+                    </select>
+                </div>
+            </section>
+        </div>
+        <div class= "map-main">
+            <div class="sort-control-bar">
+                <div class="select-group">
+                    <i class="fa-solid fa-location-crosshairs"></i>
+                    <select id="centerMode">
+                        <option value="map">지도 중심</option>
+                        <option value="me">내 위치</option>
+                    </select>
+                </div>
+                <div class="select-group">
+                    <i class="fa-solid fa-arrow-down-wide-short"></i>
+                    <select id="sortMode">
+                        <option value="distance">거리순</option>
+                        <option value="rating">별점순</option>
+                    </select>
+                </div>
+            </div>
+
+            <section id="storeList" class="store-list-section"></section>
+
+            <nav class="bottom-nav">
+                <a href="{% url 'main' %}" class="nav-item">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Home</span>
+                </a>
+                <a href="{% url 'map' %}" class="nav-item active">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                    <span>Map</span>
+                </a>
+                <a href="{% url 'laundry-upload' %}" class="nav-item-main">
+                    <i class="fa-solid fa-camera"></i>
+                </a>
+                <a href="{% url 'dictionary' %}" class="nav-item">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>Dictionary</span>
+                </a>
+                <a href="{% url 'profile' %}" class="nav-item">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Profile</span>
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <div id="sheet" class="sheet" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="panel">
+            <button class="close-sheet-btn"><i class="fa-solid fa-xmark"></i></button>
+            <h3 id="sheetTitle"></h3>
+            <div id="sheetBody"></div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
+    
+    <script type="module" src="{% static 'laundry_manager/map-script.js' %}"></script>
+</body>
+</html>

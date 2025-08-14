@@ -1,0 +1,58 @@
+{
+    "filename": "스크린샷_2025-08-14_170221.png",
+    "recognized_texts": [
+        "드라이클리닝"
+    ],
+    "symbol_definition": "인식된 기호 설명 없음",
+    "ocr_raw_response": {
+        "version": "V2",
+        "requestId": "c49ab5ea-609e-47eb-ba1f-b3ef577cd7ca",
+        "timestamp": 1755158556239,
+        "images": [
+            {
+                "uid": "bdcbba3b2adb486380fa10e7931be9af",
+                "name": "스크린샷_2025-08-14_170221.png",
+                "inferResult": "SUCCESS",
+                "message": "SUCCESS",
+                "validationResult": {
+                    "result": "NO_REQUESTED"
+                },
+                "convertedImageInfo": {
+                    "width": 325,
+                    "height": 140,
+                    "pageIndex": 0,
+                    "longImage": false
+                },
+                "fields": [
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 80.0,
+                                    "y": 50.0
+                                },
+                                {
+                                    "x": 258.0,
+                                    "y": 50.0
+                                },
+                                {
+                                    "x": 258.0,
+                                    "y": 88.0
+                                },
+                                {
+                                    "x": 80.0,
+                                    "y": 88.0
+                                }
+                            ]
+                        },
+                        "inferText": "드라이클리닝",
+                        "inferConfidence": 1.0,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    }
+                ]
+            }
+        ]
+    }
+}

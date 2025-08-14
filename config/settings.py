@@ -34,6 +34,22 @@ NAVER_MAP_CLIENT_SECRET = config("NAVER_MAP_CLIENT_SECRET")
 NAVER_CLIENT_ID = config("NAVER_CLIENT_ID", default="")
 NAVER_CLIENT_SECRET = config("NAVER_CLIENT_SECRET", default="")
 
+
+
+
+# 로보 플로우에서 쓰는 api 키
+ROBOFLOW_API_KEY = config("ROBOFLOW_API_KEY", default="")
+RF_CLASSIFY_MODEL = config("RF_CLASSIFY_MODEL", default="")
+RF_CLASSIFY_VERSION = config("RF_CLASSIFY_VERSION", default="1")
+RF_ENABLED = config("RF_ENABLED", default="false").lower() in ("1", "true", "yes", "y")
+# 분류 임계값(0.0~1.0) 0.5보다 낮을 시 표시하지 않음
+try:
+    RF_CLASSIFY_THRESHOLD = float(config("RF_CLASSIFY_THRESHOLD", default="0.5"))
+except ValueError:
+    RF_CLASSIFY_THRESHOLD = 0.1
+
+
+
 # social login
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -48,7 +64,9 @@ SOCIALACCOUNT_PROVIDERS = {
             'client_id': os.getenv('KAKAO_CLIENT_ID'),
             'secret': os.getenv('KAKAO_CLIENT_SECRET'),
             'key': ''
-        }
+        },
+        'SCOPE': ['profile_nickname'],  # 콘솔 동의항목과 일치시켜야 함
+        'AUTH_PARAMS': {'prompt': 'select_account'},
     }
 }
 
@@ -83,14 +101,18 @@ AUTHENTICATION_BACKENDS = [
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'http'
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_AUTO_SIGNUP = True
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
-    "allauth.account.middleware.AccountMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",  # ← 이게 먼저
+    "allauth.account.middleware.AccountMiddleware",            # ← 그 다음
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -157,6 +179,17 @@ USE_I18N = True
 
 USE_TZ = True
 
+# 디버깅에 도움되는 로깅
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {'console': {'class': 'logging.StreamHandler'}},
+    'loggers': {
+        'allauth': {'handlers': ['console'], 'level': 'DEBUG'},
+        'allauth.socialaccount': {'handlers': ['console'], 'level': 'DEBUG'},  # ← 추가
+        'django.security.csrf': {'handlers': ['console'], 'level': 'DEBUG'},
+    },
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
@@ -171,4 +204,5 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# print("✅ NAVER_MAP_CLIENT_ID:", NAVER_MAP_CLIENT_KEY)
+
+
