@@ -45,7 +45,11 @@
                     <!-- 인식된 텍스트 -->
                     <div class="info-item">
                         <span>인식된 기호</span>
-                        <strong>{{ recognized_texts|join:", " | default:"결과 없음" }}</strong>
+                        {% if rule_keywords %}
+                            <strong>{{ rule_keywords|join:", " }}</strong>
+                        {% else %}
+                            <strong>결과 없음</strong>
+                        {% endif %}
                     </div>
 
                     <hr class="info-divider">
