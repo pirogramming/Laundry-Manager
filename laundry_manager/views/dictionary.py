@@ -218,9 +218,11 @@ def dictionary_detail(request, item_title):
     decoded_title = unquote(item_title)
     dictionary_data = load_dictionary_data()
     item_data = None
+    item_index = 0  # Index to track the image filename
 
     for category_key in dictionary_data:
         for item in dictionary_data.get(category_key, []):
+            item_index += 1  # Increment the index for each item
             if item.get("title") == decoded_title:
                 item_data = item
                 break
@@ -233,6 +235,11 @@ def dictionary_detail(request, item_title):
             "laundry_manager/not_found.html",
             {"message": f"'{decoded_title}'에 대한 세탁 정보를 찾을 수 없습니다."},
         )
+
+    # ★★★ This is the key section to add/modify ★★★
+    # Attach the image filename and URL to the item_data
+    item_data["image_filename"] = f"dictionary_image/{item_index}.jpg"
+    item_data["image_url"] = f"/static/{item_data['image_filename']}"
 
     context = {
         "item": item_data,
