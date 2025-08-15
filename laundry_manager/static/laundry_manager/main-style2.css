@@ -178,20 +178,26 @@ body {
 .nav-item {
     display: flex; flex-direction: column; align-items: center;
     text-decoration: none; color: var(--color-text-nav); font-size: 12px;
+    font-weight: 500;
 }
 .nav-item.active i{
     color: var(--color-primary);
 }
 .nav-item.active span{
     color:  var(--color-primary);
+    font-weight: 700;
     
 }
 .nav-item i { font-size: 22px; margin-bottom: 5px; }
 .nav-item-main {
+    /* position: absolute;
+    left: 50%;
+    transform: translate(-50%, -40%); */
     background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
     color: var(--color-container); width: 65px; height: 65px; border-radius: 50%;
     display: flex; justify-content: center; align-items: center;
-    transform: translateY(-40%); box-shadow: 0 4px 12px rgba(74, 108, 255, 0.4);
+    box-shadow: 0 4px 12px rgba(74, 108, 255, 0.4);
+    transform:translateY(-40%);
     border: 5px solid var(--white-background); cursor: pointer; text-decoration: none;
 }
 .nav-item-main i { font-size: 28px; }
