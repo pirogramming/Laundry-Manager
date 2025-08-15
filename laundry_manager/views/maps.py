@@ -31,9 +31,13 @@ from django.shortcuts import render
 from django.conf import settings
 
 def map_test_view(request):
+    """
+    지도를 렌더링하고, JSON 파일의 전체 데이터를 템플릿으로 전달하는 뷰
+    """
     naver_map_client_key = getattr(settings, "NAVER_MAP_CLIENT_KEY", None)
+    
     file_path = os.path.join(settings.BASE_DIR, 'laundry_manager', 'json_data', 'laundromats.json')
-    laundromats_data = []
+    laundromats_data = {}  # 기본값으로 빈 딕셔너리 설정
 
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
