@@ -122,6 +122,8 @@ def stain_detail_page(request):
 
 def login_page(request):
     return render(request, "laundry_manager/login.html", base_context(request))
+def login_test_page(request):
+    return render(request, "laundry_manager/login-test.html", base_context(request))
 
 
 def dictionary_page(request):

@@ -1,10 +1,9 @@
 /* terms.html 페이지 전용 스타일 */
 
 .page-container {
-    position: relative; width: 100%; max-width: 420px; 
-    min-height: clamp(720px, 100svh, 920px);
-    max-height: 1000px;
-    margin: 0 auto; background-color: var(--color-background);
+    position: relative; width: 100%;max-width: none;
+    min-height: 100vh;
+    margin: 0 ; background-color: var(--color-background);
     display: flex; flex-direction: column; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     overflow: hidden; opacity: 0; /* Motion One 애니메이션용 */
 }
@@ -95,7 +94,7 @@
 /* --- 하단 네비게이션 바 (메인 CSS 재사용) --- */
 .bottom-nav {
     z-index: 999;
-    position: absolute; bottom: 0; left: 0; right: 0;
+    position: fixed; bottom: 0; left: 0; right: 0;
     height: 85px; background-color: var(--color-container);
     display: flex; justify-content: space-around; align-items: center;
     border-top: 1px solid var(--color-border); flex-shrink: 0;

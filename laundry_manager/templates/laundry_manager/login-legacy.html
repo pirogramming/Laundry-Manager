@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    {% load static %}
+    {% load socialaccount %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 - 세탁 매니저</title>
+    <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}">
+    <link rel="stylesheet" href="{% static 'laundry_manager/login-style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body class="login-body">
+    {% with next_url=request.GET.next|default:"/" %}
+    <div class="login-container">
+        <div class="welcome-section">
+            <div class="logo-area">
+                 <img src="{% static 'stain_image/laundry-manager-logo.svg' %}" alt="세탁 매니저 로고" class="laundry-logo">
+            </div>
+            <p class="logo-subtitle">20대를 위한 쉽고 유용한, 세탁 정보 추천 플랫폼</p>
+            <h1 class="logo-title">세탁 매니저</h1>
+        </div>
+
+        <div class="login-panel">
+            <a href="{% url 'main' %}" class="guest-link">로그인 없이 이용하기</a>
+
+            <div class="login-card">
+                <h2>로그인</h2>
+                <p class="description">개인 맞춤형 추천, 세탁 기록 제공 등<br>다양한 기능이 사용 가능합니다</p>
+
+                <div class="social-divider">
+                    <span>또는 소셜 로그인하기</span>
+                </div>
+
+                <div class="social-buttons">
+                    <a class="social-btn" href="{% provider_login_url 'google' %}">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google">
+                        <span>Google</span>
+                    </a>
+                    <a class="social-btn" href="#">
+                        <svg height="24" width="24" viewBox="0 0 24 24" fill="#1877F2"><path d="M12 2.04c-5.5 0-10 4.49-10 10s4.5 10 10 10s10-4.49 10-10s-4.5-10-10-10zm3.5 10.5h-2v7h-3v-7h-2v-2h2v-2c0-1.1.3-2.5 2.5-2.5h2.5v2h-2c-.25 0-.5.25-.5.5v2h2.5l-.5 2z"></path></svg>
+                        <span>Facebook</span>
+                    </a>
+                </div>
+
+                <p class="signup-prompt">
+                    아직 계정이 없으신가요?
+                    <a href="{% url 'account_signup' %}">회원가입 하기</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endwith %}
+
+    <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
+    <script type="module" src="{% static 'laundry_manager/login-script.js' %}"></script>
+</body>
+</html>

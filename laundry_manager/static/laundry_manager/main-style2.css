@@ -19,23 +19,24 @@
 body {
     font-family: 'Noto Sans KR', sans-serif;
     background-color: var(--color-background);
-    display: flex;
+    /* display: flex;
     justify-content: center;
     align-items: flex-start;
-    min-height: 100vh;
-    padding: 20px 0;
+    min-height: 100vh; */
+    margin :0;
+    padding:  0;
 }
 
 .mobile-container {
     opacity: 0; /* Motion One 애니메이션을 위한 초기 상태 */
     width: 100%;
-    max-width: 420px;
+    max-width: none;
     background-color: var(--white-background, #FAFBFF); /* var(--color-container) 대신 약간 다른 흰색 */
-    border-radius: 20px;
+    border-radius: 0;
     padding: 30px 0 100px 0; /* 좌우 패딩 제거, 콘텐츠별로 부여 */
     position: relative;
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    min-height: 800px;
+    min-height: 100vh;
 }
 
 /* 사용자 프로필 */

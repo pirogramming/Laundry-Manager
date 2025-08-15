@@ -39,32 +39,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const materialInput = document.getElementById("selected-material");
     const stainsInput = document.getElementById("selected-stains");
 
-    // 소재 선택 아이템
+    // 소재 선택 아이템 (다중 선택)
     const materialItems = document.querySelectorAll('#material-selection .selectable-item');
     materialItems.forEach(item => {
-        item.addEventListener('click', () => {
-            const isActive = item.classList.contains('active');
-            materialItems.forEach(el => el.classList.remove('active'));
-            
-            if (isActive) {
-                materialInput.value = ""; 
-            } else {
-                item.classList.add('active');
-                materialInput.value = item.dataset.value;
-            }
-        });
+    item.addEventListener('click', () => {
+        item.classList.toggle('active');
+
+        const selectedMaterials = Array.from(
+        document.querySelectorAll('#material-selection .selectable-item.active')
+        ).map(el => el.dataset.value);
+
+        materialInput.value = selectedMaterials.join(','); 
+    });
     });
 
-    // 얼룩 유형 선택 아이템 (다중 선택)
+    // 얼룩 유형 선택 아이템 (단일 선택)
     const stainItems = document.querySelectorAll('#stain-selection .selectable-item');
     stainItems.forEach(item => {
-        item.addEventListener('click', () => {
-            item.classList.toggle('active');
-            const selectedStains = Array.from(document.querySelectorAll('#stain-selection .selectable-item.active'))
-                                        .map(el => el.dataset.value);
-            stainsInput.value = selectedStains.join(',');
-        });
+    item.addEventListener('click', () => {
+        const wasActive = item.classList.contains('active');
+
+        // 전부 비활성화 후
+        stainItems.forEach(el => el.classList.remove('active'));
+
+        if (wasActive) {
+        stainsInput.value = "";
+        } else {
+        item.classList.add('active');
+        stainsInput.value = item.dataset.value;
+        }
     });
+    });
+
 
     // 폼 제출 시 유효성 검사
     if (form) {
