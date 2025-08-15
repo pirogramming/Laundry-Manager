@@ -15,11 +15,11 @@
     "symbol_definition": "물세탁을 하면 안 된다.",
     "ocr_raw_response": {
         "version": "V2",
-        "requestId": "5e65833f-66e9-4149-b1d8-ae2920721e05",
-        "timestamp": 1755180308062,
+        "requestId": "6cd6e53a-e12b-46ab-af70-ee3679c74c23",
+        "timestamp": 1755231336179,
         "images": [
             {
-                "uid": "e2efba870ac942db9b4d730f7241a64d",
+                "uid": "5b1b53d1ceb84f5e85dbba5892383a7a",
                 "name": "스크린샷_2025-08-14_171540.png",
                 "inferResult": "SUCCESS",
                 "message": "SUCCESS",

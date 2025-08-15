@@ -77,7 +77,6 @@
                     <div class="info-item">
                         <span>의류 소재</span>
                         <strong id="current-material">{{ materials|join:", " | default:"-" }}</strong>
-                        <button class="btn-link" type="button" data-open-edit data-field="materials">수정</button>
                     </div>
 
                     <hr class="info-divider">
@@ -86,14 +85,13 @@
                     <div class="info-item">
                         <span>선택한 얼룩 유형</span>
                         <strong id="current-stain">{{ stains|join:", " | default:"-" }}</strong>
-                        <button class="btn-link" type="button" data-open-edit data-field="stains">수정</button>
                     </div>
                 </div>
 
                 <!-- 추천 카드 영역 (부분 템플릿 include) -->
-                <section id="recommendation">
+                {% comment %} <section id="recommendation">
                 {% include "laundry_manager/partials/_recommendation.html" with materials=materials stains=stains material=material stain=stain symbols=symbols %}
-                </section>
+                </section> {% endcomment %}
 
                 <a href="#" class="extra-info-link" id="open-modal-btn">추가 정보 입력하기</a>
                 <a href="{% url 'guide_from_result' %}" class="confirm-button">확인하기</a>
@@ -179,29 +177,36 @@
                 </div>
 
                 <!-- 아래 두 셀렉트는 UX용: 실제 전송은 hidden #edit-value 하나로 처리 -->
+                <!-- 의류 소재 (고정 5개) -->
                 <div class="input-group">
-                    <label for="edit-material">의류 소재</label>
-                    <div class="input-field select-field">
-                        <select id="edit-material">
-                            <option>린넨 80%, 울 20%</option>
-                            <option>면 100%</option>
-                            <option>폴리에스터 100%</option>
-                        </select>
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </div>
+                <label for="edit-material">의류 소재</label>
+                <div class="input-field select-field">
+                    <select id="edit-material">
+                    <option value="면">면</option>
+                    <option value="니트">니트</option>
+                    <option value="실크">실크</option>
+                    <option value="린넨">린넨</option>
+                    <option value="청">청</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
                 </div>
 
+<!-- 선택한 얼룩 유형 (고정 5개) -->
                 <div class="input-group">
-                    <label for="edit-stain">선택한 얼룩 유형</label>
-                    <div class="input-field select-field">
-                        <select id="edit-stain">
-                            <option>김칫국물 자국</option>
-                            <option>커피</option>
-                            <option>기름때</option>
-                        </select>
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </div>
+                <label for="edit-stain">선택한 얼룩 유형</label>
+                <div class="input-field select-field">
+                    <select id="edit-stain">
+                    <option value="커피">커피</option>
+                    <option value="김치">김치</option>
+                    <option value="기름">기름</option>
+                    <option value="과일">과일</option>
+                    <option value="잉크">잉크</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down"></i>
                 </div>
+                </div>
+
 
                 <button type="submit" class="submit-button">다음으로</button>
             </form>

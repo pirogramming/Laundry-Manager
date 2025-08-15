@@ -4,6 +4,10 @@ import { animate, scroll } from "https://cdn.jsdelivr.net/npm/motion@latest/+esm
 document.addEventListener('DOMContentLoaded', () => {
   animate(".mobile-container", { opacity: [0, 1] }, { duration: 0.5, easing: "ease-out" });
 
+  // 허용 리스트(고정)
+  const ALLOWED_MATERIALS = ['면','니트','실크','린넨','청'];
+  const ALLOWED_STAINS = ['커피','김치','기름','과일','잉크'];
+
   const modal = document.getElementById('edit-modal');
   const openModalBtn = document.getElementById('open-modal-btn');   // "추가 정보 입력하기"
   const closeModalBtn = document.getElementById('close-modal-btn');
@@ -29,6 +33,28 @@ document.addEventListener('DOMContentLoaded', () => {
   const openModal = () => modal.classList.add('visible');
   const closeModal = () => modal.classList.remove('visible');
 
+  // 현재 텍스트가 목록에 없으면 첫 옵션으로 보정하는 유틸
+  function selectOptionIfExists(selectEl, text, allowedList) {
+    let matched = false;
+    [...selectEl.options].forEach(opt => {
+      if (opt.text.trim() === text) {
+        matched = true;
+        selectEl.value = opt.value;
+      }
+    });
+    if (!matched) {
+      // 허용 리스트의 첫 값으로 강제 세팅
+      const fallback = allowedList?.[0];
+      if (fallback) {
+        const found = [...selectEl.options].find(o => o.value === fallback || o.text.trim() === fallback);
+        if (found) selectEl.value = found.value;
+        else selectEl.selectedIndex = 0;
+      } else {
+        selectEl.selectedIndex = 0;
+      }
+    }
+  }
+
   // "추가 정보 입력하기"로 열 때: 기본 필드를 materials로 지정
   if (openModalBtn) {
     openModalBtn.addEventListener('click', (e) => {
@@ -41,9 +67,9 @@ document.addEventListener('DOMContentLoaded', () => {
       // ✅ 기본 수정 대상: materials
       if (fieldInput) fieldInput.value = 'materials';
 
-      // 현재 소재 텍스트로 select 맞춰주기
+      // 현재 소재 텍스트로 select 맞추되, 허용리스트 밖이면 첫 옵션으로
       const curMatText = currentMaterialEl?.textContent?.trim() || '';
-      if (selectMaterial && curMatText) selectOptionIfExists(selectMaterial, curMatText);
+      if (selectMaterial) selectOptionIfExists(selectMaterial, curMatText, ALLOWED_MATERIALS);
 
       openModal();
     });
@@ -56,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 소재/얼룩 옆 "수정" 버튼으로도 열기 (있다면 사용)
+  // 소재/얼룩 옆 "수정" 버튼으로도 열기
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-open-edit]');
     if (!btn) return;
@@ -65,22 +91,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (field === 'materials') {
       const t = currentMaterialEl?.textContent?.trim() || '';
-      if (selectMaterial && t) selectOptionIfExists(selectMaterial, t);
+      if (selectMaterial) selectOptionIfExists(selectMaterial, t, ALLOWED_MATERIALS);
     } else {
       const t = currentStainEl?.textContent?.trim() || '';
-      if (selectStain && t) selectOptionIfExists(selectStain, t);
+      if (selectStain) selectOptionIfExists(selectStain, t, ALLOWED_STAINS);
     }
     openModal();
   });
 
-  function selectOptionIfExists(selectEl, text) {
-    [...selectEl.options].some((opt) => {
-      if (opt.text.trim() === text) {
-        selectEl.value = opt.value;
-        return true;
-      }
-      return false;
-    });
+  // 전송 전 허용 목록 검증
+  function validateAllowed(field, value) {
+    if (field === 'materials') return ALLOWED_MATERIALS.includes(value);
+    return ALLOWED_STAINS.includes(value);
   }
 
   if (editForm) {
@@ -90,7 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
       // ✅ field가 비어 있으면 자동 추론 (방어 로직)
       let field = fieldInput?.value;
       if (!field) {
-        // 우선 소재가 선택돼 있으면 materials, 아니면 stains
         if (selectMaterial && selectMaterial.value) field = 'materials';
         else if (selectStain && selectStain.value) field = 'stains';
         if (fieldInput) fieldInput.value = field || 'materials';
@@ -101,6 +122,12 @@ document.addEventListener('DOMContentLoaded', () => {
         valueInput.value = selectMaterial ? (selectMaterial.value || '') : '';
       } else {
         valueInput.value = selectStain ? (selectStain.value || '') : '';
+      }
+
+      // ✅ 허용 옵션 검증 (값이 비었거나 목록 바깥이면 전송 중단)
+      if (!valueInput.value || !validateAllowed(field, valueInput.value)) {
+        alert(field === 'materials' ? '허용되지 않은 소재입니다.' : '허용되지 않은 얼룩 유형입니다.');
+        return;
       }
 
       const formData = new FormData(editForm);
@@ -166,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 버튼 프레스 애니메이션 (끝 쉼표 삭제)
+  // 버튼 프레스 애니메이션
   const buttons = document.querySelectorAll('button, .cta-button, .submit-button, .nav-item');
   buttons.forEach(button => {
     button.addEventListener('pointerdown', () => animate(button, { scale: 0.97 }, { duration: 0.1 }));
