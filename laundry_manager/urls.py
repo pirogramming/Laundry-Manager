@@ -14,6 +14,9 @@ urlpatterns = [
     path("laundry-upload-page/", pages.laundry_upload_page, name="laundry-upload-page"),
     path("stain-upload/", stains.stain_guide_view, name="stain-upload"),
     path("result/", ocr.result_view, name="result"),
+    # path("history/<int:pk>/update/", info_flow.update_history_field, name="lh_update"),
+    path("result/update-selection/", info_flow.update_selection_view, name="update_selection"),
+
     path("laundry-info/", pages.laundry_info_page, name="laundry-info"),
     path("upload/", ocr.upload_and_classify, name="upload"),
     path("uploadimage/", ocr.upload_view, name="upload_image"),
