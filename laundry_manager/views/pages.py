@@ -1,5 +1,5 @@
 # views/pages.py
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 # allauth가 없는 환경에서도 터지지 않도록 안전 임포트
@@ -27,7 +27,7 @@ def _social_name_and_image(user):
 
     # 2) 기본 폴백: User 객체
     base_name = (getattr(user, "get_full_name", lambda: "")()
-                 or getattr(user, "first_name", "") or user.username or "사용자")
+                or getattr(user, "first_name", "") or user.username or "사용자")
     profile_image = None
 
     # 3) allauth 미설치/미사용 시 바로 반환
@@ -97,13 +97,31 @@ def _all_records(user):
         return []
     return list(LaundryHistory.objects.filter(user=user).order_by("-created_at"))
 
+def guest_enter(request):
+    request.session["guest"] = True
+    return redirect("main")
+
+def guest_exit(request):
+    request.session.pop("guest", None)
+    return redirect("login")
 
 # --- (4) 페이지 뷰들 ---
 def main_page(request):
-    # 메인 화면: 최근 기록 3건 노출 (템플릿: {% for record in records %} ...)
-    recent_records = _recent_records(request.user, limit=3)
-    ctx = base_context(request, extra={"records": recent_records})
+    is_auth = getattr(request.user, "is_authenticated", False)
+    is_guest = bool(request.session.get("guest"))
+
+    # 로그인도 아니고 게스트도 아니면 로그인 페이지로
+    if not (is_auth or is_guest):
+        return redirect("login")
+
+    # 회원이면 최근 기록 3건, 게스트면 빈 리스트
+    recent_records = _recent_records(request.user, limit=3) if is_auth else []
+    ctx = base_context(request, extra={
+        "records": recent_records,
+        "is_guest": (not is_auth),  # 템플릿에서 기능 제한 표시용
+    })
     return render(request, "laundry_manager/main.html", ctx)
+
 
 
 def laundry_upload_page(request):
@@ -135,7 +153,10 @@ def stain_detail_page(request):
 
 
 def login_page(request):
-    return render(request, "laundry_manager/main.html", base_context(request))
+    # 이미 로그인한 상태면 로그인 화면 말고 메인으로
+    if getattr(request.user, "is_authenticated", False):
+        return redirect("main")
+    return render(request, "laundry_manager/login.html", base_context(request))
 
 
 def login_test_page(request):
