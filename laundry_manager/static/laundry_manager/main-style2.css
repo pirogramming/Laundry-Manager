@@ -45,22 +45,24 @@ body {
     justify-content: space-between;
     align-items: center; /* 세로 중앙 정렬 */
     padding: 0 25px;
-    margin-bottom: 25px;
+    margin-bottom: 40px;
 }
 
 /* 1. 왼쪽 그룹 (로고, 앱 이름) */
 .logo-and-title {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 }
 .logo-area {
     display: flex;
     justify-content: center;
-    height: 50px;
-    width: 50px;
+    align-items: flex-end;
+    height: 60px;
+    width: 60px;
     margin-bottom: 5px;
+    margin-left: 25px;
 }
 .laundry-logo {
     height: 100%;
@@ -71,9 +73,10 @@ body {
     display: flex;
     /* gap:6px; */
     flex-direction: column;
+
 }
 .title-group .logo-exp {
-    font-size: 11px;
+    font-size: 12px;
     color: var(--color-text-secondary);
 }
 .title-group .logo-name {
@@ -82,10 +85,10 @@ body {
     font-weight: 700;
 }
 .title-group h2 {
-    font-size: 15px;
-    font-weight: 900;
+    font-size: 20px;
+    font-weight: 700;
     color: var(--color-primary);
-    text-align: left;
+    text-align: center;
 }
 
 
@@ -99,26 +102,28 @@ body {
 }
 .greeting-text {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-end;
     text-align: right; /* 텍스트를 오른쪽 정렬 */
 }
 .greeting-text p {
-    font-size: 13px;
-    
+    font-size: 25px;
+    font-weight: 500;
 }
 .greeting-text h2 {
-    font-size: 12px;
+    font-size: 27px;
     font-weight: 400;
-    color: var(--color-text-primary);
+    color: var(--color-primary);
     text-align: right;
 }
 .greeting-text .username {
-    font-weight: 600;
-    color: var(--color-text-primary);
+    font-weight: 900;
+    
+    color: var(--color-primary);
 }
 .profile-pic { 
-    width: 50px; 
-    height: 50px; 
+    width: 65px; 
+    height: 65px; 
     border-radius: 50%; 
     cursor: pointer; 
     border: 2px solid var(--color-border);
@@ -128,12 +133,16 @@ body {
 }
 
 
+
+
+
+
 /* --- 메인 캐러셀 (새로 추가) --- */
 .main-title{
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-
+    margin-top: 40px;
 }
 .main-title .carousel-more{
     font-weight: 500;
@@ -205,6 +214,10 @@ body {
 }
 
 /* 세탁 사진 찍기 CTA 카드 */
+
+.cta-title{
+    margin-bottom: 5px;
+}
 .cta-card {
     background: var(--color-primary); /* 그라데이션 대신 단색으로 변경 */
     border-radius: 30px;

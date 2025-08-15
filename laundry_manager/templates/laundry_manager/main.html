@@ -22,19 +22,17 @@
                     <img src="{% static 'stain_image/laundry-manager-logo.svg' %}" alt="세탁 매니저 로고" class="laundry-logo">
                 </div>
                 <div class="title-group">
-                    <span class="logo-exp">생활형 세탁 정보 추천</span>
+                    {% comment %} <span class="logo-exp">생활형 세탁 정보 추천 플랫폼</span> {% endcomment %}
                     {% comment %} <span class="logo-name">  세탁 매니저 </span> {% endcomment %}
-                    <h2>세탁매니저</h2>
+                    {% comment %} <h2>세탁매니저</h2>  {% endcomment %}
                 </div>
             </div>
 
             <div class="profile-and-greeting">
                 
-                <a href="{% url 'profile' %}">
-                    <img src="https://images.mypetlife.co.kr/content/uploads/2023/04/18140421/AdobeStock_212879665-1024x670.jpeg" alt="프로필 사진" class="profile-pic">
-                </a>
+                
                 <div class="greeting-text">
-                    <p>👋</p>
+                    <p>안녕하세요👋</p>
                     <h2>
                     {% if user.is_authenticated %}
                         <span class="username">{{ display_name }}</span>님
@@ -43,12 +41,28 @@
                     {% endif %}
                     </h2>
                     
-                </div> 
+                </div>  
                 
             </div>
         </div>
+        
 
         
+        
+        <section class="cta-card">
+            <div class="cta-icon-wrapper">
+                <i class="fa-solid fa-shirt"></i>
+            </div>
+            <div class="cta-text">
+                <h3 class="cta-title">세탁 정보 입력</h3>
+                <p>세탁 라벨을 인식해 정확한 세탁 방법을 알려드려요!</p>
+            </div>
+            <a href="{% url 'laundry-upload' %}" class="cta-button" id="takePictureBtn"> 
+                사진 찍고 세탁법 받기
+                <i class="fa-solid fa-play"></i>
+            </a>
+        </section>
+
         <h3 class="main-title">
             <span>오늘의 세탁법</span>
             <a href={% url 'dictionary' %} class="carousel-more">더보기  <i class="fa-solid fa-arrow-right"></i></a>
@@ -78,21 +92,6 @@
                 <div class="swiper-pagination"></div>
             </div>
         </section>
-
-        <h3>세탁 정보 입력</h3>
-        <section class="cta-card">
-            <div class="cta-icon-wrapper">
-                <i class="fa-solid fa-shirt"></i>
-            </div>
-            <div class="cta-text">
-                <p>세탁 라벨을 인식해 정확한 세탁 방법을 알려드려요!</p>
-            </div>
-            <a href="{% url 'laundry-upload' %}" class="cta-button" id="takePictureBtn"> 
-                사진 찍고 세탁법 받기
-                <i class="fa-solid fa-play"></i>
-            </a>
-        </section>
-
         <section class="history-section">
                 <h3>기록보기</h3>
                 <div class="history-list">
