@@ -192,7 +192,7 @@ def stain_detail_view(request, slug):
     processed_detail = {k.replace("_", " "): v for k, v in raw_detail.items()}
     return render(
         request,
-        "laundry_manager/stain_detail.html",
+        "laundry_manager/stain-info.html",
         {
             "title": item.get("title", "정보 없음"),
             "washing_steps": item.get("Washing_Steps", []),

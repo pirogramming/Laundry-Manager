@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>얼룩 제거 과정</title>
-    <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}"> 
+    <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}">
     <link rel="stylesheet" href="{% static 'laundry_manager/stain-info-style.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
+
 <body>
     <div class="page-container">
         <div class="content-wrapper">
@@ -31,38 +34,34 @@
                 <section class="card process-guide">
                     <h3>얼룩 제거 과정</h3>
                     <div class="process-steps">
+                        {% if washing_steps %}
+                        {% for step in washing_steps %}
                         <div class="step-item">
-                            <div class="step-number">1</div>
-                            <h4>얼룩 제거</h4>
-                            <p>얼룩을 톡톡 두드려서 흡수시켜 주세요</p>
+                            <div class="step-number">{{ forloop.counter }}</div>
+                            <h4>단계 {{ forloop.counter }}</h4>
+                            <p>{{ step }}</p>
                         </div>
-                        <div class="step-item">
-                            <div class="step-number">2</div>
-                            <h4>담가두기</h4>
-                            <p>중성 세제와 찬물을 섞고 10분간 담가 두세요</p>
-                        </div>
-                        <div class="step-item">
-                            <div class="step-number">3</div>
-                            <h4>세탁</h4>
-                            <p>손세탁 or 울코스 세탁, 고온은 피하세요</p>
-                        </div>
-                        <div class="step-item">
-                            <div class="step-number">4</div>
-                            <h4>건조</h4>
-                            <p>얼룩이 마르기 전에 건조시켜 주세요</p>
-                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <p class="no-info">세탁 단계 정보가 없습니다.</p>
+                        {% endif %}
                     </div>
                 </section>
 
                 <section class="card avoid-card">
                     <h3><i class="fa-solid fa-triangle-exclamation"></i> 피해야 하는 얼룩 제거법</h3>
                     <div class="avoid-item">
-                        <i class="fa-solid fa-circle-info"></i>
-                        <p>절대, **건조기**를 표준 이상으로 돌리면 안돼요</p>
-                    </div>
-                    <div class="avoid-item">
-                        <i class="fa-solid fa-circle-info"></i>
-                        <p>절대, **표백제**를 함부로 사용하면 안돼요</p>
+                        {% if not_to_do_info %}
+                        <ul>
+                            {% for item in not_to_do_info %}
+                            <li>
+                                <i class="fa-solid fa-circle-info"></i> {{ item }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <p class="no-info">하지 말아야 할 것 정보가 없습니다.</p>
+                        {% endif %}
                     </div>
                 </section>
 
@@ -74,29 +73,53 @@
                     <div class="accordion-list">
                         <details class="accordion-item">
                             <summary>
-                                <span class="summary-title">얼룩 제거 방법</span>
+                                <span class="summary-title">상세 정보</span>
                                 <i class="fa-solid fa-chevron-down arrow-icon"></i>
                             </summary>
                             <div class="accordion-content">
-                                <p>다양한 얼룩 종류에 따른 상세한 제거 방법이 여기에 표시됩니다.</p>
+                                {% if detail_info %}
+                                {% for key, value in detail_info.items %}
+                                <div class="detail-item">
+                                    <strong>{{ key }}:</strong> {{ value|default:"정보 없음" }} {# 여기서 |replace 필터를 제거합니다 #}
+                                </div>
+                                {% endfor %}
+                                {% else %}
+                                <p class="no-info">상세 정보가 없습니다.</p>
+                                {% endif %}
                             </div>
                         </details>
                         <details class="accordion-item">
                             <summary>
-                                <span class="summary-title">세탁 방법</span>
+                                <span class="summary-title">팁</span>
                                 <i class="fa-solid fa-chevron-down arrow-icon"></i>
                             </summary>
                             <div class="accordion-content">
-                                <p>의류 소재별, 세탁기 종류별 상세한 세탁 방법 가이드가 여기에 표시됩니다.</p>
+                                {% if tip_info %}
+                                <ul>
+                                    {% for tip in tip_info %}
+                                    <li>{{ tip }}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% else %}
+                                <p class="no-info">팁 정보가 없습니다.</p>
+                                {% endif %}
                             </div>
                         </details>
                         <details class="accordion-item">
                             <summary>
-                                <span class="summary-title">건조 방법</span>
+                                <span class="summary-title">기타</span>
                                 <i class="fa-solid fa-chevron-down arrow-icon"></i>
                             </summary>
                             <div class="accordion-content">
-                                <p>의류 손상을 최소화하는 올바른 건조 방법이 여기에 표시됩니다.</p>
+                                {% if other_info %}
+                                <ul>
+                                    {% for item in other_info %}
+                                    <li>{{ item }}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% else %}
+                                <p class="no-info">기타 정보가 없습니다.</p>
+                                {% endif %}
                             </div>
                         </details>
                     </div>
@@ -126,7 +149,8 @@
         </nav>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
-    
+
     <script type="module" src="{% static 'laundry_manager/stain-info-script.js' %}"></script>
 </body>
+
 </html>
