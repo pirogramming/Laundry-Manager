@@ -65,6 +65,11 @@ urlpatterns = [
         history.laundry_history_detail_view,
         name="laundry_history_detail",
     ),
+    path(
+        "history/<int:history_id>/delete/",
+        history.delete_laundry_history,
+        name="laundry_history_delete",
+    ),
     path("classify/", classify.classify_symbol_view, name="classify"),
 
     path("history/upload/", history.upload_and_save_history_view, name="upload_history"),
@@ -72,6 +77,7 @@ urlpatterns = [
 
     # ... 기존 라우트들 ...
     path("guide/from-result/", laundry_res.guide_from_result, name="guide_from_result"),
+    # path("history/clear/", history.delete_laundry_history, name="clear_result"),
 
     # ✅ 개발용 테스트 템플릿
     path(

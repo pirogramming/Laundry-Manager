@@ -6,11 +6,30 @@ from django.views.decorators.http import require_http_methods
 from django.contrib import messages
 from django.db import transaction
 from django.http import HttpResponse
+from django.views.decorators.http import require_POST
 
 from ..models import LaundryHistory, UploadedImage
 from ..forms import WashingUploadForm
 
 User = get_user_model()
+
+@require_POST
+def delete_laundry_history(request, history_id: int):
+    """
+    기록 상세 화면에서 호출: 해당 LaundryHistory를 삭제 후 메인으로 이동.
+    필요하면 소유자 검증 추가.
+    """
+    obj = get_object_or_404(LaundryHistory, pk=history_id)
+
+    # (선택) 로그인 사용자 소유 검증
+    # if request.user.is_authenticated and obj.user_id != request.user.id:
+    #     messages.error(request, "삭제 권한이 없습니다.")
+    #     return redirect("laundry_history_detail", history_id=history_id)
+
+    obj.delete()
+    messages.success(request, "기록을 삭제했습니다.")
+    return redirect("main")
+
 
 @login_required
 def laundry_history_detail_view(request, history_id):

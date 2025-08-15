@@ -29,6 +29,13 @@
             <h3>저장된 추천 세탁법</h3>
             <p class="pre-wrap">{{ record.recommendation_result|linebreaksbr }}</p>
         </div>
+        <form method="post" action="{% url 'laundry_history_delete' history_id=record.id %}" style="margin-top:16px;">
+        {% csrf_token %}
+        <button type="submit" class="text-btn-dark" style="width:100%;">
+            <i class="fa-solid fa-trash"></i> 기록 지우기
+        </button>
+        </form>
+
     </div>
 </body>
 </html>

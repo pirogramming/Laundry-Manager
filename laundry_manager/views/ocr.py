@@ -9,6 +9,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 
 from ..forms import ImageUploadForm
 from ..utils import (
@@ -261,3 +262,33 @@ def upload_and_classify(request):
         "laundry_manager/laundry-upload.html",
         {"form": form, "result": result},
     )
+
+@require_POST
+def clear_result(request):
+    """
+    결과 화면에서 누르면 세션에 저장된 인식 결과를 비우고 업로드 화면으로 이동.
+    옵션(delete_output=1)일 때 output 폴더의 *_result.json도 함께 삭제.
+    """
+    # 1) 세션 키 제거
+    for key in ("recognized_texts", "symbol_definition", "material", "stains"):
+        request.session.pop(key, None)
+
+    # 2) output/*.json 삭제 (선택)
+    if request.POST.get("delete_output") == "1":
+        try:
+            output_dir = os.path.join(settings.BASE_DIR, "output")
+            if os.path.isdir(output_dir):
+                for fname in os.listdir(output_dir):
+                    if fname.endswith("_result.json"):
+                        try:
+                            os.remove(os.path.join(output_dir, fname))
+                        except OSError:
+                            pass
+            messages.success(request, "세션 기록과 저장된 결과 파일을 삭제했어요.")
+        except Exception as e:
+            messages.warning(request, f"파일 삭제 중 오류가 발생했어요: {e}")
+    else:
+        messages.success(request, "세션 기록을 삭제했어요.")
+
+    # 원하는 곳으로 리다이렉트 (업로드 화면으로 복귀)
+    return redirect("laundry-upload")
