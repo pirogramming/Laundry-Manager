@@ -1,0 +1,58 @@
+{
+    "filename": "image-removebg-preview_36.png",
+    "recognized_texts": [
+        "11111"
+    ],
+    "symbol_definition": "인식된 기호 설명 없음",
+    "ocr_raw_response": {
+        "version": "V2",
+        "requestId": "8425b83a-8b41-4843-89e6-a016b11b3658",
+        "timestamp": 1755181809125,
+        "images": [
+            {
+                "uid": "11aa2d8dc7e644878b53c4562fbe7ab6",
+                "name": "image-removebg-preview_36.png",
+                "inferResult": "SUCCESS",
+                "message": "SUCCESS",
+                "validationResult": {
+                    "result": "NO_REQUESTED"
+                },
+                "convertedImageInfo": {
+                    "width": 499,
+                    "height": 499,
+                    "pageIndex": 0,
+                    "longImage": false
+                },
+                "fields": [
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 83.0,
+                                    "y": 286.0
+                                },
+                                {
+                                    "x": 255.0,
+                                    "y": 250.0
+                                },
+                                {
+                                    "x": 268.0,
+                                    "y": 312.0
+                                },
+                                {
+                                    "x": 96.0,
+                                    "y": 348.0
+                                }
+                            ]
+                        },
+                        "inferText": "11111",
+                        "inferConfidence": 0.9716,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    }
+                ]
+            }
+        ]
+    }
+}
