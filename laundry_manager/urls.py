@@ -78,13 +78,6 @@ urlpatterns = [
     # ... 기존 라우트들 ...
     path("guide/from-result/", laundry_res.guide_from_result, name="guide_from_result"),
     # path("history/clear/", history.delete_laundry_history, name="clear_result"),
-
-    # ✅ 개발용 테스트 템플릿
-    path(
-        "dev/test-guide/",
-        TemplateView.as_view(template_name="laundry_manager/dev_test_guide.html"),
-        name="dev-test-guide",
-    ),
     
     #문의하기 처리 
     path('contact/submit/', contact.contact_submit_view, name='contact_submit'),
