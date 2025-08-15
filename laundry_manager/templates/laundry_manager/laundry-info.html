@@ -72,7 +72,7 @@
           </p>
         </section>
 
-        <!-- 피해야 하는 세탁법 -->
+        <!-- 피해야 하는 세탁법 (배열은 리스트로 출력) -->
         <section class="card avoid-card">
           <h3><i class="fa-solid fa-triangle-exclamation"></i> 피해야 하는 세탁법</h3>
 
@@ -83,17 +83,20 @@
             </div>
           {% endif %}
 
-          {% if stain.Not_to__do %}
-            <div class="avoid-item">
-              <i class="fa-solid fa-circle-exclamation"></i>
-              <p>{{ stain.Not_to__do }}</p>
-            </div>
-          {% elif stain.not_to_do %}
-            <div class="avoid-item">
-              <i class="fa-solid fa-circle-exclamation"></i>
-              <p>{{ stain.not_to_do }}</p>
-            </div>
-          {% endif %}
+          {% with todo=stain.not_to_do|default:stain.Not_to__do %}
+            {% if todo %}
+              {# 대부분 배열이므로 리스트로 렌더. 만약 문자열이면 li 하나만 출력됨(실무상 OK) #}
+              <ul class="avoid-list">
+                {% if todo.0 and todo|length > 1 %}
+                  {% for t in todo %}
+                    <li class="avoid-item"><i class="fa-solid fa-circle-exclamation"></i><p>{{ t }}</p></li>
+                  {% endfor %}
+                {% else %}
+                  <li class="avoid-item"><i class="fa-solid fa-circle-exclamation"></i><p>{{ todo }}</p></li>
+                {% endif %}
+              </ul>
+            {% endif %}
+          {% endwith %}
 
           {% if not material.warning and not stain.Not_to__do and not stain.not_to_do %}
             <div class="avoid-item"><p>특별히 피해야 할 항목이 없습니다.</p></div>
@@ -116,7 +119,15 @@
               <i class="fa-solid fa-chevron-down arrow-icon"></i>
             </summary>
             <div class="accordion-content">
-              <p>{{ stain.Washing_Steps|default:"해당 얼룩의 단계별 가이드를 찾을 수 없습니다."|linebreaks }}</p>
+              {% if stain.Washing_Steps %}
+                <ol class="step-list">
+                  {% for step in stain.Washing_Steps %}
+                    <li>{{ step }}</li>
+                  {% endfor %}
+                </ol>
+              {% else %}
+                <p>해당 얼룩의 단계별 가이드를 찾을 수 없습니다.</p>
+              {% endif %}
             </div>
           </details>
 
@@ -150,9 +161,7 @@
               </div>
               <div class="summary-text">
                 <h4>건조 방법</h4>
-                <p>
-                  {% if summary and summary.dry %}{{ summary.dry }}{% else %}정보 없음{% endif %}
-                </p>
+                <p>{% if summary and summary.dry %}{{ summary.dry }}{% else %}정보 없음{% endif %}</p>
               </div>
               <i class="fa-solid fa-chevron-down arrow-icon"></i>
             </summary>
