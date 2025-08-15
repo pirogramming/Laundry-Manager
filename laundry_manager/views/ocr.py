@@ -73,7 +73,7 @@ def _coerce_csv(v):
     return str(v).strip()
 
 
-@login_required
+# @login_required
 @require_http_methods(["GET", "POST"])
 def upload_view(request):
     """

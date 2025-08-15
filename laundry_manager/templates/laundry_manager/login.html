@@ -22,7 +22,9 @@
             </div>
             <p class="logo-subtitle">20대를 위한 쉽고 유용한, 세탁 정보 추천 플랫폼</p>
             <h1 class="logo-title">세탁 매니저</h1>
-            <a href="{% url 'main' %}" class="guest-link">로그인 없이 이용하기</a>
+            {% comment %} <a href="{% url 'main' %}" class="guest-link">로그인 없이 이용하기</a> {% endcomment %}
+            <a href="{% url 'guest_enter' %}" class="guest-link">로그인 없이 이용하기</a>
+            
         </div>
 
         <div class="login-panel">

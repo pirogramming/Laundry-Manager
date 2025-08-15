@@ -14,6 +14,8 @@ try:
 except Exception:
     LaundryHistory = None
 
+def _is_guest(request):
+    return bool(getattr(request, "session", {}).get("guest"))
 
 # --- (1) 소셜/일반 공통 이름·이미지 유틸 ---
 def _social_name_and_image(user):
@@ -69,17 +71,16 @@ def _social_name_and_image(user):
     return (base_name, profile_image)
 
 
-# --- (2) 공통 컨텍스트 빌더 ---
 def base_context(request, extra=None):
-    """
-    모든 템플릿에서 공통으로 접근 가능한 컨텍스트.
-    - display_name, profile_image
-    """
-    name, image = _social_name_and_image(getattr(request, "user", None))
+    # 로그인하면 게스트 플래그 자동 해제(동시상태 방지)
+    if getattr(request.user, "is_authenticated", False) and _is_guest(request):
+        request.session.pop("guest", None)
 
+    name, image = _social_name_and_image(getattr(request, "user", None))
     ctx = {
         "display_name": name,
         "profile_image": image,
+        "is_guest": _is_guest(request),
     }
     if extra:
         ctx.update(extra)
@@ -98,6 +99,9 @@ def _all_records(user):
     return list(LaundryHistory.objects.filter(user=user).order_by("-created_at"))
 
 def guest_enter(request):
+    if getattr(request.user, "is_authenticated", False):
+        request.session.pop("guest", None)
+        return redirect("main")
     request.session["guest"] = True
     return redirect("main")
 

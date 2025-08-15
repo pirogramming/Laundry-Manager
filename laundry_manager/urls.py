@@ -10,7 +10,8 @@ from .views import laundry_res  # 이미 guide_from_result 추가해놨던 파�
 urlpatterns = [
     path("", pages.login_page, name="login"),
     path("main/", pages.main_page, name="main"),
-    
+    path("guest-enter/", pages.guest_enter, name="guest_enter"),
+    path("guest-exit/", pages.guest_exit, name="guest_exit"),
     path("laundry-upload/", ocr.upload_view, name="laundry-upload"),
     # (페이지 전용 라우트는 계속 유지하고 싶다면 별도 경로 사용)
     path("laundry-upload-page/", pages.laundry_upload_page, name="laundry-upload-page"),
