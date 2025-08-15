@@ -1,6 +1,6 @@
 # laundry_manager/urls.py
 from django.urls import path
-from .views import pages, ocr, stains, info_flow, maps, history, classify
+from .views import pages, ocr, stains, info_flow, maps, history, classify,contact
 import laundry_manager.views.dictionary as dictionary_views  # 이전 이슈 피하려고 모듈 임포트
 
 urlpatterns = [
@@ -60,4 +60,7 @@ urlpatterns = [
         name="laundry_history_detail",
     ),
     path("classify/", classify.classify_symbol_view, name="classify"),
+    
+    #문의하기 처리 
+    path('contact/submit/', contact.contact_submit_view, name='contact_submit'),
 ]

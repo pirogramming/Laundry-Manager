@@ -1,5 +1,6 @@
 from django import forms
 from .models import UploadedImage
+from .models import Inquiry
 
 class ImageUploadForm(forms.ModelForm):
     class Meta:
@@ -11,3 +12,11 @@ class ImageUploadForm(forms.ModelForm):
 
 class ImageAnalysisForm(forms.Form):
     image = forms.ImageField()
+
+
+
+class InquiryForm(forms.ModelForm):
+    class Meta:
+        model = Inquiry
+        # 폼에서 사용할 필드를 지정합니다.
+        fields = ['name', 'email', 'inquiry_type', 'subject', 'message', 'privacy_agree']

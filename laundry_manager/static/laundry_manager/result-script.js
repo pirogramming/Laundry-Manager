@@ -15,17 +15,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const laundryItemNameElement = document.getElementById('laundry-item-name');
     const editNameInput = document.getElementById('edit-name');
 
+    const openTheModal = () => {
+        const currentName = laundryItemNameElement.childNodes[0].nodeValue.trim();
+        editNameInput.value = currentName;
+        modal.classList.add('visible');
+    };
     // --- 팝업 여는 기능 ---
     openModalBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        // 현재 세탁물 이름을 input의 기본값으로 설정
-        // h2 태그 안의 i 태그를 제외한 텍스트만 가져오기
-        const currentName = laundryItemNameElement.childNodes[0].nodeValue.trim();
-        editNameInput.value = currentName;
-        
-        modal.classList.add('visible');
+        openTheModal();
     });
-
+    laundryItemNameElement.addEventListener('click', openTheModal);
     // --- 팝업 닫는 기능 ---
     const closeModal = () => {
         modal.classList.remove('visible');

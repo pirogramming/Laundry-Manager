@@ -132,3 +132,25 @@ class LaundryHistory(models.Model):
 
     class Meta:
         ordering = ['-created_at'] # 최신 기록부터 보이도록 정렬
+
+
+# 문의하기 처리를 위한 model    
+class Inquiry(models.Model):
+    INQUIRY_TYPE_CHOICES = [
+        ('서비스 이용 문의', '서비스 이용 문의'),
+        ('버그/오류 제보', '버그/오류 제보'),
+        ('세탁소 제휴 문의', '세탁소 제휴 문의'),
+        ('기타', '기타'),
+    ]
+
+    name = models.CharField(max_length=50, verbose_name="이름")
+    email = models.EmailField(verbose_name="이메일")
+    inquiry_type = models.CharField(max_length=50, choices=INQUIRY_TYPE_CHOICES, verbose_name="문의 유형")
+    subject = models.CharField(max_length=200, verbose_name="제목")
+    message = models.TextField(verbose_name="내용")
+    privacy_agree = models.BooleanField(default=False, verbose_name="개인정보 수집 동의")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="작성일")
+    is_resolved = models.BooleanField(default=False, verbose_name="답변 완료 여부")
+
+    def __str__(self):
+        return f'[{self.inquiry_type}] {self.subject} - {self.name}'
