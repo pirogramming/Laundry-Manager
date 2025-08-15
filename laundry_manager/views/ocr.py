@@ -7,6 +7,8 @@ from typing import List, Dict, Any, Optional
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.views.decorators.http import require_http_methods
+from django.contrib.auth.decorators import login_required
 
 from ..forms import ImageUploadForm
 from ..utils import (
@@ -18,22 +20,63 @@ from ..utils import (
     save_classification_result_json,
 )
 
-# 룰 엔진 (services/text_rules.py)
+# 룰 엔진
 from ..services.text_rules import (
     analyze_texts,
     load_latest_recognized_texts_from_output,
     extract_rule_keywords,
-    rules_loaded_count, 
+    rules_loaded_count,
     rules_debug_snapshot,
 )
+
+# 세션 → 기록 저장 유틸 (이미 작성한 함수)
+from .history import save_history_from_session
 
 # 세탁 기호 정의 로드(앱 시작 시 1회)
 WASHING_SYMBOLS_DEFINITIONS = load_washing_definitions()
 
 
+def _relax_seed_texts() -> List[str]:
+    """RELAX 컨텍스트 시드"""
+    return [
+        "세탁 세탁기 물세탁 손세탁 중성세제",
+        "표백 염소계 산소계",
+        "다리미 다림질 스팀",
+        "드라이 드라이클리닝 클리닝",
+        "웨트 웨트클리닝 습식",
+        "자연건조 건조 햇볕 그늘 옷걸이 텀블 건조기 탈수 짜다 원심",
+    ]
+
+
+def _analyze_with_fallback(texts: List[str], use_relax: bool) -> (List[Dict[str, Any]], bool):
+    """룰엔진 분석 + 필요 시 RELAX 1회 재시도"""
+    instructions = analyze_texts(texts)
+    if instructions:
+        return instructions, False
+    if use_relax:
+        relaxed_texts = (texts or []) + _relax_seed_texts()
+        ins2 = analyze_texts(relaxed_texts)
+        if ins2:
+            return ins2, True
+    return [], False
+
+
+def _coerce_csv(v):
+    """리스트/문자열 → 쉼표 문자열"""
+    if not v:
+        return ""
+    if isinstance(v, str):
+        return v.strip()
+    if isinstance(v, (list, tuple, set)):
+        return ", ".join([str(x).strip() for x in v if str(x).strip()])
+    return str(v).strip()
+
+
+@login_required
+@require_http_methods(["GET", "POST"])
 def upload_view(request):
     """
-    이미지 업로드 → OCR 수행 → 세션 저장 → result 페이지로 리다이렉트
+    이미지 업로드 → OCR → 정의/텍스트 추출 → 룰엔진 분석 → 세션 저장 → ★기록 생성★ → result로 이동
     """
     context: Dict[str, Any] = {
         "form": ImageUploadForm(),
@@ -44,85 +87,75 @@ def upload_view(request):
         "error_message": None,
     }
 
-    if request.method == "POST":
-        form = ImageUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            # 1) 업로드 저장
-            uploaded_instance = form.save()
-            messages.success(request, "사진이 업로드 됐습니다!")
+    if request.method == "GET":
+        return render(request, "laundry_manager/laundry-upload.html", context)
 
-            image_path = uploaded_instance.image.path
-            context["uploaded_image_url"] = uploaded_instance.image.url
-            context["uploaded_image_name"] = uploaded_instance.image.name
-
-            # 2) OCR
-            ocr_result = perform_ocr(image_path)
-            if ocr_result.get("error"):
-                context["error_message"] = ocr_result.get("message", "OCR 오류가 발생했습니다.")
-                return render(request, "laundry_manager/laundry-upload.html", context)
-
-            # 3) OCR 결과 → 세탁 기호 설명 / 인식 텍스트 추출
-            definition, texts = get_washing_symbol_definition(
-                ocr_result, WASHING_SYMBOLS_DEFINITIONS
-            )
-
-            # 4) 세션 저장 (다음 result 페이지에서 사용)
-            request.session["recognized_texts"] = texts or []
-            request.session["symbol_definition"] = definition or ""
-            request.session["material"] = request.POST.get("material")
-            request.session["stains"] = request.POST.getlist("stains")
-
-            # 5) 로깅/디버깅용 결과 JSON 저장 (output/{원본파일명}_result.json)
-            save_result_json(image_path, texts, definition, ocr_result)
-
-            # 6) 결과 페이지로 이동
-            return redirect("result")
-
-        # form.is_valid()가 아니면 아래로 떨어져 템플릿 렌더링
+    # POST
+    form = ImageUploadForm(request.POST, request.FILES)
+    if not form.is_valid():
         context["form"] = form
+        messages.error(request, "이미지를 업로드해 주세요.")
+        return render(request, "laundry_manager/laundry-upload.html", context)
 
-    return render(request, "laundry_manager/laundry-upload.html", context)
+    # 1) 업로드 저장
+    uploaded_instance = form.save()
+    messages.success(request, "사진이 업로드 됐습니다!")
 
+    image_path = uploaded_instance.image.path
+    context["uploaded_image_url"] = uploaded_instance.image.url
+    context["uploaded_image_name"] = uploaded_instance.image.name
 
-def _relax_seed_texts() -> List[str]:
-    """
-    RELAX 모드일 때 규칙 카테고리 컨텍스트를 최소 주입해
-    '40' 같은 숫자만 있는 이미지도 테스트 매칭이 되도록 함.
-    """
-    return [
-        # washing
-        "세탁 세탁기 물세탁 손세탁 중성세제",
-        # bleach
-        "표백 염소계 산소계",
-        # iron
-        "다리미 다림질 스팀",
-        # dry clean
-        "드라이 드라이클리닝 클리닝",
-        # wet clean
-        "웨트 웨트클리닝 습식",
-        # dry / spin
-        "자연건조 건조 햇볕 그늘 옷걸이 텀블 건조기 탈수 짜다 원심",
-    ]
+    # 2) OCR
+    ocr_result = perform_ocr(image_path)
+    if ocr_result.get("error"):
+        context["error_message"] = ocr_result.get("message", "OCR 오류가 발생했습니다.")
+        return render(request, "laundry_manager/laundry-upload.html", context)
 
+    # 3) OCR 결과 → 세탁 기호 설명 / 인식 텍스트
+    definition, texts = get_washing_symbol_definition(
+        ocr_result, WASHING_SYMBOLS_DEFINITIONS
+    )
 
-def _analyze_with_fallback(texts: List[str], use_relax: bool) -> (List[Dict[str, Any]], bool):
-    """
-    1차: 그대로 분석
-    2차: 결과가 비고 RELAX 허용이면, 컨텍스트 시드 주입 후 재분석
-    반환: (instructions, used_relax)
-    """
-    instructions = analyze_texts(texts)
-    if instructions:
-        return instructions, False
+    # 4) 폼에서 넘어온 수동 입력 파싱
+    material = (request.POST.get("material") or "").strip()
 
-    if use_relax:
-        # 컨텍스트 시드 주입
-        relaxed_texts = (texts or []) + _relax_seed_texts()
-        instructions_relaxed = analyze_texts(relaxed_texts)
-        if instructions_relaxed:
-            return instructions_relaxed, True
+    # hidden 하나로 넘어오기 때문에 CSV 파싱 필요
+    stains_csv = (request.POST.get("stains") or "").strip()
+    stains_list = [x.strip() for x in stains_csv.split(",") if x.strip()]
 
-    return [], False
+    # 5) 룰엔진 분석 (+RELAX: DEBUG일 때 허용)
+    relax_flag = request.GET.get("relax") == "1" or settings.DEBUG is True
+    instructions, used_relax = _analyze_with_fallback(texts or [], use_relax=relax_flag)
+    rule_keywords = extract_rule_keywords(texts or []) if instructions else []
+
+    # 6) 세션 저장 (결과/기록 공용 키)
+    s = request.session
+    s["recognized_texts"] = texts or []
+    s["symbol_definition"] = definition or ""
+    if material:
+        s["material"] = material
+        s["materials"] = material  # 기록 저장 호환
+    s["stains"] = stains_list
+    s["instructions"] = instructions  # 템플릿에서 바로 사용 (list[dict])
+    s["rule_keywords"] = rule_keywords
+    s["symbols"] = rule_keywords or (texts or [])
+    s["recommendation_result"] = _coerce_csv(instructions) if isinstance(instructions, (list, tuple)) else (instructions or "")
+
+    # 7) 디버깅용 결과 JSON 저장
+    save_result_json(image_path, texts, definition, ocr_result)
+
+    # 8) ★ 기록 생성 ★
+    try:
+        # 현재 LaundryHistory 모델에는 image 필드가 없으므로 image_file=None 유지
+        record = save_history_from_session(request, image_file=None)
+    except Exception as e:
+        # 기록 실패해도 결과 페이지는 보이게 함
+        import logging
+        logging.getLogger(__name__).warning("save history failed: %s", e)
+        messages.warning(request, f"기록 저장에 실패했습니다: {e}")
+
+    # 9) 결과 페이지로 이동
+    return redirect("result")
 
 
 def result_view(request):
@@ -139,49 +172,50 @@ def result_view(request):
     material: str = request.session.get("material", "")
     stains: List[str] = request.session.get("stains", [])
 
-    # 세션이 비었을 때 직접 접근/새로고침 대비 복구
     if not texts:
         texts = load_latest_recognized_texts_from_output()
 
-    # URL 파라미터 또는 DEBUG에서 RELAX 허용
+    # 이미 업로드 단계에서 분석했지만, 세션이 비어있을 수도 있어 안전망 유지
     relax_flag = request.GET.get("relax") == "1" or settings.DEBUG is True
+    instructions = request.session.get("instructions")
+    used_relax = False
+    if not instructions:
+        instructions, used_relax = _analyze_with_fallback(texts, use_relax=relax_flag)
+        request.session["instructions"] = instructions
 
-    # OCR 텍스트 → 룰 엔진 분석 (+ RELAX fallback)
-    instructions, used_relax = _analyze_with_fallback(texts, use_relax=relax_flag)
+    rule_keywords = request.session.get("rule_keywords")
+    if instructions and not rule_keywords:
+        rule_keywords = extract_rule_keywords(texts)
+        request.session["rule_keywords"] = rule_keywords
 
-    # OCR 텍스트에서 RULES에 정의된 키워드만 표시용 라벨로 추출
-    # (RELAX를 썼다면 원문 기반 표시는 과매칭될 수 있으니 instructions가 비지 않을 때만 표시)
-    rule_keywords = extract_rule_keywords(texts) if instructions else []
-
-    # 디버깅용 로그
+    # 디버 출력
+    debug = rules_debug_snapshot()
     print("[ResultView] OCR 텍스트:", texts)
     print("[ResultView] 지시문 매칭(RELAX=%s): %s" % (used_relax, instructions))
-    # 로딩 상태 스냅샷 출력
-    debug = rules_debug_snapshot()
-    print("[TextRules DEBUG]", debug)  # ★ 콘솔에 전체 경로/존재여부/규칙수 찍힘
+    print("[TextRules DEBUG]", debug)
 
-    # 규칙 개수 경고
-    rule_count = debug["loaded_count"]
-    rules_load_warning = None if rule_count > 0 else (
+    rules_load_warning = None if debug.get("loaded_count", 0) > 0 else (
         "세탁 지시문 규칙(JSON)을 불러오지 못했습니다. "
         "BASE_DIR/laundry_manager/json_data/text_rules.json 경로와 형식을 확인하세요."
     )
-    
+
     return render(
         request,
         "laundry_manager/result.html",
         {
-            "recognized_texts": texts,          # 원문 전체(필요하면 숨김/디버깅용)
-            "rule_keywords": rule_keywords,     # 화면 "인식된 기호" 표시에 사용
+            "recognized_texts": texts,
+            "rule_keywords": rule_keywords or [],
             "symbol_definition": definition,
             "materials": [material] if material else [],
             "stains": stains,
-            "instructions": instructions,       # 화면 "세탁 지시문" 표시에 사용
-            "used_relax": used_relax,           # 템플릿에서 '(테스트 매칭)' 같은 표시 가능
+            "instructions": instructions or [],
+            "used_relax": used_relax,
+            "rules_load_warning": rules_load_warning,
         },
     )
 
 
+@require_http_methods(["GET", "POST"])
 def upload_and_classify(request):
     """
     (별도) 분류 모델만 돌리는 업로드 엔드포인트.
@@ -214,7 +248,6 @@ def upload_and_classify(request):
             except OSError:
                 pass
         else:
-            # 검증 실패 시 폼 그대로 렌더
             return render(
                 request,
                 "laundry_manager/laundry-upload.html",

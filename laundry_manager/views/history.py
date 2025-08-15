@@ -2,125 +2,169 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
+from django.views.decorators.http import require_http_methods
+from django.contrib import messages
+from django.db import transaction
 from django.http import HttpResponse
 
-# 같은 앱(models.py)에 있다면 점 하나(.) 사용
-from ..models import LaundryHistory, Recommendation  # 필요하면 Clothing, Stain 등도 추가
+from ..models import LaundryHistory, UploadedImage
+from ..forms import WashingUploadForm
 
 User = get_user_model()
 
 @login_required
 def laundry_history_detail_view(request, history_id):
-    """
-    특정 세탁 기록(pk=history_id)의 상세 정보를 보여주는 뷰
-    """
-    # get_object_or_404: 객체를 찾되, 없으면 404 에러를 냄
-    # user=request.user: 다른 사람이 내 기록을 보지 못하도록 현재 로그인한 유저의 기록만 조회
     record = get_object_or_404(LaundryHistory, pk=history_id, user=request.user)
+    return render(request, 'laundry_manager/laundry_history_detail.html', {"record": record})
 
-    context = {
-        'record': record
-    }
-    return render(request, 'laundry_manager/laundry_history_detail.html', context)
-
-#profile에서 기록보기 눌렀을 때 모든 기록 표시
-@login_required 
+@login_required
 def record_settings_page(request):
-    
-    all_records = LaundryHistory.objects.filter(user=request.user) 
-    
-    context = {
-        'records': all_records 
+    all_records = LaundryHistory.objects.filter(user=request.user)
+    return render(request, "laundry_manager/record-settings.html", {"records": all_records})
+
+
+# ---------------------------
+# 업로드 → 세션 채우기 → History 저장
+# ---------------------------
+
+@login_required
+@require_http_methods(["GET", "POST"])
+def upload_and_save_history_view(request):
+    """
+    1) 사용자가 세탁 기호 이미지를 업로드
+    2) (파이프라인) OCR/분류/룰엔진 → 세션에 결과 적재
+    3) 세션 기반으로 LaundryHistory 레코드 생성
+    """
+    if request.method == "GET":
+        form = WashingUploadForm()
+        return render(request, "laundry_manager/upload.html", {"form": form})
+
+    form = WashingUploadForm(request.POST, request.FILES)
+    if not form.is_valid():
+        messages.error(request, "이미지를 업로드해 주세요.")
+        return render(request, "laundry_manager/upload.html", {"form": form})
+
+    image_file = form.cleaned_data["image"]
+
+    try:
+        with transaction.atomic():
+            # 1) 업로드 파일 저장(참고용). 현재 모델 구조상 History와 직접 연결하진 않음.
+            uploaded = UploadedImage.objects.create(image=image_file)
+
+            # 2) 너희 파이프라인 실행해서 세션 채우기
+            _run_pipeline_and_fill_session(request, uploaded)
+
+            # 3) 세션 → History 저장
+            payload = _build_history_payload_from_session(request)
+            if not _has_any_payload(payload):
+                return HttpResponse("분석 결과가 비어 있어 기록을 만들 수 없습니다.", status=400)
+
+            record = LaundryHistory.objects.create(user=request.user, **payload)
+
+    except Exception as e:
+        messages.error(request, f"기록 저장 중 오류: {e}")
+        return render(request, "laundry_manager/upload.html", {"form": form})
+
+    messages.success(request, "세탁 기록이 저장되었습니다.")
+    return redirect("laundry_history_detail", history_id=record.pk)
+
+
+@login_required
+@require_http_methods(["POST"])
+def save_current_result_as_history_view(request):
+    """
+    업로드 없이, 이미 세션에 들어있는 결과를 바로 기록으로 저장하고 싶을 때 사용
+    """
+    payload = _build_history_payload_from_session(request)
+    if not _has_any_payload(payload):
+        return HttpResponse("세션에 저장된 결과가 없습니다.", status=400)
+
+    record = LaundryHistory.objects.create(user=request.user, **payload)
+    messages.success(request, "현재 결과를 기록으로 저장했습니다.")
+    return redirect("laundry_history_detail", history_id=record.pk)
+
+
+# ---------------------------
+# 내부 유틸/훅
+# ---------------------------
+
+def _run_pipeline_and_fill_session(request, uploaded: UploadedImage):
+    """
+    [훅] 너희 OCR/분류/룰엔진 파이프라인을 호출해 아래 키들로 세션을 채워줘.
+      - materials: str 또는 List[str] (쉼표 문자열로 변환됨)
+      - stains:    str 또는 List[str]
+      - symbols:   str 또는 List[str]  (rule_keywords나 recognized_texts에서 유도 가능)
+      - recommendation_result: str     (최종 지시문)
+
+    이미 result_view 등에서 세션을 채우고 있다면, 여기서는 그대로 두거나 보정만 해도 됨.
+    """
+    session = request.session
+
+    # 예) 기존 키에서 유도 (팀 내부 기존 컨벤션 흡수)
+    # material / materials
+    if "materials" not in session:
+        mat = session.get("material", "")
+        session["materials"] = mat
+
+    # symbols ← rule_keywords 또는 recognized_texts
+    if "symbols" not in session:
+        symbols = session.get("rule_keywords") or session.get("recognized_texts") or []
+        session["symbols"] = symbols
+
+    # recommendation_result ← instructions
+    if not session.get("recommendation_result"):
+        session["recommendation_result"] = session.get("instructions", "")
+
+    # stains는 기존 세션의 stains 유지
+    session["stains"] = session.get("stains", session.get("stain", []))
+
+
+def _coerce_to_commasep(value):
+    if not value:
+        return ""
+    if isinstance(value, str):
+        return value.strip()
+    if isinstance(value, (list, tuple, set)):
+        return ", ".join([str(v).strip() for v in value if str(v).strip()])
+    return str(value).strip()
+
+
+def _build_history_payload_from_session(request):
+    """
+    LaundryHistory 필드 스키마(문자열 기반)에 맞춰 세션 값을 정규화한다.
+    """
+    s = request.session
+    materials = s.get("materials") or s.get("material") or ""
+    stains = s.get("stains") or ""
+    symbols = s.get("symbols") or s.get("rule_keywords") or s.get("recognized_texts") or ""
+    recommendation = s.get("recommendation_result") or s.get("instructions") or ""
+
+    return {
+        "materials": _coerce_to_commasep(materials),
+        "stains": _coerce_to_commasep(stains),
+        "symbols": _coerce_to_commasep(symbols),
+        "recommendation_result": recommendation.strip(),
     }
-    return render(request, "laundry_manager/record-settings.html", context)
-
-# 사용자 기록 리스트 뷰 
-'''사용자 기록들 records리스트로 반환'''
 
 
-############ 1번째 방법 -> 함수가 조금 문제가 생기면 기록 보는거까지 안나올 수 있음 살짝 틀어지면 결과 인니옴######
+def _has_any_payload(payload: dict) -> bool:
+    return any(bool(v) for v in payload.values())
 
-#@login_required
-# def record_list_view(request):
-#     '''User = get_user_model()
-#     temp_user = User.objects.get(username='sje')
-#     records = Recommendation.objects.filter(clothing__user=temp_user)
-#     #records = Recommendation.objects.filter(clothing__user=request.user).order_by('-created_at')[:2]
-#     return render(request, 'main.html', {
-#         'records': records
-#     })'''
-#     try:
-#         temp_user = User.objects.get(name="sje")
-#     except User.DoesNotExist:
-#         temp_user = None
+# 세션 → LaundryHistory 저장 유틸 (뷰/다른 모듈에서 재사용)
+def save_history_from_session(request, image_file=None):
+    """
+    세션에 적재된 결과를 현재 로그인 사용자 기록으로 저장하고,
+    생성된 LaundryHistory 인스턴스를 반환한다.
 
-#     # temp_user가 있으면 해당 유저의 기록만 가져오고, 없으면 빈 쿼리셋 반환
-#     if temp_user:
-#         records = Recommendation.objects.filter(clothing__user=temp_user).order_by('-created_at')[:3]
-#     else:
-#         records = []
+    - 현재 스키마에는 image 필드가 없으므로 image_file은 무시된다.
+    - 필요한 세션 키가 없다면 빈 문자열/CSV로 보정한다.
+    """
+    if not request.user.is_authenticated:
+        raise ValueError("로그인한 사용자만 기록을 저장할 수 있습니다.")
 
-#     return render(request, 'laundry_manager/main.html', {'records': records})
+    payload = _build_history_payload_from_session(request)
+    if not _has_any_payload(payload):
+        raise ValueError("세션에 저장된 결과가 없어 기록을 만들 수 없습니다.")
 
-#사용자 기록 디테일 뷰
-# #@login_required
-# def record_detail_view(request, pk):
-#     '''record = get_object_or_404(Recommendation, pk=pk, clothing__user=request.user)
-#     return render(request, 'laundry_manager/laundry-info.html', {
-#         'record': record
-#     })'''
-#     try:
-#         temp_user = User.objects.get(name="sje")  # 임시 유저
-#     except User.DoesNotExist:
-#         temp_user = None
-
-#     if not temp_user:
-#         return HttpResponse("User not found", status=404)
-
-#     record = get_object_or_404(Recommendation, pk=pk, clothing__user=temp_user)
-
-#     # record 안에 연결된 모든 foreign key 객체들 꺼냄
-#     clothing = record.clothing
-#     stain = record.stain
-#     laundry = record.laundry
-#     course = record.course
-#     mode = record.mode
-
-#     # symbols = laundry.description + image_url 정도로 구성
-#     symbols = []
-#     if laundry.description:
-#         symbols.append(laundry.description)
-#     if laundry.image_url:
-#         symbols.append(f"관련 이미지 URL: {laundry.image_url}")
-
-#     # info = 정리된 내용들
-#     info = {
-#         "stains": f"{stain.category} 계열 얼룩",
-#         "material": f"{clothing.fabric} 소재로 분류"
-#     }
-
-#     return render(request, 'laundry_manager/laundry-info.html', {
-#         "material_name": clothing.name or "이름 없는 의류",
-#         "stains": [stain.name],
-#         "material": clothing,
-#         "stain": stain,
-#         "symbols": symbols,
-#         "info": info,
-#         "record": record,
-#     })
-# #임시 프로필창 뷰
-# def profile_view(request):
-#     #return render(request, 'laundry_manager/profile.html')
-#     try:
-#         temp_user = User.objects.get(name="sje")  # ← 로그인 기능 전이라서
-#     except User.DoesNotExist:
-#         temp_user = None
-
-#     if temp_user:
-#         records = Recommendation.objects.filter(clothing__user=temp_user).order_by('-created_at')[:10]
-#     else:
-#         records = []
-
-#     return render(request, 'laundry_manager/profile.html', {'records': records})
-
-# ############ 1번째 방법 -> 함수가 조금 문제가 생기면 기록 보는거까지 안나올 수 있음 살짝 틀어지면 결과 인니옴######
+    record = LaundryHistory.objects.create(user=request.user, **payload)
+    return record

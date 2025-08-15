@@ -11,3 +11,6 @@ class ImageUploadForm(forms.ModelForm):
 
 class ImageAnalysisForm(forms.Form):
     image = forms.ImageField()
+
+class WashingUploadForm(forms.Form):
+    image = forms.ImageField(required=True, label="세탁 기호 사진")

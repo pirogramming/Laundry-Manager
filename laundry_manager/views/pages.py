@@ -1,7 +1,12 @@
 # views/pages.py
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from allauth.socialaccount.models import SocialAccount
+
+# allauth가 없는 환경에서도 터지지 않도록 안전 임포트
+try:
+    from allauth.socialaccount.models import SocialAccount
+except Exception:
+    SocialAccount = None
 
 # LaundryHistory가 없을 수도 있어 안전하게 임포트
 try:
@@ -25,7 +30,11 @@ def _social_name_and_image(user):
                  or getattr(user, "first_name", "") or user.username or "사용자")
     profile_image = None
 
-    # 3) 연결된 소셜 계정 1개만 사용 (복수일 경우 첫 번째)
+    # 3) allauth 미설치/미사용 시 바로 반환
+    if SocialAccount is None:
+        return (base_name, profile_image)
+
+    # 4) 연결된 소셜 계정 1개만 사용 (복수일 경우 첫 번째)
     social = SocialAccount.objects.filter(user=user).first()
     if not social:
         return (base_name, profile_image)
@@ -60,12 +69,11 @@ def _social_name_and_image(user):
     return (base_name, profile_image)
 
 
-# --- (2) 모든 뷰에서 공통으로 쓸 컨텍스트 빌더 ---
+# --- (2) 공통 컨텍스트 빌더 ---
 def base_context(request, extra=None):
     """
-    모든 템플릿에서 공통으로 접근 가능한 컨텍스트를 구성.
+    모든 템플릿에서 공통으로 접근 가능한 컨텍스트.
     - display_name, profile_image
-    - (선택) 최근 세탁 기록 3개
     """
     name, image = _social_name_and_image(getattr(request, "user", None))
 
@@ -73,22 +81,28 @@ def base_context(request, extra=None):
         "display_name": name,
         "profile_image": image,
     }
-
-    # 최근 기록은 메인에서만 필요하면 main_page에서 추가해도 OK
     if extra:
         ctx.update(extra)
     return ctx
 
 
-# --- (3) 페이지 뷰들 ---
-def main_page(request):
-    recent_records = []
-    if request.user.is_authenticated and LaundryHistory:
-        recent_records = LaundryHistory.objects.filter(user=request.user).order_by("-id")[:3]
+# --- (3) 헬퍼: 최근 기록 / 전체 기록 ---
+def _recent_records(user, limit=3):
+    if not (getattr(user, "is_authenticated", False) and LaundryHistory):
+        return []
+    return list(LaundryHistory.objects.filter(user=user).order_by("-created_at")[:limit])
 
-    ctx = base_context(request, extra={
-        "records": recent_records,
-    })
+def _all_records(user):
+    if not (getattr(user, "is_authenticated", False) and LaundryHistory):
+        return []
+    return list(LaundryHistory.objects.filter(user=user).order_by("-created_at"))
+
+
+# --- (4) 페이지 뷰들 ---
+def main_page(request):
+    # 메인 화면: 최근 기록 3건 노출 (템플릿: {% for record in records %} ...)
+    recent_records = _recent_records(request.user, limit=3)
+    ctx = base_context(request, extra={"records": recent_records})
     return render(request, "laundry_manager/main.html", ctx)
 
 
@@ -122,29 +136,37 @@ def stain_detail_page(request):
 
 def login_page(request):
     return render(request, "laundry_manager/login.html", base_context(request))
+
+
 def login_test_page(request):
     return render(request, "laundry_manager/login-test.html", base_context(request))
 
 
 def dictionary_page(request):
     return render(request, "laundry_manager/dictionary.html", base_context(request))
+
+
 def dictionary_detail_page(request):
     return render(request, "laundry_manager/dictionary-detail.html", base_context(request))
 
 
 def main2_page(request):
-    return render(request, "laundry_manager/main2.html", base_context(request))
+    # 보조 메인: 최근 기록 5건
+    recent_records = _recent_records(request.user, limit=5)
+    return render(request, "laundry_manager/main2.html", base_context(request, extra={"records": recent_records}))
 
 
 def profile_page(request):
-    return render(request, "laundry_manager/profile.html", base_context(request))
+    # 프로필 화면: 최근 기록 10건 정도 노출(원하면 조절)
+    recent_records = _recent_records(request.user, limit=10)
+    return render(request, "laundry_manager/profile.html", base_context(request, extra={"records": recent_records}))
+
 
 def map_page(request):
     return render(request, "laundry_manager/map.html", base_context(request))
 
 
 def settings_page(request):
-    # settings 템플릿에서도 그대로 display_name/profile_image 사용 가능
     return render(request, "laundry_manager/settings.html", base_context(request))
 
 
@@ -176,5 +198,8 @@ def contact_settings_page(request):
     return render(request, "laundry_manager/contact-settings.html", base_context(request))
 
 
+@login_required
 def record_settings_page(request):
-    return render(request, "laundry_manager/record-settings.html", base_context(request))
+    # 기록 설정: 로그인 사용자 전체 기록 전달
+    all_records = _all_records(request.user)
+    return render(request, "laundry_manager/record-settings.html", base_context(request, extra={"records": all_records}))
