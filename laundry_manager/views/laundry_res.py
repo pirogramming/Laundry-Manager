@@ -412,10 +412,17 @@ def guide_from_result(request):
     top_summary = _make_summary(material_guide, stain_guide, symbol_guides)
     summary = apply_stain_steps_summary(top_summary, stain_guide)
 
+    # ✅ 피해야 하는 세탁법(not_to_do) 3개로 제한하여 템플릿에 전달
+    stain_guide_limited = dict(stain_guide)  # 얕은 복사
+    for key in ("not_to_do", "Not_to__do"):
+        lst = stain_guide_limited.get(key) or []
+        if isinstance(lst, list):
+            stain_guide_limited[key] = lst[:2]
+
     # 6) 렌더
     ctx = {
         "material": material_guide,
-        "stain": stain_guide,
+        "stain": stain_guide_limited,  # ← 제한된 버전 사용
         "symbol_guides": symbol_guides,
         "symbols": symbol_descs,
         "info": {"material": material, "stains": " / ".join(stains) if stains else ""},
