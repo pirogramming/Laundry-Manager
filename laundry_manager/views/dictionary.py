@@ -122,7 +122,9 @@ def dictionary(request):
         item_index += 1
         # Use a consistent file name pattern
         image_filename = f"dictionary_image/{item_index}.jpg"
-        # Check if the image file exists
+        processed["image_url"] = (
+            f"/static/{image_filename}"  # Check if the image file exists
+        )
         image_path = find(image_filename)
         processed["has_image"] = os.path.exists(image_path)
         processed["image_filename"] = image_filename

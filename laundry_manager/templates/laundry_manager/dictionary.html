@@ -37,7 +37,7 @@
                 <div class="swiper-wrapper">
                     {% for search in frequent_searches %}
                     <div class="swiper-slide">
-                        <img src="https://images.unsplash.com/photo-1626025437759-d335a2a53d37?q=80&w=800" alt="니트">
+                        <img src="{% static item.image_filename %}" alt="{{ item.title }}">
                         <div class="slide-content">
                             <a href="{% url 'dictionary' %}?query={{ search }}">{{ search }}</a>
                         </div>
@@ -84,7 +84,7 @@
                         {% for item in items %}
                         <a href="{% url 'dictionary_detail' item_title=item.title|urlencode %}" class="info-grid-item">
                             {% if item.image_url %}
-                            <img src="{{ item.image_url }}" alt="{{ item.title }}">
+                            <img src="{% static item.image_filename %}" alt="{{ item.title }}">
                             {% endif %}
                             <div class="item-content">
                                 <h4>{{ item.title }}</h4>
