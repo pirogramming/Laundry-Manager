@@ -89,9 +89,9 @@
                 </div>
 
                 <!-- 추천 카드 영역 (부분 템플릿 include) -->
-                {% comment %} <section id="recommendation">
+                <section id="recommendation">
                 {% include "laundry_manager/partials/_recommendation.html" with materials=materials stains=stains material=material stain=stain symbols=symbols %}
-                </section> {% endcomment %}
+                </section>
 
                 <a href="#" class="extra-info-link" id="open-modal-btn">추가 정보 입력하기</a>
                 <a href="{% url 'guide_from_result' %}" class="confirm-button">확인하기</a>

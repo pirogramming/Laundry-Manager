@@ -190,14 +190,10 @@ body {
 }
 .nav-item i { font-size: 22px; margin-bottom: 5px; }
 .nav-item-main {
-    /* position: absolute;
-    left: 50%;
-    transform: translate(-50%, -40%); */
     background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
     color: var(--color-container); width: 65px; height: 65px; border-radius: 50%;
     display: flex; justify-content: center; align-items: center;
-    box-shadow: 0 4px 12px rgba(74, 108, 255, 0.4);
-    transform:translateY(-40%);
-    border: 5px solid var(--white-background); cursor: pointer; text-decoration: none;
+    transform: translateY(-40%); box-shadow: 0 4px 12px rgba(74, 108, 255, 0.4);
+    border: 5px solid var(--color-container); cursor: pointer;
 }
 .nav-item-main i { font-size: 28px; }

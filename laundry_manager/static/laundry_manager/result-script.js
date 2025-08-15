@@ -30,14 +30,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const csrftoken = getCookie('csrftoken') ||
     (document.querySelector('input[name="csrfmiddlewaretoken"]')?.value || '');
 
-  const openModal = () => modal.classList.add('visible');
+  let lastChanged = null; // ✅ 마지막에 사용자가 건드린 필드 추적
+
+  const openModal = () => { modal.classList.add('visible'); lastChanged = null; };
   const closeModal = () => modal.classList.remove('visible');
 
   // 현재 텍스트가 목록에 없으면 첫 옵션으로 보정하는 유틸
   function selectOptionIfExists(selectEl, text, allowedList) {
     let matched = false;
     [...selectEl.options].forEach(opt => {
-      if (opt.text.trim() === text) {
+      if (opt.text.trim() === text || opt.value.trim() === text) {
         matched = true;
         selectEl.value = opt.value;
       }
@@ -55,21 +57,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // "추가 정보 입력하기"로 열 때: 기본 필드를 materials로 지정
+  // "추가 정보 입력하기"로 열 때: 기본 필드를 materials로 지정 + 둘 다 현재값으로 맞춤
   if (openModalBtn) {
     openModalBtn.addEventListener('click', (e) => {
       e.preventDefault();
 
-      // 세탁물 이름 input 기본값 세팅(UX)
       const currentName = laundryItemNameElement?.childNodes?.[0]?.nodeValue?.trim() || '';
       if (editNameInput) editNameInput.value = currentName;
 
-      // ✅ 기본 수정 대상: materials
-      if (fieldInput) fieldInput.value = 'materials';
+      if (fieldInput) fieldInput.value = 'materials'; // 기본값
 
-      // 현재 소재 텍스트로 select 맞추되, 허용리스트 밖이면 첫 옵션으로
       const curMatText = currentMaterialEl?.textContent?.trim() || '';
+      const curStainText = currentStainEl?.textContent?.trim() || '';
       if (selectMaterial) selectOptionIfExists(selectMaterial, curMatText, ALLOWED_MATERIALS);
+      if (selectStain) selectOptionIfExists(selectStain, curStainText, ALLOWED_STAINS);
 
       openModal();
     });
@@ -82,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 소재/얼룩 옆 "수정" 버튼으로도 열기
+  // (선택사항) data-open-edit 버튼으로도 열 수 있을 때 대비
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-open-edit]');
     if (!btn) return;
@@ -99,6 +100,12 @@ document.addEventListener('DOMContentLoaded', () => {
     openModal();
   });
 
+  // ✅ 사용자가 어떤 셀렉트를 만졌는지에 따라 field 자동 전환
+  selectMaterial?.addEventListener('change', () => { lastChanged = 'materials'; if (fieldInput) fieldInput.value = 'materials'; });
+  selectMaterial?.addEventListener('focus',  () => { lastChanged = 'materials'; if (fieldInput) fieldInput.value = 'materials'; });
+  selectStain?.addEventListener('change', () => { lastChanged = 'stains'; if (fieldInput) fieldInput.value = 'stains'; });
+  selectStain?.addEventListener('focus',  () => { lastChanged = 'stains'; if (fieldInput) fieldInput.value = 'stains'; });
+
   // 전송 전 허용 목록 검증
   function validateAllowed(field, value) {
     if (field === 'materials') return ALLOWED_MATERIALS.includes(value);
@@ -109,13 +116,13 @@ document.addEventListener('DOMContentLoaded', () => {
     editForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // ✅ field가 비어 있으면 자동 추론 (방어 로직)
-      let field = fieldInput?.value;
+      // ✅ 마지막으로 조작한 셀렉트가 있으면 그것을 우선
+      let field = lastChanged || fieldInput?.value;
       if (!field) {
         if (selectMaterial && selectMaterial.value) field = 'materials';
         else if (selectStain && selectStain.value) field = 'stains';
-        if (fieldInput) fieldInput.value = field || 'materials';
       }
+      if (fieldInput) fieldInput.value = field || 'materials';
 
       // 실제 전송값 구성
       if (field === 'materials') {
@@ -124,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
         valueInput.value = selectStain ? (selectStain.value || '') : '';
       }
 
-      // ✅ 허용 옵션 검증 (값이 비었거나 목록 바깥이면 전송 중단)
+      // ✅ 허용 옵션 검증
       if (!valueInput.value || !validateAllowed(field, valueInput.value)) {
         alert(field === 'materials' ? '허용되지 않은 소재입니다.' : '허용되지 않은 얼룩 유형입니다.');
         return;
