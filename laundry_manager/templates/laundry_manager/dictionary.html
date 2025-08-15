@@ -62,8 +62,9 @@
                 {% for items in dictionary_data.values %}
                 {% for item in items %}
                 <a href="{% url 'dictionary_detail' item_title=item.title|urlencode %}" class="info-grid-item">
-                    {% if item.image_url %}
-                    <img src="{{ item.image_url }}" alt="{{ item.title }}">
+                    {% load static %}
+                    {% if item.has_image %}
+                    <img src="{% static item.image_filename %}" alt="{{ item.title }}">
                     {% endif %}
                     <div class="item-content">
                         <h4>{{ item.title }}</h4>
@@ -150,7 +151,7 @@
             <div id="detailContent"></div>
         </div>
     </div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
     <script>

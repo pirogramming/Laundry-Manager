@@ -5,9 +5,9 @@ import requests
 from django.conf import settings
 from django.shortcuts import render
 from django.http import JsonResponse
-from urllib.parse import unquote  
+from urllib.parse import unquote
 from django.template.loader import render_to_string
-
+from django.contrib.staticfiles.finders import find
 
 logger = logging.getLogger(__name__)
 
@@ -114,8 +114,18 @@ def dictionary(request):
     category_list = list(category_map.values())
     processed_data = {}
 
+    item_index = 0  # 이미지 파일명에 사용할 인덱스를 초기화
+
     def preprocess_item(item):
+        nonlocal item_index
         processed = item.copy()
+        item_index += 1
+        # Use a consistent file name pattern
+        image_filename = f"dictionary_image/{item_index}.jpg"
+        # Check if the image file exists
+        image_path = find(image_filename)
+        processed["has_image"] = os.path.exists(image_path)
+        processed["image_filename"] = image_filename
         processed["json_data"] = json.dumps(item, ensure_ascii=False)
         return processed
 
@@ -188,11 +198,12 @@ def dictionary(request):
 # dictionary = dictionary_view
 dictionary_view = dictionary
 
+
 def dictionary_detail(request, item_title):
     decoded_title = unquote(item_title)
     dictionary_data = load_dictionary_data()
     item_data = None
-    
+
     for category_key in dictionary_data:
         for item in dictionary_data.get(category_key, []):
             if item.get("title") == decoded_title:
@@ -202,7 +213,11 @@ def dictionary_detail(request, item_title):
             break
 
     if not item_data:
-        return render(request, "laundry_manager/not_found.html", {"message": f"'{decoded_title}'에 대한 세탁 정보를 찾을 수 없습니다."})
+        return render(
+            request,
+            "laundry_manager/not_found.html",
+            {"message": f"'{decoded_title}'에 대한 세탁 정보를 찾을 수 없습니다."},
+        )
 
     context = {
         "item": item_data,
@@ -212,8 +227,8 @@ def dictionary_detail(request, item_title):
             "Washing_Steps": "세탁 단계",
             "tip": "팁",
             "not_to_do": "주의 사항",
-            "Other_Information": "기타 정보"
-        }
+            "Other_Information": "기타 정보",
+        },
     }
-    
+
     return render(request, "laundry_manager/dictionary-detail.html", context)
