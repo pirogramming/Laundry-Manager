@@ -37,9 +37,9 @@
                 <div class="swiper-wrapper">
                     {% for search in frequent_searches %}
                     <div class="swiper-slide">
-                        <img src="{% static item.image_filename %}" alt="{{ item.title }}">
+                        <img src="{% static search.image_filename %}" alt="{{ search.title }}">
                         <div class="slide-content">
-                            <a href="{% url 'dictionary' %}?query={{ search }}">{{ search }}</a>
+                            <a href="{% url 'dictionary' %}?query={{ search.title }}">{{ search.title }}</a>
                         </div>
                     </div>
                     {% endfor %}

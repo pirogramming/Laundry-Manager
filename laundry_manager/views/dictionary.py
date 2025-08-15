@@ -175,15 +175,28 @@ def dictionary(request):
 
     # Naver Trend API를 활용하여 인기 검색어 목록을 가져오는 로직 추가
     # 수정할 코드 (views.py 파일 내)
-    all_keywords = []
+    all_keyword_data = []
+    temp_item_index = 0
     for category_key in dictionary_data:
         for item in dictionary_data.get(category_key, []):
+            temp_item_index += 1
             title = item.get("title")
+            image_filename = f"dictionary_image/{temp_item_index}.jpg"
             if title:
-                all_keywords.append(title)
+                all_keyword_data.append(
+                    {"title": title, "image_filename": image_filename}
+                )
 
-    unique_keywords = list(set(all_keywords))
-    frequent_searches = get_naver_trend_data(unique_keywords)
+    unique_keywords_map = {item["title"]: item for item in all_keyword_data}
+    unique_keywords = list(unique_keywords_map.keys())
+
+    # get_naver_trend_data를 한 번만 호출하도록 수정
+    naver_frequent_searches = get_naver_trend_data(unique_keywords)
+
+    frequent_searches = []
+    for keyword in naver_frequent_searches:
+        if keyword in unique_keywords_map:
+            frequent_searches.append(unique_keywords_map[keyword])
 
     context = {
         "query": query,
