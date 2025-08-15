@@ -70,11 +70,4 @@ urlpatterns = [
 
     # ... 기존 라우트들 ...
     path("guide/from-result/", laundry_res.guide_from_result, name="guide_from_result"),
-
-    # ✅ 개발용 테스트 템플릿
-    path(
-        "dev/test-guide/",
-        TemplateView.as_view(template_name="laundry_manager/dev_test_guide.html"),
-        name="dev-test-guide",
-    ),
 ]

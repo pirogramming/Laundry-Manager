@@ -6,20 +6,14 @@ import re
 import requests
 from decouple import config
 from django.conf import settings
+from typing import List
 
-# def load_washing_definitions():
-#     path = os.path.join(settings.BASE_DIR, 'laundry_app', 'washing_symbol.json')
-#     try:
-#         with open(path, 'r', encoding='utf-8') as f:
-#             print("세탁 기호 정의 파일 로드 완료.")
-#             return json.load(f)
-#     except Exception as e:
-#         print(f"세탁 기호 정의 로드 오류: {e}")
-#         return []
-
+# ======================
+# 세탁 기호 정의 로드
+# ======================
 def load_washing_definitions():
     default_path = os.path.join(settings.BASE_DIR, 'laundry_manager', 'json_data', 'washing_symbol.json')
-    env_path = config("WASHING_SYMBOL_PATH", default="")  # .env는 그대로 두되, 실패하면 자동 폴백
+    env_path = config("WASHING_SYMBOL_PATH", default="")  # .env 우선, 실패 시 폴백
 
     candidates = []
     if env_path:
@@ -40,12 +34,15 @@ def load_washing_definitions():
     print("세탁 기호 정의 파일을 찾지 못했습니다. 빈 정의로 계속합니다.")
     return {}
 
+# ======================
+# 세탁 기호 → 가이드 변환
+# ======================
 def symbols_to_guides(labels, definitions):
     guides = []
 
     if isinstance(definitions, dict):
         for lab in labels or []:
-            meta = (definitions.get(lab) or {})
+            meta = definitions.get(lab, {})
             name = meta.get("name") or lab
             desc = meta.get("description") or ""
             guides.append({"label": lab, "name": name, "description": desc})
@@ -53,24 +50,25 @@ def symbols_to_guides(labels, definitions):
     elif isinstance(definitions, list):
         by_label = {}
         for item in definitions or []:
-            key = (item or {}).get("label") or (item or {}).get("id")
+            key = item.get("label") or item.get("id")
             if key:
                 by_label[key] = item
 
         for lab in labels or []:
-            meta = (by_label.get(lab) or {})
+            meta = by_label.get(lab, {})
             name = meta.get("name") or lab
             desc = meta.get("description") or ""
             guides.append({"label": lab, "name": name, "description": desc})
 
     else:
-        # 정의 형식이 불명확해도 최소 표시
         for lab in labels or []:
             guides.append({"label": lab, "name": lab, "description": ""})
 
     return guides
 
-
+# ======================
+# OCR 수행
+# ======================
 def perform_ocr(image_path):
     secret_key = os.getenv("SECRET_KEY_OCR")
     apigw_url = config("APIGW_URL")
@@ -98,7 +96,9 @@ def perform_ocr(image_path):
     except Exception as e:
         return {"error": True, "message": f"OCR 오류: {e}"}
 
-
+# ======================
+# OCR 결과 → 기호 정의 매칭
+# ======================
 def get_washing_symbol_definition(ocr_result, definitions):
     full_text = ""
     extracted = []
@@ -125,7 +125,9 @@ def get_washing_symbol_definition(ocr_result, definitions):
 
     return "인식된 기호 설명 없음", extracted
 
-
+# ======================
+# Roboflow 분류
+# ======================
 def classify_laundry_symbol(image_path):
     try:
         api_key = config("ROBOFLOW_API_KEY")
@@ -138,9 +140,11 @@ def classify_laundry_symbol(image_path):
     except Exception:
         return "분류 실패", 0
 
-# 분류 이미지를 json 파일로 저장
+# ======================
+# 결과 저장 - 분류 JSON
+# ======================
 def save_classification_result_json(image_path, classification_result):
-    folder = getattr(config, "OUTPUT_RESULTS_FOLDER", "output/")
+    folder = config("OUTPUT_RESULTS_FOLDER", default="output/")
     os.makedirs(folder, exist_ok=True)
 
     output_data = {
@@ -159,7 +163,9 @@ def save_classification_result_json(image_path, classification_result):
     except Exception as e:
         print(f"분류 결과 저장 오류: {e}")
 
-
+# ======================
+# 결과 저장 - OCR + 분류 JSON
+# ======================
 def save_result_json(image_path, texts, definition, ocr_raw,
                      rf_detect_raw=None, rf_class_raw=None, fused_scores=None):
     folder = config("OUTPUT_RESULTS_FOLDER", default="output/")
@@ -184,3 +190,45 @@ def save_result_json(image_path, texts, definition, ocr_raw,
         print(f"결과 저장 완료: {filename}")
     except Exception as e:
         print(f"결과 저장 오류: {e}")
+
+# ======================
+# CLOVA 요약 유틸
+# ======================
+_SENTENCE_SPLIT_RE = re.compile(r"(?<=[\.!?]|다|요)\s+(?=[A-Z가-힣0-9])")
+
+def _collapse_to_one_sentence(text: str, max_chars: int = 180) -> str:
+    if not text:
+        return ""
+    parts = [p.strip() for p in _SENTENCE_SPLIT_RE.split(text.strip()) if p.strip()]
+    one = ", ".join(parts) if len(parts) > 1 else (parts[0] if parts else text.strip())
+    return (one[:max_chars].rstrip() + "…") if len(one) > max_chars else one
+
+def summarize_steps_one_line(washing_steps: List[str]) -> str:
+    api_key = settings.CLOVA_API_KEY
+    url = settings.CLOVA_SUMMARY_URL
+    if not api_key or not url:
+        raise RuntimeError("CLOVA_API_KEY 또는 CLOVA_SUMMARY_URL이 설정되지 않았습니다.")
+
+    steps_text = "\n".join(f"• {s.strip()}" for s in washing_steps if s and s.strip())
+    if len(steps_text) > 34000:
+        steps_text = steps_text[:34000]
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+        "X-NCP-CLOVASTUDIO-REQUEST-ID": uuid.uuid4().hex,
+    }
+    payload = {
+        "texts": [steps_text],
+        "autoSentenceSplitter": True,
+        "segCount": -1,
+        "segMaxSize": 1200,
+        "segMinSize": 300,
+        "includeAiFilters": False,
+    }
+    r = requests.post(url, headers=headers, json=payload, timeout=30)
+    r.raise_for_status()
+    data = r.json()
+    raw_summary = (data.get("result") or {}).get("text", "").strip()
+
+    return _collapse_to_one_sentence(raw_summary, max_chars=180)

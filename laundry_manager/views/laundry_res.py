@@ -3,6 +3,7 @@ import os, json, re, difflib
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
+from .summary import apply_stain_steps_summary
 
 # utils 모듈 전체 임포트 (이름 임포트로 인한 ImportError/AttributeError 회피)
 from .. import utils as U
@@ -408,7 +409,8 @@ def guide_from_result(request):
     ]
 
     # 5) 상단 요약
-    summary = _make_summary(material_guide, stain_guide, symbol_guides)
+    top_summary = _make_summary(material_guide, stain_guide, symbol_guides)
+    summary = apply_stain_steps_summary(top_summary, stain_guide)
 
     # 6) 렌더
     ctx = {

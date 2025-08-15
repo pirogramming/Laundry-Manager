@@ -1,5 +1,5 @@
 {
-    "filename": "KakaoTalk_20250814_180458671.png",
+    "filename": "KakaoTalk_20250814_180458671_5TzISSR.png",
     "recognized_texts": [
         "recognized",
         "texts",
@@ -15,12 +15,12 @@
     "symbol_definition": "물세탁을 하면 안 된다.",
     "ocr_raw_response": {
         "version": "V2",
-        "requestId": "484f60ea-d95a-4d4b-82f8-bd16f00d9339",
-        "timestamp": 1755243588373,
+        "requestId": "c0f7e1ff-85c0-4f3b-9fbb-8fe894e68e7d",
+        "timestamp": 1755249141965,
         "images": [
             {
-                "uid": "60e53bc2c29440eea22d7e2d0a80b2f9",
-                "name": "KakaoTalk_20250814_180458671.png",
+                "uid": "d54ccb91e0b844a9816720eab3a57a09",
+                "name": "KakaoTalk_20250814_180458671_5TzISSR.png",
                 "inferResult": "SUCCESS",
                 "message": "SUCCESS",
                 "validationResult": {
