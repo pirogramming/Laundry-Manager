@@ -3,14 +3,14 @@
     "recognized_texts": [
         "드라이클리닝"
     ],
-    "symbol_definition": "인식된 기호 설명 없음",
+    "symbol_definition": "테트라클로로에텐(퍼클로로에틸렌), 석유계 및 실리콘계 용제 등 적합한 용제로 일반 드라이클리닝할 수 있다.",
     "ocr_raw_response": {
         "version": "V2",
-        "requestId": "c49ab5ea-609e-47eb-ba1f-b3ef577cd7ca",
-        "timestamp": 1755158556239,
+        "requestId": "bab56bce-20c5-4cc5-a6a7-a72690213f3d",
+        "timestamp": 1755189499325,
         "images": [
             {
-                "uid": "bdcbba3b2adb486380fa10e7931be9af",
+                "uid": "cf106d5e7b2344d69224b9483fb596d6",
                 "name": "스크린샷_2025-08-14_170221.png",
                 "inferResult": "SUCCESS",
                 "message": "SUCCESS",
@@ -54,5 +54,8 @@
                 ]
             }
         ]
-    }
+    },
+    "roboflow_detect_raw": null,
+    "roboflow_classify_raw": null,
+    "fused_scores": null
 }

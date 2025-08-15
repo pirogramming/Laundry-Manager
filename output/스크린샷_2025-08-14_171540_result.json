@@ -12,14 +12,14 @@
         "가능\"",
         "]"
     ],
-    "symbol_definition": "인식된 기호 설명 없음",
+    "symbol_definition": "물세탁을 하면 안 된다.",
     "ocr_raw_response": {
         "version": "V2",
-        "requestId": "c99f502c-0251-4b8e-8eb4-d8d101df6733",
-        "timestamp": 1755159358962,
+        "requestId": "5e65833f-66e9-4149-b1d8-ae2920721e05",
+        "timestamp": 1755180308062,
         "images": [
             {
-                "uid": "f366c83b75864404b8ea0eb8cdfca4c8",
+                "uid": "e2efba870ac942db9b4d730f7241a64d",
                 "name": "스크린샷_2025-08-14_171540.png",
                 "inferResult": "SUCCESS",
                 "message": "SUCCESS",
@@ -306,5 +306,8 @@
                 ]
             }
         ]
-    }
+    },
+    "roboflow_detect_raw": null,
+    "roboflow_classify_raw": null,
+    "fused_scores": null
 }

@@ -1,0 +1,206 @@
+/* laundry-info.html 페이지 전용 스타일 */
+
+.page-container {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    max-height: 1100px;
+    margin: 0 auto;
+    background-color: var(--color-primary);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.content-wrapper {
+    
+    overflow-y: auto; /* 이 영역만 스크롤되도록 설정 */
+    -ms-overflow-style: none; /* IE, Edge */
+    scrollbar-width: none; /* Firefox */
+}
+.content-wrapper::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+
+/* --- 상단 파란색 헤더 --- */
+.info-header {
+    background-color: var(--color-primary);
+    color: var(--color-container);
+    padding: 15px 20px 25px;
+}
+.info-header .top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    position: sticky;
+    z-index: 1000;
+
+}
+.top-nav h1{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 21px;
+    font-weight: bold;
+    
+}
+.info-header .icon-btn, .info-header .text-btn {
+    background: none; border: none; color: var(--color-container); cursor: pointer; font-size: 13px;
+}
+.info-header .text-btn { opacity: 0.8; }
+.laundry-item-title p { 
+    font-size: 14px; 
+    opacity: 0.8; 
+    margin-bottom: 5px; 
+}
+.laundry-item-title h2 { 
+    font-size: 21px; 
+    font-weight: 700; 
+}
+
+/* --- 메인 콘텐츠 --- */
+.info-content { 
+    padding: 20px; 
+    background-color: var(--color-container);
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+}
+.card {
+    background-color: var(--color-container);
+    border-radius: 20px;
+    padding: 10px 20px 20px 20px;
+    margin-bottom: 15px;
+    /* box-shadow: 0 2px 8px rgba(0,0,0,0.05); */
+    
+}
+.card > h3 { 
+    font-size: 18px; 
+    font-weight: 600; 
+    margin-bottom: 15px; 
+    color: var(--color-primary); 
+}
+
+/* 요약 카드 */
+.summary-card{
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.summary-card .stain-info { 
+    font-size: 14px; 
+    margin-bottom: 15px; 
+    margin-left: 0px;
+    font-weight: 400;
+}
+.summary-card .stain-info >strong { 
+    font-size: 14px; 
+    margin-bottom: 15px; 
+    margin-left: 15px;
+    font-weight: 700;
+}
+.summary-card .icon-info-group { 
+    display: flex; 
+    justify-content: space-around;
+    gap: 20px; 
+}
+.summary-card .laundry-tag-img{
+    width: 50px;
+    height: 50px;
+    border-radius: 15px;
+    margin-bottom: 5px;
+}
+.summary-card .icon-info { 
+    display: flex; 
+    flex-direction: column;
+    align-items: center; 
+    gap: 8px; 
+    font-size: 14px; 
+}
+.summary-card .icon-info-text{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    gap:8px;
+}
+.summary-card .check-icon { color: #28a745; }
+.summary-card .ban-icon { color: #dc3545; }
+
+/* 피해야 하는 세탁법 카드 */
+.avoid-card { 
+    background-color: #E8F0FE; 
+    border:solid 0.01px var(--color-primary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.avoid-card .avoid-item { 
+    display: flex; align-items: center; gap: 10px; 
+}
+.avoid-card .avoid-item:not(:last-child) { margin-bottom: 10px; }
+.avoid-card .avoid-item i { color: var(--color-primary); }
+.avoid-card .avoid-item p { font-size: 14px; }
+
+/* 아코디언 가이드 */
+.accordion-guide .accordion-item:not(:last-child) { border-bottom: 1px solid var(--color-border); }
+.accordion-item summary {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    cursor: pointer;
+    list-style: none; /* 기본 화살표 제거 */
+}
+.accordion-item summary::-webkit-details-marker { display: none; }
+.summary-icon { width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-right: 15px; }
+.summary-icon i { font-size: 20px; }
+.summary-text { flex-grow: 1; }
+.summary-text h4 { font-size: 16px; font-weight: 500; }
+.summary-text p { font-size: 12px; color: var(--color-text-tertiary); }
+.arrow-icon { color: var(--color-text-tertiary); transition: transform 0.2s; }
+.accordion-item[open] > summary .arrow-icon { transform: rotate(180deg); }
+.accordion-content { padding: 5px 0 15px 60px; font-size: 14px; line-height: 1.6; color: var(--color-text-secondary); }
+
+/* 가능한 세탁 범위 (칩 스타일) */
+.scope-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.chip {
+    background-color: var(--color-background);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.chip.active {
+    background-color: var(--color-primary);
+    color: var(--color-container);
+    border-color: var(--color-primary);
+    font-weight: 500;
+}
+.scope-info{
+    margin-top: 20px;
+    margin-left: 5px;
+    font-size: 12px;
+}
+
+/* 백과사전 링크 */
+.dictionary-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-container);
+    padding: 20px;
+    border-radius: 15px;
+    text-decoration: none;
+    color: var(--color-text-primary);
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    background-color: white;
+    border: solid 2px var(--color-primary);
+}
+
+/* 하단 고정 내비게이션은 메인 CSS(style.css)의 것을 재사용 */
+.bottom-nav {
+    position: sticky; /* 스크롤 컨테이너의 맨 아래에 붙이기 위해 sticky 사용 */
+    bottom: 0;
+    flex-shrink: 0; /* 크기가 줄어들지 않도록 설정 */
+}
