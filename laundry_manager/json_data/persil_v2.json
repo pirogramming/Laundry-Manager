@@ -842,7 +842,7 @@
                 "실크와 같이 기계 세탁이 불가능한 옷감은 얼룩이 생기기 어려우며 의류 라벨을 반드시 확인하세요."
             ],
             "image_url": [
-                "static/stain_image/fabric-softener.webp"
+                "static/stain_image/fabric-softner.webp"
             ]
         },
         {
@@ -1450,7 +1450,7 @@
                 "땀 얼룩은 시각적 문제뿐 아니라 냄새 제거도 함께 고려해야 합니다."
             ],
             "image_url": [
-                "static/stain_image/sheet.webp"
+                "static/stain_image/bed-sheet.webp"
             ]
         },
         {
