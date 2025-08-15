@@ -1,8 +1,9 @@
+<!--
 <!DOCTYPE html>
 <html lang="ko">
 
 <head>
-  <title>네이버 지도 API 예제</title>
+  <title>네이버 지도 API - 여러 마커 표시하기</title>
   <meta charset="utf-8" />
   <style>
     .map-container {
@@ -13,8 +14,8 @@
     }
 
     .map {
-      width: 500px;
-      height: 400px;
+      width: 800px; /* 지도를 더 잘보이게 너비를 키웠습니다 */
+      height: 600px; /* 지도를 더 잘보이게 높이를 키웠습니다 */
       margin: 20px;
       border: 1px solid #ccc;
     }
@@ -24,104 +25,219 @@
     }
   </style>
   <script type="text/javascript"
-    src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId={{ naver_map_client_key }}&submodules=geocoding,directions"></script>
+    src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId={{ naver_map_client_key }}&submodules=geocoder"></script>
 </head>
 
 <body>
-  <h1>네이버 지도 기능</h1>
+  <h1>네이버 지도에 여러 마커 표시하기</h1>
 
   <div class="map-container">
     <div>
-      <h2>동적 지도 (Dynamic Map)</h2>
+      <h2>빨래방 위치</h2>
       <div id="dynamic-map" class="map"></div>
-    </div>
-
-    <div>
-      <h2>경로 표시 (Directions)</h2>
-      <div id="directions-map" class="map"></div>
     </div>
   </div>
 
   <script>
-    // 전역 변수로 지도 객체를 선언
-    var dynamicMap;
+    // ==================================================================
+    // 1. 여기에 마커로 표시할 위치 데이터를 준비합니다.
+    // ==================================================================
+    //const locations = [
+    //    { "name": "워시엔조이 신촌점", "address": "서울 서대문구 연세로5길 32" },
 
-    // 동적 지도 생성 및 현재 위치 마커 추가
-    function initDynamicMap() {
-      var mapOptions = {
-        center: new naver.maps.LatLng(37.56667, 126.97837),
-        zoom: 11
-      };
-      dynamicMap = new naver.maps.Map('dynamic-map', mapOptions);
 
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
-      } else {
-        alert('Geolocation API를 사용할 수 없습니다.');
-      }
-    }
+    //];
 
-    // Geolocation 성공 시 호출되는 함수
-    function onSuccessGeolocation(position) {
-      var location = new naver.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    // 지도 객체를 전역 변수로 선언
+    var map; 
 
-      dynamicMap.setCenter(location);
-      dynamicMap.setZoom(16);
-
-      // 현재 위치에 빨간색 핀 마커 추가
-      var marker = new naver.maps.Marker({
-        map: dynamicMap,
-        position: location,
-        icon: {
-          url: "http://googleusercontent.com/image_generation_content/0", // 제공해주신 이미지 URL을 사용
-          size: new naver.maps.Size(40, 58), // 이미지 크기에 맞게 조절
-          anchor: new naver.maps.Point(20, 58) // 마커 이미지의 중앙 하단에 핀이 위치하도록 설정
-        }
+    // 지도 초기화 함수
+    function initMap() {
+      map = new naver.maps.Map('map', {
+          center: new naver.maps.LatLng(37.5666805, 126.9784147),
+          zoom: 11
       });
+
+      // fetch를 사용해 JSON 파일을 불러옵니다.
+      fetch('laundromats.json') // 파일 경로
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error('네트워크 응답이 올바르지 않습니다.');
+              }
+              return response.json(); // 응답을 JSON으로 파싱
+          })
+          .then(data => {
+              // JSON 데이터 로딩 성공!
+              console.log("JSON 파일 로딩 성공:", data);
+              // 불러온 데이터(data)를 가지고 마커 표시를 시작합니다.
+              processNextAddress(0, data);
+          })
+          .catch(error => {
+              // 파일 로딩 실패 시 에러를 콘솔에 출력합니다.
+              console.error('JSON 파일을 불러오는 중 문제가 발생했습니다:', error);
+              alert('세탁방 데이터를 불러오는 데 실패했습니다. 파일을 확인해주세요.');
+          });
     }
 
-    // Geolocation 실패 시 호출되는 함수
-    function onErrorGeolocation() {
-      alert('현재 위치 정보를 가져오는 데 실패했습니다.');
+    /**
+     * 여러 개의 마커를 지도에 표시하고, 클릭 이벤트를 추가하는 함수
+     * @param {Array<Object>} locations - 위치 정보(name, latitude, longitude)를 담은 객체 배열
+     */
+
+    /**
+ * 주소 배열을 받아 순차적으로 지오코딩하고 마커를 표시하는 함수
+ * @param {number} index - 처리할 배열의 현재 순서
+ */
+function processNextAddress(index) {
+    // 배열의 모든 주소를 처리했다면 함수를 종료합니다.
+    if (index >= locations.length) {
+        console.log("모든 주소 처리 완료!");
+        return;
     }
 
-    // 경로 표시 지도 생성
-    function initDirectionsMap() {
-      var mapOptions = {
-        center: new naver.maps.LatLng(37.56667, 126.97837),
-        zoom: 11
-      };
-      var map = new naver.maps.Map('directions-map', mapOptions);
+    const item = locations[index];
 
-      var directionsService = new naver.maps.Service.DirectionsService();
+    // 주소로 좌표를 검색합니다 (지오코딩)
+    naver.maps.Service.geocode({
+        query: item.address
+    }, function(status, response) {
+        // 지오코딩 성공 시
+        if (status === naver.maps.Service.Status.OK && response.v2.addresses.length > 0) {
+            const result = response.v2.addresses[0];
+            const point = new naver.maps.Point(result.x, result.y);
 
-      var start = new naver.maps.LatLng(37.56667, 126.97837);
-      var end = new naver.maps.LatLng(37.50682, 127.05697);
+            // 마커 생성
+            const marker = new naver.maps.Marker({
+                map: map,
+                position: point,
+                title: item.name
+            });
 
-      directionsService.route({
-        start: start,
-        end: end
-      }, function (status, response) {
-        if (status !== naver.maps.Service.Status.OK) {
-          alert('경로 탐색에 실패했습니다: ' + status);
-          return;
+            // 정보창(InfoWindow) 생성
+            const infoWindow = new naver.maps.InfoWindow({
+                content: `<div style="padding:10px;font-weight:bold;">${item.name}</div>`
+            });
+
+            // 마커 클릭 이벤트 리스너 추가
+            naver.maps.Event.addListener(marker, 'click', function() {
+                infoWindow.open(map, marker);
+            });
+
+        } else {
+            console.error(`지오코딩 실패: ${item.address}`);
         }
+        
+        // 중요: 현재 주소의 처리가 성공하든 실패하든, 다음 주소를 처리하기 위해 재귀적으로 함수를 호출합니다.
+        processNextAddress(index + 1, locations);
+    });
+}
 
-        var path = response.result.routes[0].path;
-        var polyline = new naver.maps.Polyline({
-          map: map,
-          path: path,
-          strokeColor: '#5347AA',
-          strokeWeight: 4
-        });
-      });
-    }
-
+    // 페이지 로드가 완료되면 지도 초기화 함수 실행
     window.onload = function () {
-      initDynamicMap();
-      initDirectionsMap();
+      initMap();
     };
+
   </script>
 </body>
 
+</html>
+-->
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>JSON 파일 데이터로 마커 표시하기</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            padding-left: 20px;
+        }
+        #map {
+            width: 100%;
+            height: 85%; 
+        }
+    </style>
+    <script type="text/javascript" 
+      src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId={{ naver_map_client_key }}&submodules=geocoder"></script>
+</head>
+<body>
+    <h1>세탁방 위치 (JSON 파일 연동)</h1>
+    <div id="map"></div>
+
+    {{ laundromats_data|json_script:"locations-data" }}
+
+    <script>
+        var map; // 지도 전역 변수
+
+        // 페이지가 로드되면 바로 지도를 초기화합니다.
+        window.onload = initMap;
+
+        function initMap() {
+            map = new naver.maps.Map('map', {
+                center: new naver.maps.LatLng(37.552, 126.980),
+                zoom: 12
+            });
+
+            try {
+                // 이제 독립된 스크립트 태그의 내용을 안전하게 가져올 수 있습니다.
+                const locations = JSON.parse(document.getElementById('locations-data').textContent);
+                console.log("템플릿으로부터 데이터 로딩 성공:", locations);
+
+                // sinchon 지역 데이터 처리
+                if (locations && locations.sinchon) {
+                    processLocationList(locations.sinchon, '신촌');
+                }
+
+                // kondae 지역 데이터 처리
+                if (locations && locations.kondae) {
+                    processLocationList(locations.kondae, '건대');
+                }
+            } catch (e) {
+                console.error("데이터 파싱 또는 처리 중 오류:", e);
+                alert("세탁방 데이터를 처리하는 중 오류가 발생했습니다. 콘솔을 확인해주세요.");
+            }
+        }
+
+        function processLocationList(locationList, regionName) {
+            locationList.forEach((item) => {
+                if (item.latitude && item.longitude) {
+                    // TM128 좌표계(x: 경도, y: 위도)를 사용합니다.
+                    const point = new naver.maps.Point(item.longitude, item.latitude);
+                    createMarker(point, item);
+                } else if (item.address) {
+                    naver.maps.Service.geocode({ query: item.address }, (status, response) => {
+                        if (status === naver.maps.Service.Status.OK && response.v2.addresses.length > 0) {
+                            const point = new naver.maps.Point(response.v2.addresses[0].x, response.v2.addresses[0].y);
+                            createMarker(point, item);
+                        } else {
+                            console.error(`지오코딩 실패: ${item.address} (${regionName})`);
+                        }
+                    });
+                }
+            });
+        }
+
+        function createMarker(point, item) {
+            const marker = new naver.maps.Marker({
+                map: map,
+                position: point,
+                title: item.name
+            });
+
+            const infoWindow = new naver.maps.InfoWindow({
+                content: `<div style="padding:10px; font-weight:bold; font-size:14px;">${item.name}</div>`
+            });
+
+            naver.maps.Event.addListener(marker, 'click', () => {
+                infoWindow.open(map, marker);
+            });
+        }
+    </script>
+</body>
 </html>
