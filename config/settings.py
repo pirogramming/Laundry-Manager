@@ -7,8 +7,13 @@ load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATIC_URL = "/static/"
+# STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = "/var/www/laundry-manager/static"
+
+MEDIA_URL = "/media/"
+# MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_ROOT  = "/var/www/laundry-manager/media"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -19,15 +24,11 @@ SECRET_KEY = "django-insecure-3*gi@6uvrdvvb3#src+8h2oe+r0%0t7o1sr(25a@^f!1&r3&+x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['49.50.130.16', 'localhost', '127.0.0.1']
-
+ALLOWED_HOSTS = ["laundry-manager.com", "www.laundry-manager.com", '49.50.130.16', 'localhost', '127.0.0.1']
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:8000',
-    'http://127.0.0.1:8000',
-    'http://49.50.130.16:8000',
-    'https://yourdomain.com',
+    "http://laundry-manager.com", "http://www.laundry-manager.com",
+    "https://laundry-manager.com", "https://www.laundry-manager.com",
 ]
-
 # Naver Map API 클라 아이디와 시크릿
 NAVER_MAP_CLIENT_KEY = config("NAVER_MAP_CLIENT_KEY")
 NAVER_MAP_CLIENT_SECRET = config("NAVER_MAP_CLIENT_SECRET")
@@ -195,11 +196,11 @@ LOGGING = {
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = "static/"
-#STATICFILES_DIRS = [
-#    os.path.join(BASE_DIR, 'stain_image'),
-#]
 
+
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "static"),
+# ]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
