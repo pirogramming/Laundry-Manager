@@ -1,0 +1,366 @@
+{
+  "sinchon": [
+    {
+      "name": "코인워시24 신촌점",
+      "address": "서울 마포구 신촌로12다길 11 광명빌",
+      "latitude": 194029.588605036,
+      "longitude": 450305.35229732,
+      "phone_number": "02-3141-8289",
+      "hours": false,
+      "rating": 4.71
+    },
+    { 
+      "name": "워시스토리 셀프빨래방 연희연세대점",
+      "address": "서울 서대문구 성산로 381",
+      "latitude": 37.5562768,
+      "longitude": 126.938157,
+      "phone_number": "0507-1322-9316",
+      "hours": false,
+      "rating": false
+    },
+    {
+      "name": "MONTUNO 셀프빨래방 & 프린트",
+      "address": "서울 마포구 신촌로12다길 11 광명빌",
+      "latitude": 194029.5886,
+      "longitude": 450305.35229732,
+      "phone_number": "02-3141-8289",
+      "hours": false,
+      "rating": false
+    },
+    { 
+      "name": "워시팡팡 무인셀프빨래방 이대점",
+      "address": "서울 서대문구 이화여대3길 27 1층 101호",
+      "latitude": 37.5568162,
+      "longitude": 126.936171,
+      "phone_number": "0507-1367-3067",
+      "hours": false,
+      "rating": false
+    },
+    {
+      "name": "버블맨24 신촌역점",
+      "address": "서울 서대문구 연세로2마길 12",
+      "latitude": 37.5539589,
+      "longitude": 126.937293,
+      "phone_number": "0507-1376-3627",
+      "hours": false,
+      "rating": 5
+    },
+    {
+      "name": "런드리익스프레스샵 신촌점",
+      "address": "서울 마포구 신촌로12다길 20 1층",
+      "latitude": 37.557999,
+      "longitude": 126.945281,
+      "phone_number": "0507-1312-3860",
+      "hours": false,
+      "rating": false
+    },
+    {
+      "name": "화이트365 신촌점",
+      "address": "서울 서대문구 연세로4길 54",
+      "latitude": 37.5591963,
+      "longitude": 126.937014,
+      "phone_number": "0507-1404-4165",
+      "hours": false,
+      "rating": false
+    },
+    {
+      "name": "에코런드렛 빨래방&아이스크림 신촌점",
+      "address": "서울 마포구 백범로 8 우정마샹스오피스텔 1층 103호",
+      "latitude": 37.553198,
+      "longitude": 126.934892,
+      "phone_number": "0507-1410-1399",
+      "hours": "매일 06:00 - 24:00",
+      "rating": 4.85
+    },
+    {
+      "name": "연대빨래방",
+      "address": "서울 마포구 신촌로24길 4 1층",
+      "latitude": 37.5623055,
+      "longitude": 126.93895,
+      "phone_number": "0507-1478-2089",
+      "hours": false,
+      "rating": false
+    },
+    {
+      "name": "런드리데이 신촌점",
+      "address": "서울 서대문구 연세로7안길 53",
+      "latitude": 37.5575514,
+      "longitude": 126.945952,
+      "phone_number": "010-6419-2930",
+      "hours": false,
+      "rating": false
+    },
+    {
+      "name": "런드리익스프레스샵 x 스너글 신촌대현점",
+      "address": "서울 서대문구 연세로2길 89 1층",
+      "latitude": 37.5538964,
+      "longitude": 126.933827,
+      "phone_number": "1577-2871",
+      "hours": false,
+      "rating": false
+    },
+    {
+      "name": "런드리익스프레스샵 신촌창천스쿨점",
+      "address": "서울 마포구 노고산동 고산길 68 1층",
+      "latitude": 37.552194,
+      "longitude": 126.942186,
+      "phone_number": "1577-2871",
+      "hours": false,
+      "rating": false
+    },
+    {
+      "name": "워시프레쉬 신촌점",
+      "address": "서울 서대문구 연세로2가길 4 2층",
+      "latitude": 37.551717,
+      "longitude": 126.943183,
+      "phone_number": "0507-1422-0821",
+      "hours": false,
+      "rating": false
+    },
+    {
+      "name": "세탁풍경 창천점",
+      "address": "서울 서대문구 창천동 4-29",
+      "latitude": 37.557088,
+      "longitude": 126.935105,
+      "phone_number": "010-3903-2936",
+      "hours": false,
+      "rating": false
+    },
+    {
+      "name": "버블맨24 홍대점",
+      "address": "서울 마포구 와우산로30길 3 1층 버블맨 24 홍대점",
+      "latitude": 37.549927,
+      "longitude": 126.94191,
+      "phone_number": "010-8694-9244",
+      "hours": false,
+      "rating": false
+    },
+    {
+      "name": "런드리익스프레스샵 x 스너글 이대점",
+      "address": "서울 서대문구 이화여대5길 35 1층",
+      "latitude": 37.547903,
+      "longitude": 126.945892,
+      "phone_number": "1577-2871",
+      "hours": false,
+      "rating": false
+    },
+    {
+      "name": "에코런드렛 이대점",
+      "address": "서울 서대문구 이화여대3길 29 102호",
+      "latitude": 37.550186,
+      "longitude": 126.930438,
+      "phone_number": "0507-1331-3179",
+      "hours": false,
+      "rating": false
+    },
+    {
+      "name": "큐브워시 이대점",
+      "address": "서울 서대문구 이화여대5길 32 1층 101호",
+      "latitude": 37.561937,
+      "longitude": 126.95379,
+      "phone_number": "0507-1444-4223",
+      "hours": false,
+      "rating": false
+    },
+    {
+      "name": "런드리샵 홍대점",
+      "address": "서울 마포구 신촌로2안길 44 1층 1호",
+      "latitude": 37.552636,
+      "longitude": 126.93922,
+      "phone_number": "0507-1442-3966",
+      "hours": false,
+      "rating": false
+    },
+    {
+      "name": "런드리24 신촌숲아이파크",
+      "address": "서울 마포구 광성로 17 신촌숲아이파크 106동 지하1층 커뮤니티센터 내",
+      "latitude": 37.55523,
+      "longitude": 126.955436,
+      "phone_number": "1544-4335",
+      "hours": false,
+      "rating": false
+    }
+  ],
+  "kondae": [
+    {
+      "name": "워시엔조이 건대자양점",
+      "address": "서울 광진구 아차산로29길 51",
+      "latitude": 37.5401931,
+      "longitude": 127.069415,
+      "phone_number": "0507-1339-2451",
+      "hours": false,
+      "rating": 4.75
+    },
+    {
+      "name": "크린토피아 코인워시 건대스타시티점",
+      "address": "서울 광진구 아차산로 262",
+      "latitude": 37.540505,
+      "longitude": 127.072213,
+      "phone_number": "02-2218-3232",
+      "hours": "매일 10:00 - 22:00",
+      "rating": 4.4
+    },
+    {
+      "name": "펭귄하우스24 건대점",
+      "address": "서울 광진구 동일로20길 105",
+      "latitude": 37.5434517,
+      "longitude": 127.070191,
+      "phone_number": "0507-1329-8258",
+      "hours": false,
+      "rating": 4.82
+    },
+    {
+      "name": "코인워시24 건대화양점",
+      "address": "서울 광진구 동일로22길 117-17",
+      "latitude": 37.5441864,
+      "longitude": 127.070942,
+      "phone_number": "0507-1312-3269",
+      "hours": false,
+      "rating": 4.65
+    },
+    {
+      "name": "더런드리 건대점",
+      "address": "서울 광진구 아차산로30길 30",
+      "latitude": 37.5413349,
+      "longitude": 127.068228,
+      "phone_number": "02-466-8949",
+      "hours": "매일 06:00 - 24:00",
+      "rating": 4.8
+    },
+    {
+      "name": "워시프렌즈24 자양점",
+      "address": "서울 광진구 자양로 100",
+      "latitude": 37.536785,
+      "longitude": 127.081829,
+      "phone_number": "0507-1324-5279",
+      "hours": false,
+      "rating": 4.7
+    },
+    {
+      "name": "크린업24 셀프빨래방 화양점",
+      "address": "서울 광진구 군자로 30",
+      "latitude": 37.546313,
+      "longitude": 127.074743,
+      "phone_number": "0507-1317-5933",
+      "hours": false,
+      "rating": 4.6
+    },
+    {
+      "name": "화이트24 셀프빨래방",
+      "address": "서울 광진구 자양로18길 35",
+      "latitude": 37.539352,
+      "longitude": 127.085023,
+      "phone_number": "0507-1307-2482",
+      "hours": false,
+      "rating": 4.78
+    },
+    {
+      "name": "셀프빨래방 런드리데이",
+      "address": "서울 광진구 뚝섬로32길 32",
+      "latitude": 37.534882,
+      "longitude": 127.068991,
+      "phone_number": "0507-1310-7561",
+      "hours": false,
+      "rating": 4.85
+    },
+    {
+      "name": "코인워시24",
+      "address": "서울 광진구 능동로 167",
+      "latitude": 37.54589,
+      "longitude": 127.076326,
+      "phone_number": false,
+      "hours": false,
+      "rating": 4.5
+    },
+    {
+      "name": "워시팡팡 건대점",
+      "address": "서울 광진구 광나루로 389",
+      "latitude": 37.543958,
+      "longitude": 127.08051,
+      "phone_number": "0507-1309-8438",
+      "hours": false,
+      "rating": 4.72
+    },
+    {
+      "name": "크린토피아 코인워시 자양점",
+      "address": "서울 광진구 뚝섬로 515",
+      "latitude": 37.533224,
+      "longitude": 127.076412,
+      "phone_number": "02-458-9993",
+      "hours": "매일 00:00 - 24:00",
+      "rating": 4.55
+    },
+    {
+      "name": "버블데이24",
+      "address": "서울 광진구 영화사로 62",
+      "latitude": 37.550186,
+      "longitude": 127.08573,
+      "phone_number": "0507-1321-4985",
+      "hours": false,
+      "rating": 4.9
+    },
+    {
+      "name": "코인빨래방",
+      "address": "서울 광진구 자양동 553-60",
+      "latitude": 37.536968,
+      "longitude": 127.072232,
+      "phone_number": false,
+      "hours": false,
+      "rating": 4.4
+    },
+    {
+      "name": "워시홀릭24 구의점",
+      "address": "서울 광진구 구의로 28",
+      "latitude": 37.541786,
+      "longitude": 127.088195,
+      "phone_number": "0507-1318-7712",
+      "hours": false,
+      "rating": 4.88
+    },
+    {
+      "name": "크린업24 구의점",
+      "address": "서울 광진구 아차산로 439",
+      "latitude": 37.543235,
+      "longitude": 127.087799,
+      "phone_number": "0507-1307-5953",
+      "hours": false,
+      "rating": 4.62
+    },
+    {
+      "name": "워시엔조이 구의광장점",
+      "address": "서울 광진구 아차산로 492",
+      "latitude": 37.544521,
+      "longitude": 127.091398,
+      "phone_number": "0507-1327-4488",
+      "hours": false,
+      "rating": 4.76
+    },
+    {
+      "name": "코인워시24시",
+      "address": "서울 성동구 성수이로 26",
+      "latitude": 37.541481,
+      "longitude": 127.05602,
+      "phone_number": false,
+      "hours": false,
+      "rating": 4.52
+    },
+    {
+      "name": "크린토피아 코인워시 성수점",
+      "address": "서울 성동구 아차산로 104",
+      "latitude": 37.54359,
+      "longitude": 127.055694,
+      "phone_number": "02-466-0365",
+      "hours": "매일 00:00 - 24:00",
+      "rating": 4.6
+    },
+    {
+      "name": "펭귄하우스24 성수점",
+      "address": "서울 성동구 연무장5가길 25",
+      "latitude": 37.543163,
+      "longitude": 127.056972,
+      "phone_number": "0507-1332-9038",
+      "hours": false,
+      "rating": 4.8
+    }
+  ]
+}

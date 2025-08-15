@@ -1,0 +1,145 @@
+/* static/laundry_manager/dictionary-detail.css */
+
+.mobile-container.detail-page {
+    padding: 0;
+    background-color: var(--color-background);
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    position: relative; /* 자식 요소의 absolute 위치 기준 */
+}
+
+/* 배경 이미지 */
+.detail-background-image {
+    background-image: url('https://pds.joongang.co.kr//news/component/htmlphoto_mmdata/201805/25/c8c555ac-09fe-4224-9231-316645f7aded.jpg');
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 300px; /* 배경 이미지 높이 */
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* 상단 뒤로가기 버튼 */
+.top-nav-detail {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+}
+.icon-btn-nav {
+    background-color: rgba(0,0,0,0.3);
+    border: 1px solid var(--color-border-trasparent);
+    color: var(--color-container);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 16px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+.icon-btn-nav.active i {
+    color: var(--color-primary);
+    background-color: rgba(255,255,255,0.8);
+}
+
+
+/* 메인 콘텐츠 카드 */
+.content-card {
+    background: var(--color-container);
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    padding: 25px;
+    margin: 200px 0px 20px; /* 상단(배경 보이게), 좌우, 하단 여백 */
+    position: relative;
+    z-index: 5;
+}
+
+/* 제목 + 즐겨찾기 버튼 */
+.title-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 8px;
+}
+.title-wrapper h1 {
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1.4;
+    color: var(--color-text-primary);
+}
+.title-wrapper .icon-btn-nav {
+    flex-shrink: 0; /* 버튼 안찌그러지게 */
+    background-color: var(--color-background);
+    color: var(--color-text-tertiary);
+    border-color: var(--color-border);
+}
+
+/* 분류 태그 */
+.info-category-tag {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-primary);
+    color: var(--color-container);
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 15px;
+    width:  fit-content;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+/* 상세 설명 섹션 */
+.detail-content-section, .related-tips-section {
+    margin-bottom: 25px;
+}
+.detail-content-section h3, .related-tips-section h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--color-text-primary);
+}
+.detail-content-section h3 i {
+    margin-right: 8px;
+    color: var(--color-primary);
+}
+.detail-content-section ol, .detail-content-section p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+    padding-left: 20px; /* ol 기본 스타일과 맞춤 */
+}
+.detail-content-section p {
+    padding-left: 0;
+}
+.detail-content-section ol li:not(:last-child){
+    margin-bottom: 10px;
+}
+
+/* 관련 팁 */
+.related-list .history-item {
+    text-decoration: none;
+    color: var(--color-text-primary);
+}
+
+/* 맨 아래 돌아가기 버튼 */
+.back-to-dict-button {
+    display: block;
+    width: calc(100% - 30px);
+    margin: 0 auto 100px;
+    background-color: var(--color-primary);
+    color: white;
+    padding: 16px;
+    border-radius: 15px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 16px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(36, 69, 239, 0.3);
+}

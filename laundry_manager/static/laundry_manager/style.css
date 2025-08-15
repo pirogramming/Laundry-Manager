@@ -45,7 +45,7 @@ body {
     justify-content: center;
     align-items: flex-start;
     min-height: 100vh;
-    padding: 20px 0;
+    padding: 0;
 }
 
 .page-container, .mobile-container {
@@ -55,13 +55,13 @@ body {
 /* 모바일 화면 구현 */
 .mobile-container {
     width: 100%;
-    max-width: 420px;
+    max-width: none;
     background-color: var(--color-container);
-    border-radius: 20px;
+    border-radius: 0px;
     padding: 30px 25px 100px 25px; /* 하단 nav 공간 확보 */
     position: relative;
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    min-height: 800px;
+    min-height: 100vh;
 }
 
 /* 사용자 프로필 */
@@ -234,7 +234,8 @@ body {
 
 /* 하단 네비게이션 바 */
 .bottom-nav {
-    position: absolute;
+    position: fixed;
+    z-index: 1000;
     bottom: 0;
     left: 0;
     right: 0;

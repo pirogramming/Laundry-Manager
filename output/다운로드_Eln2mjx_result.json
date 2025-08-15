@@ -1,0 +1,170 @@
+{
+    "filename": "다운로드_Eln2mjx.jpg",
+    "recognized_texts": [
+        "wookimiabick",
+        "###",
+        "자~",
+        "이제",
+        "시작이야(내꿈을)"
+    ],
+    "symbol_definition": "인식된 기호 설명 없음",
+    "ocr_raw_response": {
+        "version": "V2",
+        "requestId": "eba58bbf-30a5-49eb-9709-ffdcd6f271f9",
+        "timestamp": 1755098735691,
+        "images": [
+            {
+                "uid": "bcc5f73cc36c4988bb381f657aa9349d",
+                "name": "다운로드.jpg",
+                "inferResult": "SUCCESS",
+                "message": "SUCCESS",
+                "validationResult": {
+                    "result": "NO_REQUESTED"
+                },
+                "convertedImageInfo": {
+                    "width": 259,
+                    "height": 194,
+                    "pageIndex": 0,
+                    "longImage": false
+                },
+                "fields": [
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 10.0,
+                                    "y": 8.0
+                                },
+                                {
+                                    "x": 63.0,
+                                    "y": 7.0
+                                },
+                                {
+                                    "x": 63.0,
+                                    "y": 13.0
+                                },
+                                {
+                                    "x": 10.0,
+                                    "y": 13.0
+                                }
+                            ]
+                        },
+                        "inferText": "wookimiabick",
+                        "inferConfidence": 0.8988,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 64.0,
+                                    "y": 9.0
+                                },
+                                {
+                                    "x": 80.0,
+                                    "y": 9.0
+                                },
+                                {
+                                    "x": 80.0,
+                                    "y": 13.0
+                                },
+                                {
+                                    "x": 64.0,
+                                    "y": 13.0
+                                }
+                            ]
+                        },
+                        "inferText": "###",
+                        "inferConfidence": 0.7109,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 50.0,
+                                    "y": 157.0
+                                },
+                                {
+                                    "x": 76.0,
+                                    "y": 157.0
+                                },
+                                {
+                                    "x": 76.0,
+                                    "y": 176.0
+                                },
+                                {
+                                    "x": 50.0,
+                                    "y": 176.0
+                                }
+                            ]
+                        },
+                        "inferText": "자~",
+                        "inferConfidence": 1.0,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 76.0,
+                                    "y": 156.0
+                                },
+                                {
+                                    "x": 106.0,
+                                    "y": 156.0
+                                },
+                                {
+                                    "x": 106.0,
+                                    "y": 177.0
+                                },
+                                {
+                                    "x": 76.0,
+                                    "y": 177.0
+                                }
+                            ]
+                        },
+                        "inferText": "이제",
+                        "inferConfidence": 1.0,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 107.0,
+                                    "y": 156.0
+                                },
+                                {
+                                    "x": 207.0,
+                                    "y": 156.0
+                                },
+                                {
+                                    "x": 207.0,
+                                    "y": 177.0
+                                },
+                                {
+                                    "x": 107.0,
+                                    "y": 177.0
+                                }
+                            ]
+                        },
+                        "inferText": "시작이야(내꿈을)",
+                        "inferConfidence": 0.9999,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    }
+                ]
+            }
+        ]
+    }
+}

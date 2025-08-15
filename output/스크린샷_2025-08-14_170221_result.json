@@ -1,0 +1,61 @@
+{
+    "filename": "스크린샷_2025-08-14_170221.png",
+    "recognized_texts": [
+        "드라이클리닝"
+    ],
+    "symbol_definition": "테트라클로로에텐(퍼클로로에틸렌), 석유계 및 실리콘계 용제 등 적합한 용제로 일반 드라이클리닝할 수 있다.",
+    "ocr_raw_response": {
+        "version": "V2",
+        "requestId": "bab56bce-20c5-4cc5-a6a7-a72690213f3d",
+        "timestamp": 1755189499325,
+        "images": [
+            {
+                "uid": "cf106d5e7b2344d69224b9483fb596d6",
+                "name": "스크린샷_2025-08-14_170221.png",
+                "inferResult": "SUCCESS",
+                "message": "SUCCESS",
+                "validationResult": {
+                    "result": "NO_REQUESTED"
+                },
+                "convertedImageInfo": {
+                    "width": 325,
+                    "height": 140,
+                    "pageIndex": 0,
+                    "longImage": false
+                },
+                "fields": [
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 80.0,
+                                    "y": 50.0
+                                },
+                                {
+                                    "x": 258.0,
+                                    "y": 50.0
+                                },
+                                {
+                                    "x": 258.0,
+                                    "y": 88.0
+                                },
+                                {
+                                    "x": 80.0,
+                                    "y": 88.0
+                                }
+                            ]
+                        },
+                        "inferText": "드라이클리닝",
+                        "inferConfidence": 1.0,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    }
+                ]
+            }
+        ]
+    },
+    "roboflow_detect_raw": null,
+    "roboflow_classify_raw": null,
+    "fused_scores": null
+}

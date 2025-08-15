@@ -1,0 +1,39 @@
+<div class="recommendation-card">
+  <h4>세탁 가이드</h4>
+
+  <ul class="meta">
+    <li><strong>소재:</strong>
+      {% if materials %}
+        {% if materials.0 %}{{ materials|join:", " }}{% else %}{{ materials }}{% endif %}
+      {% elif materials_text %}
+        {{ materials_text }}
+      {% else %}
+        -
+      {% endif %}
+    </li>
+    <li><strong>얼룩:</strong>
+      {% if stains %}
+        {% if stains.0 %}{{ stains|join:", " }}{% else %}{{ stains }}{% endif %}
+      {% elif stains_text %}
+        {{ stains_text }}
+      {% else %}
+        -
+      {% endif %}
+    </li>
+  </ul>
+
+  {% if material %}
+    <h5>소재 가이드</h5>
+    <div class="guide-section">{{ material }}</div>
+  {% endif %}
+
+  {% if stain %}
+    <h5>얼룩 가이드</h5>
+    <div class="guide-section">{{ stain }}</div>
+  {% endif %}
+
+  {% if symbols %}
+    <h5>기호 가이드</h5>
+    <div class="guide-section">{{ symbols }}</div>
+  {% endif %}
+</div>

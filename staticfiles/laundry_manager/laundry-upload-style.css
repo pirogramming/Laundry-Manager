@@ -1,0 +1,180 @@
+/* laundry-upload.html 페이지 전용 스타일 */
+
+.upload-page {
+    padding: 0;
+    /* height: 100vh; */
+    display: flex;
+    flex-direction: column;
+    background-color:var(--color-primary);
+}
+
+/* 상단 파란색 영역 */
+.upload-header-section {
+    padding: 30px 20px 30px;
+    color: var(--color-container);
+    
+}
+.top-nav {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    margin-bottom: 20px;
+}
+.icon-btn {
+    background: none; 
+    border: none; 
+    color: var(--color-container); 
+    cursor: pointer; 
+    font-size: 16px; 
+    z-index: 2;
+}
+.header-tabs {
+    display: flex;
+
+    background-color:white; 
+    border-radius: 50px; 
+    padding: 4px;
+    position: absolute; 
+    left: 50%; 
+    transform: translateX(-50%);
+    margin-bottom: 35px;
+    margin-top: 30px;
+}
+.tab-btn {
+    border: none; 
+    padding: 6px 16px; 
+    border-radius: 16px;
+    font-size: 14px; 
+    font-weight: 500;
+    cursor: pointer;
+    background-color: transparent; 
+    color: var(--color-primary); 
+    opacity: 1;
+    transition: all 0.2s ease-in-out;
+    white-space: nowrap;
+    text-decoration: none;
+}
+.tab-btn.active {
+    background-color: var(--color-primary); 
+    color: var(--color-container);
+    opacity: 1;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    font-weight: 700;
+}
+
+/* 업로드 카드 */
+.upload-card {
+    background-color: var(--color-container);
+    color: var(--color-text-primary); 
+    border-radius: 20px;
+    padding: 20px; 
+    text-align: left;
+    margin-top: 20px;
+}
+.upload-card h3 { 
+    font-size: 18px; 
+    font-weight: 700;
+    margin-bottom: 8px; 
+}
+.upload-card p { 
+    font-size: 14px; 
+    color: var(--color-text-secondary); 
+    margin-bottom: 20px; 
+}
+
+.upload-divider{
+    border: none;
+    height: 1px;
+    background-color: var(--color-border);
+    margin: 20px 0;
+}
+.drop-zone {
+    border: 2px dashed var(--color-border); 
+    border-radius: 15px; 
+    padding: 30px 20px;
+    color: #b0b8c1;
+    font-size: 14px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.image-upload{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+/* 하단 흰색 콘텐츠 영역 */
+.manual-input-section {
+    background-color: var(--color-container); 
+    padding: 30px 20px; 
+    /* flex-grow: 1; */
+    border-top-left-radius: 30px; 
+    border-top-right-radius: 30px;
+    display: flex; 
+    flex-direction: column;
+    /* overflow-y: auto; */
+}
+.manual-input-section::-webkit-scrollbar { display: none; }
+.section-header {
+    display: flex; 
+    justify-content: space-between; align-items: center; 
+    margin-bottom: 20px;
+    
+}
+.section-header h2 { 
+    font-size: 20px;
+    font-weight: 700; 
+    color: var(--color-text-primary); 
+}
+.arrow-btn {
+    background-color: var(--color-background); color: var(--color-text-secondary);
+    border-radius: 50%; width: 32px; height: 32px; border: none; cursor: pointer;
+}
+.section-info{
+    flex-grow: 1;
+    overflow-y: auto;
+}
+.section-info ::-webkit-scrollbar{display: none;}
+/* 가로 스크롤 선택 목록 */
+.selection-group { margin-bottom: 25px; }
+.selection-group h3 {
+    font-size: 16px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 15px;
+}
+.item-list {
+    display: flex;
+    gap: 15px; 
+    overflow-x: auto; /* 가로 스크롤 활성화 */
+    padding-bottom: 10px; /* 스크롤바 공간 (숨겨도 여유 공간 확보) */
+}
+.item-list::-webkit-scrollbar { display: none; } /* 스크롤바 숨기기 */
+
+.selectable-item {
+    display: flex; flex-direction: column; align-items: center; cursor: pointer;
+    flex-shrink: 0; /* 아이템이 줄어들지 않도록 */
+}
+.item-box {
+    width: 80px; height: 80px; background-color: var(--color-background);
+    border-radius: 15px; margin-bottom: 10px; border: 2px solid transparent;
+    transition: border-color 0.2s;
+}
+.selectable-item.active .item-box { border-color: var(--color-primary); }
+.selectable-item span { font-size: 14px; color: var(--color-text-primary); }
+
+/* 제출 버튼 */
+.submit-button {
+    width: 100%; 
+    background-color: var(--color-primary); 
+    color: var(--color-container);
+    padding: 16px; border-radius: 15px; 
+    font-size: 16px; font-weight: 700;
+    border: none; 
+    cursor: pointer;
+    margin-top: auto; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}

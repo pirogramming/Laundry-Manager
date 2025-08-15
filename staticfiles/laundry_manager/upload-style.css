@@ -1,0 +1,202 @@
+/* upload.html 페이지 전용 스타일 */
+
+.mobile-container.upload-page {
+    padding: 0;
+    /* background-color: var(--color-primary); */
+}
+
+/* 상단 파란색 영역 */
+.upload-header-section {
+    background-color: var(--color-primary);
+    padding: 20px 20px 30px 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: 0 8px 10px rgba(74, 108, 255, 0.15);
+}
+
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--color-container);
+    margin-bottom: 20px;
+}
+.top-nav h1 {
+    font-size: 18px;
+    font-weight: 500;
+}
+.icon-btn, .text-btn {
+    background: none;
+    border: none;
+    color: var(--color-container);
+    cursor: pointer;
+    font-size: 16px;
+}
+.text-btn {
+    opacity: 0.8;
+}
+
+.upload-card {
+    background-color: var(--color-container);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 3px 3px 16px rgba(0, 0, 0, 0.08);
+}
+
+.card-controls {
+    display: flex;
+    /* justify-content: space-between;
+    align-items: center; */
+    position: relative;
+}
+.tabs {
+    display: flex;
+    margin: 0 auto;
+    gap: 10px;
+    background-color: #F7F9FB;
+    padding:4px;
+    border-radius: 20px;
+}
+
+.tab-btn {
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    background-color: transparent; /* 기본 배경 투명 */
+    color: var(--color-text-secondary);
+    transition: background-color 0.2s, color 0.2s;
+}
+.tab-btn.active {
+    background-color: var(--color-primary);
+    color: var(--color-container);
+}
+
+.filter-btn {
+    color: var(--color-text-secondary);
+    font-size: 16px;
+    border: 1px solid var(--color-border);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 구분선 스타일 추가 */
+.card-divider {
+    border: none;
+    height: 1px;
+    background-color: var(--color-border);
+    margin: 20px 0;
+}
+
+/* 파일 드롭존 */
+.drop-zone {
+    border: 2px dashed var(--color-border);
+    border-radius: 15px;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #b0b8c1; /* 연한 회색으로 변경 */
+    font-size: 14px;
+}
+
+/* 하단 흰색 영역*/
+.manual-input-section {
+    padding: 30px 20px;
+    /* background-color: var(--color-container); */
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    /* border-top-left-radius: 20px;
+    border-top-right-radius: 20px; */
+}
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.section-header h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+.arrow-btn {
+    background-color: var(--color-background);
+    color: var(--color-text-secondary);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+}
+.selection-group {
+    margin-bottom: 0px;
+}
+.selection-group h3 {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    margin-bottom: 0px;
+}
+.item-list {
+  display: flex;
+  gap: 24px; 
+  overflow-x: auto;
+  padding: 10px 0;
+  -webkit-overflow-scrolling: touch;
+
+  /* 스크롤 영역 자연스럽게 만들기 위한 설정 */
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0 10px;
+}
+
+.item-list::-webkit-scrollbar {
+  display: none; /* 스크롤바 숨기기 (선택) */
+}
+
+.selectable-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    scroll-snap-align: start;
+}
+.item-box {
+    width: 80px;
+    height: 80px;
+    background-color: var(--color-background);
+    border-radius: 15px;
+    margin-bottom: 10px;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+}
+.selectable-item.active .item-box {
+    border-color: var(--color-primary);
+}
+.selectable-item span {
+    font-size: 14px;
+    color: var(--color-text-primary);
+}
+.submit-button {
+    width: 100%;
+    background-color: var(--color-primary);
+    color: var(--color-container);
+    padding: 16px;
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 40px;
+    border: none;
+    cursor: pointer; 
+    text-decoration: none; 
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
