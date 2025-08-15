@@ -51,6 +51,13 @@ except ValueError:
     RF_CLASSIFY_THRESHOLD = 0.1
 
 
+# clova 요약할 때 쓰는 api
+CLOVA_API_KEY = os.getenv("CLOVA_API_KEY")
+CLOVA_SUMMARY_URL = os.getenv(
+    "CLOVA_SUMMARY_URL",
+    "https://clovastudio.stream.ntruss.com/v1/api-tools/summarization/v2",  # 기본값(원하면 유지)
+)
+
 
 # social login
 SOCIALACCOUNT_PROVIDERS = {

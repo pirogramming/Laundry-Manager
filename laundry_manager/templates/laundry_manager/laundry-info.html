@@ -42,7 +42,7 @@
           <div class="icon-info-group">
             <div class="icon-info">
               <h4>1. 세탁법 요약</h4>
-              <img src="https://cdn.imweb.me/upload/S201901035c2d8ed49b6e0/1b6f785db5f68.jpeg" alt="세탁 태그" class="laundry-tag-img">
+              <!--<img src="https://cdn.imweb.me/upload/S201901035c2d8ed49b6e0/1b6f785db5f68.jpeg" alt="세탁 태그" class="laundry-tag-img">-->
               <div class="icon-info-text">
                 <i class="fa-solid fa-check-circle check-icon"></i>
                 <span>
@@ -55,7 +55,7 @@
 
             <div class="icon-info">
               <h4>2. 건조법 요약</h4>
-              <img src="https://image.zdnet.co.kr/2020/06/25/hyeming_tNKPjMHKHeyL.jpg" alt="세탁 태그" class="laundry-tag-img">
+              <!--<img src="https://image.zdnet.co.kr/2020/06/25/hyeming_tNKPjMHKHeyL.jpg" alt="세탁 태그" class="laundry-tag-img">-->
               <div class="icon-info-text">
                 <i class="fa-solid fa-ban ban-icon"></i>
                 <span>
@@ -68,7 +68,10 @@
 
           <p class="stain-info">
             <strong>3. 얼룩 제거법 요약 :</strong>
-            {% if summary and summary.stain %}{{ summary.stain }}{% else %}정보 없음{% endif %}
+            {% if summary and summary.stain %}
+            <p class="stain-kw">{{ summary.stain }}</p>
+            <style>.stain-kw{white-space:pre-line}</style>
+            {{ summary.stain }}{% else %}정보 없음{% endif %}
           </p>
         </section>
 

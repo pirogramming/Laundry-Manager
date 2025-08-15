@@ -1,42 +1,34 @@
 {
-    "filename": "스크린샷_2025-08-15_161416_4veLIMq.png",
+    "filename": "KakaoTalk_20250814_180458671_9IM5G2J.png",
     "recognized_texts": [
-        "물의",
-        "온도",
-        "40°C에서",
-        "세탁기로",
-        "세탁",
-        "가능",
-        "표백",
-        "금지",
-        "또는"
+        "recognized",
+        "texts",
+        "=",
+        "[",
+        "\"드라이",
+        "클리닝",
+        "가능\",",
+        "\"다림질",
+        "가능\"",
+        "]"
     ],
-    "symbol_definition": "물의 온도 최대 40 °C에서 세탁기로 일반 세탁할 수 있다.",
+    "symbol_definition": "물세탁을 하면 안 된다.",
     "ocr_raw_response": {
         "version": "V2",
-<<<<<<< HEAD:output/스크린샷_2025-08-15_161416_4veLIMq_result.json
-        "requestId": "7ef217f1-e9f3-4f10-801a-c06d5f35098a",
-        "timestamp": 1755243449862,
+        "requestId": "bfbeb522-26a3-4049-8f36-2a6f9bc6254f",
+        "timestamp": 1755249620775,
         "images": [
             {
-                "uid": "a028e917a4e94ae5b318069613315b45",
-                "name": "스크린샷_2025-08-15_161416_4veLIMq.png",
-=======
-        "requestId": "484f60ea-d95a-4d4b-82f8-bd16f00d9339",
-        "timestamp": 1755243588373,
-        "images": [
-            {
-                "uid": "60e53bc2c29440eea22d7e2d0a80b2f9",
-                "name": "KakaoTalk_20250814_180458671.png",
->>>>>>> origin/ocr_kyr:output/KakaoTalk_20250814_180458671_result.json
+                "uid": "9ff722e676964255967ae92654acb31d",
+                "name": "KakaoTalk_20250814_180458671_9IM5G2J.png",
                 "inferResult": "SUCCESS",
                 "message": "SUCCESS",
                 "validationResult": {
                     "result": "NO_REQUESTED"
                 },
                 "convertedImageInfo": {
-                    "width": 638,
-                    "height": 222,
+                    "width": 399,
+                    "height": 233,
                     "pageIndex": 0,
                     "longImage": false
                 },
@@ -46,51 +38,24 @@
                         "boundingPoly": {
                             "vertices": [
                                 {
-                                    "x": 27.0,
-                                    "y": 46.0
+                                    "x": 17.0,
+                                    "y": 39.0
                                 },
                                 {
-                                    "x": 83.0,
-                                    "y": 46.0
+                                    "x": 165.0,
+                                    "y": 32.0
                                 },
                                 {
-                                    "x": 83.0,
-                                    "y": 76.0
+                                    "x": 166.0,
+                                    "y": 56.0
                                 },
                                 {
-                                    "x": 27.0,
-                                    "y": 76.0
+                                    "x": 18.0,
+                                    "y": 62.0
                                 }
                             ]
                         },
-                        "inferText": "물의",
-                        "inferConfidence": 0.9998,
-                        "type": "NORMAL",
-                        "lineBreak": false
-                    },
-                    {
-                        "valueType": "ALL",
-                        "boundingPoly": {
-                            "vertices": [
-                                {
-                                    "x": 95.0,
-                                    "y": 46.0
-                                },
-                                {
-                                    "x": 153.0,
-                                    "y": 46.0
-                                },
-                                {
-                                    "x": 153.0,
-                                    "y": 76.0
-                                },
-                                {
-                                    "x": 95.0,
-                                    "y": 76.0
-                                }
-                            ]
-                        },
-                        "inferText": "온도",
+                        "inferText": "recognized",
                         "inferConfidence": 1.0,
                         "type": "NORMAL",
                         "lineBreak": false
@@ -100,24 +65,51 @@
                         "boundingPoly": {
                             "vertices": [
                                 {
-                                    "x": 162.0,
-                                    "y": 47.0
+                                    "x": 179.0,
+                                    "y": 36.0
                                 },
                                 {
-                                    "x": 278.0,
-                                    "y": 47.0
+                                    "x": 254.0,
+                                    "y": 36.0
                                 },
                                 {
-                                    "x": 278.0,
-                                    "y": 75.0
+                                    "x": 254.0,
+                                    "y": 56.0
                                 },
                                 {
-                                    "x": 162.0,
-                                    "y": 75.0
+                                    "x": 179.0,
+                                    "y": 56.0
                                 }
                             ]
                         },
-                        "inferText": "40°C에서",
+                        "inferText": "texts",
+                        "inferConfidence": 0.9997,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 270.0,
+                                    "y": 42.0
+                                },
+                                {
+                                    "x": 284.0,
+                                    "y": 42.0
+                                },
+                                {
+                                    "x": 284.0,
+                                    "y": 52.0
+                                },
+                                {
+                                    "x": 270.0,
+                                    "y": 52.0
+                                }
+                            ]
+                        },
+                        "inferText": "=",
                         "inferConfidence": 1.0,
                         "type": "NORMAL",
                         "lineBreak": false
@@ -127,79 +119,25 @@
                         "boundingPoly": {
                             "vertices": [
                                 {
-                                    "x": 292.0,
-                                    "y": 46.0
+                                    "x": 301.0,
+                                    "y": 37.0
                                 },
                                 {
-                                    "x": 404.0,
-                                    "y": 46.0
+                                    "x": 314.0,
+                                    "y": 37.0
                                 },
                                 {
-                                    "x": 404.0,
-                                    "y": 76.0
+                                    "x": 314.0,
+                                    "y": 58.0
                                 },
                                 {
-                                    "x": 292.0,
-                                    "y": 76.0
+                                    "x": 301.0,
+                                    "y": 58.0
                                 }
                             ]
                         },
-                        "inferText": "세탁기로",
-                        "inferConfidence": 1.0,
-                        "type": "NORMAL",
-                        "lineBreak": false
-                    },
-                    {
-                        "valueType": "ALL",
-                        "boundingPoly": {
-                            "vertices": [
-                                {
-                                    "x": 415.0,
-                                    "y": 46.0
-                                },
-                                {
-                                    "x": 472.0,
-                                    "y": 46.0
-                                },
-                                {
-                                    "x": 472.0,
-                                    "y": 76.0
-                                },
-                                {
-                                    "x": 415.0,
-                                    "y": 76.0
-                                }
-                            ]
-                        },
-                        "inferText": "세탁",
-                        "inferConfidence": 1.0,
-                        "type": "NORMAL",
-                        "lineBreak": false
-                    },
-                    {
-                        "valueType": "ALL",
-                        "boundingPoly": {
-                            "vertices": [
-                                {
-                                    "x": 484.0,
-                                    "y": 46.0
-                                },
-                                {
-                                    "x": 541.0,
-                                    "y": 46.0
-                                },
-                                {
-                                    "x": 541.0,
-                                    "y": 76.0
-                                },
-                                {
-                                    "x": 484.0,
-                                    "y": 76.0
-                                }
-                            ]
-                        },
-                        "inferText": "가능",
-                        "inferConfidence": 1.0,
+                        "inferText": "[",
+                        "inferConfidence": 0.9986,
                         "type": "NORMAL",
                         "lineBreak": true
                     },
@@ -208,25 +146,25 @@
                         "boundingPoly": {
                             "vertices": [
                                 {
-                                    "x": 26.0,
-                                    "y": 92.0
+                                    "x": 73.0,
+                                    "y": 77.0
                                 },
                                 {
-                                    "x": 84.0,
-                                    "y": 92.0
+                                    "x": 168.0,
+                                    "y": 77.0
                                 },
                                 {
-                                    "x": 84.0,
-                                    "y": 122.0
+                                    "x": 168.0,
+                                    "y": 105.0
                                 },
                                 {
-                                    "x": 26.0,
-                                    "y": 122.0
+                                    "x": 73.0,
+                                    "y": 105.0
                                 }
                             ]
                         },
-                        "inferText": "표백",
-                        "inferConfidence": 0.9994,
+                        "inferText": "\"드라이",
+                        "inferConfidence": 0.9999,
                         "type": "NORMAL",
                         "lineBreak": false
                     },
@@ -235,25 +173,52 @@
                         "boundingPoly": {
                             "vertices": [
                                 {
-                                    "x": 94.0,
-                                    "y": 92.0
+                                    "x": 185.0,
+                                    "y": 76.0
                                 },
                                 {
-                                    "x": 151.0,
-                                    "y": 91.0
+                                    "x": 264.0,
+                                    "y": 76.0
                                 },
                                 {
-                                    "x": 151.0,
-                                    "y": 122.0
+                                    "x": 264.0,
+                                    "y": 105.0
                                 },
                                 {
-                                    "x": 95.0,
-                                    "y": 123.0
+                                    "x": 185.0,
+                                    "y": 105.0
                                 }
                             ]
                         },
-                        "inferText": "금지",
+                        "inferText": "클리닝",
                         "inferConfidence": 1.0,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 281.0,
+                                    "y": 73.0
+                                },
+                                {
+                                    "x": 369.0,
+                                    "y": 81.0
+                                },
+                                {
+                                    "x": 366.0,
+                                    "y": 113.0
+                                },
+                                {
+                                    "x": 278.0,
+                                    "y": 104.0
+                                }
+                            ]
+                        },
+                        "inferText": "가능\",",
+                        "inferConfidence": 0.9597,
                         "type": "NORMAL",
                         "lineBreak": true
                     },
@@ -262,25 +227,79 @@
                         "boundingPoly": {
                             "vertices": [
                                 {
-                                    "x": 0.0,
-                                    "y": 185.0
+                                    "x": 73.0,
+                                    "y": 124.0
                                 },
                                 {
-                                    "x": 62.0,
-                                    "y": 185.0
+                                    "x": 169.0,
+                                    "y": 124.0
                                 },
                                 {
-                                    "x": 62.0,
-                                    "y": 222.0
+                                    "x": 169.0,
+                                    "y": 152.0
                                 },
                                 {
-                                    "x": 0.0,
-                                    "y": 222.0
+                                    "x": 73.0,
+                                    "y": 152.0
                                 }
                             ]
                         },
-                        "inferText": "또는",
-                        "inferConfidence": 1.0,
+                        "inferText": "\"다림질",
+                        "inferConfidence": 0.9995,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 184.0,
+                                    "y": 124.0
+                                },
+                                {
+                                    "x": 252.0,
+                                    "y": 124.0
+                                },
+                                {
+                                    "x": 252.0,
+                                    "y": 152.0
+                                },
+                                {
+                                    "x": 184.0,
+                                    "y": 152.0
+                                }
+                            ]
+                        },
+                        "inferText": "가능\"",
+                        "inferConfidence": 0.9985,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 15.0,
+                                    "y": 175.0
+                                },
+                                {
+                                    "x": 28.0,
+                                    "y": 175.0
+                                },
+                                {
+                                    "x": 28.0,
+                                    "y": 198.0
+                                },
+                                {
+                                    "x": 15.0,
+                                    "y": 198.0
+                                }
+                            ]
+                        },
+                        "inferText": "]",
+                        "inferConfidence": 0.9959,
                         "type": "NORMAL",
                         "lineBreak": true
                     }
