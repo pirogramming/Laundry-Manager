@@ -3,7 +3,7 @@
     {
       "name": "코인워시24 신촌점",
       "address": "서울 마포구 신촌로12다길 11 광명빌",
-      "phone_number": "02-3141-8289",
+      "phone": "02-3141-8289",
       "hours": true,
       "rating": false,
       "self": true,
@@ -13,7 +13,7 @@
     { 
       "name": "워시스토리 셀프빨래방 연희연세대점",
       "address": "서울 서대문구 성산로 381",
-      "phone_number": "0507-1322-9316",
+      "phone": "0507-1322-9316",
       "hours": true,
       "rating": false,
       "self": true,
@@ -23,7 +23,7 @@
     {
       "name": "MONTUNO 셀프빨래방 & 프린트",
       "address": "서울 마포구 신촌로12다길 11 광명빌",
-      "phone_number": "02-3141-8289",
+      "phone": "02-3141-8289",
       "hours": true,
       "rating": false,
       "self": true,
@@ -33,7 +33,7 @@
     { 
       "name": "워시팡팡 무인셀프빨래방 이대점",
       "address": "서울 서대문구 이화여대3길 27 1층 101호",
-      "phone_number": "0507-1367-3067",
+      "phone": "0507-1367-3067",
       "hours": true,
       "rating": false,
       "self": true,
@@ -43,7 +43,7 @@
     {
       "name": "버블맨24 신촌역점",
       "address": "서울 서대문구 연세로2마길 12",
-      "phone_number": "0507-1376-3627",
+      "phone": "0507-1376-3627",
       "hours": true,
       "rating": 5,
       "self": true,
@@ -53,7 +53,7 @@
     {
       "name": "런드리익스프레스샵 신촌점",
       "address": "서울 마포구 신촌로12다길 20 1층",
-      "phone_number": "0507-1312-3860",
+      "phone": "0507-1312-3860",
       "hours": true,
       "rating": false,
       "self": true,
@@ -63,7 +63,7 @@
     {
       "name": "화이트365 신촌점",
       "address": "서울 서대문구 연세로4길 54",
-      "phone_number": "0507-1404-4165",
+      "phone": "0507-1404-4165",
       "hours": true,
       "rating": false,
       "self": true,
@@ -73,7 +73,7 @@
     {
       "name": "에코런드렛 빨래방&아이스크림 신촌점",
       "address": "서울 마포구 백범로 8 우정마샹스오피스텔 1층 103호",
-      "phone_number": "0507-1410-1399",
+      "phone": "0507-1410-1399",
       "hours": true,
       "rating": 4.85,
       "self": true,
@@ -83,7 +83,7 @@
     {
       "name": "연대빨래방",
       "address": "서울 마포구 신촌로24길 4 1층",
-      "phone_number": "0507-1478-2089",
+      "phone": "0507-1478-2089",
       "hours": true,
       "rating": false,
       "self": true,
@@ -93,7 +93,7 @@
     {
       "name": "런드리데이 신촌점",
       "address": "서울 서대문구 연세로7안길 53",
-      "phone_number": "010-6419-2930",
+      "phone": "010-6419-2930",
       "hours": true,
       "rating": false,
       "self": true,
@@ -103,7 +103,7 @@
     {
       "name": "런드리익스프레스샵 x 스너글 신촌대현점",
       "address": "서울 서대문구 연세로2길 89 1층",
-      "phone_number": "1577-2871",
+      "phone": "1577-2871",
       "hours": true,
       "rating": false,
       "self": true,
@@ -113,7 +113,7 @@
     {
       "name": "런드리익스프레스샵 신촌창천스쿨점",
       "address": "서울 마포구 노고산동 고산길 68 1층",
-      "phone_number": "1577-2871",
+      "phone": "1577-2871",
       "hours": true,
       "rating": false,
       "self": true,
@@ -123,7 +123,7 @@
     {
       "name": "워시프레쉬 신촌점",
       "address": "서울 서대문구 연세로2가길 4 2층",
-      "phone_number": "0507-1422-0821",
+      "phone": "0507-1422-0821",
       "hours": true,
       "rating": false,
       "self": true,
@@ -133,7 +133,7 @@
     {
       "name": "세탁풍경 창천점",
       "address": "서울 서대문구 창천동 4-29",
-      "phone_number": "010-3903-2936",
+      "phone": "010-3903-2936",
       "hours": true,
       "rating": false,
       "self": true,
@@ -144,7 +144,7 @@
     {
       "name": "버블맨24 홍대점",
       "address": "서울 마포구 와우산로30길 3 1층 버블맨 24 홍대점",
-      "phone_number": "010-8694-9244",
+      "phone": "010-8694-9244",
       "hours": true,
       "rating": false,
       "self": true,
@@ -154,7 +154,7 @@
     {
       "name": "런드리익스프레스샵 x 스너글 이대점",
       "address": "서울 서대문구 이화여대5길 35 1층",
-      "phone_number": "1577-2871",
+      "phone": "1577-2871",
       "hours": true,
       "rating": false,
       "self": true,
@@ -164,7 +164,7 @@
     {
       "name": "에코런드렛 이대점",
       "address": "서울 서대문구 이화여대3길 29 102호",
-      "phone_number": "0507-1331-3179",
+      "phone": "0507-1331-3179",
       "hours": true,
       "rating": false,
       "self": true,
@@ -174,7 +174,7 @@
     {
       "name": "큐브워시 이대점",
       "address": "서울 서대문구 이화여대5길 32 1층 101호",
-      "phone_number": "0507-1444-4223",
+      "phone": "0507-1444-4223",
       "hours": true,
       "rating": false,
       "self": true,
@@ -184,7 +184,7 @@
     {
       "name": "런드리샵 홍대점",
       "address": "서울 마포구 신촌로2안길 44 1층 1호",
-      "phone_number": "0507-1442-3966",
+      "phone": "0507-1442-3966",
       "hours": true,
       "rating": false,
       "self": true,
@@ -194,7 +194,7 @@
     {
       "name": "런드리24 신촌숲아이파크",
       "address": "서울 마포구 광성로 17 신촌숲아이파크 106동 지하1층 커뮤니티센터 내",
-      "phone_number": "1544-4335",
+      "phone": "1544-4335",
       "hours": true,
       "rating": false,
       "self": true,
@@ -204,7 +204,7 @@
     {
       "name": "크린토피아 신촌포스빌점",
       "address": "서울 마포구 신촌로 150",
-      "phone_number": "02-711-8182",
+      "phone": "02-711-8182",
       "rating": 4.7,
       "self": false,
       "dry_cleaning":true,
@@ -227,7 +227,7 @@
     {
       "name": "우리옷수선 운동화이불빨래방",
       "address": "서울 서대문구 신촌로11길 37 101호",
-      "phone_number": "02-324-8284",
+      "phone": "02-324-8284",
       "rating": false,
       "self": false,
       "dry_cleaning":true,
@@ -248,7 +248,7 @@
     {
       "name": "크린토피아 서강대점",
       "address": "서울 마포구 백범로 28 제2서강빌딩",
-      "phone_number": "02-718-0022",
+      "phone": "02-718-0022",
       "rating": 4.26,
       "self": false,
       "dry_cleaning":true,
@@ -269,7 +269,7 @@
     {
       "name": "그랑자이세탁소",
       "address": "서울 마포구 대흥로 175 마포그랑자이 상가 4동 1층",
-      "phone_number": "02-706-3351",
+      "phone": "02-706-3351",
       "rating": 4.08,
       "self": false,
       "dry_cleaning":true,
@@ -290,7 +290,7 @@
     {
       "name": "조양세탁소",
       "address": "서울 서대문구 신촌로9길 8",
-      "phone_number": "0507-1397-1200",
+      "phone": "0507-1397-1200",
       "rating": false,
       "self": false,
       "dry_cleaning":true,
@@ -313,7 +313,7 @@
     {
       "name": "화이트365 건대후문점",
       "address": "서울 광진구 능동로16길 54",
-      "phone_number": "010-2446-0365",
+      "phone": "010-2446-0365",
       "hours": true,
       "rating": 4.75,
       "self": true,
@@ -323,7 +323,7 @@
     {
       "name": "화이트365 구의초점",
       "address": "서울 광진구 광나루로30나길 14 1층",
-      "phone_number": "010-2446-0365",
+      "phone": "010-2446-0365",
       "hours": true,
       "rating": 4.4,
       "self": true,
@@ -333,7 +333,7 @@
     {
       "name": "워시피플 셀프빨래방 광진구화양동점",
       "address": "서울 광진구 동일로 178 1층 108호",
-      "phone_number": "010-9381-2432",
+      "phone": "010-9381-2432",
       "hours": true,
       "rating": 4.82,
       "self": true,
@@ -343,7 +343,7 @@
     {
       "name": "워시피플 셀프빨래방 광진구화양동점",
       "address": "서울 광진구 동일로 178 1층 108호",
-      "phone_number": "010-9381-2432",
+      "phone": "010-9381-2432",
       "hours": true,
       "rating": 4.65,
       "self": true,
@@ -353,7 +353,7 @@
     {
       "name": "런드리익스프레스 x 바른생각 건대점",
       "address": "서울 광진구 능동로13길 84",
-      "phone_number": "070-5118-0541",
+      "phone": "070-5118-0541",
       "hours": true,
       "rating": 4.8,
       "self": true,
@@ -363,7 +363,7 @@
     {
       "name": "코인워시365 광진아크로텔점",
       "address": "서울 광진구 아차산로 355 107호",
-      "phone_number": "010-2088-3084",
+      "phone": "010-2088-3084",
       "hours": true,
       "rating": 4.7,
       "self": true,
@@ -373,7 +373,7 @@
     {
       "name": "런드리익스프레스샵 구의점",
       "address": "서울 광진구 아차산로49길 36 1층",
-      "phone_number": "070-5118-0541",
+      "phone": "070-5118-0541",
       "hours": true,
       "rating": 4.6,
       "self": true,
@@ -383,7 +383,7 @@
     {
       "name": "샤인워시 화양점",
       "address": "서울 광진구 능동로17길 18 지층",
-      "phone_number": "0507-1377-8737",
+      "phone": "0507-1377-8737",
       "hours": true,
       "rating": 4.78,
       "self": true,
@@ -393,7 +393,7 @@
     {
       "name": "버블맨24 건대점",
       "address": "서울 광진구 동일로30길 41 . 1층(화양동)",
-      "phone_number": "0507-1344-6941",
+      "phone": "0507-1344-6941",
       "hours": true,
       "rating": 4.85,
       "self": true,
@@ -403,7 +403,7 @@
     {
       "name": "워시프렌즈 셀프빨래방 건대자양점",
       "address": "서울 광진구 능동로 69 자양호반써밋 지하1층 셀프빨래방",
-      "phone_number": "070-7107-3230",
+      "phone": "070-7107-3230",
       "hours": true,
       "rating": 4.5,
       "self": true,
@@ -413,7 +413,7 @@
     {
       "name": "워시유니버스 화양점",
       "address": "서울 광진구 능동로19길 35 광진코지웰 1층 102-2호",
-      "phone_number": "0507-1370-5830",
+      "phone": "0507-1370-5830",
       "hours": true,
       "rating": 4.72,
       "self": true,
@@ -423,7 +423,7 @@
     {
       "name": "워시프레쉬 빌리브24시 셀프빨래방",
       "address": "서울특별시 광진구 능동로 172 빌리브 인테라스 104호 셀프빨래방",
-      "phone_number": "010-9260-1751",
+      "phone": "010-9260-1751",
       "hours": true,
       "rating": 4.55,
       "self": true,
@@ -433,7 +433,7 @@
     {
       "name": "코인워시 자양동셀프빨래방",
       "address": "서울 광진구 동일로16길 14",
-      "phone_number": "02-498-8832",
+      "phone": "02-498-8832",
       "hours": true,
       "rating": 4.9,
       "self": true,
@@ -443,7 +443,7 @@
     {
       "name": "24시셀프빨래방 건대점",
       "address": "서울 광진구 아차산로42길 58",
-      "phone_number": "0507-1417-0037",
+      "phone": "0507-1417-0037",
       "hours": true,
       "rating": 4.4,
       "self": true,
@@ -453,7 +453,7 @@
     {
       "name": "워시팡팡 셀프빨래방 광진점",
       "address": "서울 광진구 아차산로42길 58",
-      "phone_number": "0507-1417-0037",
+      "phone": "0507-1417-0037",
       "hours": true,
       "rating": 4.88,
       "self": true,
@@ -463,7 +463,7 @@
     {
       "name": "버블맨24 자양점 셀프빨래방",
       "address": "서울 광진구 자양로13길 27 1층 버블맨24 자양점",
-      "phone_number": "0507-1421-1140",
+      "phone": "0507-1421-1140",
       "hours": true,
       "rating": 4.62,
       "self": true,
@@ -473,7 +473,7 @@
     {
       "name": "24시셀프빨래방 화이트365 군자점",
       "address": "서울 광진구 아차산로 492",
-      "phone_number": "0507-1361-7752",
+      "phone": "0507-1361-7752",
       "hours": true,
       "rating": 4.76,
       "self": true,
@@ -483,7 +483,7 @@
     {
       "name": "워시앤클린 자양점",
       "address": "서울 광진구 자양로13가길 7",
-      "phone_number": "010-2678-4769",
+      "phone": "010-2678-4769",
       "hours": true,
       "rating": 4.52,
       "self": true,
@@ -493,7 +493,7 @@
     {
       "name": "런드리24 건대하이뷰점",
       "address": "서울 광진구 광나루로 386 하이뷰오피스텔 2층 206호",
-      "phone_number": "1544-4335",
+      "phone": "1544-4335",
       "hours": true,
       "rating": 4.6,
       "self": true,
@@ -503,7 +503,7 @@
     {
       "name": "워시엔조이 건대자양점",
       "address": "서울 광진구 아차산로40길 41",
-      "phone_number": "0507-1332-9038",
+      "phone": "0507-1332-9038",
       "hours": true,
       "rating": 4.8,
       "self": true,
@@ -513,7 +513,7 @@
     {
       "name": "크린토피아 우성7차점",
       "address": "서울 광진구 아차산로36길 35 우성7차아파트 상가 109동",
-      "phone_number": "02-452-2304",
+      "phone": "02-452-2304",
       "rating": 4.27,
       "self": false,
       "dry_cleaning":true,
@@ -534,7 +534,7 @@
     {
       "name": "크린토피아 광진자양우성점",
       "address": "서울 광진구 능동로 172 빌리브 인테라스",
-      "phone_number": "02-458-7986",
+      "phone": "02-458-7986",
       "rating": 4.42,
       "self": false,
       "dry_cleaning":true,
@@ -555,7 +555,7 @@
     {
       "name": "월드크리닝 광진화양점",
       "address": "서울 광진구 동일로30길 32 1층",
-      "phone_number": "0507-1479-4411",
+      "phone": "0507-1479-4411",
       "rating": 4.47,
       "self": false,
       "dry_cleaning":true,
@@ -576,7 +576,7 @@
     {
       "name": "크린토피아 화양점",
       "address": "서울 광진구 아차산로21길 60",
-      "phone_number": "02-468-5578",
+      "phone": "02-468-5578",
       "rating": 4.27,
       "self": false,
       "dry_cleaning":true,
@@ -597,7 +597,7 @@
     {
       "name": "한아름빨래방",
       "address": "서울 광진구 능동로13길 46",
-      "phone_number": "0507-1375-7116",
+      "phone": "0507-1375-7116",
       "rating": 4.61,
       "self": false,
       "dry_cleaning":true,

@@ -143,6 +143,7 @@ function processNextAddress(index) {
 </html>
 -->
 
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -241,3 +242,106 @@ function processNextAddress(index) {
     </script>
 </body>
 </html>
+
+
+<!--영업중 세탁소만
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>영업 중인 세탁소 지도</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            padding-left: 20px;
+        }
+        #map {
+            width: 100%;
+            height: 85%; 
+        }
+    </style>
+    <script type="text/javascript" 
+      src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId={{ naver_map_client_key }}&submodules=geocoder"></script>
+</head>
+<body>
+    <h1>현재 영업 중인 세탁소</h1>
+    <div id="map"></div>
+
+    {{ laundromats_data|json_script:"locations-data" }}
+
+    <script>
+        var map; // 지도 전역 변수
+
+        // 페이지가 로드되면 바로 지도를 초기화합니다.
+        window.onload = initMap;
+
+        function initMap() {
+            map = new naver.maps.Map('map', {
+                center: new naver.maps.LatLng(37.552, 126.980),
+                zoom: 12
+            });
+
+            try {
+                // 템플릿에 삽입된 데이터를 가져옵니다. (이미 필터링된 상태)
+                const locations = JSON.parse(document.getElementById('locations-data').textContent);
+                console.log("서버에서 필터링된 영업 중인 세탁소:", locations);
+
+                // sinchon 지역 데이터 처리
+                if (locations && locations.sinchon) {
+                    processLocationList(locations.sinchon, '신촌');
+                }
+
+                // kondae 지역 데이터 처리
+                if (locations && locations.kondae) {
+                    processLocationList(locations.kondae, '건대');
+                }
+            } catch (e) {
+                console.error("데이터 파싱 또는 처리 중 오류:", e);
+                alert("세탁방 데이터를 처리하는 중 오류가 발생했습니다. 콘솔을 확인해주세요.");
+            }
+        }
+
+        // 아래 함수들은 수정할 필요가 없습니다.
+        function processLocationList(locationList, regionName) {
+            locationList.forEach((item) => {
+                if (item.latitude && item.longitude) {
+                    // TM128 좌표계(x: 경도, y: 위도)를 사용합니다.
+                    const point = new naver.maps.Point(item.longitude, item.latitude);
+                    createMarker(point, item);
+                } else if (item.address) {
+                    naver.maps.Service.geocode({ query: item.address }, (status, response) => {
+                        if (status === naver.maps.Service.Status.OK && response.v2.addresses.length > 0) {
+                            const point = new naver.maps.Point(response.v2.addresses[0].x, response.v2.addresses[0].y);
+                            createMarker(point, item);
+                        } else {
+                            console.error(`지오코딩 실패: ${item.address} (${regionName})`);
+                        }
+                    });
+                }
+            });
+        }
+
+        function createMarker(point, item) {
+            const marker = new naver.maps.Marker({
+                map: map,
+                position: point,
+                title: item.name
+            });
+
+            const infoWindow = new naver.maps.InfoWindow({
+                content: `<div style="padding:10px; font-weight:bold; font-size:14px;">${item.name}</div>`
+            });
+
+            naver.maps.Event.addListener(marker, 'click', () => {
+                infoWindow.open(map, marker);
+            });
+        }
+    </script>
+</body>
+</html>
+-->
