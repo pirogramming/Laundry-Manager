@@ -27,7 +27,7 @@
 
         <form method="get" action="{% url 'dictionary' %}" class="search-bar">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" name="query" placeholder="니트 세탁법" value="{{ query|default:'' }}">
+            <input type="text" name="query" placeholder="검색해주세요" value="{{ query|default:'' }}">
             <button type="submit" style="display: none;"></button>
         </form>
 
@@ -61,7 +61,7 @@
                 {% if query and is_category_query %}
                 {% for items in dictionary_data.values %}
                 {% for item in items %}
-                <div class="info-grid-item" onclick="showDetailCard('{{ item.json_data|escapejs }}')">
+                <a href="{% url 'dictionary_detail' item_title=item.title|urlencode %}" class="info-grid-item">
                     {% if item.image_url %}
                     <img src="{{ item.image_url }}" alt="{{ item.title }}">
                     {% endif %}
@@ -69,7 +69,7 @@
                         <h4>{{ item.title }}</h4>
                         <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
                     </div>
-                </div>
+                </a>
                 {% empty %}
                 <p>해당 게시판에 내용이 없습니다.</p>
                 {% endfor %}
@@ -79,20 +79,21 @@
                 {% for category_name, items in dictionary_data.items %}
                 <div class="category">
                     <h4>{{ category_name }}</h4>
-                    {% for item in items %}
-                    <div class="info-grid-item" onclick="showDetailCard('{{ item.json_data|escapejs }}')">
-                        {% if item.image_url %}
-                        <img src="{{ item.image_url }}" alt="{{ item.title }}">
-                        {% endif %}
-                        <div class="item-content">
-                            <h4>{{ item.title }}</h4>
-                            {% if item.description %}<p>{{ item.description|truncatechars:50 }}</p>{% endif %}
-                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
-                        </div>
+                    <div class="all-items">
+                        {% for item in items %}
+                        <a href="{% url 'dictionary_detail' item_title=item.title|urlencode %}" class="info-grid-item">
+                            {% if item.image_url %}
+                            <img src="{{ item.image_url }}" alt="{{ item.title }}">
+                            {% endif %}
+                            <div class="item-content">
+                                <h4>{{ item.title }}</h4>
+                                <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                            </div>
+                        </a>
+                        {% empty %}
+                        <p>해당 카테고리에서 검색 결과가 없습니다.</p>
+                        {% endfor %}
                     </div>
-                    {% empty %}
-                    <p>해당 카테고리에서 검색 결과가 없습니다.</p>
-                    {% endfor %}
                 </div>
                 {% empty %}
                 <p>검색 결과가 없습니다.</p>
@@ -102,25 +103,46 @@
                 {% for category_name, items in dictionary_data.items %}
                 <div class="category">
                     <h4>{{ category_name }}</h4>
-                    {% for item in items %}
-                    <div class="info-grid-item" onclick="showDetailCard('{{ item.json_data|escapejs }}')">
-                        {% if item.image_url %}
-                        <img src="{{ item.image_url }}" alt="{{ item.title }}">
-                        {% endif %}
-                        <div class="item-content">
-                            <h4>{{ item.title }}</h4>
-                            {% if item.description %}<p>{{ item.description|truncatechars:50 }}</p>{% endif %}
-                            <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
-                        </div>
+                    <div class="all-items">
+                        {% for item in items %}
+                        <a href="{% url 'dictionary_detail' item_title=item.title|urlencode %}" class="info-grid-item">
+                            {% if item.image_url %}
+                            <img src="{{ item.image_url }}" alt="{{ item.title }}">
+                            {% endif %}
+                            <div class="item-content">
+                                <h4>{{ item.title }}</h4>
+                                <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                            </div>
+                        </a>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                 </div>
                 {% endfor %}
                 {% endif %}
             </div>
         </section>
+        <nav class="bottom-nav">
+            <a href="{% url 'main' %}" class="nav-item">
+                <i class="fa-solid fa-house"></i>
+                <span>메인 화면</span>
+            </a>
+            <a href="{% url 'map' %}" class="nav-item">
+                <i class="fa-solid fa-map-location-dot"></i>
+                <span>지도</span>
+            </a>
+            <a href="{% url 'laundry-upload' %}" class="nav-item-main">
+                <i class="fa-solid fa-camera"></i>
+            </a>
+            <a href="{% url 'dictionary' %}" class="nav-item active">
+                <i class="fa-solid fa-book-open"></i>
+                <span>백과사전</span>
+            </a>
+            <a href="{% url 'profile' %}" class="nav-item">
+                <i class="fa-solid fa-gear"></i>
+                <span>더보기</span>
+            </a>
+        </nav>
     </div>
-
     <div id="detailOverlay" class="detail-overlay" onclick="closeDetailCard(event)">
         <div class="detail-card">
             <button class="close-button" onclick="closeDetailCard()">✖</button>
@@ -128,65 +150,11 @@
             <div id="detailContent"></div>
         </div>
     </div>
-
+    
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
     <script>
-        const KEY_MAP = {
-            'description': '설명',
-            'content': '상세 내용',
-            'Washing_Steps': '세탁 단계',
-            'tip': '팁',
-            'not_to_do': '주의 사항',
-            'Other_Information': '기타 정보'
-        };
-
-        function showDetailCard(json_data_str) {
-            const item = JSON.parse(json_data_str);
-            document.getElementById('cardTitle').innerText = item.title;
-
-            const detailContent = document.getElementById('detailContent');
-            detailContent.innerHTML = '';
-
-            for (const key in KEY_MAP) {
-                if (item.hasOwnProperty(key)) {
-                    const value = item[key];
-                    const section = document.createElement('div');
-                    section.className = 'detail-content-section';
-                    section.innerHTML = `<h5>${KEY_MAP[key]}</h5>`;
-
-                    if (Array.isArray(value)) {
-                        const ul = document.createElement('ul');
-                        value.forEach(text => {
-                            const li = document.createElement('li');
-                            li.innerText = text;
-                            ul.appendChild(li);
-                        });
-                        section.appendChild(ul);
-                    } else if (typeof value === 'object') {
-                        for (const subKey in value) {
-                            const p = document.createElement('p');
-                            p.innerText = `${subKey}: ${value[subKey]}`;
-                            section.appendChild(p);
-                        }
-                    } else {
-                        const p = document.createElement('p');
-                        p.innerText = value;
-                        section.appendChild(p);
-                    }
-                    detailContent.appendChild(section);
-                }
-            }
-            document.getElementById('detailOverlay').style.display = 'flex';
-        }
-
-        function closeDetailCard(event) {
-            if (event && event.target.closest('.detail-card')) {
-                return;
-            }
-            document.getElementById('detailOverlay').style.display = 'none';
-        }
-
+        // 팝업 관련 JavaScript 함수들을 모두 삭제합니다.
         const swiper = new Swiper('.popular-swiper', {
             loop: true,
             pagination: {
@@ -200,9 +168,7 @@
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
-
     <script type="module" src="{% static 'laundry_manager/dictionary-script.js' %}"></script>
 </body>
 

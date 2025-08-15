@@ -1,0 +1,151 @@
+/* stain-info.html 페이지 전용 스타일 (개선 완료) */
+
+.page-container {
+    position: relative; width: 100%; max-width: 420px; height: 100vh;
+    margin: 0 auto; 
+    background-color: var(--color-primary);
+    display: flex; flex-direction: column; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+.content-wrapper {
+    flex-grow: 1; overflow-y: auto; padding-bottom: 85px;
+}
+.content-wrapper::-webkit-scrollbar { display: none; }
+
+/* --- 상단 파란색 헤더 --- */
+.info-header {
+    background-color: var(--color-primary); color: var(--color-container);
+    padding: 15px 20px 25px; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px;
+}
+.info-header .top-nav {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+}
+.top-nav h1{ font-size: 18px; font-weight: 700; }
+.info-header .icon-btn, .info-header .text-btn {
+    background: none; border: none; color: var(--color-container); 
+    cursor: pointer; font-size: 14px; text-decoration: none;
+}
+.info-header .text-btn { opacity: 0.8; }
+.laundry-item-title p { font-size: 14px; opacity: 0.8; margin-bottom: 8px; }
+.laundry-item-title h2 { font-size: 32px; font-weight: 700; }
+
+/* --- 메인 콘텐츠 --- */
+.info-content { 
+    padding: 20px; 
+    background-color: white;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    margin-top: -20px; position: relative; z-index: 10;
+}
+.card {
+    background-color: var(--color-container); border-radius: 20px;
+    padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.card > h3 { 
+    font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--color-text-primary); 
+    display: flex; align-items: center;
+}
+
+/* --- 얼룩 제거 과정 (디자인 개선) --- */
+.process-guide h3::after { /* 제목 옆 장식선 */
+    content: '';
+    display: inline-block;
+    width: 100px;
+    height: 1px;
+    background: linear-gradient(to right, #e0e0e0, transparent);
+    vertical-align: middle;
+    margin-left: 15px;
+}
+.process-steps {
+    display: flex; gap: 12px; overflow-x: auto; padding-bottom: 10px;
+    margin: 0 -20px; padding: 0 20px;
+}
+.process-steps::-webkit-scrollbar { display: none; }
+.step-item {
+    flex: 0 0 150px; background-color: var(--color-background);
+    border-radius: 15px; padding: 15px;
+}
+.step-number {
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 1.5px solid var(--color-primary); color: var(--color-primary);
+    display: flex; justify-content: center; align-items: center;
+    font-weight: 700; margin-bottom: 10px;
+}
+.step-item h4 { /* 소제목 스타일 추가 */
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--color-text-primary);
+}
+.step-item p { font-size: 14px; line-height: 1.5; color: var(--color-text-secondary); }
+
+/* --- 피해야 하는 얼룩 제거법 --- */
+.avoid-card { background-color: #E8F0FE; 
+    border:solid 0.01px var(--color-primary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.avoid-card h3 { color: var(--color-primary); display: flex; align-items: center; gap: 8px; }
+.avoid-card h3 i { font-size: 20px; }
+.avoid-card .avoid-item { display: flex; align-items: center; gap: 10px; }
+.avoid-card .avoid-item:not(:last-child) { margin-bottom: 10px; }
+.avoid-card .avoid-item i { color: var(--color-primary); }
+.avoid-card .avoid-item p { font-size: 14px; }
+
+/* --- 세탁 방법 팁 (아코디언 스타일) --- */
+.tips-header { display: flex; align-items: center; gap: 8px; margin-bottom: 15px; }
+.tips-header i { font-size: 20px; color: var(--color-primary); }
+.tips-header h3 { margin-bottom: 0; }
+
+.accordion-list .accordion-item:not(:last-child) { border-bottom: 1px solid var(--color-border); }
+.accordion-item summary {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 5px; cursor: pointer; list-style: none;
+}
+.accordion-item summary::-webkit-details-marker { display: none; }
+.summary-title { font-weight: 500; color: var(--color-text-primary); }
+.arrow-icon { color: var(--color-text-tertiary); transition: transform 0.3s ease; }
+.accordion-item[open] > summary .arrow-icon { transform: rotate(180deg); }
+.accordion-content {
+    padding: 0px 10px 20px 10px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+}
+
+/* --- 하단 고정 내비게이션 바 --- */
+.bottom-nav {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 85px; background-color:var(--color-container);
+    display: flex; justify-content: space-around; align-items: center;
+    border-top: 1px solid var(--color-border); flex-shrink: 0;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    z-index: 9999; 
+}
+.nav-item {
+    display: flex; flex-direction: column; align-items: center;
+    text-decoration: none; color: var(--color-text-nav); font-size: 12px;
+}
+.nav-item i { font-size: 22px; margin-bottom: 5px; }
+.nav-item-main {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    color: var(--color-container); width: 65px; height: 65px; border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    transform: translateY(-40%); box-shadow: 0 4px 12px rgba(74, 108, 255, 0.4);
+    border: 5px solid var(--color-container); cursor: pointer;
+}
+.nav-item-main i { font-size: 28px; }
+
+.submit-button {
+    width: 100%; 
+    background-color: var(--color-primary); 
+    color: var(--color-container);
+    padding: 16px; border-radius: 15px; 
+    font-size: 16px; font-weight: 700;
+    border: none; 
+    cursor: pointer;
+    margin-top: auto; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}

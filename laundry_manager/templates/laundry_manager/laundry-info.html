@@ -2,157 +2,211 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>세탁 정보 확인</title>
-    <link rel="stylesheet"href="{% static 'laundry_manager/style.css' %}"> 
-    <link rel="stylesheet" href="{% static 'laundry_manager/laundry-info-style.css' %}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>세탁 정보 확인</title>
+  <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}">
+  <link rel="stylesheet" href="{% static 'laundry_manager/laundry-info-style.css' %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
-    <div class="page-container">
-        <div class="content-wrapper">
-            <header class="info-header">
-                <nav class="top-nav">
-                    {% comment %} 여기다가 뒤로가기 버튼 추가 {% endcomment %}
-                    <a href="{% url 'result' %}"><button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button></a>
-                    <h1>당신의 세탁 가이드</h1>
-                </nav>
-                <div class="laundry-item-title">
-                    <p>세탁물 이름</p>
-                    <h2>{{ info.material }} / {{ info.stains }}</h2> <!--이것도 소재이름이랑 얼룩 이름 받아와야 할 듯-->
-                </div>
-            </header>
+  <div class="page-container">
+    <div class="content-wrapper">
 
-            <main class="info-content">
-                <section class="card summary-card">
-                    <h3><img src="https://img.icons8.com/?size=100&id=rYb1JFR9WLSh&format=png&color=2445EF" alt="아이콘" class="ai-icon"> 최적 세탁법 요약 <span></span></h3>
-                    <div class="icon-info-group">
-                        
-                        <div class="icon-info">
-                            <h4> 1. 세탁법 요약</h4>
-                            <img src="https://cdn.imweb.me/upload/S201901035c2d8ed49b6e0/1b6f785db5f68.jpeg" alt="세탁 태그" class="laundry-tag-img">
-                            <div class="icon-info-text">
-                                <i class="fa-solid fa-check-circle check-icon"></i>
-                                <span> 드라이클리닝 필수</span>
-                            </div>
-                        </div>
-                        <div class="icon-info">
-                            <h4> 2. 건조법 요약</h4>
-                            <img src="https://image.zdnet.co.kr/2020/06/25/hyeming_tNKPjMHKHeyL.jpg" alt="세탁 태그" class="laundry-tag-img">
-                            <div class="icon-info-text">
-                                <i class="fa-solid fa-ban ban-icon"></i>
-                                <span> 건조기 사용 금지</span>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="stain-info"><strong>3. 얼룩 제거법 요약 :</strong> 미온수 + 중성세제 사전 제거</p>
+      <header class="info-header">
+        <nav class="top-nav">
+          <a href="{% url 'result' %}"><button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button></a>
+          <h1>당신의 세탁 가이드</h1>
+        </nav>
 
-                </section>
-
-                <section class="card avoid-card">
-                    <h3><i class="fa-solid fa-triangle-exclamation"></i> 피해야 하는 세탁법</h3>
-
-                    {% if material.warning %}
-                    <div class="avoid-item">
-                        <i class="fa-solid fa-circle-exclamation"></i>
-                        <p>{{ material.warning }}</p>
-                    </div>
-                    {% endif %}
-
-                    {% if stain.Not_to__do %}
-                    <div class="avoid-item">
-                        <i class="fa-solid fa-circle-exclamation"></i>
-                        <p>{{ stain.Not_to__do }}</p>
-                    </div>
-                    {% endif %}
-                </section>
-
-                <section class="card accordion-guide">
-                    <h3>단계별 상세 가이드</h3>
-                    <details class="accordion-item">
-                        <summary>
-                            <div class="summary-icon" style="background-color: #E8F0FE;"><i class="fa-solid fa-hand-sparkles" style="color: #4A6CFF;"></i></div>
-                            <div class="summary-text">
-                                <h4>얼룩 제거 방법</h4>
-                                <p>{{ info.stains }}</p>
-                            </div>
-                            <i class="fa-solid fa-chevron-down arrow-icon"></i>
-                        </summary>
-                        <div class="accordion-content">
-                            <p>{{ stain.Washing_Steps|linebreaks }}</p>
-                        </div>
-                    </details>
-                    <details class="accordion-item">
-                        <summary>
-                            <div class="summary-icon" style="background-color: #E6F8F2;"><i class="fa-solid fa-lightbulb" style="color: #00BFA6;"></i></div>
-                            <div class="summary-text">
-                                <h4>세탁 방법</h4>
-                                <p>{{ info.material }}</p>
-                            </div>
-                            <i class="fa-solid fa-chevron-down arrow-icon"></i>
-                        </summary>
-                        <div class="accordion-content">
-                            <p>{{ material.description }}</p>
-                            {% if symbols %}
-                                <ul>
-                                {% for desc in symbols %}
-                                    <li>{{ desc }}</li>
-                                {% endfor %}
-                                </ul>
-                            {% endif %}
-                        </div>
-                    </details>
-                    <details class="accordion-item">
-                        <summary>
-                            <div class="summary-icon" style="background-color: #FEF4E8;"><i class="fa-solid fa-droplet" style="color: #FF8A00"></i></div>
-                            <div class="summary-text">
-                                <h4>건조 방법</h4>
-                                <p>W-346961 • Jul 1, 2025</p>
-                            </div>
-                            <i class="fa-solid fa-chevron-down arrow-icon"></i>
-                        </summary>
-                        <div class="accordion-content">
-                            <p>건조 방법에 대한 상세 내용이 여기에 표시됩니다.</p>
-                        </div>
-                    </details>
-                </section>
-
-                <section class="card scope-card">
-                    <h3>가능한 세탁 범위</h3>
-                    <div class="scope-chips">
-                        <button class="chip active">#드럼세탁기_울코스</button>
-                        <button class="chip">#손세탁</button>
-                        <button class="chip">#중성세제만</button>
-                        <button class="chip">#미온수(30°C)</button>
-                        <button class="chip">#자연건조</button>
-                    </div>
-                    <div class="scope-info">
-                        <P>뭐가 가능한 지 알려드림</P>
-                    </div>
-                </section>
-
-                <a href="{% url 'dictionary' %}" class="dictionary-link">
-                    <span>세탁 백과사전으로 가기</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-            </main>
+        <div class="laundry-item-title">
+          <p>세탁물 이름</p>
+          <h2>
+            {{ material.name|default:info.material }}
+            {% if info.stains %} / {{ info.stains }}{% endif %}
+          </h2>
         </div>
+      </header>
+
+      <main class="info-content">
+
+        <!-- 최적 요약 -->
+        <section class="card summary-card">
+          <h3>
+            <img src="https://img.icons8.com/?size=100&id=rYb1JFR9WLSh&format=png&color=2445EF" alt="아이콘" class="ai-icon">
+            최적 세탁법 요약
+          </h3>
+          <div class="icon-info-group">
+            <div class="icon-info">
+              <h4>1. 세탁법 요약</h4>
+              <img src="https://cdn.imweb.me/upload/S201901035c2d8ed49b6e0/1b6f785db5f68.jpeg" alt="세탁 태그" class="laundry-tag-img">
+              <div class="icon-info-text">
+                <i class="fa-solid fa-check-circle check-icon"></i>
+                <span>
+                  {% if summary and summary.wash %}{{ summary.wash }}
+                  {% elif material.description %}{{ material.description }}
+                  {% else %}정보 없음{% endif %}
+                </span>
+              </div>
+            </div>
+
+            <div class="icon-info">
+              <h4>2. 건조법 요약</h4>
+              <img src="https://image.zdnet.co.kr/2020/06/25/hyeming_tNKPjMHKHeyL.jpg" alt="세탁 태그" class="laundry-tag-img">
+              <div class="icon-info-text">
+                <i class="fa-solid fa-ban ban-icon"></i>
+                <span>
+                  {% if summary and summary.dry %}{{ summary.dry }}
+                  {% else %}정보 없음{% endif %}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <p class="stain-info">
+            <strong>3. 얼룩 제거법 요약 :</strong>
+            {% if summary and summary.stain %}{{ summary.stain }}{% else %}정보 없음{% endif %}
+          </p>
+        </section>
+
+        <!-- 피해야 하는 세탁법 -->
+        <section class="card avoid-card">
+          <h3><i class="fa-solid fa-triangle-exclamation"></i> 피해야 하는 세탁법</h3>
+
+          {% if material.warning %}
+            <div class="avoid-item">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              <p>{{ material.warning }}</p>
+            </div>
+          {% endif %}
+
+          {% if stain.Not_to__do %}
+            <div class="avoid-item">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              <p>{{ stain.Not_to__do }}</p>
+            </div>
+          {% elif stain.not_to_do %}
+            <div class="avoid-item">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              <p>{{ stain.not_to_do }}</p>
+            </div>
+          {% endif %}
+
+          {% if not material.warning and not stain.Not_to__do and not stain.not_to_do %}
+            <div class="avoid-item"><p>특별히 피해야 할 항목이 없습니다.</p></div>
+          {% endif %}
+        </section>
+
+        <!-- 단계별 상세 가이드 -->
+        <section class="card accordion-guide">
+          <h3>단계별 상세 가이드</h3>
+
+          <details class="accordion-item">
+            <summary>
+              <div class="summary-icon" style="background-color:#E8F0FE;">
+                <i class="fa-solid fa-hand-sparkles" style="color:#4A6CFF;"></i>
+              </div>
+              <div class="summary-text">
+                <h4>얼룩 제거 방법</h4>
+                <p>{{ info.stains }}</p>
+              </div>
+              <i class="fa-solid fa-chevron-down arrow-icon"></i>
+            </summary>
+            <div class="accordion-content">
+              <p>{{ stain.Washing_Steps|default:"해당 얼룩의 단계별 가이드를 찾을 수 없습니다."|linebreaks }}</p>
+            </div>
+          </details>
+
+          <details class="accordion-item">
+            <summary>
+              <div class="summary-icon" style="background-color:#E6F8F2;">
+                <i class="fa-solid fa-lightbulb" style="color:#00BFA6;"></i>
+              </div>
+              <div class="summary-text">
+                <h4>세탁 방법</h4>
+                <p>{{ material.name|default:info.material }}</p>
+              </div>
+              <i class="fa-solid fa-chevron-down arrow-icon"></i>
+            </summary>
+            <div class="accordion-content">
+              <p>{{ material.description|default:"소재별 세탁 설명이 없습니다." }}</p>
+              {% if symbols %}
+                <ul>
+                  {% for desc in symbols %}
+                    <li>{{ desc }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+          </details>
+
+          <details class="accordion-item">
+            <summary>
+              <div class="summary-icon" style="background-color:#FEF4E8;">
+                <i class="fa-solid fa-droplet" style="color:#FF8A00"></i>
+              </div>
+              <div class="summary-text">
+                <h4>건조 방법</h4>
+                <p>
+                  {% if summary and summary.dry %}{{ summary.dry }}{% else %}정보 없음{% endif %}
+                </p>
+              </div>
+              <i class="fa-solid fa-chevron-down arrow-icon"></i>
+            </summary>
+            <div class="accordion-content">
+              <p>건조 방법에 대한 상세 내용은 추후 기호/소재 규칙을 확장해 채워집니다.</p>
+            </div>
+          </details>
+        </section>
+
+        <!-- 백과사전 -->
+        <section class="card scope-card">
+          <h3>가능한 세탁 범위</h3>
+          <div class="scope-chips">
+            <button class="chip">#손세탁</button>
+            <button class="chip">#중성세제</button>
+            <button class="chip">#미온수(30°C)</button>
+            <button class="chip">#자연건조</button>
+          </div>
+          <div class="scope-info">
+            <p>세탁 범위는 소재/기호 룰셋 확장 시 자동으로 채워집니다.</p>
+          </div>
+        </section>
+
+        <a href="{% url 'dictionary' %}" class="dictionary-link">
+          <span>세탁 백과사전으로 가기</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </main>
+    </div>
 
         <nav class="bottom-nav">
-            <a href="{% url 'main' %}" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
-            <a href="{% url 'dictionary' %}" class="nav-item"><i class="fa-solid fa-book-open"></i><span>Dictionary</span></a>
-            <a href="{% url 'laundry-upload' %}" class="nav-item-main"><i class="fa-solid fa-camera"></i></a>
-            <a href="#" class="nav-item"><i class="fa-solid fa-credit-card"></i><span>Payment</span></a>
-            <a href="{% url 'profile' %}" class="nav-item"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+            <a href="{% url 'main' %}" class="nav-item">
+                <i class="fa-solid fa-house"></i>
+                <span>메인 화면</span>
+            </a>
+            <a href="{% url 'map' %}" class="nav-item">
+                <i class="fa-solid fa-map-location-dot"></i>
+                <span>지도</span>
+            </a>
+            <a href="{% url 'laundry-upload' %}" class="nav-item-main">
+                <i class="fa-solid fa-camera"></i>
+            </a>
+            <a href="{% url 'dictionary' %}" class="nav-item">
+                <i class="fa-solid fa-book-open"></i>
+                <span>백과사전</span>
+            </a>
+            <a href="{% url 'profile' %}" class="nav-item">
+                <i class="fa-solid fa-gear"></i>
+                <span>더보기</span>
+            </a>
         </nav>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
-    
-    <script type="module" src="{% static 'laundry_manager/laundry-info-script.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
+  <script type="module" src="{% static 'laundry_manager/laundry-info-script.js' %}"></script>
 </body>
 </html>

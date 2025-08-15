@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <title>Guide From Result — Dev Test</title>
+  <style>
+    body{font-family:system-ui, -apple-system, 'Noto Sans KR', sans-serif; padding:24px;}
+    fieldset{margin-bottom:24px; border:1px solid #ddd; padding:16px;}
+    legend{font-weight:700;}
+    label{display:inline-block; margin:6px 12px 6px 0;}
+    .row{margin:8px 0;}
+    button{padding:10px 16px; border:0; background:#2445EF; color:#fff; border-radius:8px; cursor:pointer;}
+    input[type=text], select{padding:8px 10px; border:1px solid #ccc; border-radius:6px;}
+    small{opacity:.6}
+  </style>
+</head>
+<body>
+  <h1>가이드 생성 테스트</h1>
+  <p>
+    이 폼은 <code>guide_from_result</code> 뷰로 <strong>POST</strong> 합니다.
+    값이 올바르게 매칭되면 <code>laundry_info.html</code>이 렌더되어야 합니다.
+  </p>
+
+  <form method="post" action="{% url 'guide_from_result' %}">
+    {% csrf_token %}
+
+    <fieldset>
+      <legend>의류 소재 (material)</legend>
+      <div class="row">
+        <!-- 자유 입력 -->
+        <input type="text" name="material" placeholder="예: 린넨" />
+        <small>※ blackup.json의 material 값과 맞춰주세요</small>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>얼룩 선택 (stains[])</legend>
+      <!-- 이름은 반드시 stains[] -->
+      <label><input type="checkbox" name="stains[]" value="김칫국물 자국" /> 김칫국물 자국</label>
+      <label><input type="checkbox" name="stains[]" value="커피" /> 커피</label>
+      <label><input type="checkbox" name="stains[]" value="기름때" /> 기름때</label>
+      <label><input type="checkbox" name="stains[]" value="과일" /> 과일</label>
+      <div class="row"><small>※ persil_v2.json의 title과 맞춰 체크</small></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>세탁 기호 (symbols[])</legend>
+      <!-- utils.LABEL_CANON 기준 canonical 라벨 예시 -->
+      <label><input type="checkbox" name="symbols[]" value="do_not_wash" /> do_not_wash</label>
+      <label><input type="checkbox" name="symbols[]" value="do_not_bleach" /> do_not_bleach</label>
+      <label><input type="checkbox" name="symbols[]" value="do_not_machine_dry" /> do_not_machine_dry</label>
+      <label><input type="checkbox" name="symbols[]" value="do_not_dry_clean" /> do_not_dry_clean</label>
+      <label><input type="checkbox" name="symbols[]" value="do_not_iron" /> do_not_iron</label>
+      <label><input type="checkbox" name="symbols[]" value="do_not_chlorine_bleach" /> do_not_chlorine_bleach</label>
+      <label><input type="checkbox" name="symbols[]" value="do_not_oxygen_bleach" /> do_not_oxygen_bleach</label>
+      <label><input type="checkbox" name="symbols[]" value="do_not_spin" /> do_not_spin</label>
+      <label><input type="checkbox" name="symbols[]" value="do_not_wet_clean" /> do_not_wet_clean</label>
+      <div class="row"><small>※ washing_symbol.json의 label과 매칭</small></div>
+    </fieldset>
+
+    <button type="submit">가이드 생성 테스트</button>
+  </form>
+
+  <hr />
+  <p>
+    또는 세션 값으로 폴백 테스트하려면, 업로드→결과까지 진행 후
+    <a href="{% url 'guide_from_result' %}"><code>GET guide_from_result</code></a>로 이동해보세요.
+  </p>
+</body>
+</html>

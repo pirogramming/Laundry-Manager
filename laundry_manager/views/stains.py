@@ -2,10 +2,32 @@ import os, json
 from django.http import Http404
 from django.shortcuts import render
 from pathlib import Path
+from django.conf import settings
 
-PROJECT_ROOT_DIR = Path(__file__).resolve().parents[2]
-JSON_FILE_PATH = PROJECT_ROOT_DIR / "laundry_temp_json" / "persil_v2.json"
+JSON_FILE_PATH = settings.BASE_DIR / "laundry_manager" / "json_data" / "persil_v2.json"
 _ALL_STAIN_DATA = None
+
+
+IMG_MAP = {
+    "혈흔": "blood",
+    "화장품 얼룩": "cosmetic",
+    "땀 얼룩": "sweat",
+    "펜과 잉크 얼룩": "ink",
+    "커피와 차 얼룩": "coffee",
+    "세탁과 건조 후 생긴 얼룩": "after-laundry",
+    "아보카도 얼룩": "avocado",
+}
+
+
+
+def _attach_image(item):
+    title = (item.get("title") or "").strip()
+    base = IMG_MAP.get(title) or item.get("slug")  # slug와 파일명이 같다면 fallback
+    if base:
+        item["image"] = f"laundry_manager/stain_image/{base}.webp"
+    else:
+        item["image"] = "laundry_manager/stain_image/default.webp"
+    return item
 
 def _load_stain_data():
     global _ALL_STAIN_DATA
@@ -13,17 +35,23 @@ def _load_stain_data():
         try:
             with open(JSON_FILE_PATH, "r", encoding="utf-8") as f:
                 data = json.load(f).get("washing_tips_categories", [])
-            for item in data:
+            for idx, item in enumerate(data):
                 slug = item.get("title", "").replace(" ", "_").replace("/", "_").strip("_").lower()
-                item["slug"] = slug or f"untitled_stain_{data.index(item)}"
+                item["slug"] = slug or f"untitled_stain_{idx}"
+                _attach_image(item)  # ← 여기서 이미지 경로 붙임
             _ALL_STAIN_DATA = data
         except Exception:
             _ALL_STAIN_DATA = []
     return _ALL_STAIN_DATA
 
+
 ALL_STAIN_DATA = _load_stain_data()
 
+
+
+
 def stain_guide_view(request):
+    _load_stain_data()
     frequent_titles = ["혈흔","화장품 얼룩","땀 얼룩","커피와 차 얼룩","펜과 잉크 얼룩",
                        "염색약, 페인트 등의 색상 얼룩","세탁과 건조 후 생긴 얼룩","껌 얼룩",
                        "자외선 차단제, 크림 및 로션 얼룩","겨자, 케첩, 소스 얼룩"]
@@ -41,9 +69,12 @@ def stain_guide_view(request):
         t = s["title"].lower()
         is_food = any(k in t for k in food_kw)
         is_life = any(k in t for k in life_kw)
-        if is_food and not is_life: categorized["음식"].append(s)
-        elif is_life and not is_food: categorized["생활"].append(s)
-        else: categorized["생활"].append(s)
+        if is_food and not is_life:
+            categorized["음식"].append(s)
+        elif is_life and not is_food:
+            categorized["생활"].append(s)
+        else:
+            categorized["생활"].append(s)
 
     return render(request, "laundry_manager/stain-upload.html", {
         "frequent_stains": frequent,

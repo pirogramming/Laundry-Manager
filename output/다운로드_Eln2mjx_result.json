@@ -10,12 +10,12 @@
     "symbol_definition": "인식된 기호 설명 없음",
     "ocr_raw_response": {
         "version": "V2",
-        "requestId": "db9cdd87-3bea-4d79-bc83-fb9543cccf15",
-        "timestamp": 1755156890928,
+        "requestId": "eba58bbf-30a5-49eb-9709-ffdcd6f271f9",
+        "timestamp": 1755098735691,
         "images": [
             {
-                "uid": "7859a9a6623f45139e68340ad0b794c3",
-                "name": "다운로드_Eln2mjx.jpg",
+                "uid": "bcc5f73cc36c4988bb381f657aa9349d",
+                "name": "다운로드.jpg",
                 "inferResult": "SUCCESS",
                 "message": "SUCCESS",
                 "validationResult": {

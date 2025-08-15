@@ -1,0 +1,159 @@
+/* result.html 페이지 전용 스타일 */
+
+.mobile-container.result-page {
+    padding: 0;
+    background-color: var(--color-background);
+}
+
+/* --- 상단 흰색 내비게이션 --- */
+.top-nav-white {
+    background-color: var(--color-background);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    position: sticky;
+    top: 0;
+}
+.top-nav-white h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+.icon-btn-bordered {
+    background: var(--color-container);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+}
+.text-btn-dark {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+}
+
+/* --- 결과 카드 영역 --- */
+.result-card-section {
+    padding: 0 ;
+}
+.result-card {
+    position: relative;
+    color: var(--color-container);
+    padding: 50px 25px 100px 25px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-height: 600px;
+    border-radius: 30px;
+    
+    
+    /* --- SVG 배경을 원형으로 튀어나온 모양으로 변경 --- */
+    background-color: var(--color-primary);
+    background-image: url('data:image/svg+xml;utf8,<svg width="400" height="100" viewBox="0 0 400 100" fill="%234A6CFF" xmlns="http://www.w3.org/2000/svg"><path d="M400 65C305.68 15.34 94.32 15.34 0 65V0H400V65Z"/></svg>');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: top center;
+}
+
+.result-icon {
+    width: 100px;
+    height: 100px;
+    background-color: var(--color-container);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.result-icon i {
+    font-size: 50px;
+    color: var(--color-primary);
+}
+
+.result-title p {
+    font-size: 14px;
+    margin-bottom: 8px;
+    opacity: 0.8;
+}
+.result-title h2 {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+.result-title h2 i {
+    font-size: 18px;
+    opacity: 0.8;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.notice-box {
+    background-color: rgba(255, 255, 255, 0.15);
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 12px;
+    font-size: 13px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+.notice-box i {
+    margin-right: 8px;
+}
+
+.info-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: left;
+    margin-bottom: 30px;
+}
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+}
+.info-item span {
+    opacity: 0.8;
+}
+.info-item strong {
+    font-weight: 500;
+}
+
+.extra-info-link {
+    color: var(--color-container);
+    text-decoration: underline;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.confirm-button {
+    width: 100%;
+    background-color: var(--color-container);
+    color: var(--color-primary);
+    padding: 16px;
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    margin-top: auto;
+    text-decoration: none;
+}
+
+.info-divider {
+    border: none;
+    height: 0.7px;
+    background-color: var(--color-border-trasparent);
+
+}

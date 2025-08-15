@@ -4,6 +4,10 @@ from datetime import date
 import requests
 from django.conf import settings
 from django.shortcuts import render
+from django.http import JsonResponse
+from urllib.parse import unquote  
+from django.template.loader import render_to_string
+
 
 logger = logging.getLogger(__name__)
 
@@ -11,22 +15,28 @@ logger = logging.getLogger(__name__)
 NAVER_CLIENT_ID = getattr(settings, "NAVER_CLIENT_ID", "")
 NAVER_CLIENT_SECRET = getattr(settings, "NAVER_CLIENT_SECRET", "")
 
+
 def _load_dictionary_data():
     try:
-        p = os.path.join(settings.BASE_DIR, "laundry_manager", "json_data", "dictionary.json")
+        p = os.path.join(
+            settings.BASE_DIR, "laundry_manager", "json_data", "dictionary.json"
+        )
         with open(p, "r", encoding="utf-8") as f:
             return json.load(f)
     except Exception as e:
         logger.warning("dictionary.json 로드 실패: %s", e)
         return {}
 
+
 def _ymd(d: date) -> str:
     return d.strftime("%Y-%m-%d")
+
 
 def _start_end_for_months(months_back: int = 18):
     today = date.today()
     total = today.year * 12 + (today.month - 1) - months_back
-    sy, sm = divmod(total, 12); sm += 1
+    sy, sm = divmod(total, 12)
+    sm += 1
     start = date(sy, sm, 1)
     return _ymd(start), _ymd(today)
 
@@ -99,6 +109,7 @@ def dictionary(request):
         "removal": "냄새 및 얼룩제거 방법",
         "words": "용어 사전",
         "how_laundry": "세탁 방법",
+        "enjoy_looking": "즐겨찾기",
     }
     category_list = list(category_map.values())
     processed_data = {}
@@ -172,6 +183,37 @@ def dictionary(request):
 
     return render(request, "laundry_manager/dictionary.html", context)
 
+
 # 과거 호환
 # dictionary = dictionary_view
 dictionary_view = dictionary
+
+def dictionary_detail(request, item_title):
+    decoded_title = unquote(item_title)
+    dictionary_data = load_dictionary_data()
+    item_data = None
+    
+    for category_key in dictionary_data:
+        for item in dictionary_data.get(category_key, []):
+            if item.get("title") == decoded_title:
+                item_data = item
+                break
+        if item_data:
+            break
+
+    if not item_data:
+        return render(request, "laundry_manager/not_found.html", {"message": f"'{decoded_title}'에 대한 세탁 정보를 찾을 수 없습니다."})
+
+    context = {
+        "item": item_data,
+        "category_map": {
+            "description": "설명",
+            "content": "상세 내용",
+            "Washing_Steps": "세탁 단계",
+            "tip": "팁",
+            "not_to_do": "주의 사항",
+            "Other_Information": "기타 정보"
+        }
+    }
+    
+    return render(request, "laundry_manager/dictionary-detail.html", context)

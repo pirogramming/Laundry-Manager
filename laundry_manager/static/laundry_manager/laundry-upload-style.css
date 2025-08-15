@@ -2,10 +2,17 @@
 
 .upload-page {
     padding: 0;
-    /* height: 100vh; */
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     background-color:var(--color-primary);
+}
+
+.upload-page > form {
+    display: flex;
+    flex-direction: column;
+    flex: 1;            /* 페이지 높이를 채움 */
+    min-height: 0;      /* 넘치는 콘텐츠 스크롤 허용 */
 }
 
 /* 상단 파란색 영역 */
@@ -115,6 +122,7 @@
     border-top-right-radius: 30px;
     display: flex; 
     flex-direction: column;
+    margin-top: auto;
     /* overflow-y: auto; */
 }
 .manual-input-section::-webkit-scrollbar { display: none; }

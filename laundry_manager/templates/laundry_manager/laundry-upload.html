@@ -33,13 +33,9 @@
                 <p>원하는 옷의 세탁 태그를 찍으면 세탁 정보를 알려드려요</p>
                 <hr class="upload-divider">
 
-                {% comment %} {% if messages %}
-                <div class="alert-box">
-                    {% for message in messages %}
-                    <p>{{ message }}</p>
-                    {% endfor %}
-                </div>
-                {% endif %} {% endcomment %}
+                {% if messages %}
+                
+                {% endif %}
 
                 <!-- 숨겨진 input들 -->
                 <input type="hidden" name="material" id="selected-material">
@@ -96,10 +92,14 @@
 
 
 
-    <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script> -->
 
     
 
-    <script type="module" src="{% static 'laundry_manager/laundry-upload-script.js' %}"></script>
+    <script>
+  // 필요 시 정적 기본 경로를 JS에서 쓰게 하고 싶다면
+  window.STATIC_BASE = "{% static '' %}";
+</script>
+<script type="module" src="{% static 'laundry_manager/laundry-upload-script.js' %}?v=1"></script>
 </body>
 </html>
