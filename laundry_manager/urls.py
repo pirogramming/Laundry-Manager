@@ -1,6 +1,6 @@
 # laundry_manager/urls.py
 from django.urls import path
-from .views import pages, ocr, stains, info_flow, maps, history, classify
+from .views import pages, ocr, stains, info_flow, maps, history, classify,contact
 import laundry_manager.views.dictionary as dictionary_views  # 이전 이슈 피하려고 모듈 임포트
 ## 테스트를 위한 import들 ##
 from django.views.generic import TemplateView
@@ -85,4 +85,7 @@ urlpatterns = [
         TemplateView.as_view(template_name="laundry_manager/dev_test_guide.html"),
         name="dev-test-guide",
     ),
+    
+    #문의하기 처리 
+    path('contact/submit/', contact.contact_submit_view, name='contact_submit'),
 ]
