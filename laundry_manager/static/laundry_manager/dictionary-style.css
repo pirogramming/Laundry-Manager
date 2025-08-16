@@ -62,7 +62,7 @@
 section h3 {
     font-size: 20px;
     font-weight: 700;
-    margin: 0 20px 15px;
+    margin: 0 20px 10px;
 }
 
 /* --- 인기 세탁 정보 (캐러셀) --- */
@@ -151,16 +151,16 @@ section h3 {
 
 .all-items {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 15px;
-    padding: 0 20px;
+    padding: 0 0px;
 }
 
 .info-grid {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     gap: 15px;
-    padding: 0 20px;
+    padding: 0 10px;
 }
 
 .info-grid-item {
@@ -193,6 +193,7 @@ section h3 {
 .item-content h4 {
     font-size: 15px;
     font-weight: 500;
+    margin-left: 20px;
 }
 
 .like-btn {
