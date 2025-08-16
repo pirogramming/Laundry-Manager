@@ -1,6 +1,7 @@
 # views/pages.py
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from . import maps
 
 # allauth가 없는 환경에서도 터지지 않도록 안전 임포트
 try:
@@ -135,7 +136,7 @@ def stain_detail_page(request):
 
 
 def login_page(request):
-    return render(request, "laundry_manager/main.html", base_context(request))
+    return render(request, "laundry_manager/login.html", base_context(request))
 
 
 def login_test_page(request):
@@ -162,9 +163,13 @@ def profile_page(request):
     return render(request, "laundry_manager/profile.html", base_context(request, extra={"records": recent_records}))
 
 
-def map_page(request):
-    return render(request, "laundry_manager/map.html", base_context(request))
 
+
+
+def map_page(request):
+    map_data = maps.get_map_data()
+    context = base_context(request, extra=map_data)
+    return render(request, "laundry_manager/map.html", context)
 
 def settings_page(request):
     return render(request, "laundry_manager/settings.html", base_context(request))
