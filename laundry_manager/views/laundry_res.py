@@ -3,7 +3,7 @@ import os, json, re, difflib
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
-from .summary import apply_stain_steps_summary, apply_wash_dry_summaries
+from .summary import apply_stain_steps_summary
 
 # utils 모듈 전체 임포트 (이름 임포트로 인한 ImportError/AttributeError 회피)
 from .. import utils as U
@@ -42,12 +42,15 @@ def _first_line(text) -> str:
 
 
 def _make_summary(material_guide, stain_guide, symbol_guides):
+    """상단 요약 카드용 텍스트 구성."""
     wash_summary = _first_line(material_guide.get("description"))
-    labels = {(g.get("label") or "").strip() for g in (symbol_guides or [])}
-    dry_ban = {"do_not_machine_dry", "do_not_tumble_dry"}  # ← 보강
-    dry_summary = "건조기 사용 금지" if (labels & dry_ban) else None
+
+    labels = {g.get("label") for g in (symbol_guides or [])}
+    dry_summary = "건조기 사용 금지" if "do_not_machine_dry" in labels else None
+
     stain_text = stain_guide.get("Washing_Steps") or stain_guide.get("detail")
     stain_summary = _first_line(stain_text)
+
     return {"wash": wash_summary or None, "dry": dry_summary, "stain": stain_summary or None}
 
 
@@ -412,44 +415,8 @@ def guide_from_result(request):
     symbols = (
         request.POST.getlist("symbols")
         or request.POST.getlist("symbols[]")
-        or request.session.get("symbols", [])
         or request.session.get("symbol_labels", [])
-        or request.session.get("symbol_texts", [])
     )
-
-    def _split_tokens(val: str):
-        # "손세탁 40°C 약하게 / 뒤어서 건조(햇볕), 30°C" 처럼 섞여 들어와도 안전 분리
-        return [p.strip() for p in re.split(r"[,\n/]", val) if p and p.strip()]
-    
-    # 문자열 -> 리스트로 표준화
-    if isinstance(symbols, str):
-        s = symbols.strip()
-        if s.startswith("[") and s.endswith("]"):
-            try:
-                loaded = json.loads(s)
-                if isinstance(loaded, list):
-                    symbols = []
-                    for x in loaded:
-                        symbols.extend(_split_tokens(x) if isinstance(x, str) else [x])
-                else:
-                    symbols = _split_tokens(s)
-            except Exception:
-                symbols = _split_tokens(s)
-        else:
-            symbols = _split_tokens(s)
-    elif isinstance(symbols, (tuple, set)):
-        symbols = list(symbols)
-    
-    _flat = []
-    for x in (symbols or []):
-        if isinstance(x, str):
-            _flat.extend(_split_tokens(x))
-        else:
-            _flat.append(x)
-    
-    # 공백/중복 제거
-    symbols = [x for x in _flat if x and str(x).strip()]
-    symbols = list(dict.fromkeys(symbols))
 
     if not (material or stains or symbols):
         return redirect("result")
@@ -463,15 +430,13 @@ def guide_from_result(request):
     material_guide = _material_guide_from_json(material, material_json)
     stain_guide    = _stain_guide_from_json(stains[0] if stains else "", stain_json)
     symbol_guides  = _symbols_to_guides_fuzzy(symbols, washing_defs)
-    symbol_guides = _dedupe_and_collapse_guides(symbol_guides)
 
-    # 세탁/건조 설명 리스트 먼저 계산
-    washing_descriptions = _washing_descriptions(symbol_guides) or []
-    drying_descriptions = _drying_descriptions(symbol_guides) or []
+    # ✅ 중복 제거 + 일반/약하게 병합 적용
+    symbol_guides  = _dedupe_and_collapse_guides(symbol_guides)
 
     # 4) 템플릿 호환: 문자열 설명 리스트도 함께 제공
-    symbol_descs =[
-        (g.get("description") or g.get('name') or g.get("label"))
+    symbol_descs = [
+        (g.get("description") or g.get("name") or g.get("label"))
         for g in symbol_guides
         if (g.get("description") or g.get("name") or g.get("label"))
     ]
@@ -480,32 +445,26 @@ def guide_from_result(request):
     top_summary = _make_summary(material_guide, stain_guide, symbol_guides)
     summary = apply_stain_steps_summary(top_summary, stain_guide)
 
-    # CLOVA로 세탁/건조 요약 
-    summary = apply_wash_dry_summaries(
-        summary,
-        material_guide.get("description") or "",
-        washing_descriptions,
-        drying_descriptions
-    )
-
-    # 피해야 하는 세탁법 제한
-    stain_guide_limited = dict(stain_guide)
-    for key in ("not_to_do", "Not_to_do"):
+    # ✅ 피해야 하는 세탁법(not_to_do) 3개로 제한하여 템플릿에 전달
+    stain_guide_limited = dict(stain_guide)  # 얕은 복사
+    for key in ("not_to_do", "Not_to__do"):
         lst = stain_guide_limited.get(key) or []
         if isinstance(lst, list):
             stain_guide_limited[key] = lst[:2]
-    
-    # 6) 렌터 context(ctx)
+        # ✅ 세탁( washing ) 전용 description 리스트
+    washing_descriptions = _washing_descriptions(symbol_guides)
+    drying_descriptions = _drying_descriptions(symbol_guides)
     ctx = {
-        "material" : material_guide,
-        "stain" : stain_guide_limited,
-        "symbol_guides" : symbol_guides,
-        "symbols" : symbol_descs,
-        "info" : {"material" : material, "stains": " / ".join(stains) if stains else ""},
-        "materials" : [material] if material else [],
-        "stains" : stains,
-        "summary" : summary,
-        "washing_descriptions" : washing_descriptions,
-        "drying_descriptions" : drying_descriptions,
+        "material": material_guide,
+        "stain": stain_guide_limited,
+        "symbol_guides": symbol_guides,
+        "symbols": symbol_descs,
+        "info": {"material": material, "stains": " / ".join(stains) if stains else ""},
+        "materials": [material] if material else [],
+        "stains": stains,
+        "summary": summary,
+
+        "washing_descriptions": washing_descriptions,
+        "drying_descriptions": drying_descriptions,
     }
     return render(request, "laundry_manager/laundry-info.html", ctx)

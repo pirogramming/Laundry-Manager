@@ -76,11 +76,11 @@
             <div class="icon-info">
               <h4>1. 세탁법 요약</h4>
               <div class="icon-info-text">
-                <!-- <i class="fa-solid fa-check-circle check-icon"></i> -->
+                <i class="fa-solid fa-check-circle check-icon"></i>
                 <span class="preline">
-                    {% if summary and summary.wash %}{{ summary.wash }}
-                    {% elif material.description %}{{ material.description }}
-                    {% else %}정보 없음{% endif %}
+                  {% if summary and summary.wash %}{{ summary.wash }}
+                  {% elif material.description %}{{ material.description }}
+                  {% else %}정보 없음{% endif %}
                 </span>
               </div>
             </div>
@@ -88,16 +88,17 @@
             <div class="icon-info">
               <h4>2. 건조법 요약</h4>
               <div class="icon-info-text">
+                <i class="fa-solid fa-ban ban-icon"></i>
                 <span class="preline">
-                    {% if summary and summary.dry %}{{ summary.dry }}
-                    {% else %}정보 없음{% endif %}
+                  {% if summary and summary.dry %}{{ summary.dry }}
+                  {% else %}정보 없음{% endif %}
                 </span>
               </div>
             </div>
           </div>
 
           <div class="stain-info">
-            <strong>3. 얼룩 제거법 요약</strong>
+            <strong>3. 얼룩 제거법 요약 :</strong>
             {% if summary and summary.stain %}
               <p class="stain-kw preline">{{ summary.stain }}</p>
             {% else %}
@@ -215,24 +216,17 @@
               <i class="fa-solid fa-chevron-down arrow-icon"></i>
             </summary>
             <div class="accordion-content">
-                {% if material.description %}
-                <ul>
-                    <li class="preline">{{ material.description }}</li>
-                </ul>
-                {% else %}
-                    <p>소재별 세탁 설명이 없습니다.</p>
-                {% endif %}
-
+            <p>{{ material.description|default:"소재별 세탁 설명이 없습니다." }}</p>
             {% if washing_descriptions %}
             <ul>
                 {% for desc in washing_descriptions %}
-                    <li class="preline">{{ desc }}</li>
+                <li>{{ desc }}</li>
                 {% endfor %}
             </ul>
             {% elif symbols %}
             <ul>
                 {% for desc in symbols %}
-                <li class="preline">{{ desc }}</li>
+                <li>{{ desc }}</li>
                 {% endfor %}
             </ul>
             {% endif %}
@@ -241,22 +235,21 @@
 
           <details class="accordion-item">
             <summary>
-                <div class="summary-icon" style="background-color:#FEF4E8;">
+              <div class="summary-icon" style="background-color:#FEF4E8;">
                 <i class="fa-solid fa-droplet" style="color:#FF8A00"></i>
-                </div>
-                <div class="summary-text">
+              </div>
+              <div class="summary-text">
                 <h4>건조 방법</h4>
-                {% if summary and summary.dry %}
-                    <p class="preline">세탁 기호를 통해 건조 방법을 안내합니다.</p>
-                {% endif %}
-                </div>
-                <i class="fa-solid fa-chevron-down arrow-icon"></i>
+                <p class="preline">{% if summary and summary.dry %}{{ summary.dry }}{% else %}정보 없음{% endif %}</p>
+              </div>
+              <i class="fa-solid fa-chevron-down arrow-icon"></i>
             </summary>
             <div class="accordion-content">
+                <p>건조 방법에 대한 상세 내용은 추후 기호/소재 규칙을 확장해 채워집니다.</p>
                 {% if drying_descriptions %}
                 <ul>
                     {% for desc in drying_descriptions %}
-                        <li class="preline">{{ desc }}</li>
+                        <li>{{ desc }}</li>
                     {% endfor %}
                 </ul>
                 {% endif %}
