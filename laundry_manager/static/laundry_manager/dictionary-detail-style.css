@@ -120,7 +120,7 @@
 .related-tips-section h3 {
     font-size: 18px;
     font-weight: 700;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     color: var(--color-text-primary);
 }
 
@@ -144,6 +144,28 @@
 
 .detail-content-section ol li:not(:last-child) {
     margin-bottom: 10px;
+}
+.detail-content-section ul {
+  list-style: none;        /* 기본 점(●) 제거 */
+  padding-left: 0;         /* 기본 들여쓰기 제거 */
+  margin: 0;               /* 기본 여백 제거 */
+}
+
+.detail-content-section li {
+  padding: 6px 0;          /* 위아래 여백 */
+  font-size: 16px;         /* 글씨 크기 */
+  line-height: 1.6;        /* 줄 간격 */
+  color: var(--color-text-secondary);
+  
+  display: flex;           /* 아이콘과 텍스트 정렬하려면 */
+  align-items: center;
+}
+
+.detail-content-section li::before {
+  content: "•";            /* 커스텀 불릿 */
+  color: var(--color-primary);
+  font-weight: bold;
+  margin-right: 8px;       /* 불릿과 글자 사이 간격 */
 }
 
 /* 관련 팁 */

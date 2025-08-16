@@ -103,18 +103,18 @@
                 <div class="history-list">
                     {% for record in records %}
                     <a href="{% url 'laundry_history_detail' record.pk %}" class="history-item">
-                    <img src="{{ record.get_stain_image_url }}" alt="{{ record.stains }}" class="history-img">
-                    <div class="history-details">
-                        <h4>{{ record.materials }} / {{ record.stains }} 제거</h4>
-                        <p>{{ record.created_at|timesince }} 전 검색</p>
-                    </div>
-                    <i class="fa-solid fa-chevron-right"></i>
-                </a>
-                {% empty %}
+                        <img src="{{ record.get_stain_image_url }}" alt="{{ record.stains }}" class="history-img">
+                        <div class="history-details">
+                            <h4>{{ record.materials }} / {{ record.stains }} 제거</h4>
+                            <p>{{ record.created_at|timesince }} 전 검색</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                    {% empty %}
                     <p>아직 기록이 없습니다.</p>
                     {% endfor %}
                 </div>
-            </section>
+        </section>
     </main>
         
     <nav class="bottom-nav">
