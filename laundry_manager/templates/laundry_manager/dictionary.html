@@ -49,8 +49,10 @@
         </section>
 
         <section class="all-info">
-            <h4 class="title-all">모든 세탁 정보</h4>
+            <h1 class="title-all">모든 세탁 정보</h1>
             <div class="filter-chips">
+                <a href="{% url 'dictionary' %}?query=즐겨찾기"
+                    class="chip {% if '즐겨찾기' == query %}active{% endif %}">즐겨찾기</a>
                 {% for category in category_list %}
                 <a href="{% url 'dictionary' %}?query={{ category }}"
                     class="chip {% if category == query %}active{% endif %}">{{ category }}</a>
@@ -58,7 +60,14 @@
             </div>
 
             <div class="info-grid">
-                {% if query and is_category_query %}
+                {% if query == '즐겨찾기' %}
+                <div class="category">
+                    <h4 class="category-title">즐겨찾기</h4>
+                    <div class="all-items" id="favorites-container">
+                        <p id="no-favorites-message">즐겨찾기 항목 없음</p>
+                    </div>
+                </div>
+                {% elif query and is_category_query %}
                 {% for items in dictionary_data.values %}
                 {% for item in items %}
                 <a href="{% url 'dictionary_detail' item_title=item.title|urlencode %}" class="info-grid-item">
@@ -76,7 +85,6 @@
                 {% endfor %}
                 {% endfor %}
                 {% elif query %}
-                <h3>'{{ query }}' 검색 결과</h3>
                 {% for category_name, items in dictionary_data.items %}
                 <div class="category">
                     <h4 class="category-title">{{ category_name }}</h4>
@@ -144,13 +152,7 @@
             </a>
         </nav>
     </div>
-    <div id="detailOverlay" class="detail-overlay" onclick="closeDetailCard(event)">
-        <div class="detail-card">
-            <button class="close-button" onclick="closeDetailCard()">✖</button>
-            <h4 id="cardTitle"></h4>
-            <div id="detailContent"></div>
-        </div>
-    </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
