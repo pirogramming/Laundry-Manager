@@ -8,6 +8,8 @@ from django.http import JsonResponse
 from urllib.parse import unquote
 from django.template.loader import render_to_string
 from django.contrib.staticfiles.finders import find
+from ..models import FavoriteItem  # FavoriteItem 모델을 import
+from django.contrib.auth.decorators import login_required
 
 logger = logging.getLogger(__name__)
 
@@ -114,7 +116,17 @@ def dictionary(request):
     category_list = list(category_map.values())
     processed_data = {}
 
+    from_search = "query" in request.GET
+
     item_index = 0  # 이미지 파일명에 사용할 인덱스를 초기화
+
+    favorites_titles = []
+    if request.user.is_authenticated:
+        favorites_titles = list(
+            FavoriteItem.objects.filter(user=request.user).values_list(
+                "title", flat=True
+            )
+        )
 
     def preprocess_item(item):
         nonlocal item_index
@@ -129,6 +141,8 @@ def dictionary(request):
         processed["has_image"] = os.path.exists(image_path)
         processed["image_filename"] = image_filename
         processed["json_data"] = json.dumps(item, ensure_ascii=False)
+        processed["is_favorite"] = processed["title"] in favorites_titles
+
         return processed
 
     if query:
@@ -146,33 +160,30 @@ def dictionary(request):
                 items = dictionary_data.get(category_key, [])
                 filtered_items = []
                 for item in items:
-                    search_string = (
-                        item.get("title", "").lower()
-                        + item.get("description", "").lower()
-                        + json.dumps(
-                            item.get("content", ""), ensure_ascii=False
-                        ).lower()
-                        + json.dumps(
-                            item.get("Washing_Steps", []), ensure_ascii=False
-                        ).lower()
-                        + json.dumps(item.get("tip", []), ensure_ascii=False).lower()
-                        + json.dumps(
-                            item.get("not_to_do", []), ensure_ascii=False
-                        ).lower()
-                        + json.dumps(
-                            item.get("Other_Information", []), ensure_ascii=False
-                        ).lower()
-                    )
+                    search_string = item.get("title", "").lower()
                     if query.lower() in search_string:
                         filtered_items.append(preprocess_item(item))
                 if filtered_items:
                     processed_data[display_name] = filtered_items
+            pass
     else:
-        for category_key, display_name in category_map.items():
-            processed_data[display_name] = [
-                preprocess_item(item) for item in dictionary_data.get(category_key, [])
-            ]
+        favorites_data_list = []
+        full_dictionary_data = load_dictionary_data()
+        for category_key in full_dictionary_data:
+            for item in full_dictionary_data[category_key]:
+                if item.get("title") in favorites_titles:
+                    favorites_data_list.append(item)
 
+        processed_data[category_map["enjoy_looking"]] = [
+            preprocess_item(item) for item in favorites_data_list
+        ]
+
+        for category_key, display_name in category_map.items():
+            if category_key != "enjoy_looking":
+                processed_data[display_name] = [
+                    preprocess_item(item)
+                    for item in dictionary_data.get(category_key, [])
+                ]
     # Naver Trend API를 활용하여 인기 검색어 목록을 가져오는 로직 추가
     # 수정할 코드 (views.py 파일 내)
     all_keyword_data = []
@@ -204,6 +215,7 @@ def dictionary(request):
         "category_list": category_list,
         "dictionary_data": processed_data,
         "frequent_searches": frequent_searches,
+        "from_search": from_search,  # from_search 변수를 context에 추가
     }
 
     return render(request, "laundry_manager/dictionary.html", context)
@@ -236,6 +248,8 @@ def dictionary_detail(request, item_title):
             {"message": f"'{decoded_title}'에 대한 세탁 정보를 찾을 수 없습니다."},
         )
 
+    from_search = "query" in request.GET
+
     # ★★★ This is the key section to add/modify ★★★
     # Attach the image filename and URL to the item_data
     item_data["image_filename"] = f"dictionary_image/{item_index}.jpg"
@@ -250,7 +264,39 @@ def dictionary_detail(request, item_title):
             "tip": "팁",
             "not_to_do": "주의 사항",
             "Other_Information": "기타 정보",
+            "from_search": from_search,  # from_search 변수 추가
         },
     }
 
     return render(request, "laundry_manager/dictionary-detail.html", context)
+
+
+@login_required
+def toggle_favorite(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        title = data.get("title")
+        is_favorite = data.get("is_favorite", False)
+        user = request.user
+
+        if not title:
+            return JsonResponse(
+                {"status": "error", "message": "제목이 없습니다."}, status=400
+            )
+
+        if is_favorite:
+            # 즐겨찾기 추가 (이미 있으면 무시)
+            FavoriteItem.objects.get_or_create(user=user, title=title)
+            return JsonResponse(
+                {"status": "success", "message": "즐겨찾기에 추가되었습니다."}
+            )
+        else:
+            # 즐겨찾기 삭제
+            FavoriteItem.objects.filter(user=user, title=title).delete()
+            return JsonResponse(
+                {"status": "success", "message": "즐겨찾기에서 제거되었습니다."}
+            )
+
+    return JsonResponse(
+        {"status": "error", "message": "잘못된 요청입니다."}, status=405
+    )
