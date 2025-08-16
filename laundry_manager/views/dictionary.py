@@ -10,6 +10,7 @@ from django.template.loader import render_to_string
 from django.contrib.staticfiles.finders import find
 from ..models import FavoriteItem  # FavoriteItem 모델을 import
 from django.contrib.auth.decorators import login_required
+from django.templatetags.static import static
 
 logger = logging.getLogger(__name__)
 
@@ -23,6 +24,7 @@ def _load_dictionary_data():
         p = os.path.join(
             settings.BASE_DIR, "laundry_manager", "json_data", "dictionary.json"
         )
+
         with open(p, "r", encoding="utf-8") as f:
             return json.load(f)
     except Exception as e:
@@ -127,20 +129,29 @@ def dictionary(request):
         )
 
     def preprocess_item(item):
-        nonlocal item_index
         processed = item.copy()
-        item_index += 1
-        # Use a consistent file name pattern
-        image_filename = f"dictionary_image/{item_index}.jpg"
-        processed["image_url"] = (
-            f"/static/{image_filename}"  # Check if the image file exists
-        )
-        image_path = find(image_filename)
-        processed["has_image"] = os.path.exists(image_path)
-        processed["image_filename"] = image_filename
-        processed["json_data"] = json.dumps(item, ensure_ascii=False)
-        processed["is_favorite"] = processed["title"] in favorites_titles
 
+        # The image_url from the JSON is a relative path.
+        # Use Django's `static` tag to get the absolute URL.
+        relative_path = item.get("image_url", "")
+        processed["image_url"] = static(relative_path)
+
+        # The rest of your code for finding the file on the server.
+        # Note: `static()` above handles the browser URL.
+        # `find()` below is for server-side file checks.
+
+        # Correct `image_filename` for the `find` function.
+        image_filename = relative_path
+
+        # Use a try-except block to gracefully handle when `find()` fails.
+        try:
+            image_path = find(image_filename)
+            processed["has_image"] = os.path.exists(image_path)
+        except Exception as e:
+            processed["has_image"] = False
+            print(f"Error finding image path for {image_filename}: {e}")
+
+        # ... (rest of your function)
         return processed
 
     if query:
@@ -158,23 +169,7 @@ def dictionary(request):
                 items = dictionary_data.get(category_key, [])
                 filtered_items = []
                 for item in items:
-                    search_string = (
-                        item.get("title", "").lower()
-                        + item.get("description", "").lower()
-                        + json.dumps(
-                            item.get("content", ""), ensure_ascii=False
-                        ).lower()
-                        + json.dumps(
-                            item.get("Washing_Steps", []), ensure_ascii=False
-                        ).lower()
-                        + json.dumps(item.get("tip", []), ensure_ascii=False).lower()
-                        + json.dumps(
-                            item.get("not_to_do", []), ensure_ascii=False
-                        ).lower()
-                        + json.dumps(
-                            item.get("Other_Information", []), ensure_ascii=False
-                        ).lower()
-                    )
+                    search_string = item.get("title", "").lower()
                     if query.lower() in search_string:
                         filtered_items.append(preprocess_item(item))
                 if filtered_items:

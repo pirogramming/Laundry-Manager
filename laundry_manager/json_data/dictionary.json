@@ -3,126 +3,126 @@
     {
       "title": "드라이클리닝",
       "description": "물 없이 유기용제를 사용하여 세탁하는 방법입니다.",
-      "image_url": "static/dictionary_image/1.jpg"
+      "image_url": "dictionary_image/1.jpg"
     },
     {
       "title": "울 전용 코스",
       "description": "울 소재 의류를 위한 세탁기 코스입니다.",
-      "image_url": "static/dictionary_image/2.jpg"
+      "image_url": "dictionary_image/2.jpg"
     },
     {
       "title": "세제(Detergent)",
       "description": "물체의 표면에 묻어있는 오염물질을 제거하는 데 사용되는 물질의 총칭입니다.",
       "content": "세제는 크게 계면활성제, 빌더(builder), 표백제, 효소, 형광 증백제 등으로 이루어져 있습니다. 오염물질의 종류, 세탁물의 재질, 세탁 환경 등에 따라 세제의 종류를 선택하는 것이 중요합니다.",
-      "image_url": "static/dictionary_image/3.jpg"
+      "image_url": "dictionary_image/3.jpg"
     },
     {
       "title": "알칼리성 세제(Alkaline Detergent)",
       "description": "pH 8.5 이상의 염기성을 띠는 세제로, 주로 단백질, 지방, 기름때 등 산성 오염물 제거에 효과적입니다.",
       "content": "알칼리성 세제는 비누, 주방 세제, 세탁 세제 등이 대표적입니다. 산성 오염물과 만나 중화 반응을 일으켜 오염물질을 분해하며, 피부에 직접 닿을 경우 자극을 줄 수 있으므로 장갑을 착용하는 것이 좋습니다.",
-      "image_url": "static/dictionary_image/4.jpg"
+      "image_url": "dictionary_image/4.jpg"
     },
     {
       "title": "중성 세제(Neutral Detergent)",
       "description": "pH 6.0~8.0 사이의 중성 영역에 속하는 세제로, 세정력이 약하지만 옷감 손상이 적습니다.",
       "content": "중성 세제는 pH가 낮아 세탁물의 색깔을 유지하고 섬유 손상을 최소화하는 데 효과적입니다. 울, 실크 등 고급 의류 세탁에 주로 사용되며, 찬물에도 잘 녹는 편입니다. 대표적인 예로는 울 샴푸, 주방용 중성 세제 등이 있습니다.",
-      "image_url": "static/dictionary_image/5.jpg"
+      "image_url": "dictionary_image/5.jpg"
     },
     {
       "title": "산성 세제(Acidic Detergent)",
       "description": "pH 6.0 미만의 산성을 띠는 세제로, 주로 물때, 비누 찌꺼기, 녹 등 알칼리성 오염물 제거에 효과적입니다.",
       "content": "산성 세제는 염산이나 구연산 등을 포함하며, 주로 화장실 청소나 주방 용품의 물때 제거에 사용됩니다. 알칼리성 오염물과 중화 반응을 일으켜 오염을 제거하지만, 염기성 세제와 혼합하면 유독 가스가 발생할 수 있으므로 주의해야 합니다.",
-      "image_url": "static/dictionary_image/6.jpg"
+      "image_url": "dictionary_image/6.jpg"
     },
     {
       "title": "표준 코스 (Normal/Regular)",
       "description": "일반적인 세탁물(면, 합성섬유 등)을 세탁할 때 사용하는 가장 기본적인 코스입니다.",
       "content": "적당한 물 온도와 탈수 속도로 대부분의 빨래에 무난하게 사용할 수 있습니다.",
-      "image_url": "static/dictionary_image/7.jpg"
+      "image_url": "dictionary_image/7.jpg"
     },
     {
       "title": "급속 코스 (Quick Wash)",
       "description": "오염도가 심하지 않은 소량의 세탁물을 빠르게 세탁하는 코스입니다.",
       "content": "시간 절약이 필요할 때 유용하지만, 세정력이 다소 약할 수 있습니다.",
-      "image_url": "static/dictionary_image/8.jpg"
+      "image_url": "dictionary_image/8.jpg"
     },
     {
       "title": "섬세/울 코스 (Delicate/Wool)",
       "description": "속옷, 블라우스, 니트 등 섬세한 옷감을 위한 코스입니다.",
       "content": "약한 회전과 저온의 물을 사용하여 옷감 손상을 최소화합니다.",
-      "image_url": "static/dictionary_image/9.jpg"
+      "image_url": "dictionary_image/9.jpg"
     },
     {
       "title": "산소계 표백제",
       "description": "과탄산소다를 주성분으로 하는 표백제입니다.",
       "content": "색깔 옷에도 사용할 수 있으며, 옷을 삶는 효과를 낼 수 있습니다. (염소계 표백제와 절대 함께 사용 금지)",
-      "image_url": "static/dictionary_image/10.jpg"
+      "image_url": "dictionary_image/10.jpg"
     },
     {
       "title": "염소계 표백제",
       "description": "흔히 '락스'라고 불리는 강력한 표백제입니다.",
       "content": "강력한 살균 및 표백 효과가 있지만, 색깔 옷에는 사용할 수 없습니다. 주로 흰옷의 얼룩 제거에 사용됩니다.",
-      "image_url": "static/dictionary_image/11.jpg"
+      "image_url": "dictionary_image/11.jpg"
     },
     {
       "title": "드라이클리닝 (Dry Cleaning)",
       "description": "물을 사용하지 않고 유기 용제를 사용하여 세탁하는 방식입니다.",
       "content": "수트, 코트, 실크, 모직 등 물세탁이 어려운 옷에 사용합니다.",
-      "image_url": "static/dictionary_image/12.jpg"
+      "image_url": "dictionary_image/12.jpg"
     },
     {
       "title": "단독 세탁",
       "description": "물 빠짐이나 이염(색이 다른 옷으로 물드는 현상)이 우려되는 옷을 다른 세탁물과 분리하여 세탁하는 것입니다.",
       "content": "진한 색상의 옷이나 새 옷을 처음 세탁할 때 단독 세탁을 하는 것이 좋습니다.",
-      "image_url": "static/dictionary_image/13.jpg"
+      "image_url": "dictionary_image/13.jpg"
     },
     {
       "title": "이염",
       "description": "색이 있는 옷에서 빠진 물이 다른 옷으로 물드는 현상입니다.",
       "content": "이염을 방지하기 위해 옷의 색깔별로 분류하여 세탁하는 것이 중요합니다.",
-      "image_url": "static/dictionary_image/14.jpg"
+      "image_url": "dictionary_image/14.jpg"
     },
     {
       "title": "손세탁 (Hand Wash)",
       "description": "세탁기로 돌리면 옷감이 손상될 수 있는 섬세한 옷을 손으로 직접 세탁하는 것입니다.",
       "content": "주로 니트, 속옷, 레이스 의류 등에 필요한 세탁 방법입니다.",
-      "image_url": "static/dictionary_image/15.jpg"
+      "image_url": "dictionary_image/15.jpg"
     },
     {
       "title": "옷감 라벨",
       "description": "옷 안쪽에 붙어있는 라벨로, 세탁 방법에 대한 정보가 그림으로 표시되어 있습니다.",
       "content": "세탁 전 옷감 라벨을 확인하여 적절한 세탁 코스와 방법을 선택해야 합니다.",
-      "image_url": "static/dictionary_image/16.jpg"
+      "image_url": "dictionary_image/16.jpg"
     },
     {
       "title": "계면활성제",
       "description": "물과 기름처럼 서로 섞이지 않는 두 물질이 잘 섞이도록 돕는 물질입니다.",
       "content": "세제의 핵심 성분으로, 오염물을 옷감에서 분리하고 거품을 만들어 세정 효과를 높이는 역할을 합니다.",
-      "image_url": "static/dictionary_image/17.jpg"
+      "image_url": "dictionary_image/17.jpg"
     },
     {
       "title": "음이온 계면활성제",
       "description": "물속에서 음(-) 전하를 띠는 계면활성제입니다.",
       "content": "세정력이 뛰어나 세탁세제나 주방세제에 주로 사용됩니다. 비누의 주성분이기도 합니다.",
-      "image_url": "static/dictionary_image/18.jpg"
+      "image_url": "dictionary_image/18.jpg"
     },
     {
       "title": "양이온 계면활성제",
       "description": "물속에서 양(+) 전하를 띠는 계면활성제입니다.",
       "content": "섬유에 흡착하여 부드럽게 하는 성질이 있어 섬유유연제나 헤어 린스에 사용됩니다.",
-      "image_url": "static/dictionary_image/19.jpg"
+      "image_url": "dictionary_image/19.jpg"
     },
     {
       "title": "비이온 계면활성제",
       "description": "물속에서 전하를 띠지 않는 계면활성제입니다.",
       "content": "다른 계면활성제와 함께 쓰이거나 자극이 적은 아기용 세제 등에 사용됩니다.",
-      "image_url": "static/dictionary_image/20.jpg"
+      "image_url": "dictionary_image/20.jpg"
     },
     {
       "title": "양쪽성 계면활성제",
       "description": "환경에 따라 양이온과 음이온 성질을 모두 가질 수 있는 계면활성제입니다.",
       "content": "피부 자극이 적어 샴푸나 폼클렌징 등에 많이 사용됩니다.",
-      "image_url": "static/dictionary_image/21.jpg"
+      "image_url": "dictionary_image/21.jpg"
     }
   ],
   "dry_storage_method": [
@@ -130,101 +130,101 @@
       "title": "세탁 후 건조",
       "description": "곰팡이와 냄새를 방지하기 위해 세탁물을 올바르게 건조하는 방법입니다.",
       "content": "세탁 후에는 젖은 세탁물을 바로 꺼내 통풍이 잘 되는 곳에서 말려야 합니다. 셔츠나 블라우스는 옷걸이에, 울과 실크는 눕혀서 건조하되 햇빛은 피해야 합니다. 건조기를 사용하면 편리하지만, 손상되기 쉬운 소재는 피해야 합니다.",
-      "image_url": "static/dictionary_image/22.jpg"
+      "image_url": "dictionary_image/22.jpg"
     },
     {
       "title": "건조기 사용법",
       "description": "건조기 사용 시 주의사항 및 팁입니다.",
-      "image_url": "static/dictionary_image/23.jpg"
+      "image_url": "dictionary_image/23.jpg"
     },
     {
       "title": "자연 건조 방법",
       "description": "햇빛을 피해 의류를 말리는 방법입니다.",
-      "image_url": "static/dictionary_image/24.jpg"
+      "image_url": "dictionary_image/24.jpg"
     },
     {
       "title": "니트 보관 방법",
       "description": "니트가 늘어나지 않도록 보관하는 방법입니다.",
-      "image_url": "static/dictionary_image/25.jpg"
+      "image_url": "dictionary_image/25.jpg"
     }
   ],
   "material_laundry_method": [
     {
       "title": "면(Cotton) 세탁법",
       "description": "단독손세탁, 차가운 물세탁, 중성세제사용. 짙은 색상의 경우 장시간 세제에 담글 경우 물빠짐이 있을 수 있습니다.",
-      "image_url": "static/dictionary_image/26.jpg"
+      "image_url": "dictionary_image/26.jpg"
     },
     {
       "title": "폴리(Poly) 세탁법",
       "description": "단독손세탁, 중성세제사용, 미온수세탁. 물세탁은 가능하지만, 높은 온도에 약해 삶거나 높은 온도에서 다리시면 안됩니다.",
-      "image_url": "static/dictionary_image/27.jpg"
+      "image_url": "dictionary_image/27.jpg"
     },
     {
       "title": "데님(Denim) 세탁법",
       "description": "단독손세탁, 드라이크리닝, 그늘에 건조, 세탁 온도 최대 40°C. 물빠짐이 쉬운 소재로 첫 세탁은 드라이크리닝을 권장합니다. 다른 옷과 함께 세탁시 이염에 주의하세요.",
-      "image_url": "static/dictionary_image/28.jpg"
+      "image_url": "dictionary_image/28.jpg"
     },
     {
       "title": "레이온(Rayon) 세탁법",
       "description": "손세탁, 중성세제사용. 물에 젖으면 강도가 50% 정도 감소되므로 세탁 시 주의가 필요합니다.",
-      "image_url": "static/dictionary_image/29.jpg"
+      "image_url": "dictionary_image/29.jpg"
     },
     {
       "title": "린넨(Linen) 세탁법",
       "description": "드라이크리닝. 소재 특성상 세탁 후 옷감이 손상되거나 변형될 수 있으니 드라이크리닝을 권장합니다.",
-      "image_url": "static/dictionary_image/30.jpg"
+      "image_url": "dictionary_image/30.jpg"
     },
     {
       "title": "니트(knit) 세탁법",
       "description": "드라이크리닝. 높은 온도에 약해 옷감이 줄어들거나 틀어질 가능성이 많으므로 드라이크리닝을 권장합니다.",
-      "image_url": "static/dictionary_image/31.jpg"
+      "image_url": "dictionary_image/31.jpg"
     },
     {
       "title": "스웨이드(Suede) 세탁법",
       "description": "드라이크리닝. 드라이클리닝을 하셔야 오래 사용할 수 있습니다.",
-      "image_url": "static/dictionary_image/32.jpg"
+      "image_url": "dictionary_image/32.jpg"
     },
     {
       "title": "울(Wool) 세탁법",
       "description": "드라이크리닝. 약한 소재이기 때문에 물에 닿으면 변형이 생길 수 있습니다.",
-      "image_url": "static/dictionary_image/33.jpg"
+      "image_url": "dictionary_image/33.jpg"
     },
     {
       "title": "벨벳(Velvet) 세탁법",
       "description": "물세탁 금지, 드라이크리닝. 실오라기가 풀릴 수 있는 다른 세탁물과 섞이지 않게 주의가 필요합니다.",
-      "image_url": "static/dictionary_image/34.jpg"
+      "image_url": "dictionary_image/34.jpg"
     },
     {
       "title": "퍼(Fur) 세탁법",
       "description": "드라이크리닝. 물세탁이 가능하지만 털빠짐이 있을 수 있어 드라이크리닝을 권장합니다.",
-      "image_url": "static/dictionary_image/35.jpg"
+      "image_url": "dictionary_image/35.jpg"
     },
     {
       "title": "레더(Leather) 세탁법",
       "description": "드라이크리닝. 물에 약한 소재입니다. 통풍이 잘 되는 곳에 보관해 주세요.",
-      "image_url": "static/dictionary_image/36.jpg"
+      "image_url": "dictionary_image/36.jpg"
     },
     {
       "title": "쉬폰(Chiffon) 세탁법",
       "description": "드라이크리닝, 손세탁, 그늘에 건조. 모든 의류는 드라이크리닝을 권장드리며, 세탁 시 물빠짐과 원단 변형에 주의하세요.",
-      "image_url": "static/dictionary_image/37.jpg"
+      "image_url": "dictionary_image/37.jpg"
     },
     {
       "title": "기능성 섬유 세탁법",
       "description": "울/섬세 세탁모드 사용. 플라스틱 옷걸이에 걸어 자연 건조. 건조기 사용 시 낮은 온도 유지. 고온 건조 시 워터프루프 기능이 손상될 수 있으므로 주의가 필요합니다.",
-      "image_url": "static/dictionary_image/38.jpg"
+      "image_url": "dictionary_image/38.jpg"
     },
     {
       "title": "실크 세탁법",
       "description": "울/섬세/손세탁 모드 사용, 세탁 온도 최대 40°C. 과도한 마찰은 지양하고 세탁기 용량의 삼분의 일만 채우는 것이 좋습니다.",
-      "image_url": "static/dictionary_image/39.jpg"
+      "image_url": "dictionary_image/39.jpg"
     }
   ],
   "how_laundry": [
     {
       "title": "세탁기 통 세척 방법",
       "description": "세탁기 내부를 청소하는 방법입니다.",
-      "image_url": "static/dictionary_image/40.jpg"
+      "image_url": "dictionary_image/40.jpg"
     },
     {
       "title": "세제 사용법",
@@ -245,55 +245,55 @@
         "세제를 많이 사용하면 과다한 거품이 발생하여 헹굼 시간이 늘어나고 정상적으로 헹굼이 진행되지 않을 수 있습니다. 또한 최종 탈수 후에 거품이 완전히 빠지지 않을 수 있습니다.",
         "빨래비누(재생비누 등)로 빨래한 세탁물은 거품이 나오지 않을 때까지 헹구어 세탁기에 넣으세요. 재생비누의 성분들이 세탁기 내부에 퇴적되어 오염이 발생할 수 있습니다."
       ],
-      "image_url": "static/dictionary_image/40.jpg"
+      "image_url": "dictionary_image/40.jpg"
     },
     {
       "title": "빨래 분류 및 사전처리하기",
       "description": "소재, 세탁 온도, 오염 정도, 색상에 따라 빨래를 분류하고 얼룩을 사전 처리하는 방법입니다.",
       "content": "빨래 소재: 울이나 실크처럼 섬세한 소재의 빨래를 수건처럼 튼튼한 소재와 함께 세탁하지 않습니다.\n세탁 온도: 빨랫감에 부착된 세탁기호를 확인해 적절한 온도를 선택하세요.\n때가 탄 정도: 때가 살짝 탄 빨래와 심하게 탄 빨래를 함께 세탁하지 마세요.\n빨래의 색상: 빨간색, 검은색처럼 물 빠짐이 쉬운 옷은 같은 색 옷끼리 모아 세탁합니다.\n얼룩이 심한 빨래는 즉시 세탁하고, 세제를 소량 덜어 얼룩진 부분에 바른 후 10분 정도 스며들게 둡니다.",
-      "image_url": "static/dictionary_image/41.jpg"
+      "image_url": "dictionary_image/41.jpg"
     },
     {
       "title": "세탁 모드 선택하기",
       "description": "세탁물의 종류와 오염 정도에 따라 적절한 세탁 모드 및 온도를 선택하는 방법입니다.",
       "content": "때가 심하게 탄 경우에만 애벌빨래를 합니다. 세탁 기호를 참고하여 세탁 모드 및 온도를 선택하세요. 매우 섬세한 소재는 약한 물살로 설정하거나 회전을 하지 않도록 설정합니다.",
-      "image_url": "static/dictionary_image/42.jpg"
+      "image_url": "dictionary_image/42.jpg"
     },
     {
       "title": "빨래 양 조절하기",
       "description": "효과적인 세탁을 위해 세탁조에 넣는 빨래의 양을 조절하는 방법입니다.",
       "content": "세탁기가 가득 차면 세탁이 잘 되지 않습니다. 일반 세탁 모드에서는 세탁물 위로 손이 들어갈 공간을 확보하고, 섬세한 소재나 울의 경우 세탁조의 절반 이상을 채우지 않아야 합니다.",
-      "image_url": "static/dictionary_image/43.jpg"
+      "image_url": "dictionary_image/43.jpg"
     },
     {
       "title": "올바른 세제 사용량",
       "description": "세제 잔여물이나 세탁기 부담 없이 효과적으로 세탁하기 위한 올바른 세제량에 대한 정보입니다.",
       "content": "세제를 너무 많이 사용하면 잔여물이 남고, 너무 적게 사용하면 때가 제거되지 않습니다. 올바른 세제량은 세탁물의 양, 오염 정도, 물의 세기를 고려해 결정하세요. 일반적으로는 제품 라벨에 표시된 권장량을 따르는 것이 좋습니다.",
-      "image_url": "static/dictionary_image/44.jpg"
+      "image_url": "dictionary_image/44.jpg"
     },
     {
       "title": "흰옷을 세탁하는 방법",
       "description": "흰옷을 오랫동안 밝고 선명하게 유지하는 세탁법입니다.",
       "content": "흰옷은 반드시 색깔 옷과 분리하여 세탁해야 합니다. 얼룩은 세탁 전에 소량의 세제를 문질러 처리하는 것이 좋고, 표준 세탁 모드나 온수(최대 60°C)를 사용합니다. 세탁 후에는 즉시 꺼내어 건조하세요.",
-      "image_url": "static/dictionary_image/45.jpg"
+      "image_url": "dictionary_image/45.jpg"
     },
     {
       "title": "색깔 있는 빨래",
       "description": "색깔 있는 옷의 이염을 방지하고 색상을 유지하는 세탁법입니다.",
       "content": "색이 진하거나 어두운 옷은 이염 방지를 위해 밝은 색 옷과 분리 세탁하고, 뒤집어서 넣으면 색상 유지에 도움이 됩니다. 세탁조 용량의 70~80%만 채우고 찬물 또는 미지근한 물(최대 60°C)을 사용하세요.",
-      "image_url": "static/dictionary_image/46.jpg"
+      "image_url": "dictionary_image/46.jpg"
     },
     {
       "title": "작업복 세탁법",
       "description": "작업복의 심한 오염을 효과적으로 제거하는 방법입니다.",
       "content": "세탁 전에 색상별로 분리하고 온수 또는 표준 세탁 모드를 선택하세요. 오염이 심한 경우 세제를 조금 더 넣거나, 세제를 푼 물에 하룻밤 불려두면 효과가 좋습니다.",
-      "image_url": "static/dictionary_image/47.jpg"
+      "image_url": "dictionary_image/47.jpg"
     },
     {
       "title": "아기 옷 세탁법",
       "description": "민감한 아기 피부를 위한 옷 세탁 방법입니다.",
       "content": "아기 옷은 새 옷도 입히기 전에 반드시 세탁하고, 저자극 세제를 사용하세요. 얼룩은 찬물에 즉시 헹구고, 세탁은 약한 설정의 찬물로 합니다. 세제 잔여물이 남지 않도록 충분히 헹구고 자연 건조하세요.",
-      "image_url": "static/dictionary_image/48.jpg"
+      "image_url": "dictionary_image/48.jpg"
     }
   ],
   "removal": [
@@ -301,19 +301,19 @@
       "title": "옷에 밴 음식 냄새 제거 방법",
       "description": "음식 냄새를 효과적으로 제거하는 방법입니다.",
       "content": "요리 후 냄새가 밴 옷은 바로 야외에 걸어 환기시키세요. 세탁 전 얼룩이 없다면 라벨이 허용하는 최대 온도로 설정하고, 냄새 제거에 특화된 세제를 사용합니다. 세탁 후 냄새가 남았다면 재세탁해야 합니다.",
-      "image_url": "static/dictionary_image/49.jpg"
+      "image_url": "dictionary_image/49.jpg"
     },
     {
       "title": "옷에 밴 기름 냄새 제거 방법",
       "description": "옷에 밴 기름 냄새를 근본적으로 제거하는 방법입니다.",
       "content": "냄새 제거의 핵심은 근본 제거입니다. 요리 직후 빠르게 세탁을 시작하고, 얼룩이 있다면 얼룩 제거용 세제로 미리 처리하세요. 냄새 제거 효과가 있는 세제를 사용하고, 원단이 허용하는 가장 높은 온도로 세탁합니다.",
-      "image_url": "static/dictionary_image/50.jpg"
+      "image_url": "dictionary_image/50.jpg"
     },
     {
       "title": "옷에 밴 냄새 제거 및 예방",
       "description": "옷에 밴 냄새를 제거하고 냄새를 예방하는 전반적인 팁입니다.",
       "content": "냄새 나는 부위를 확인해 세제 전처리 후 강력한 냄새 제거용 세제로 세탁하세요. 예방을 위해 젖은 빨래를 세탁기에 오래 두지 말고, 세탁기 문을 열어 통풍시키며, 세제는 적정량만 사용하세요.",
-      "image_url": "static/dictionary_image/51.jpg"
+      "image_url": "dictionary_image/51.jpg"
     },
     {
       "title": "옷감에서 얼룩 제거하는 법",
@@ -349,7 +349,7 @@
         "가죽은 젖은 천으로 얼룩 제거 후 가죽 컨디셔너를 바르는 것이 좋습니다.",
         "모든 세탁 전 의류 라벨을 반드시 확인하고 따르세요."
       ],
-      "image_url": "static/dictionary_image/52.jpg"
+      "image_url": "dictionary_image/52.jpg"
     },
     {
       "title": "시트에서 얼룩 제거하기",
@@ -382,7 +382,7 @@
         "시트의 재질에 따라 세탁 방식(기계 vs 손세탁)을 결정해야 합니다.",
         "땀 얼룩은 시각적 문제뿐 아니라 냄새 제거도 함께 고려해야 합니다."
       ],
-      "image_url": "static/dictionary_image/53.jpg"
+      "image_url": "dictionary_image/53.jpg"
     },
     {
       "title": "오래되고 마른 얼룩을 제거하는 법",
@@ -416,7 +416,7 @@
         "면, 린넨 같은 다공성 섬유는 세제가 깊숙이 스며드는 시간이 더 필요합니다.",
         "염색약, 잉크, 탈취제 등 다양한 마른 얼룩도 이 방법으로 제거 가능합니다."
       ],
-      "image_url": "static/dictionary_image/54.jpg"
+      "image_url": "dictionary_image/54.jpg"
     },
     {
       "title": "흰 옷에서 얼룩을 제거하는 방법",
@@ -451,7 +451,7 @@
         "흰 옷의 경우 색상 있는 옷과 달리 표백, 변색에 민감하므로 세제 선택에 주의해야 합니다.",
         "얼룩을 즉시 처리하지 않으면 고착될 수 있으므로 빠른 조치가 중요합니다."
       ],
-      "image_url": "static/dictionary_image/55.jpg"
+      "image_url": "dictionary_image/55.jpg"
     },
     {
       "title": "면 옷의 얼룩 제거법",
@@ -486,7 +486,7 @@
         "면은 다공성이기 때문에 얼룩이 쉽게 스며들며, 조치가 늦으면 제거가 어렵습니다.",
         "건조 시 크기 축소나 주름이 생길 수 있으므로 건조기 사용 시 주의가 필요합니다."
       ],
-      "image_url": "static/dictionary_image/56.jpg"
+      "image_url": "dictionary_image/56.jpg"
     },
     {
       "title": "속옷에서 얼룩 제거하는 법",
@@ -521,7 +521,7 @@
         "이러한 얼룩은 냄새가 남기 쉽기 때문에 빠르게 조치하는 것이 중요합니다.",
         "속옷의 얼룩은 일반 옷보다 더 민감하게 여겨질 수 있으므로 위생적으로 처리하는 것이 좋습니다."
       ],
-      "image_url": "static/dictionary_image/57.jpg"
+      "image_url": "dictionary_image/57.jpg"
     },
     {
       "title": "얼룩 제거를 위한 일반적인 팁",
@@ -558,7 +558,7 @@
         "얼룩이 젖어 있을 때가 제거하기 가장 좋습니다.",
         "모든 얼룩이 같아 보일 수 있지만 처리 방식은 다를 수 있으므로, 얼룩 유형에 따라 방법을 달리해야 합니다."
       ],
-      "image_url": "static/dictionary_image/58.jpg"
+      "image_url": "dictionary_image/58.jpg"
     },
     {
       "title": "흰 바지의 얼룩 제거법",
@@ -592,7 +592,7 @@
         "부분 빨래 후에는 충분히 담가서 얼룩을 분리해내는 것이 효과적입니다.",
         "기계 세탁 가능한 강한 옷감일 경우에도 의류 표기를 반드시 확인하세요."
       ],
-      "image_url": "static/dictionary_image/59.jpg"
+      "image_url": "dictionary_image/59.jpg"
     },
     {
       "title": "비단에서 얼룩 제거하기",
@@ -628,7 +628,7 @@
         "손세탁 후에도 얼룩이 제거되지 않으면 드라이클리닝이 필요합니다.",
         "가정용 실크 제품(침대 시트, 식탁보 등)에도 동일한 방법이 적용됩니다."
       ],
-      "image_url": "static/dictionary_image/60.jpg"
+      "image_url": "dictionary_image/60.jpg"
     },
     {
       "title": "폴리에스테르 옷감의 얼룩 제거",
@@ -663,7 +663,7 @@
         "폴리에스테르에 마른 얼룩이 남았을 경우 재처리를 통해 제거할 수 있습니다.",
         "폴리에스테르는 드레스, 셔츠, 자켓 등 다양한 의류에 사용됩니다."
       ],
-      "image_url": "static/dictionary_image/61.jpg"
+      "image_url": "dictionary_image/61.jpg"
     },
     {
       "title": "모자에서 땀 얼룩 제거하는 법",
@@ -698,7 +698,7 @@
         "모자에는 스냅 단추, 금속 걸쇠 등 세탁 시 주의가 필요한 부속이 있을 수 있습니다.",
         "세탁 후 얼룩이 남았는지 확인한 뒤, 필요한 경우 반복하세요."
       ],
-      "image_url": "static/dictionary_image/62.jpg"
+      "image_url": "dictionary_image/62.jpg"
     }
   ]
 }
