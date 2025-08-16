@@ -1,5 +1,5 @@
 {
-    "filename": "KakaoTalk_20250816_154500741_06_9XPGwxb.jpg",
+    "filename": "KakaoTalk_20250814_004036111_06_z0XPpsz.jpg",
     "recognized_texts": [
         "-취급상",
         "주의사항-",
@@ -115,12 +115,12 @@
     "symbol_definition": "물의 온도 최대 40 °C에서 손으로 약하게 손세탁할 수 있다(세탁기 사용 불가).",
     "ocr_raw_response": {
         "version": "V2",
-        "requestId": "d781345e-054a-43b5-bc41-6e2fcd359db3",
-        "timestamp": 1755328101258,
+        "requestId": "50540ace-652c-4c50-86ca-0bfcec0c2462",
+        "timestamp": 1755352518762,
         "images": [
             {
-                "uid": "fd92e581470948c6bb1abb19162ab6d6",
-                "name": "KakaoTalk_20250816_154500741_06_9XPGwxb.jpg",
+                "uid": "68e578eef1f640e6bf60beaa16789f64",
+                "name": "KakaoTalk_20250814_004036111_06_z0XPpsz.jpg",
                 "inferResult": "SUCCESS",
                 "message": "SUCCESS",
                 "validationResult": {

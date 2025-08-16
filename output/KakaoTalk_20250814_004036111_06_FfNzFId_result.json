@@ -1,5 +1,5 @@
 {
-    "filename": "KakaoTalk_20250816_154500741_06_E0H4f6H.jpg",
+    "filename": "KakaoTalk_20250814_004036111_06_FfNzFId.jpg",
     "recognized_texts": [
         "-취급상",
         "주의사항-",
@@ -115,12 +115,12 @@
     "symbol_definition": "물의 온도 최대 40 °C에서 손으로 약하게 손세탁할 수 있다(세탁기 사용 불가).",
     "ocr_raw_response": {
         "version": "V2",
-        "requestId": "39c0f241-c82e-448d-af39-11600bfc7653",
-        "timestamp": 1755332172173,
+        "requestId": "a0689b8e-efb8-42a9-b8ff-7c2846026217",
+        "timestamp": 1755351131117,
         "images": [
             {
-                "uid": "765da2bc9b75438983812b035c606991",
-                "name": "KakaoTalk_20250816_154500741_06_E0H4f6H.jpg",
+                "uid": "58a496dcab754e508645d44654a10720",
+                "name": "KakaoTalk_20250814_004036111_06_FfNzFId.jpg",
                 "inferResult": "SUCCESS",
                 "message": "SUCCESS",
                 "validationResult": {
@@ -210,7 +210,7 @@
                             ]
                         },
                         "inferText": "(위에서)",
-                        "inferConfidence": 0.8327,
+                        "inferConfidence": 0.8331,
                         "type": "NORMAL",
                         "lineBreak": true
                     },
@@ -291,7 +291,7 @@
                             ]
                         },
                         "inferText": "세제를",
-                        "inferConfidence": 0.9134,
+                        "inferConfidence": 0.913,
                         "type": "NORMAL",
                         "lineBreak": false
                     },
@@ -372,7 +372,7 @@
                             ]
                         },
                         "inferText": "물에",
-                        "inferConfidence": 0.9966,
+                        "inferConfidence": 0.9967,
                         "type": "NORMAL",
                         "lineBreak": false
                     },
@@ -426,7 +426,7 @@
                             ]
                         },
                         "inferText": "동지",
-                        "inferConfidence": 0.6494,
+                        "inferConfidence": 0.6509,
                         "type": "NORMAL",
                         "lineBreak": false
                     },
@@ -561,7 +561,7 @@
                             ]
                         },
                         "inferText": "딸수",
-                        "inferConfidence": 0.6973,
+                        "inferConfidence": 0.6976,
                         "type": "NORMAL",
                         "lineBreak": false
                     },
@@ -615,7 +615,7 @@
                             ]
                         },
                         "inferText": "용진",
-                        "inferConfidence": 0.4758,
+                        "inferConfidence": 0.4757,
                         "type": "NORMAL",
                         "lineBreak": false
                     },
@@ -885,7 +885,7 @@
                             ]
                         },
                         "inferText": "3.흰색제품과",
-                        "inferConfidence": 0.8613,
+                        "inferConfidence": 0.8615,
                         "type": "NORMAL",
                         "lineBreak": false
                     },
@@ -993,7 +993,7 @@
                             ]
                         },
                         "inferText": "4",
-                        "inferConfidence": 0.9939,
+                        "inferConfidence": 0.994,
                         "type": "NORMAL",
                         "lineBreak": false
                     },
@@ -1722,7 +1722,7 @@
                             ]
                         },
                         "inferText": "단추를",
-                        "inferConfidence": 0.9925,
+                        "inferConfidence": 0.9926,
                         "type": "NORMAL",
                         "lineBreak": false
                     },
@@ -1884,7 +1884,7 @@
                             ]
                         },
                         "inferText": "열풍건조는",
-                        "inferConfidence": 0.9952,
+                        "inferConfidence": 0.9953,
                         "type": "NORMAL",
                         "lineBreak": false
                     },
@@ -1992,7 +1992,7 @@
                             ]
                         },
                         "inferText": "될",
-                        "inferConfidence": 0.8033,
+                        "inferConfidence": 0.8031,
                         "type": "NORMAL",
                         "lineBreak": false
                     },
@@ -2937,7 +2937,7 @@
                             ]
                         },
                         "inferText": "주십시오",
-                        "inferConfidence": 0.9811,
+                        "inferConfidence": 0.9814,
                         "type": "NORMAL",
                         "lineBreak": false
                     },
@@ -3018,7 +3018,7 @@
                             ]
                         },
                         "inferText": "LADELia",
-                        "inferConfidence": 0.7945,
+                        "inferConfidence": 0.7948,
                         "type": "NORMAL",
                         "lineBreak": true
                     },
@@ -3099,7 +3099,7 @@
                             ]
                         },
                         "inferText": "검",
-                        "inferConfidence": 0.5568,
+                        "inferConfidence": 0.5549,
                         "type": "NORMAL",
                         "lineBreak": true
                     }
