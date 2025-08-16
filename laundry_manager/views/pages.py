@@ -1,6 +1,8 @@
 # views/pages.py
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from . import maps
+from django.conf import settings
 
 # allauth가 없는 환경에서도 터지지 않도록 안전 임포트
 try:
@@ -185,8 +187,11 @@ def profile_page(request):
     recent_records = _recent_records(request.user, limit=10)
     return render(request, "laundry_manager/profile.html", base_context(request, extra={"records": recent_records}))
 
+
 def map_page(request):
-    return render(request, "laundry_manager/map.html", base_context(request))
+    map_data = maps.get_map_data()
+    context = base_context(request, extra=map_data)
+    return render(request, "laundry_manager/map.html", context)
 
 def settings_page(request):
     return render(request, "laundry_manager/settings.html", base_context(request))
