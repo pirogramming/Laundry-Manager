@@ -254,15 +254,15 @@ section h3 {
     padding: 4px;
     font-size: 0.8rem;
     font-weight: 500;
-
+    transition: background-color 0.5s ease-in-out;
     border-radius: 10px;
-    color: white;
-    background-color: var(--color-primary);
 }
 
 .show-more-btn:hover {
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: white;
+    background-color: var(--color-primary);
 }
 
 .show-less-btn {
@@ -272,12 +272,13 @@ section h3 {
     font-size: 0.8rem;
     font-weight: 500;
     border-radius: 10px;
-    color: white;
-    background-color: var(--color-primary);
+    transition: background-color 0.2s ease-in-out;
+
 }
 
 .show-less-btn:hover {
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-
+    color: white;
+    background-color: var(--color-primary);
 }
