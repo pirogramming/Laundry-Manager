@@ -146,23 +146,7 @@ def dictionary(request):
                 items = dictionary_data.get(category_key, [])
                 filtered_items = []
                 for item in items:
-                    search_string = (
-                        item.get("title", "").lower()
-                        + item.get("description", "").lower()
-                        + json.dumps(
-                            item.get("content", ""), ensure_ascii=False
-                        ).lower()
-                        + json.dumps(
-                            item.get("Washing_Steps", []), ensure_ascii=False
-                        ).lower()
-                        + json.dumps(item.get("tip", []), ensure_ascii=False).lower()
-                        + json.dumps(
-                            item.get("not_to_do", []), ensure_ascii=False
-                        ).lower()
-                        + json.dumps(
-                            item.get("Other_Information", []), ensure_ascii=False
-                        ).lower()
-                    )
+                    search_string = item.get("title", "").lower()
                     if query.lower() in search_string:
                         filtered_items.append(preprocess_item(item))
                 if filtered_items:
