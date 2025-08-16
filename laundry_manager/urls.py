@@ -1,7 +1,7 @@
 # laundry_manager/urls.py
 from django.urls import path
 from .views import pages, ocr, stains, info_flow, maps, history, classify, contact, fortune
-import laundry_manager.views.dictionary as dictionary_views  # 이전 이슈 피하려고 모듈 임포트
+import laundry_manager.views.dictionary as dictionary_views
 ## 테스트를 위한 import들 ##
 from django.views.generic import TemplateView
 from .views import laundry_res  # 이미 guide_from_result 추가해놨던 파일
@@ -61,25 +61,17 @@ urlpatterns = [
     path("settings-privacy/", pages.settings_privacy_page, name="settings-privacy"),
     path("account-settings/", pages.account_settings_page, name="account-settings"),
     path("contact-settings/", pages.contact_settings_page, name="contact-settings"),
+    # 기록(History)
     path("record-settings/", history.record_settings_page, name="record-settings"),
-    path(
-        "history/<int:history_id>/",
-        history.laundry_history_detail_view,
-        name="laundry_history_detail",
-    ),
-    path(
-        "history/<int:history_id>/delete/",
-        history.delete_laundry_history,
-        name="laundry_history_delete",
-    ),
-    path("classify/", classify.classify_symbol_view, name="classify"),
-
+    path("history/<int:history_id>/", history.laundry_history_detail_view, name="laundry_history_detail"),
+    path("history/<int:history_id>/delete/", history.delete_laundry_history, name="laundry_history_delete"),
     path("history/upload/", history.upload_and_save_history_view, name="upload_history"),
     path("history/save-current/", history.save_current_result_as_history_view, name="save_current_history"),
+    path("classify/", classify.classify_symbol_view, name="classify"),
+
     # path('guide/', info_flow.guide_from_result, name='guide_from_result'),
     path("laundry-info/", info_flow.guide_from_result, name="laundry_info"),
     # path("guide/from-result/", laundry_res.guide_from_result, name="guide_from_result"),
-    # path("history/clear/", history.delete_laundry_history, name="clear_result"),
     
     #문의하기 처리
     path('contact/submit/', contact.contact_submit_view, name='contact_submit'),

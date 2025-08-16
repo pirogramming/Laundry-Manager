@@ -2,40 +2,79 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>세탁 기록 상세</title>
-    <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <style>
-        .container { padding: 20px; }
-        .record-card { background: #fff; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .record-card h1 { font-size: 24px; margin-bottom: 8px; }
-        .record-card p { color: #666; }
-        .record-card hr { border: none; border-top: 1px solid #eee; margin: 16px 0; }
-        .back-link { display: inline-block; margin-bottom: 20px; color: #333; text-decoration: none; }
-        .pre-wrap { white-space: pre-wrap; word-wrap: break-word; font-family: inherit; font-size: 16px; line-height: 1.6; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>세탁 기록 상세</title>
+
+  {% comment %} <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}"> {% endcomment %}
+{% comment %} <link rel="stylesheet" href="{% static 'laundry_manager/laundry-info-style.css' %}"> {% endcomment %}
+
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <style>
+    .pre-wrap { white-space: pre-wrap; word-wrap: break-word; }
+    .record-meta { color:#6b7280; font-size:14px; margin-top:4px; }
+    .detail-container { padding: 16px; }
+    .record-card { background:#fff; border-radius:16px; padding:16px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+    .record-title { font-size:22px; font-weight:800; margin-bottom:4px; }
+    .danger-btn { width:100%; margin-top:16px; }
+    .top-nav { display:flex; align-items:center; gap:8px; }
+    .top-nav .icon-btn { border:none; background:#f3f4f6; width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <a href="{% url 'main' %}" class="back-link"><i class="fa-solid fa-arrow-left"></i> 메인으로 돌아가기</a>
-        
+  <div class="page-container">
+    <div class="content-wrapper">
+
+      <!-- 상단 내비 -->
+      <header class="info-header" style="padding:16px;">
+        <nav class="top-nav">
+          <a href="{% url 'main' %}">
+            <button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button>
+          </a>
+          <h1 style="font-size:18px; font-weight:800;">메인으로 돌아가기</h1>
+        </nav>
+      </header>
+
+      <!-- 본문 -->
+      <main class="detail-container">
         <div class="record-card">
-            <h1>{{ record.materials }} / {{ record.stains }}</h1>
-            <p>{{ record.created_at|date:"Y년 m월 d일" }}의 세탁 기록</p>
-            <hr>
-            
-            <h3>저장된 추천 세탁법</h3>
-            <p class="pre-wrap">{{ record.recommendation_result|linebreaksbr }}</p>
+          <div class="record-title">
+            {{ record.materials|default:"(소재 미선택)" }}{% if record.stains %} / {{ record.stains }}{% endif %}
+          </div>
+          <div class="record-meta">
+            {{ record.created_at|date:"Y년 m월 d일" }}의 세탁 기록
+          </div>
+          <hr style="border:none; border-top:1px solid #eee; margin:16px 0;" />
+
+          <h3 style="font-weight:800;">저장된 추천 세탁법</h3>
+
+          {# 스냅샷 HTML 또는 텍스트 출력 #}
+          {% if record.recommendation_result %}
+            <div class="pre-wrap">
+              {{ record.recommendation_result|safe }}
+            </div>
+          {% else %}
+            <p class="pre-wrap" style="margin-top:8px;">저장된 내용이 없습니다.</p>
+          {% endif %}
         </div>
-        <form method="post" action="{% url 'laundry_history_delete' history_id=record.id %}" style="margin-top:16px;">
-        {% csrf_token %}
-        <button type="submit" class="text-btn-dark" style="width:100%;">
+
+        {# 삭제 버튼 #}
+        <form method="post" action="{% url 'laundry_history_delete' history_id=record.id %}" class="danger-btn">
+          {% csrf_token %}
+          <button type="submit" class="text-btn-dark" style="width:100%;">
             <i class="fa-solid fa-trash"></i> 기록 지우기
-        </button>
+          </button>
         </form>
+      </main>
 
     </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
 </body>
 </html>

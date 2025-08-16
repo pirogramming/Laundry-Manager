@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.db import transaction
 from django.http import HttpResponse
 from django.views.decorators.http import require_POST
+from django.template.loader import render_to_string
 
 from ..models import LaundryHistory, UploadedImage
 from ..forms import WashingUploadForm
@@ -27,7 +28,7 @@ def _as_list(v):
     return [str(v).strip()]
 
 
-
+@login_required
 @require_POST
 def delete_laundry_history(request, history_id: int):
     """
@@ -102,21 +103,72 @@ def upload_and_save_history_view(request):
     messages.success(request, "세탁 기록이 저장되었습니다.")
     return redirect("laundry_history_detail", history_id=record.pk)
 
+from django.template import TemplateDoesNotExist
 
 @login_required
 @require_http_methods(["POST"])
 def save_current_result_as_history_view(request):
     """
-    업로드 없이, 이미 세션에 들어있는 결과를 바로 기록으로 저장하고 싶을 때 사용
+    세션의 결과를 laundry-info 본문 형태의 HTML 스냅샷으로 렌더해
+    LaundryHistory.recommendation_result 에 저장한다.
     """
+    s = request.session
     payload = _build_history_payload_from_session(request)
-    if not _has_any_payload(payload):
-        return HttpResponse("세션에 저장된 결과가 없습니다.", status=400)
 
+    # 기본값 보정(메타 표시용)
+    if not payload.get("materials"):
+        payload["materials"] = (
+            s.get("material")
+            or (s.get("materials")[0] if s.get("materials") else "(소재 미선택)")
+        )
+    if not payload.get("stains"):
+        payload["stains"] = ", ".join(s.get("stains") or []) or "(얼룩 미선택)"
+
+    # 1) 레코드 먼저 생성
     record = LaundryHistory.objects.create(user=request.user, **payload)
-    messages.success(request, "현재 결과를 기록으로 저장했습니다.")
-    return redirect("laundry_history_detail", history_id=record.pk)
 
+    # 2) 스냅샷 컨텍스트 구성
+    stain_obj = s.get("stain_obj") or {}
+    if not isinstance(stain_obj, dict):
+        stain_obj = {}
+    # 템플릿 안전 사용을 위해 미리 병합
+    stain_todo = stain_obj.get("not_to_do") or stain_obj.get("Not_to__do")
+
+    ctx = {
+        "summary":  s.get("summary") or {},
+        "material": s.get("material_obj") or {},                 # {name, description, warning}
+        "stain":    stain_obj,                                   # {Washing_Steps, ...}
+        "stain_todo": stain_todo,                                # ✅ 템플릿에서 바로 사용
+        "washing_descriptions": s.get("washing_descriptions") or [],
+        "drying_descriptions":  s.get("drying_descriptions") or [],
+        "symbols":  s.get("symbol_descriptions") or s.get("symbols") or [],
+        "info": {
+            "material": s.get("material") or (s.get("materials")[0] if s.get("materials") else ""),
+            "stains": ", ".join(s.get("stains") or []),
+        },
+    }
+
+    # 3) HTML 스냅샷 렌더
+    try:
+        snapshot_html = render_to_string(
+            "laundry_manager/partials/_laundry_info_snapshot.html",  # ← 템플릿 경로 일치 확인
+            ctx,
+            request=request,  # static/url 태그 처리
+        ).strip()
+    except TemplateDoesNotExist:
+        snapshot_html = ""
+
+    # 4) 스냅샷이 비면 폴백(기존 텍스트) + 디버그 마커
+    if not snapshot_html:
+        fb = payload.get("recommendation_result") or ""
+        snapshot_html = f"<!-- SNAPSHOT_EMPTY_FALLBACK -->{fb}"
+
+    # 5) 저장
+    record.recommendation_result = snapshot_html
+    record.save(update_fields=["recommendation_result"])
+
+    messages.success(request, f"기록 저장 완료 (len={len(snapshot_html)})")
+    return redirect("laundry_history_detail", history_id=record.pk)
 
 # ---------------------------
 # 내부 유틸/훅

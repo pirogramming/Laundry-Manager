@@ -89,6 +89,7 @@ class LaundryHistory(models.Model):
     recommendation_result = models.TextField(
         help_text="사용자에게 보여준 최종 추천 세탁법 텍스트"
     )
+    snapshot_html = models.TextField(blank=True) 
 
     # 기록 생성일
     created_at = models.DateTimeField(auto_now_add=True)

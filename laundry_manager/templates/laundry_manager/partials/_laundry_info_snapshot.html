@@ -1,0 +1,25 @@
+{# 피해야 하는 세탁법 #}
+<section class="card avoid-card">
+  <h3><i class="fa-solid fa-triangle-exclamation"></i> 피해야 하는 세탁법</h3>
+
+  {% if material and material.warning %}
+    <div class="avoid-item">
+      <i class="fa-solid fa-circle-exclamation"></i>
+      <p class="preline">{{ material.warning }}</p>
+    </div>
+  {% endif %}
+
+  {% if stain_todo %}
+    <ul class="avoid-list">
+      {% if stain_todo.0 and stain_todo|length > 1 %}
+        {% for t in stain_todo %}
+          <li class="avoid-item"><i class="fa-solid fa-circle-exclamation"></i><p class="preline">{{ t }}</p></li>
+        {% endfor %}
+      {% else %}
+        <li class="avoid-item"><i class="fa-solid fa-circle-exclamation"></i><p class="preline">{{ stain_todo }}</p></li>
+      {% endif %}
+    </ul>
+  {% else %}
+    <div class="avoid-item"><p>특별히 피해야 할 항목이 없습니다.</p></div>
+  {% endif %}
+</section>

@@ -239,7 +239,7 @@ def make_stain_steps_one_liner(stain_guide: Dict) -> str:
     return out
 
 def apply_wash_dry_summaries(summary: Dict, material_desc: str,
-                             washing_descs: List[str], drying_descs: List[str]) -> Dict:
+                            washing_descs: List[str], drying_descs: List[str]) -> Dict:
     out = dict(summary or {"wash": None, "dry": None, "stain": None})
     try:
         w = make_wash_summary(material_desc, washing_descs)
