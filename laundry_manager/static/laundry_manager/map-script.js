@@ -585,9 +585,6 @@ naver.maps.onJSContentLoaded = function() {
             .filter(s => !state.product || s.products.includes(state.product))
             .map(s => ({ ...s, distance: dist(s.coord, centerArr) }));
         
-        if (data.length > 0) {
-            console.log("실시간으로 계산된 첫 번째 가게의 거리(m):", data[0].distance);
-        }
             
         data.sort((a, b) => state.sortMode === 'distance' ? a.distance - b.distance : b.rating - a.rating);
         renderMarkers(data);
@@ -647,12 +644,19 @@ naver.maps.onJSContentLoaded = function() {
     });
     [productFilter, centerSel, sortSel].forEach(sel => {
         sel.addEventListener('change', async () => {
-            const key = sel.id.replace('Filter', '').replace('Mode', '');
+            // state 객체의 키는 'product', 'centerMode', 'sortMode' 입니다.
+            // sel.id가 'centerMode' 또는 'sortMode' 이므로 그대로 키로 사용합니다.
+            const key = sel.id === 'productFilter' ? 'product' : sel.id;
+
             if (key === 'product') {
                 state[key] = sel.options[sel.selectedIndex].text;
                 if (state[key] === '모든 상품') state[key] = '';
-            } else { state[key] = sel.value; }
-            if (sel.id === 'centerMode' && sel.value === 'me') { 
+            } else {
+                // key는 'centerMode' 또는 'sortMode'가 됩니다.
+                state[key] = sel.value;
+            }
+
+            if (key === 'centerMode' && sel.value === 'me') {
                 state.myCoord = await locateMe();
                 if(state.myCoord && map) {
                     map.setCenter(new naver.maps.LatLng(state.myCoord[0], state.myCoord[1]));
