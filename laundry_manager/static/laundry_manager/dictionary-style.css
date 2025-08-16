@@ -22,6 +22,7 @@
     flex: 1;
     text-align: center;
     margin: 0;
+    margin-right: 10%;
 }
 
 .icon-btn-bordered {
@@ -63,6 +64,7 @@ section h3 {
     font-size: 20px;
     font-weight: 700;
     margin: 0 20px 10px;
+    
 }
 
 /* --- 인기 세탁 정보 (캐러셀) --- */

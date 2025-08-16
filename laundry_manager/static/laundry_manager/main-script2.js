@@ -24,8 +24,6 @@ const swiper = new Swiper('.main-swiper', {
     },
 });
 
-// (updateEdgePeek 함수 등 다른 부분은 그대로 둡니다)
-
 // --- 모든 버튼에 대한 인터랙션 피드백 ---
 const buttons = document.querySelectorAll('button, a.cta-button, a.nav-item ');
 buttons.forEach(button => {
@@ -51,12 +49,8 @@ animate(
     }
 );
 
-
-
 // --- 오늘의 운세 팝업 기능 ---
 const fortuneModal = document.getElementById('fortune-modal');
-const closeModalBtn = document.getElementById('close-modal-btn');
-const dontShowAgainBtn = document.getElementById('dont-show-again-btn');
 
 const fortunes = [
     "마음속 깊이 간직해 온 창조적인 불꽃이 드디어 웅장한 날갯짓을 시작할 것입니다. 예상치 못한 곳에서 영감이 샘솟고, 묵혀두었던 계획들이 놀라운 속도로 현실화될 하루입니다.",
@@ -79,37 +73,43 @@ const fortunes = [
     "당신의 웃음소리가 행운을 불러오는 자석이 되는 날입니다. 즐거운 마음으로 하루를 맞이하면, 좋은 소식이 줄줄이 따라올 것입니다."
 ];
 
-
 // fortuneModal이 HTML에 실제로 존재할 경우에만 아래 로직을 실행합니다. (오류 방지)
 if (fortuneModal) {
-      const closeModalBtn = document.getElementById('close-modal-btn');
-      const dontShowAgainBtn = document.getElementById('dont-show-again-btn');
-      const fortuneTextElement = fortuneModal.querySelector('.fortune-text');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    const dontShowAgainBtn = document.getElementById('dont-show-again-btn');
+    const fortuneTextElement = fortuneModal.querySelector('.fortune-text');
 
-      // 2. '오늘 하루 보지 않기'를 선택하지 않았을 경우에만 팝업을 보여줍니다.
-      if (!localStorage.getItem('hideFortuneForToday')) {
-          
-          // 3. 운세 목록에서 랜덤으로 하나를 선택합니다.
-          const randomIndex = Math.floor(Math.random() * fortunes.length);
-          const randomFortune = fortunes[randomIndex];
+    // 👇 1. HTML의 body 태그에서 사용자 ID를 가져옵니다.
+    const userId = document.body.dataset.userId || 'guest';
+    
+    // 👇 2. 각 사용자를 위한 고유한 localStorage 키를 생성합니다.
+    const storageKey = `hideFortuneForToday_${userId}`;
 
-          // 4. 선택된 운세를 팝업의 p 태그 안에 채워 넣습니다.
-          if (fortuneTextElement) {
-              fortuneTextElement.textContent = randomFortune;
-          }
-          
-          // 5. 팝업을 화면에 표시합니다.
-          fortuneModal.classList.add('visible');
-      }
+    // 👇 3. 고유 키를 사용하여 팝업을 보여줄지 결정합니다.
+    if (!localStorage.getItem(storageKey)) {
+        
+        // 운세 목록에서 랜덤으로 하나를 선택합니다.
+        const randomIndex = Math.floor(Math.random() * fortunes.length);
+        const randomFortune = fortunes[randomIndex];
 
-      // '닫기' 버튼 이벤트
-      closeModalBtn.addEventListener('click', () => {
-          fortuneModal.classList.remove('visible');
-      });
+        // 선택된 운세를 팝업의 p 태그 안에 채워 넣습니다.
+        if (fortuneTextElement) {
+            fortuneTextElement.textContent = randomFortune;
+        }
+        
+        // 팝업을 화면에 표시합니다.
+        fortuneModal.classList.add('visible');
+    }
 
-      // '오늘 하루 보지 않기' 버튼 이벤트
-      dontShowAgainBtn.addEventListener('click', () => {
-          localStorage.setItem('hideFortuneForToday', 'true');
-          fortuneModal.classList.remove('visible');
-      });
-};
+    // '닫기' 버튼 이벤트
+    closeModalBtn.addEventListener('click', () => {
+        fortuneModal.classList.remove('visible');
+    });
+
+    // '오늘 하루 보지 않기' 버튼 이벤트
+    dontShowAgainBtn.addEventListener('click', () => {
+        // 👇 4. 고유 키(storageKey)에 값을 저장합니다.
+        localStorage.setItem(storageKey, 'true');
+        fortuneModal.classList.remove('visible');
+    });
+}
