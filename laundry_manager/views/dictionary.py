@@ -8,6 +8,9 @@ from django.http import JsonResponse
 from urllib.parse import unquote
 from django.template.loader import render_to_string
 from django.contrib.staticfiles.finders import find
+from ..models import FavoriteItem  # FavoriteItem 모델을 import
+from django.contrib.auth.decorators import login_required
+from django.templatetags.static import static
 
 logger = logging.getLogger(__name__)
 
@@ -21,6 +24,7 @@ def _load_dictionary_data():
         p = os.path.join(
             settings.BASE_DIR, "laundry_manager", "json_data", "dictionary.json"
         )
+
         with open(p, "r", encoding="utf-8") as f:
             return json.load(f)
     except Exception as e:
@@ -116,19 +120,38 @@ def dictionary(request):
 
     item_index = 0  # 이미지 파일명에 사용할 인덱스를 초기화
 
-    def preprocess_item(item):
-        nonlocal item_index
-        processed = item.copy()
-        item_index += 1
-        # Use a consistent file name pattern
-        image_filename = f"dictionary_image/{item_index}.jpg"
-        processed["image_url"] = (
-            f"/static/{image_filename}"  # Check if the image file exists
+    favorites_titles = []
+    if request.user.is_authenticated:
+        favorites_titles = list(
+            FavoriteItem.objects.filter(user=request.user).values_list(
+                "title", flat=True
+            )
         )
-        image_path = find(image_filename)
-        processed["has_image"] = os.path.exists(image_path)
-        processed["image_filename"] = image_filename
-        processed["json_data"] = json.dumps(item, ensure_ascii=False)
+
+    def preprocess_item(item):
+        processed = item.copy()
+
+        # The image_url from the JSON is a relative path.
+        # Use Django's `static` tag to get the absolute URL.
+        relative_path = item.get("image_url", "")
+        processed["image_url"] = relative_path
+
+        # The rest of your code for finding the file on the server.
+        # Note: `static()` above handles the browser URL.
+        # `find()` below is for server-side file checks.
+
+        # Correct `image_filename` for the `find` function.
+        image_filename = relative_path
+
+        # Use a try-except block to gracefully handle when `find()` fails.
+        try:
+            image_path = find(image_filename)
+            processed["has_image"] = os.path.exists(image_path)
+        except Exception as e:
+            processed["has_image"] = False
+            print(f"Error finding image path for {image_filename}: {e}")
+
+        # ... (rest of your function)
         return processed
 
     if query:
@@ -146,33 +169,30 @@ def dictionary(request):
                 items = dictionary_data.get(category_key, [])
                 filtered_items = []
                 for item in items:
-                    search_string = (
-                        item.get("title", "").lower()
-                        + item.get("description", "").lower()
-                        + json.dumps(
-                            item.get("content", ""), ensure_ascii=False
-                        ).lower()
-                        + json.dumps(
-                            item.get("Washing_Steps", []), ensure_ascii=False
-                        ).lower()
-                        + json.dumps(item.get("tip", []), ensure_ascii=False).lower()
-                        + json.dumps(
-                            item.get("not_to_do", []), ensure_ascii=False
-                        ).lower()
-                        + json.dumps(
-                            item.get("Other_Information", []), ensure_ascii=False
-                        ).lower()
-                    )
+                    search_string = item.get("title", "").lower()
                     if query.lower() in search_string:
                         filtered_items.append(preprocess_item(item))
                 if filtered_items:
                     processed_data[display_name] = filtered_items
+            pass
     else:
-        for category_key, display_name in category_map.items():
-            processed_data[display_name] = [
-                preprocess_item(item) for item in dictionary_data.get(category_key, [])
-            ]
+        favorites_data_list = []
+        full_dictionary_data = load_dictionary_data()
+        for category_key in full_dictionary_data:
+            for item in full_dictionary_data[category_key]:
+                if item.get("title") in favorites_titles:
+                    favorites_data_list.append(item)
 
+        processed_data[category_map["enjoy_looking"]] = [
+            preprocess_item(item) for item in favorites_data_list
+        ]
+
+        for category_key, display_name in category_map.items():
+            if category_key != "enjoy_looking":
+                processed_data[display_name] = [
+                    preprocess_item(item)
+                    for item in dictionary_data.get(category_key, [])
+                ]
     # Naver Trend API를 활용하여 인기 검색어 목록을 가져오는 로직 추가
     # 수정할 코드 (views.py 파일 내)
     all_keyword_data = []
@@ -254,3 +274,34 @@ def dictionary_detail(request, item_title):
     }
 
     return render(request, "laundry_manager/dictionary-detail.html", context)
+
+
+@login_required
+def toggle_favorite(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        title = data.get("title")
+        is_favorite = data.get("is_favorite", False)
+        user = request.user
+
+        if not title:
+            return JsonResponse(
+                {"status": "error", "message": "제목이 없습니다."}, status=400
+            )
+
+        if is_favorite:
+            # 즐겨찾기 추가 (이미 있으면 무시)
+            FavoriteItem.objects.get_or_create(user=user, title=title)
+            return JsonResponse(
+                {"status": "success", "message": "즐겨찾기에 추가되었습니다."}
+            )
+        else:
+            # 즐겨찾기 삭제
+            FavoriteItem.objects.filter(user=user, title=title).delete()
+            return JsonResponse(
+                {"status": "success", "message": "즐겨찾기에서 제거되었습니다."}
+            )
+
+    return JsonResponse(
+        {"status": "error", "message": "잘못된 요청입니다."}, status=405
+    )
