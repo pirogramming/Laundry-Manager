@@ -55,10 +55,10 @@
                         {% endif %}
                     </div>
 
-                    <hr class="info-divider">
+                    {% comment %} <hr class="info-divider"> {% endcomment %}
 
                     <!-- 세탁 지시문 (룰 엔진 결과) -->
-                    <div class="info-item">
+                    {% comment %} <div class="info-item">
                         <span>세탁 지시문</span>
                         {% if instructions %}
                             <ul class="instruction-list">
@@ -69,7 +69,7 @@
                         {% else %}
                             <strong>분석된 지시문 없음</strong>
                         {% endif %}
-                    </div>
+                    </div> {% endcomment %}
 
                     <hr class="info-divider">
 
