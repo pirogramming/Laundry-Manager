@@ -13,6 +13,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- (임시) 오늘의 운세 모달 전용 스타일: 필요시 main-style2.css로 이동 -->
+    <style>
+      .fortune-backdrop{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+        background:rgba(0,0,0,.35);z-index:9999}
+      .fortune-modal{background:#fff;border-radius:16px;max-width:360px;width:92%;
+        box-shadow:0 10px 30px rgba(0,0,0,.2);overflow:hidden}
+      .fortune-header{display:flex;align-items:center;justify-content:space-between;
+        padding:12px 16px;border-bottom:1px solid #eee}
+      .fortune-body{padding:16px;line-height:1.6}
+      .fortune-close{background:none;border:none;font-size:24px;cursor:pointer;line-height:1}
+      /* 접근성 대비 포커스 */
+      .fortune-close:focus{outline:2px solid #333; outline-offset:2px}
+      /* 모션은 나중에 JS 붙일 때 켤 수 있음 */
+    </style>
 </head>
 <body>
 <div class="mobile-container">
@@ -150,20 +165,35 @@
     </nav>
 </div>
 
-<!-- 스크립트 -->
+<!-- 오늘의 운세 모달 (JS 붙기 전, 기본 hidden) -->
+{% comment %} <div id="fortune-modal" class="fortune-backdrop" hidden>
+  <div class="fortune-modal" role="dialog" aria-modal="true" aria-labelledby="fortune-title">
+    <div class="fortune-header">
+      <strong id="fortune-title">오늘의 운세</strong>
+      <button id="fortune-close" class="fortune-close" aria-label="닫기">&times;</button>
+      <button id="fortune-close" class="fortune-close" type="button" aria-label="닫기">&times;</button>
+
+    </div>
+    <div class="fortune-body">
+      <p id="fortune-text">로딩 대기 중…</p>
+    </div>
+  </div>
+</div> {% endcomment %}
+
+<!-- 스크립트 (기존만 유지, 운세 JS는 보류) -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
 <script type="module" src="{% static 'laundry_manager/main-script2.js' %}"></script>
 <script>
-    // 혹시 main-script2.js에 초기화가 없다면 대비용
-    window.addEventListener('DOMContentLoaded', () => {
-        if (typeof Swiper !== 'undefined') {
-            new Swiper('.main-swiper', {
-                pagination: { el: '.swiper-pagination', clickable: true },
-                loop: true
-            });
-        }
-    });
+  /* Swiper가 main-script2.js에서 초기화되지 않는 경우를 대비한 안전 초기화 */
+  window.addEventListener('DOMContentLoaded', () => {
+      if (typeof Swiper !== 'undefined') {
+          new Swiper('.main-swiper', {
+              pagination: { el: '.swiper-pagination', clickable: true },
+              loop: true
+          });
+      }
+  });
 </script>
 </body>
 </html>

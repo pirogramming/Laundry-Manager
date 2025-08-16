@@ -1,6 +1,6 @@
 # laundry_manager/urls.py
 from django.urls import path
-from .views import pages, ocr, stains, info_flow, maps, history, classify,contact
+from .views import pages, ocr, stains, info_flow, maps, history, classify, contact, fortune
 import laundry_manager.views.dictionary as dictionary_views  # 이전 이슈 피하려고 모듈 임포트
 ## 테스트를 위한 import들 ##
 from django.views.generic import TemplateView
@@ -85,4 +85,8 @@ urlpatterns = [
     
     #문의하기 처리 
     path('contact/submit/', contact.contact_submit_view, name='contact_submit'),
+
+    # 오늘의 운세
+    path("api/fortune/today/", fortune.fortune_today_view, name="fortune_today"),
+
 ]

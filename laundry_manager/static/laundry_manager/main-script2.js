@@ -1,75 +1,106 @@
-// static/laundry_manager/main-script.js
+// static/laundry_manager/main-script2.js
+// 모듈로 로드하세요: <script type="module" src="{% static 'laundry_manager/main-script2.js' %}"></script>
 
+import { animate, stagger } from "https://cdn.jsdelivr.net/npm/motion@latest/+esm";
 
-import { animate, scroll } from "https://cdn.jsdelivr.net/npm/motion@latest/+esm"
+// -------- 유틸 --------
+const qs  = (s, r=document) => r.querySelector(s);
+const qsa = (s, r=document) => Array.from(r.querySelectorAll(s));
 
-animate(
-    ".mobile-container",
-    { opacity: [0, 1] },
-    { duration: 0.5, easing: "ease-out" }
-);
-
-// --- Swiper.js 캐러셀 초기화 (새로 추가) ---
-
-
-const swiper = new Swiper('.main-swiper', {
-    slidesPerView: 1, // 한 번에 보이는 슬라이드 개수 (CSS 너비에 따라 자동)
-    spaceBetween: 12,
-  
-// 활성 슬라이드를 가운데로
-    loop: true,            // 무한 루프
-    
-    // 자동 재생
-    autoplay: {
-      delay: 3000, // 3초마다 자동 재생
-      disableOnInteraction: false, // 사용자가 조작한 후에도 자동 재생 유지
-    },
-
-    // 페이지네이션 (하단 점)
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-    },
-    
+// -------- 페이지 로드 후 초기화 --------
+document.addEventListener("DOMContentLoaded", () => {
+  fadeInPage();
+  initSwiperOnce();
+  initButtonFeedback();
+  animateHistoryItems();
+  initDailyFortuneModal();
 });
-function updateEdgePeek(sw) {
-  const el = sw.el; // .main-swiper
-  // 먼저 싹 지우고
-  el.classList.remove('is-first', 'is-last');
 
-  // 원본 슬라이드 개수 (클론 제외)
-  const originalCount =3;
-
-  if (sw.realIndex === 0) {
-    el.classList.add('is-first');     // 맨 왼쪽: 오른쪽만 살짝 보이게
-  } else if (sw.realIndex === originalCount - 1) {
-    el.classList.add('is-last');      // 맨 오른쪽: 왼쪽만 살짝 보이게
-  }
+// -------- 1) 첫 화면 페이드인 --------
+function fadeInPage() {
+  animate(".mobile-container", { opacity: [0, 1] }, { duration: 0.5, easing: "ease-out" });
 }
 
-// --- 모든 버튼에 대한 인터랙션 피드백 ---
-const buttons = document.querySelectorAll('button, a.cta-button, a.nav-item ');
+// -------- 2) Swiper 캐러셀 --------
+function initSwiperOnce() {
+  if (typeof window.Swiper === "undefined") {
+    console.warn("Swiper not loaded.");
+    return;
+  }
+  const el = qs(".main-swiper");
+  if (!el) return;
 
-buttons.forEach(button => {
-    button.addEventListener('pointerdown', () => {
-        animate(button, { scale: 0.97 }, { duration: 0.1 });
-    });
-    button.addEventListener('pointerup', () => {
-        animate(button, { scale: 1 }, { duration: 0.1 });
-    });
-    button.addEventListener('pointerleave', () => {
-        animate(button, { scale: 1 }, { duration: 0.1 });
-    });
-});
+  // 중복 초기화 방지
+  if (el.__initialized) return;
+  el.__initialized = true;
 
-// --- '기록 보기' 목록이 순차적으로 나타나는 효과 ---
-animate(
-    ".history-item",
-    { 
-        opacity: [0, 1],
-        y: [15, 0]
-    },
-    { 
-        delay: stagger(0.1, { start: 0.5 }) 
-    }
-);
+  /* eslint-disable no-new */
+  new Swiper(".main-swiper", {
+    slidesPerView: 1,
+    spaceBetween: 12,
+    loop: true,
+    autoplay: { delay: 3000, disableOnInteraction: false },
+    pagination: { el: ".swiper-pagination", clickable: true },
+  });
+}
+
+// -------- 3) 버튼 인터랙션(하단 카메라 포함) --------
+function initButtonFeedback() {
+  const buttons = qsa("button, a.cta-button, a.nav-item, a.nav-item-main");
+  buttons.forEach((btn) => {
+    btn.addEventListener("pointerdown", () => animate(btn, { scale: 0.97 }, { duration: 0.1 }));
+    const to1 = () => animate(btn, { scale: 1 }, { duration: 0.1 });
+    btn.addEventListener("pointerup", to1);
+    btn.addEventListener("pointerleave", to1);
+  });
+}
+
+// -------- 4) 기록 리스트 순차 등장 --------
+function animateHistoryItems() {
+  animate(".history-item", { opacity: [0, 1], y: [15, 0] }, { delay: stagger(0.1, { start: 0.5 }) });
+}
+
+// -------- 5) 오늘의 운세 모달 --------
+function initDailyFortuneModal() {
+  const backdrop = qs("#fortune-modal");
+  const closeBtn = qs("#fortune-close");
+  const textBox  = qs("#fortune-text");
+  if (!backdrop || !closeBtn || !textBox) return; // 마크업 없으면 종료
+
+  const today = new Date().toISOString().slice(0, 10);
+  const KEY = "fortune_shown_" + today;
+  if (localStorage.getItem(KEY) === "1") return;
+
+  // API 호출 (없거나 실패하면 모달을 띄우지 않음)
+  fetch("/api/fortune/today/", { credentials: "same-origin" })
+    .then((res) => (res.ok ? res.json() : Promise.reject()))
+    .then((data) => {
+      if (data && data.fortune) textBox.textContent = data.fortune;
+      open();
+    })
+    .catch(() => {
+      /* 조용히 실패 */
+    });
+
+  function open() {
+    backdrop.hidden = false;
+    backdrop.setAttribute("show", "");
+    // 스크롤 잠금
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+  }
+
+  function close() {
+    localStorage.setItem(KEY, "1");
+    backdrop.removeAttribute("show");
+    backdrop.hidden = true;
+    // 스크롤 복원
+    document.documentElement.style.overflow = "";
+    document.body.style.overflow = "";
+  }
+
+  // 닫기 바인딩
+  closeBtn.addEventListener("click", close);
+  backdrop.addEventListener("click", (e) => { if (e.target === backdrop) close(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !backdrop.hidden) close(); });
+}

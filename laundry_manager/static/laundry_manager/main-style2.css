@@ -1,5 +1,21 @@
 /* style.css (캐러셀 추가 버전) */
 
+/* main-style2.css 가장 아래 쪽(혹은 main.html 인라인 스타일) */
+.fortune-backdrop{
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,.35);
+  z-index: 2147483647;   /* 최상단 고정 */
+  pointer-events: auto;  /* 클릭 보장 */
+}
+.fortune-modal{
+  position: relative;
+}
+
+
 /* 색상 변수 정의 */
 :root {
     --color-primary: #2445EF;
