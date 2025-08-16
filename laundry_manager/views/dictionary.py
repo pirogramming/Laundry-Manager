@@ -109,7 +109,6 @@ def dictionary(request):
         "removal": "냄새 및 얼룩제거 방법",
         "words": "용어 사전",
         "how_laundry": "세탁 방법",
-        "enjoy_looking": "즐겨찾기",
     }
     category_list = list(category_map.values())
     processed_data = {}

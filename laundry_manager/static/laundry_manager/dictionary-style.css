@@ -228,3 +228,8 @@ section h3 {
     font-size: 22px;
     /* 원하는 크기로 조절하세요. (예: 24px, 32px 등) */
 }
+
+.title-all {
+    margin-left: 40px;
+    margin-bottom: 15px;
+}
