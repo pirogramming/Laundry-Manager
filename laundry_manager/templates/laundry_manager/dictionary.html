@@ -79,7 +79,7 @@
                 <h3>'{{ query }}' 검색 결과</h3>
                 {% for category_name, items in dictionary_data.items %}
                 <div class="category">
-                    <h4>{{ category_name }}</h4>
+                    <h4 class="category-title">{{ category_name }}</h4>
                     <div class="all-items">
                         {% for item in items %}
                         <a href="{% url 'dictionary_detail' item_title=item.title|urlencode %}" class="info-grid-item">
@@ -103,7 +103,7 @@
                 <h3>카테고리별 정보</h3>
                 {% for category_name, items in dictionary_data.items %}
                 <div class="category">
-                    <h4>{{ category_name }}</h4>
+                    <h4 class="category-title">{{ category_name }}</h4>
                     <div class="all-items">
                         {% for item in items %}
                         <a href="{% url 'dictionary_detail' item_title=item.title|urlencode %}" class="info-grid-item">

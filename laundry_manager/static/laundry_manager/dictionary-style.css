@@ -218,3 +218,8 @@ section h3 {
 .like-btn.active {
     color: #FF4757;
 }
+
+.category-title {
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
