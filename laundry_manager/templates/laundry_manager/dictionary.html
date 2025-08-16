@@ -117,7 +117,7 @@
                         {% for item in items %}
                         <a href="{% url 'dictionary_detail' item_title=item.title|urlencode %}" class="info-grid-item">
                             {% if item.image_url %}
-                            <img src="{{ item.image_url }}" alt="{{ item.title }}">
+                            <img src="{% static item.image_url %}" alt="{{ item.title }}">
                             {% endif %}
                             <div class="item-content">
                                 <h4>{{ item.title }}</h4>

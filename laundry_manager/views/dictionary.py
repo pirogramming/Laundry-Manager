@@ -118,8 +118,12 @@ def dictionary(request):
     def preprocess_item(item):
         processed = item.copy()
         image_url = processed.get("image_url", None)
+
         if image_url and image_url.startswith("static/"):
-            image_filename = image_url[7:]
+            # This is the key change: remove the 'static/' prefix
+            processed["image_url"] = image_url[7:]
+
+            image_filename = processed["image_url"]  # Use the new path
             image_path = find(image_filename)
             processed["has_image"] = os.path.exists(image_path)
             processed["image_filename"] = image_filename
