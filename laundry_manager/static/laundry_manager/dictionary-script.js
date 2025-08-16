@@ -62,26 +62,48 @@ function applyInitialFavoriteState() {
 
 // 즐겨찾기 탭의 내용을 업데이트하는 함수
 function updateFavoritesTab() {
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    
-    // Check if the favorites container exists on the current page
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
     if (!favoritesContainer) {
         return;
     }
 
-    favoritesContainer.innerHTML = ''; // Clear the existing list
+    favoritesContainer.innerHTML = ''; // 기존 목록 초기화
 
     if (favorites.length === 0) {
         favoritesContainer.innerHTML = '<p id="no-favorites-message">아직 즐겨찾기한 항목이 없습니다.</p>';
     } else {
-        favorites.forEach(title => {
-            // Dynamically create a favorite item from local storage data
-            const favoriteItem = document.createElement('div');
+        favorites.forEach(item => {
+            let title, imageUrl, url;
+
+            // 데이터가 객체인지, 문자열인지 확인하여 처리
+            if (typeof item === 'string') {
+                title = item;
+                imageUrl = '';
+                
+                // ★★★ 이 부분을 수정하세요 ★★★
+                // Django URL로 변환하기 위해 제목을 인코딩합니다.
+                // 이 부분을 서버 측에서 처리하는 것이 더 안전하지만, 클라이언트 측에서 처리하는 방법입니다.
+                const encodedTitle = encodeURIComponent(title);
+                url = `/dictionary/${encodedTitle}`; 
+
+            } else {
+                // 새로운 방식 (객체)
+                title = item.title;
+                imageUrl = item.image_url;
+                url = item.url;
+            }
+
+            const favoriteItem = document.createElement('a');
             favoriteItem.classList.add('info-grid-item', 'favorite-item');
+            favoriteItem.href = url;
+
             favoriteItem.innerHTML = `
+                ${imageUrl ? `<img src="${imageUrl}" alt="${title}">` : ''}
                 <div class="item-content">
                     <h4>${title}</h4>
-                    </div>
+                    <button class="like-btn active"><i class="fa-solid fa-heart"></i></button>
+                </div>
             `;
             favoritesContainer.appendChild(favoriteItem);
         });
@@ -89,6 +111,7 @@ function updateFavoritesTab() {
 }
 
 // Like button click event listener
+// 좋아요 버튼 클릭 이벤트 리스너
 likeButtons.forEach(button => {
     button.addEventListener('click', (event) => {
         event.preventDefault(); 
@@ -96,22 +119,33 @@ likeButtons.forEach(button => {
         
         const infoGridItem = button.closest('.info-grid-item');
         const itemTitle = infoGridItem.querySelector('h4').textContent.trim();
+        
+        // **새로 추가된 부분: 이미지 URL과 상세 페이지 URL 가져오기**
+        const itemImage = infoGridItem.querySelector('img');
+        const itemImageUrl = itemImage ? itemImage.src : '';
+        const itemUrl = infoGridItem.getAttribute('href');
 
         let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
-        // Add or remove data from local storage based on the favorite state
-        if (button.classList.contains('active')) {
-            favorites = favorites.filter(title => title !== itemTitle);
+        // 즐겨찾기 목록에서 이미 존재하는지 확인
+        const existingIndex = favorites.findIndex(fav => fav.title === itemTitle);
+
+        if (existingIndex !== -1) {
+            // 이미 즐겨찾기되어 있다면 제거
+            favorites.splice(existingIndex, 1);
         } else {
-            if (!favorites.includes(itemTitle)) {
-                favorites.push(itemTitle);
-            }
+            // 즐겨찾기 목록에 추가 (객체 형태로 저장)
+            favorites.push({
+                title: itemTitle,
+                image_url: itemImageUrl,
+                url: itemUrl
+            });
         }
 
-        // Update local storage
+        // localStorage 업데이트
         localStorage.setItem('favorites', JSON.stringify(favorites));
 
-        // Toggle like button UI (existing code)
+        // ... 기존 버튼 UI 토글 로직 ...
         button.classList.toggle('active');
         const icon = button.querySelector('i');
         if (button.classList.contains('active')) {
@@ -122,7 +156,7 @@ likeButtons.forEach(button => {
             icon.classList.add('fa-regular');
         }
 
-        // If the favorites tab is active, update the UI
+        // 즐겨찾기 탭이 활성화되어 있다면 UI 업데이트
         if (favoritesContainer) {
             updateFavoritesTab();
         }
