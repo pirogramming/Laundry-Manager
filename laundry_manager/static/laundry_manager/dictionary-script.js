@@ -38,16 +38,63 @@ chips.forEach(chip => {
 // --- 좋아요 버튼 상호작용 ---
 const likeButtons = document.querySelectorAll('.like-btn');
 likeButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        button.classList.toggle('active');
-        // Font Awesome 아이콘 클래스 변경
-        const icon = button.querySelector('i');
-        if (button.classList.contains('active')) {
-            icon.classList.remove('fa-regular');
-            icon.classList.add('fa-solid');
-        } else {
-            icon.classList.remove('fa-solid');
-            icon.classList.add('fa-regular');
+    button.addEventListener('click', (event) => {
+        event.preventDefault(); // Prevents default link behavior
+        event.stopPropagation(); // Stops event from bubbling up to parent elements
+        if (userIsAuthenticated !== 'true') {
+            alert('비회원은 즐겨찾기를 사용하실 수 없습니다!');
+            return; // 여기서 함수 실행을 중단합니다.
         }
+        const icon = button.querySelector('i');
+        const isFavorite = icon.classList.contains('fa-solid'); // Check current state
+        const itemTitle = button.closest('.info-grid-item').querySelector('h4').textContent.trim();
+
+        fetch('/dictionary/toggle_favorite/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'),
+            },
+            body: JSON.stringify({
+                title: itemTitle,
+                is_favorite: !isFavorite // Send the toggled state to the server
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Explicitly add or remove classes based on the new state
+                if (!isFavorite) {
+                    // Item was NOT a favorite, now it is.
+                    icon.classList.remove('fa-regular');
+                    icon.classList.add('fa-solid');
+                } else {
+                    // Item WAS a favorite, now it is not.
+                    icon.classList.remove('fa-solid');
+                    icon.classList.add('fa-regular');
+                }
+            } else {
+                console.error('서버 오류:', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('네트워크 오류:', error);
+        });
     });
 });
+
+// CSRF 토큰을 가져오는 함수 (Django 보안에 필요)
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.startsWith(name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
