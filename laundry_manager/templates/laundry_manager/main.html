@@ -138,6 +138,24 @@
             <span>더보기</span>
         </a>
     </nav>
+    <div class="modal-overlay" id="fortune-modal">
+        <div class="modal-content">
+            <h2>오늘의 세탁운세 ✨</h2>
+            <p class="fortune-text">"작은 실천이 큰 변화를 가져옵니다. 오늘은 미루었던 서랍 정리를 해보세요!"</p>
+            
+            <div class="modal-divider"></div>
+            
+            <p class="modal-promo">
+                세탁 매니저에 의견을 남겨주시면<br>추첨을 통해 엄청난 선물을 드려요!
+            </p>
+            <a href="{% url 'contact-settings' %}" class="modal-action-btn">문의하기</a>
+            
+            <div class="modal-footer">
+                <button id="dont-show-again-btn">오늘 하루 보지 않기</button>
+                <button id="close-modal-btn">닫기</button>
+            </div>
+        </div>
+    </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
