@@ -83,7 +83,8 @@
 
                 <a href="#" class="extra-info-link" id="open-modal-btn">수정하기</a>
                 {% comment %} <a href="{% url 'guide_from_result' %}" class="confirm-button">확인하기</a> {% endcomment %}
-                <a href="{% url 'guide_from_result' %}{% if history %}?history_id={{ history.id }}{% endif %}" class="confirm-button">확인하기</a>
+                {% comment %} <a href="{% url 'guide_from_result' %}{% if history %}?history_id={{ history.id }}{% endif %}" class="confirm-button">확인하기</a> {% endcomment %}
+                <a href="{% url 'guide_from_result' %}" class="confirm-button">확인하기</a>
 
             </div>
         </main>
@@ -131,9 +132,9 @@
                     {% endfor %}
                 {% endif %}
 
-                {% if history %}
+                {% comment %} {% if history %}
                 <input type="hidden" name="history_id" value="{{ history.id }}">
-                {% endif %}
+                {% endif %} {% endcomment %}
 
                 <div class="input-group">
                     <label>세탁 태그 선택</label>

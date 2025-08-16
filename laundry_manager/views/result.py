@@ -38,12 +38,12 @@ def result_view(request):
     instructions = analyze_texts(texts)
 
     # ✅ 로그인 시 History 1건 보장
-    history = _ensure_history(
-        request,
-        materials=[material] if material else [],
-        stains=stains,
-        symbols=symbols,
-    )
+    # history = _ensure_history(
+    #     request,
+    #     materials=[material] if material else [],
+    #     stains=stains,
+    #     symbols=symbols,
+    # )
 
     return render(request, 'laundry_manager/result.html', {
         'recognized_texts': texts,
@@ -52,5 +52,5 @@ def result_view(request):
         'stains': stains,
         'symbols': symbols,
         'instructions': instructions,
-        'history': history,   # 👈 템플릿에서 hidden/input/링크에 사용
+        # 'history': history,   # 👈 템플릿에서 hidden/input/링크에 사용
     })

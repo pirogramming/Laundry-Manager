@@ -79,13 +79,23 @@ def update_selection_view(request):
     field = (request.POST.get("field") or "").strip().lower()
     raw_value = _clean_str(request.POST.get("value"))
 
-    # 폼/세션 현재값 (폴백 겸 안전망)
-    sess_mats = request.session.get("materials") or []
-    sess_stns = request.session.get("stains") or []
-    symbols   = request.POST.getlist("symbols[]") or (request.session.get("symbols") or [])
+    # ▶ 저장 트리거: commit 가드 (1/true/yes만 인정)
+    commit = str(request.POST.get("commit", "")).lower() in ("1", "true", "yes", "y")
 
-    materials = list(request.POST.getlist("materials[]") or sess_mats)
-    stains    = list(request.POST.getlist("stains[]")    or sess_stns)
+    # 폼/세션 현재값 (폴백 겸 안전망)
+    def _as_list(v):
+        if not v: return []
+        if isinstance(v, list): return [str(x).strip() for x in v if str(x).strip()]
+        if isinstance(v, (tuple, set)): return [str(x).strip() for x in v if str(x).strip()]
+        if isinstance(v, str): return [p for p in (s.strip() for s in v.split(",")) if p]
+        return [str(v).strip()]
+
+    sess_mats = _as_list(request.session.get("materials") or request.session.get("material") or [])
+    sess_stns = _as_list(request.session.get("stains") or [])
+    symbols   = request.POST.getlist("symbols[]") or _as_list(request.session.get("symbols") or [])
+
+    materials = _as_list(request.POST.getlist("materials[]") or sess_mats)
+    stains    = _as_list(request.POST.getlist("stains[]")    or sess_stns)
 
     if field == "both":
         # value='{"materials":["니트"],"stains":["커피"]}'
@@ -117,8 +127,8 @@ def update_selection_view(request):
     else:
         return HttpResponseBadRequest("invalid field")
 
-    # 세션 최신화
-    request.session["material"]  = (materials[0] if materials else "")
+    # ✅ 세션 최신화(저장 버튼 누르기 전에는 여기까지만)
+    request.session["material"]  = materials[0] if materials else ""
     request.session["materials"] = materials
     request.session["stains"]    = stains
     request.session["symbols"]   = symbols
@@ -136,16 +146,16 @@ def update_selection_view(request):
     }
     guides = laundry_recommend(info, material_json, stain_json, symbol_json)
 
-    # 로그인 + history 저장(있을 때)
+    # ⛔ DB 저장은 commit=True일 때만
     history_id = request.POST.get("history_id")
-    if request.user.is_authenticated and history_id:
+    if commit and request.user.is_authenticated and history_id:
         try:
             lh = LaundryHistory.objects.get(pk=history_id, user=request.user)
             lh.materials = info["material"]
             lh.stains    = info["stains"]
             lh.symbols   = ", ".join(symbols)
             lh.recommendation_result = format_result(guides)
-            lh.save(update_fields=["materials","stains","symbols","recommendation_result"])
+            lh.save(update_fields=["materials", "stains", "symbols", "recommendation_result"])
         except LaundryHistory.DoesNotExist:
             pass
 
@@ -153,9 +163,9 @@ def update_selection_view(request):
     html = render_to_string(
         "laundry_manager/partials/_recommendation.html",
         {
-            "material": guides.get('material_guide'),
-            "stain":    guides.get("stain_guide"),
-            "symbols":  guides.get("symbol_guide"),
+            "material":  guides.get('material_guide'),
+            "stain":     guides.get("stain_guide"),
+            "symbols":   guides.get("symbol_guide"),
             "materials": materials,
             "stains":    info["stains"],
         },
@@ -166,8 +176,9 @@ def update_selection_view(request):
         "ok": True,
         "html": html,
         "materials_text": info["material"],
-        "stains_text": info["stains"],
+        "stains_text":    info["stains"],
     })
+
 
 
 # ─────────────────────────────────────────────────────────────────────────────
