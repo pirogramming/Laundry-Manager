@@ -164,85 +164,55 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
+// --- 교체: editForm submit 핸들러 ---
 if (editForm) {
   editForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  // 현재 화면 값 vs 선택 값 비교
-  const currentMat = (currentMaterialEl?.textContent || '').trim();
-  const currentStn = (currentStainEl?.textContent || '').trim();
-  const selectedMat = (selectMaterial?.value || '').trim();
-  const selectedStn = (selectStain?.value || '').trim();
+    const selectedMat = (selectMaterial?.value || '').trim();
+    const selectedStn = (selectStain?.value || '').trim();
 
-  const matChanged = selectedMat && selectedMat !== currentMat;
-  const stnChanged = selectedStn && selectedStn !== currentStn;
-
-  // 허용값 검증 함수 재사용
-  const isMatAllowed = ALLOWED_MATERIALS.includes(selectedMat);
-  const isStnAllowed = ALLOWED_STAINS.includes(selectedStn);
-
-  // 작은 유틸: 실제 전송
-  async function postUpdate(field, value) {
-    // hidden 채우기
-    fieldInput.value = field;
-    valueInput.value = value;
+    // 서버가 both를 처리하도록 설정 (update_selection_view에 이미 both 추가했다고 했으니 OK)
+    fieldInput.value = 'both';
+    valueInput.value = JSON.stringify({
+      materials: selectedMat ? [selectedMat] : [],
+      stains: selectedStn ? [selectedStn] : []
+    });
 
     const formData = new FormData(editForm);
-    const res = await fetch(editForm.action, {
-      method: 'POST',
-      headers: {
-        'X-CSRFToken': csrftoken,
-        'X-Requested-With': 'XMLHttpRequest',
-      },
-      body: formData,
-    });
-    if (!res.ok) throw new Error(await res.text());
-    const data = await res.json();
-    if (!data.ok) throw new Error('update failed');
-    // UI 반영
-    if ('materials_text' in data && currentMaterialEl) currentMaterialEl.textContent = data.materials_text || '-';
-    if ('stains_text' in data && currentStainEl) currentStainEl.textContent = data.stains_text || '-';
-    if (laundryItemNameElement) {
-      const iconHtml = '<i class="fa-solid fa-pen-to-square"></i>';
-      const matTxt = (data.materials_text ?? currentMat) || '(소재 미선택)';
-      const stnTxt = (data.stains_text ?? currentStn) || '(얼룩 미선택)';
-      laundryItemNameElement.innerHTML = `${matTxt} / ${stnTxt} ${iconHtml}`;
-    }
-    // 히든 리스트도 갱신
-    replaceHiddenList(editForm, 'materials[]', data.materials_text || selectedMat || '');
-    replaceHiddenList(editForm, 'stains[]', data.stains_text || selectedStn || '');
-    // 추천 카드 섹션 갱신
-    if (recommendation && typeof data.html === 'string') {
-      recommendation.innerHTML = data.html;
-    }
-  }
+    try {
+      const res = await fetch(editForm.action, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrftoken,
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+        body: formData,
+      });
+      if (!res.ok) throw new Error(await res.text());
+      const data = await res.json();
 
-  try {
-    if (matChanged && !isMatAllowed) return alert('허용되지 않은 소재입니다.');
-    if (stnChanged && !isStnAllowed) return alert('허용되지 않은 얼룩 유형입니다.');
+      // UI 동기화
+      const matTxt = data.materials_text || selectedMat || '(소재 미선택)';
+      const stnTxt = data.stains_text    || selectedStn || '(얼룩 미선택)';
+      if (currentMaterialEl) currentMaterialEl.textContent = data.materials_text || selectedMat || '-';
+      if (currentStainEl)    currentStainEl.textContent    = data.stains_text    || selectedStn || '-';
+      if (laundryItemNameElement) {
+        const iconHtml = '<i class="fa-solid fa-pen-to-square"></i>';
+        laundryItemNameElement.innerHTML = `${matTxt} / ${stnTxt} ${iconHtml}`;
+      }
+      // hidden 리스트 갱신
+      replaceHiddenList(editForm, 'materials[]', data.materials_text || selectedMat || '');
+      replaceHiddenList(editForm, 'stains[]',    data.stains_text    || selectedStn || '');
 
-    if (matChanged && stnChanged) {
-      // ① 소재 → ② 얼룩 순차 호출
-      await postUpdate('materials', selectedMat);
-      await postUpdate('stains', selectedStn);
-    } else if (matChanged) {
-      await postUpdate('materials', selectedMat);
-    } else if (stnChanged) {
-      await postUpdate('stains', selectedStn);
-    } else {
-      // 변화 없음
       closeModal();
-      return;
+    } catch (err) {
+      console.error(err);
+      alert('저장 중 오류가 발생했습니다.');
     }
-
-    closeModal();
-  } catch (err) {
-    console.error(err);
-    alert('저장 중 오류가 발생했습니다.');
-  }
-});
-
+  });
 }
+
 
 
 

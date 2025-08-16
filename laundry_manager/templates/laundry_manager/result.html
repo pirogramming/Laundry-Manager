@@ -91,9 +91,9 @@
 
     <!-- 편집 모달 -->
     <div class="modal-overlay" id="edit-modal"
-         data-materials-options='["면","폴리에스터","울","실크","린넨"]'
-         data-stains-options='["김칫국물 자국","커피","기름때","와인","혈흔"]'>
-        <div class="modal-content">
+        data-materials-options='["면","니트","실크","린넨","청"]'
+        data-stains-options='["커피","김치","기름","과일","잉크"]'>
+    <div class="modal-content">
             <div class="modal-header">
                 <h3>인식 정보 수정하기</h3>
                 <button class="close-modal-btn" id="close-modal-btn"><i class="fa-solid fa-xmark"></i></button>
@@ -103,12 +103,11 @@
             <form class="modal-form" id="edit-form" method="post" action="{% url 'update_selection' %}">
                 {% csrf_token %}
 
-                <!-- 어떤 필드를 수정하는지 (materials | stains) -->
-                <input type="hidden" name="field" id="edit-field" value="materials">
-
-                <!-- 서버로 보낼 실제 입력값(쉼표 허용) -->
+                <!-- 어떤 필드를 수정하는지: 둘 다 수정하므로 both로 보냄 -->
+                <input type="hidden" name="field" id="edit-field" value="both">
+                <!-- 서버로 보낼 실제 입력값(JSON 문자열) -->
                 <input type="hidden" name="value" id="edit-value">
-
+                
                 <!-- 현재 페이지 상태(배열)를 서버로 같이 보냄: AJAX 실패 시 폴백에도 필요 -->
                 {% if materials %}
                     {% for m in materials %}
@@ -135,17 +134,6 @@
                 {% if history %}
                 <input type="hidden" name="history_id" value="{{ history.id }}">
                 {% endif %}
-
-                <!-- UI 입력부 (이름은 서버 전송 안함) -->
-                <div class="input-group">
-                    <label for="edit-name">세탁물 이름</label>
-                    <div class="input-field">
-                        <!-- ✅ 현재 제목을 그대로 표시 -->
-                        <input type="text" id="edit-name"
-                               value="{{ materials|join:', ' | default:'(소재 미선택)' }} / {{ stains|join:', ' | default:'(얼룩 미선택)' }}">
-                        <i class="fa-solid fa-pen"></i>
-                    </div>
-                </div>
 
                 <div class="input-group">
                     <label>세탁 태그 선택</label>
@@ -188,14 +176,14 @@
                 <div class="input-group">
                     <label for="edit-stain">선택한 얼룩 유형</label>
                     <div class="input-field select-field">
-                        <select id="edit-stain">
-                            <option value="커피" {% if stains and stains.0 == "커피" %}selected{% endif %}>커피</option>
-                            <option value="김치" {% if stains and stains.0 == "김치" %}selected{% endif %}>김치</option>
-                            <option value="기름" {% if stains and stains.0 == "기름" %}selected{% endif %}>기름</option>
-                            <option value="과일" {% if stains and stains.0 == "과일" %}selected{% endif %}>과일</option>
-                            <option value="잉크" {% if stains and stains.0 == "잉크" %}selected{% endif %}>잉크</option>
-                        </select>
-                        <i class="fa-solid fa-chevron-down"></i>
+                    <select id="edit-stain">
+                        <option value="커피" {% if stains and stains.0 == "커피" %}selected{% endif %}>커피</option>
+                        <option value="김치" {% if stains and stains.0 == "김치" %}selected{% endif %}>김치</option>
+                        <option value="기름" {% if stains and stains.0 == "기름" %}selected{% endif %}>기름</option>
+                        <option value="과일" {% if stains and stains.0 == "과일" %}selected{% endif %}>과일</option>
+                        <option value="잉크" {% if stains and stains.0 == "잉크" %}selected{% endif %}>잉크</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down"></i>
                     </div>
                 </div>
 
