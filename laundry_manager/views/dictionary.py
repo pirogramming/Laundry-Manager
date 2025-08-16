@@ -113,20 +113,20 @@ def dictionary(request):
     category_list = list(category_map.values())
     processed_data = {}
 
-    item_index = 0  # 이미지 파일명에 사용할 인덱스를 초기화
+    # item_index = 0  # 이미지 파일명에 사용할 인덱스를 초기화
 
     def preprocess_item(item):
-        nonlocal item_index
         processed = item.copy()
-        item_index += 1
-        # Use a consistent file name pattern
-        image_filename = f"dictionary_image/{item_index}.jpg"
-        processed["image_url"] = (
-            f"/static/{image_filename}"  # Check if the image file exists
-        )
-        image_path = find(image_filename)
-        processed["has_image"] = os.path.exists(image_path)
-        processed["image_filename"] = image_filename
+        image_url = processed.get("image_url", None)
+        if image_url and image_url.startswith("static/"):
+            image_filename = image_url[7:]
+            image_path = find(image_filename)
+            processed["has_image"] = os.path.exists(image_path)
+            processed["image_filename"] = image_filename
+        else:
+            processed["has_image"] = False
+            processed["image_filename"] = None
+
         processed["json_data"] = json.dumps(item, ensure_ascii=False)
         return processed
 
@@ -159,12 +159,14 @@ def dictionary(request):
     # Naver Trend API를 활용하여 인기 검색어 목록을 가져오는 로직 추가
     # 수정할 코드 (views.py 파일 내)
     all_keyword_data = []
-    temp_item_index = 0
+    # temp_item_index = 0
     for category_key in dictionary_data:
         for item in dictionary_data.get(category_key, []):
-            temp_item_index += 1
+            # temp_item_index += 1 # 이 줄을 제거합니다.
             title = item.get("title")
-            image_filename = f"dictionary_image/{temp_item_index}.jpg"
+            # image_filename = f"dictionary_image/{temp_item_index}.jpg" # 이 줄을 제거하고 아래처럼 수정합니다.
+            image_url = item.get("image_url")
+            image_filename = image_url.replace("static/", "") if image_url else None
             if title:
                 all_keyword_data.append(
                     {"title": title, "image_filename": image_filename}
