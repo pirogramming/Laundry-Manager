@@ -70,23 +70,29 @@
         <section class="main-carousel-section">
             <div class="swiper main-swiper">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide" style="background-image:url(https://cdnweb01.wikitree.co.kr/webdata/editor/202311/07/img_20231107151039_0782a7df.webp)">
-                        <div class="slide-content">
-                            <h4>AI로 세탁 고민을 해결하세요</h4>
-                            <p>사진 한 장으로 맞춤 세탁법을 알려드려요</p>
+                        <div class="swiper-slide" style="background-image:url(https://cdnweb01.wikitree.co.kr/webdata/editor/202311/07/img_20231107151039_0782a7df.webp)">
+                            <a href="{% url 'dictionary_detail' item_title='흰 옷에서 얼룩을 제거하는 방법'|urlencode %}">
+                                <div class="slide-content">
+                                    <h4>흰 옷에서 얼룩을 제거하는 방법</h4>
+                                    <p>얼룩 묻은 흰 옷을 효과적으로 세탁하세요!</p>
+                                </div>
+                            </a>
                         </div>
-                    </div>
                     <div class="swiper-slide" style="background-image:url(https://cdn.pixabay.com/photo/2015/10/06/13/53/bears-974462_1280.jpg)">
-                        <div class="slide-content">
-                            <h4>겨울철 니트 관리법</h4>
-                            <p>줄어들 걱정 없이 깨끗하게 세탁하세요</p>
-                        </div>
+                        <a href="{% url 'dictionary_detail' item_title='니트 보관 방법'|urlencode %}" class="info-grid-item">
+                            <div class="slide-content">
+                                <h4>니트 보관 법</h4>
+                                <p>줄어들 걱정 없이 깨끗하게 세탁하세요</p>
+                            </div>
+                        </a>
                     </div>
                     <div class="swiper-slide" style="background-image:url(https://pds.joongang.co.kr//news/component/htmlphoto_mmdata/201805/25/c8c555ac-09fe-4224-9231-316645f7aded.jpg)">
-                        <div class="slide-content">
-                            <h4>얼룩 제거, 전문가처럼!</h4>
-                            <p>김칫자국부터 커피 얼룩까지 완벽 제거</p>
-                        </div>
+                        <a href="{% url 'dictionary_detail' item_title='면 옷의 얼룩 제거법'|urlencode %}" class="info-grid-item">
+                            <div class="slide-content">
+                                <h4>면옷 얼룩 제거법!</h4>
+                                <p>김칫자국부터 커피 얼룩까지 완벽 제거</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
                 <div class="swiper-pagination"></div>

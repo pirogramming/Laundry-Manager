@@ -138,6 +138,10 @@ body {
 
 
 /* --- 메인 캐러셀 (새로 추가) --- */
+.swiper-slider > a {
+    display: block; /* a 태그가 div처럼 영역을 차지하도록 설정 */
+    text-decoration: none; /* 밑줄 제거 */
+}
 .main-title{
     display: flex;
     justify-content: space-between;
@@ -198,8 +202,8 @@ body {
     padding: 15px;
     background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
 }
-.slide-content h4 { font-size: 16px; margin-bottom: 5px; }
-.slide-content p { font-size: 12px; opacity: 0.9; }
+.slide-content h4 { font-size: 16px; margin-bottom: 5px; color:white}
+.slide-content p { font-size: 12px; opacity: 0.9; color:white }
 .swiper-pagination-bullet-active {
     background-color: var(--color-primary);
 }
