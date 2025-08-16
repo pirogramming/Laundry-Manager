@@ -166,19 +166,18 @@
 </div>
 
 <!-- 오늘의 운세 모달 (JS 붙기 전, 기본 hidden) -->
-{% comment %} <div id="fortune-modal" class="fortune-backdrop" hidden>
-  <div class="fortune-modal" role="dialog" aria-modal="true" aria-labelledby="fortune-title">
-    <div class="fortune-header">
-      <strong id="fortune-title">오늘의 운세</strong>
-      <button id="fortune-close" class="fortune-close" aria-label="닫기">&times;</button>
-      <button id="fortune-close" class="fortune-close" type="button" aria-label="닫기">&times;</button>
+    {% comment %} <div id="fortune-modal" class="fortune-backdrop" hidden>
+    <div class="fortune-modal" role="dialog" aria-modal="true" aria-labelledby="fortune-title">
+        <div class="fortune-header">
+        <strong id="fortune-title">오늘의 운세</strong>
+        <button id="fortune-close" class="fortune-close" type="button" aria-label="닫기">&times;</button>
 
+        </div>
+        <div class="fortune-body">
+        <p id="fortune-text">로딩 대기 중…</p>
+        </div>
     </div>
-    <div class="fortune-body">
-      <p id="fortune-text">로딩 대기 중…</p>
-    </div>
-  </div>
-</div> {% endcomment %}
+    </div> {% endcomment %}
 
 <!-- 스크립트 (기존만 유지, 운세 JS는 보류) -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>

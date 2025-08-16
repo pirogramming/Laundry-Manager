@@ -92,6 +92,11 @@ function initDailyFortuneModal() {
 
   function close() {
     localStorage.setItem(KEY, "1");
+
+    
+// 닫기 직전에(또는 직후에) 호출
+  fetch("/api/fortune/dismiss/", { method: "POST" }).catch(() => {});
+
     backdrop.removeAttribute("show");
     backdrop.hidden = true;
     // 스크롤 복원

@@ -180,16 +180,13 @@ def main2_page(request):
     recent_records = _recent_records(request.user, limit=5)
     return render(request, "laundry_manager/main2.html", base_context(request, extra={"records": recent_records}))
 
-
 def profile_page(request):
     # 프로필 화면: 최근 기록 10건 정도 노출(원하면 조절)
     recent_records = _recent_records(request.user, limit=10)
     return render(request, "laundry_manager/profile.html", base_context(request, extra={"records": recent_records}))
 
-
 def map_page(request):
     return render(request, "laundry_manager/map.html", base_context(request))
-
 
 def settings_page(request):
     return render(request, "laundry_manager/settings.html", base_context(request))

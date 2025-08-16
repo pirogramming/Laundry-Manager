@@ -76,7 +76,6 @@ urlpatterns = [
 
     path("history/upload/", history.upload_and_save_history_view, name="upload_history"),
     path("history/save-current/", history.save_current_result_as_history_view, name="save_current_history"),
-   
     path('guide/', info_flow.guide_from_result, name='guide_from_result'),
 
     path("guide/from-result/", laundry_res.guide_from_result, name="guide_from_result"),
@@ -87,5 +86,6 @@ urlpatterns = [
 
     # 오늘의 운세
     path("api/fortune/today/", fortune.fortune_today_view, name="fortune_today"),
+    path("api/fortune/dismiss/", fortune.fortune_dismiss_view, name="fortune_dismiss"),
 
 ]
