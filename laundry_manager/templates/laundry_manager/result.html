@@ -135,21 +135,6 @@
                 <input type="hidden" name="history_id" value="{{ history.id }}">
                 {% endif %}
 
-                <!-- UI 입력부 (이름은 서버 전송 안함) -->
-                <div class="input-group">
-                    <label for="edit-material">의류 소재</label>
-                    <div class="input-field select-field">
-                    <select id="edit-material">
-                        <option value="면"   {% if materials and materials.0 == "면" %}selected{% endif %}>면</option>
-                        <option value="니트" {% if materials and materials.0 == "니트" %}selected{% endif %}>니트</option>
-                        <option value="실크" {% if materials and materials.0 == "실크" %}selected{% endif %}>실크</option>
-                        <option value="린넨" {% if materials and materials.0 == "린넨" %}selected{% endif %}>린넨</option>
-                        <option value="청"   {% if materials and materials.0 == "청" %}selected{% endif %}>청</option>
-                    </select>
-                    <i class="fa-solid fa-chevron-down"></i>
-                    </div>
-                </div>
-
                 <div class="input-group">
                     <label>세탁 태그 선택</label>
                     <div class="tag-selection-list">
