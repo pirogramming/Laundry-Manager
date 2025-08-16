@@ -149,7 +149,6 @@ class LaundryHistory(models.Model):
         ordering = ['-created_at'] # 최신 기록부터 보이도록 정렬
 
 
-# 문의하기 처리를 위한 model    
 class Inquiry(models.Model):
     INQUIRY_TYPE_CHOICES = [
         ('서비스 이용 문의', '서비스 이용 문의'),
@@ -169,7 +168,10 @@ class Inquiry(models.Model):
 
     def __str__(self):
         return f'[{self.inquiry_type}] {self.subject} - {self.name}'
-        ordering = ["-created_at"]  # 최신 기록부터 보이도록 정렬
+
+    class Meta:
+        ordering = ["-created_at"]  # 최신부터
+
 
 
 class FavoriteItem(models.Model):
