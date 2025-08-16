@@ -76,6 +76,8 @@ urlpatterns = [
 
     path("history/upload/", history.upload_and_save_history_view, name="upload_history"),
     path("history/save-current/", history.save_current_result_as_history_view, name="save_current_history"),
+   
+    path('guide/', info_flow.guide_from_result, name='guide_from_result'),
 
     # ... 기존 라우트들 ...
     path("guide/from-result/", laundry_res.guide_from_result, name="guide_from_result"),
