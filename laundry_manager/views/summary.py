@@ -1,6 +1,7 @@
 # laundry_manager/views/summary.py
 import uuid
 import re
+import difflib
 import requests
 from typing import List, Dict, Tuple
 from django.conf import settings
@@ -8,7 +9,6 @@ from django.core.cache import cache
 
 # ---------- 공통 정규식 ----------
 _WS_RE = re.compile(r"\s+")
-_SENT_SPLIT = re.compile(r"(?<=[\.!?]|다|요)\s+(?=[A-Z가-힣0-9])")
 _BULLET_PREFIX_RE = re.compile(r"^\s*([\-–—•·]+|\d+\s*[\.\)]\s*)")
 
 # ---------- 전처리 ----------
@@ -26,11 +26,17 @@ def _clean_source(text: str) -> str:
     return s.strip()
 
 # ---------- 후처리(키워드 라인 생성) ----------
-_NEG_WORDS = ("주의", "위험", "금지", "피해", "피할", "불가", "손상", "주의하세요", "하지 마세요", "금하세요", "고온")
-_POS_HINTS = ("가능", "권장", "사용", "허용", "추천", "적합", "세탁", "건조", "드라이클리닝", "다림질")
+_NEG_PAT = re.compile(
+    r"(금지|피하|피해|위험|주의|불가|손상|과산화|표백\s*금지|건조기\s*금지|"
+    r"하지\s*말|하지말|하지\s*마|않습니다|않음|않다)"
+)
+
+def _classify_icon(s: str) -> str:
+    """문장에 부정/금지/주의류 패턴이 포함되면 ⚠️, 그 외에는 전부 ✅"""
+    return "⚠️" if _NEG_PAT.search(s) else "✅"
 
 def _compact_phrase(s: str) -> str:
-    """한 줄 키워드 압축: 군더더기 제거, 콜론/세미콜론/대시는 쉼표로 정리"""
+    """한 줄 키워드 압축: 군더더기 제거, 구두점 간소화"""
     s = s.strip()
     s = re.sub(r"\s*[:;]\s*", ", ", s)
     s = re.sub(r"\s*[-–—]\s*", ", ", s)
@@ -40,31 +46,48 @@ def _compact_phrase(s: str) -> str:
     s = _WS_RE.sub(" ", s).strip(" ,")
     return s.rstrip(".!?:;、，")
 
-def _classify_icon(s: str) -> str:
-    """권장/가능(✅) vs 주의/금지(⚠️) 간단 분류"""
-    if any(w in s for w in _NEG_WORDS):
-        return "⚠️"
-    if any(h in s for h in _POS_HINTS):
-        return "✅"
-    if re.search(r"\d", s):
-        return "✅"
-    return "✅"
+# ----- 강한 중복 제거 -----
+def _norm_for_chunk(s: str) -> str:
+    """중복 판단용 정규화: 소문자, 공백/구두점 제거, 종결어미 제거"""
+    s = s.lower()
+    s = re.sub(r"(함|임|다|요|음)$", "", s)
+    s = re.sub(r"[\s,.;:()\[\]{}•·\-–—]+", "", s)
+    return s
+
+def _dedupe_chunks_strong(chunks: List[str], sim_th: float = 0.92) -> List[str]:
+    """문장 조각의 강한 중복 제거(정규화 동일 또는 유사도>=sim_th)"""
+    kept: List[str] = []
+    norms: List[str] = []
+    for ch in chunks:
+        n = _norm_for_chunk(ch)
+        dup = False
+        for i, kn in enumerate(norms):
+            if n == kn:
+                dup = True
+                break
+            # 유사도 비교(띄어쓰기/어미만 다른 경우 제거)
+            if difflib.SequenceMatcher(None, n, kn).ratio() >= sim_th:
+                dup = True
+                break
+        if not dup:
+            kept.append(ch)
+            norms.append(n)
+    return kept
 
 def _dedupe_preserve_order(items: List[str]) -> List[str]:
     seen, out = set(), []
     for it in items:
         k = it.lower()
         if k not in seen:
-            seen.add(k); out.append(it)
+            seen.add(k)
+            out.append(it)
     return out
 
 # --- 절 종결 보정 + 길이 제한 ---
 def _tidy_tail(s: str) -> str:
     """잘린 끝의 어색한 꼬리(조사/접속/형용사 어미 등) 정리"""
     s = s.rstrip(" ,)")
-    # 일반 조사/접속어 제거
     s = re.sub(r"(은|는|이|가|을|를|에|로|으로|과|와|랑|및|도|만|까지|부터)$", "", s)
-    # dangling '한' → 형용사 어미로 추정되어 제거 (예: '미지근한' → '미지근')
     if s.endswith("한") and len(s) >= 2:
         s = s[:-1]
     return s.strip()
@@ -85,7 +108,6 @@ def _truncate_with_clause(s: str, limit: int, prefer: str = "함") -> str:
     s = s.strip()
     if len(s) <= limit:
         return _enforce_clause_ending(_tidy_tail(s), prefer)
-
     cut = s[:limit].rstrip()
     for sep in [" ", ",", ")", "]", "("]:
         idx = cut.rfind(sep)
@@ -104,24 +126,59 @@ _PRIORITY: List[Tuple[str, re.Pattern]] = [
 ]
 
 def _prioritize_chunks(chunks: List[str], max_pick: int = 3) -> List[str]:
-    """카테고리 우선순위로 최대 max_pick개 선택 (같은 카테고리는 1개)"""
-    picked, used = [], set()
+    """
+    카테고리 우선순위로 최대 max_pick개 선택 (같은 카테고리는 1개).
+    부족하면 남은 조각에서 순서대로 채워서 항상 최대치까지 반환.
+    """
+    picked: List[str] = []
+    used_idx = set()
+
+    # 1) 카테고리별 1개씩
     for _, rx in _PRIORITY:
-        for ch in chunks:
-            if ch in used: 
+        for i, ch in enumerate(chunks):
+            if i in used_idx:
                 continue
             if rx.search(ch):
-                picked.append(ch); used.add(ch); break
+                picked.append(ch)
+                used_idx.add(i)
+                break
+        if len(picked) >= max_pick:
+            return picked
+
+    # 2) 부족하면 남은 조각으로 채움
+    for i, ch in enumerate(chunks):
         if len(picked) >= max_pick:
             break
-    return picked or chunks[:max_pick]
+        if i not in used_idx:
+            picked.append(ch)
+            used_idx.add(i)
+    return picked
+
+def _normalize_for_dedupe_line(s: str) -> str:
+    """최종 라인 중복 판정용 정규화: 이모지 제거, 공백 압축, 어미 제거, 소문자 비교"""
+    s = re.sub(r"^[\s✅⚠️]+", "", s).strip()
+    s = re.sub(r"(함|임|다|요|음)$", "", s)
+    s = re.sub(r"\s+", " ", s).strip(" ,.")
+    return s.lower()
+
+def _dedupe_preserve_order_final(lines: List[str]) -> List[str]:
+    """최종 출력 라인에서 강한 중복 제거(아이콘/어미/공백 차이 무시)"""
+    seen = set()
+    out = []
+    for line in lines:
+        key = _normalize_for_dedupe_line(line)
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(line)
+    return out
 
 def _split_sentences_to_keywords(text: str, line_limit: int = 3, char_limit: int = 22, ending: str = "함") -> str:
     """
     모델 요약 결과 → ✅/⚠️ 키워드 목록
     - 우선순위 카테고리에서 최대 3줄
     - 각 줄 22자 이내, 항상 '~함/임' 종결
-    - 최종 중복 라인 제거
+    - 강한 중복 제거
     """
     if not text:
         return ""
@@ -134,19 +191,19 @@ def _split_sentences_to_keywords(text: str, line_limit: int = 3, char_limit: int
         if ch:
             chunks.append(ch)
 
-    # 2) 중복 제거 → 우선순위 선택
-    chunks = _dedupe_preserve_order(chunks)
+    # 2) 강한 중복 제거 → 우선순위 선택
+    chunks = _dedupe_chunks_strong(chunks)
     chunks = _prioritize_chunks(chunks, max_pick=line_limit)
 
     # 3) 길이 제한/종결 보정/아이콘
     texts = []
     for ch in chunks:
         fixed = _truncate_with_clause(ch, char_limit, prefer=ending)
-        icon = _classify_icon(ch)  # 원문 기준으로 부호 결정
+        icon = _classify_icon(ch)
         texts.append(f"{icon} {fixed}")
 
     # 4) 최종 중복 라인 제거
-    out = _dedupe_preserve_order(texts)
+    out = _dedupe_preserve_order_final(texts)
     return "\n".join(out[:line_limit])
 
 # ---------- CLOVA 호출: 키워드 요약 ----------
@@ -157,17 +214,15 @@ def summarize_steps_keywords(washing_steps: List[str]) -> str:
     if not api_key or not url:
         raise RuntimeError("CLOVA_API_KEY 또는 CLOVA_SUMMARY_URL이 설정되지 않았습니다.")
 
-    # 입력 정리(+ 3000자 캡)
     steps_src = "\n".join(s.strip() for s in (washing_steps or []) if s and s.strip())
     steps_src = _clean_source(steps_src)
     if len(steps_src) > 3000:
         steps_src = steps_src[:3000]
 
-    # 키워드형 요약 유도 지시문
     instruction = (
         "다음 세탁 단계를 바탕으로 핵심 조건/행동만 뽑아 키워드 목록으로 요약하세요. "
         "각 줄의 형식은 '내용'만 포함하며 불릿/번호/콜론 없이 간결하게 쓰고, "
-        "줄 수는 3줄 이내, 각 줄은 22자 이내로 작성하세요. "
+        "줄 수는 3줄 이내, 각 줄은 40자 이내로 작성하세요. "
         "예시는 '세탁기 사용 가능 (30℃ 이하, 울 코스 권장)', "
         "'자연 건조 (옷걸이)', '다림질 150℃ 이하 주의', '드라이클리닝 가능'과 같습니다."
     )
@@ -191,7 +246,6 @@ def summarize_steps_keywords(washing_steps: List[str]) -> str:
     r.raise_for_status()
     data = r.json()
     raw = (data.get("result") or {}).get("text", "")
-
     return _split_sentences_to_keywords(raw, line_limit=3, char_limit=22, ending="함")
 
 # ---------- 뷰에서 쓰는 래퍼(캐시 포함) ----------
@@ -216,10 +270,7 @@ def make_stain_steps_one_liner(stain_guide: Dict) -> str:
     return out
 
 def apply_stain_steps_summary(summary: Dict, stain_guide: Dict) -> Dict:
-    """
-    상단 요약 딕셔너리(summary)에 '키워드 목록'을 주입(덮어쓰기).
-    템플릿에서는 {{ summary.stain }}를 <pre> 또는 white-space: pre-line으로 표시.
-    """
+    """상단 요약 딕셔너리(summary)에 '키워드 목록'을 주입(덮어쓰기)."""
     out = dict(summary or {"wash": None, "dry": None, "stain": None})
     try:
         kw = make_stain_steps_one_liner(stain_guide)
@@ -228,57 +279,3 @@ def apply_stain_steps_summary(summary: Dict, stain_guide: Dict) -> Dict:
     except Exception as e:
         print(f"[dev] apply_stain_steps_summary 실패: {e}")
     return out
-
-# ======== CLOVA Summarization 헬스체크 (진단용) ========
-def _clova_request(payload: dict):
-    """헬스체크/진단용 raw 요청 (폴백/후처리 없음)"""
-    api_key = settings.CLOVA_API_KEY
-    url = settings.CLOVA_SUMMARY_URL
-    if not api_key or not url:
-        return (False, {"error": "MISSING_ENV", "detail": "CLOVA_API_KEY 또는 CLOVA_SUMMARY_URL 없음"})
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json",
-        "X-NCP-CLOVASTUDIO-REQUEST-ID": uuid.uuid4().hex,
-    }
-    try:
-        r = requests.post(url, headers=headers, json=payload, timeout=30)
-        status = r.status_code
-        try:
-            data = r.json()
-        except Exception:
-            data = {"_raw_text": r.text}
-        ok = (status == 200) and bool((data.get("result") or {}).get("text"))
-        return (ok, {"http_status": status, "response": data})
-    except Exception as e:
-        return (False, {"error": "NETWORK_OR_EXCEPTION", "detail": str(e)})
-
-def check_clova_summary_health(sample_texts: List[str] = None):
-    """CLOVA 요약 API 연결/응답 상태 점검"""
-    if not sample_texts:
-        sample_texts = [
-            "액체 얼룩을 닦아내고 세제를 직접 바른 뒤 5~10분 두세요.",
-            "미지근한 물(30℃ 이하)로 세탁하고 울 코스를 권장합니다.",
-            "건조기는 피하고 자연 건조하세요.",
-            "다림질은 150℃ 이하로 주의하세요.",
-        ]
-    payload = {
-        "texts": ["\n".join(sample_texts)],
-        "autoSentenceSplitter": True,
-        "segCount": -1,
-        "segMaxSize": 1000,
-        "segMinSize": 300,
-        "includeAiFilters": False,
-    }
-    ok, info = _clova_request(payload)
-    if not ok:
-        return (False, info)
-    data = info["response"]
-    result = data.get("result") or {}
-    return (True, {
-        "http_status": info.get("http_status", 200),
-        "result_text": result.get("text", ""),
-        "input_tokens": result.get("inputTokens"),
-        "status_code": (data.get("status") or {}).get("code"),
-        "status_message": (data.get("status") or {}).get("message"),
-    })

@@ -158,14 +158,20 @@
               <i class="fa-solid fa-chevron-down arrow-icon"></i>
             </summary>
             <div class="accordion-content">
-              <p class="preline">{{ material.description|default:"소재별 세탁 설명이 없습니다." }}</p>
-              {% if symbols %}
-                <ul>
-                  {% for desc in symbols %}
-                    <li class="preline">{{ desc }}</li>
-                  {% endfor %}
-                </ul>
-              {% endif %}
+            <p>{{ material.description|default:"소재별 세탁 설명이 없습니다." }}</p>
+            {% if washing_descriptions %}
+            <ul>
+                {% for desc in washing_descriptions %}
+                <li>{{ desc }}</li>
+                {% endfor %}
+            </ul>
+            {% elif symbols %}
+            <ul>
+                {% for desc in symbols %}
+                <li>{{ desc }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
             </div>
           </details>
 
@@ -181,7 +187,14 @@
               <i class="fa-solid fa-chevron-down arrow-icon"></i>
             </summary>
             <div class="accordion-content">
-              <p>건조 방법에 대한 상세 내용은 추후 기호/소재 규칙을 확장해 채워집니다.</p>
+                <p>건조 방법에 대한 상세 내용은 추후 기호/소재 규칙을 확장해 채워집니다.</p>
+                {% if drying_descriptions %}
+                <ul>
+                    {% for desc in drying_descriptions %}
+                        <li>{{ desc }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
             </div>
           </details>
         </section>

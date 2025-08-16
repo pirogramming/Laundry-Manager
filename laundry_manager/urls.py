@@ -79,11 +79,10 @@ urlpatterns = [
    
     path('guide/', info_flow.guide_from_result, name='guide_from_result'),
 
-    # ... 기존 라우트들 ...
     path("guide/from-result/", laundry_res.guide_from_result, name="guide_from_result"),
     # path("history/clear/", history.delete_laundry_history, name="clear_result"),
     
-    #문의하기 처리 
+    #문의하기 처리
     path('contact/submit/', contact.contact_submit_view, name='contact_submit'),
 
     # 오늘의 운세
