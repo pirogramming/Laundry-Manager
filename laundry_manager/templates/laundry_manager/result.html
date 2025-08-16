@@ -49,11 +49,12 @@
                     <div class="info-item">
                         <span>인식된 기호</span>
                         {% if rule_keywords %}
-                            <strong>{{ rule_keywords|join:", " }}</strong>
+                            <strong>{{ rule_keywords|join:"<br>"|safe }}</strong>
                         {% else %}
                             <strong>결과 없음</strong>
                         {% endif %}
                     </div>
+
 
                     {% comment %} <hr class="info-divider"> {% endcomment %}
 
@@ -93,7 +94,7 @@
                 {% include "laundry_manager/partials/_recommendation.html" with materials=materials stains=stains material=material stain=stain symbols=symbols %}
                 </section> -->
 
-                <a href="#" class="extra-info-link" id="open-modal-btn">추가 정보 입력하기</a>
+                <a href="#" class="extra-info-link" id="open-modal-btn">수정하기</a>
                 <a href="{% url 'guide_from_result' %}" class="confirm-button">확인하기</a>
             </div>
         </main>

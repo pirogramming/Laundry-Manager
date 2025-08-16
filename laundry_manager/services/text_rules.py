@@ -97,7 +97,8 @@ class JsonRule:
     keywords: List[str]
     description: str
     category: str  # 코드에서 id로 자동 추론 (JSON에 없어도 됨)
-
+    keyword: str = ""
+    
 @dataclass
 class CompiledRule:
     id: str
@@ -106,7 +107,7 @@ class CompiledRule:
     deny: bool
     kw_patterns: List[re.Pattern]
     ctx_patterns: List[re.Pattern]  # 카테고리/사용자 정의 맥락 단서
-
+    keyword: str = ""
 # ─────────────────────────────────────────────────────────────────────────────
 # 전처리 유틸
 # ─────────────────────────────────────────────────────────────────────────────
@@ -206,9 +207,11 @@ def _load_json_rules_from_candidates() -> List[CompiledRule]:
                 category = (item.get("category") or _infer_category(rid)).strip()
                 deny = rid.startswith("do_not_")
 
+                # ✅ keyword(짧은 라벨) 지원: 없으면 description 사용
+                short_label = (item.get("keyword") or "").strip() or description
+
                 kw_pats = [_token_to_pattern(tok) for tok in keywords if (tok or "").strip()]
 
-                # requires가 있으면 이를 컨텍스트로, 없으면 카테고리 기본 컨텍스트 사용
                 req_words = item.get("requires") or []
                 if req_words:
                     ctx_pats = [re.compile(re.escape(w), re.IGNORECASE) for w in req_words if (w or "").strip()]
@@ -222,6 +225,7 @@ def _load_json_rules_from_candidates() -> List[CompiledRule]:
                     deny=deny,
                     kw_patterns=kw_pats,
                     ctx_patterns=ctx_pats,
+                    keyword=short_label,  # ✅ 저장
                 ))
             loaded = compiled
             picked_path = path
@@ -299,7 +303,9 @@ def analyze_texts(recognized_texts: List[str]) -> List[Dict[str, Any]]:
         result = {
             "code": rule.id,
             "state": "deny" if rule.deny else "allow",
-            "message": rule.description,
+            "message": rule.description,   # (호환용)
+            "label": rule.keyword,         
+            "keyword": rule.keyword,       
             "matched": list(dict.fromkeys(matched)),
             "category": rule.category,
         }
@@ -329,11 +335,12 @@ def extract_rule_keywords(recognized_texts: List[str]) -> List[str]:
     (중복 제거 및 입력 순서 유지)
     """
     hits = analyze_texts(recognized_texts)
-    labels = [h["message"] for h in hits]
+     # ✅ keyword/label 우선, 없으면 description 폴백
+    labels = [(h.get("label") or h.get("keyword") or h.get("message") or "") for h in hits]
     seen = set()
     out: List[str] = []
     for label in labels:
-        if label in seen:
+        if not label or label in seen:
             continue
         seen.add(label)
         out.append(label)

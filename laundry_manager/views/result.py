@@ -13,7 +13,17 @@ def result_view(request):
     if not texts:
         texts = load_latest_recognized_texts_from_output()
 
+    # 룰 분석
     instructions = analyze_texts(texts)
+
+    # 인식된 기호(짧은 키워드) 리스트 생성: label → keyword → description 폴백, 중복 제거
+    seen = set()
+    rule_keywords = []
+    for ins in instructions:
+        lbl = (ins.get("label") or ins.get("keyword") or ins.get("message") or "").strip()
+        if lbl and lbl not in seen:
+            seen.add(lbl)
+            rule_keywords.append(lbl)
 
     return render(request, 'laundry_manager/result.html', {
         'recognized_texts': texts,
@@ -21,4 +31,5 @@ def result_view(request):
         'materials': [material] if material else [],
         'stains': stains,
         'instructions': instructions,
+        'rule_keywords': rule_keywords,  # ✅ 템플릿에서 {{ rule_keywords|join:", " }} 로 표시
     })
