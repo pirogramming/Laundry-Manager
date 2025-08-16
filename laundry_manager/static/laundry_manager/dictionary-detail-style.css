@@ -90,7 +90,7 @@
 .title-wrapper .icon-btn-nav {
     flex-shrink: 0;
     /* 버튼 안찌그러지게 */
-    background-color: var(--color-background);
+    background-color: transparent;
     color: var(--color-text-tertiary);
     border-color: var(--color-border);
 }
@@ -166,4 +166,9 @@
     font-size: 16px;
     text-align: center;
     box-shadow: 0 4px 12px rgba(36, 69, 239, 0.3);
+}
+
+#bookmarkBtn .fa-heart {
+    font-size: 24px;
+    /* 원하는 크기(px)로 조절하세요 */
 }

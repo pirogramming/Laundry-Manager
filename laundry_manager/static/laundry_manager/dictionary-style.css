@@ -223,3 +223,8 @@ section h3 {
     margin-left: 20px;
     margin-bottom: 15px;
 }
+
+.like-btn .fa-heart {
+    font-size: 22px;
+    /* 원하는 크기로 조절하세요. (예: 24px, 32px 등) */
+}
