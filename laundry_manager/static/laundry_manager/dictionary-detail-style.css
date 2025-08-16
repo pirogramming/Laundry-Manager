@@ -8,6 +8,9 @@
     position: relative;
     /* 자식 요소의 absolute 위치 기준 */
     display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* 화면 전체 높이를 차지하도록 설정 */
 }
 
 /* 배경 이미지 */
@@ -59,12 +62,13 @@
     border-radius: 20px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     padding: 25px;
-    margin: 200px 0px 20px;
+    margin: 300px 0px 20px;
     /* 상단(배경 보이게), 좌우, 하단 여백 */
     position: relative;
     z-index: 5;
-    flex: 1;
-    margin-top: auto;
+    flex-grow: 1;
+    /* 남은 공간을 모두 채우도록 확장 */
+
 }
 
 /* 제목 + 즐겨찾기 버튼 */
