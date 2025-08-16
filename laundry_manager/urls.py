@@ -8,9 +8,7 @@ from .views import laundry_res  # 이미 guide_from_result 추가해놨던 파�
 
 
 urlpatterns = [
-    path("", pages.login_page, name="login"),
-    path("main/", pages.main_page, name="main"),
-    
+    path("", pages.main_page, name="main"),
     path("laundry-upload/", ocr.upload_view, name="laundry-upload"),
     # (페이지 전용 라우트는 계속 유지하고 싶다면 별도 경로 사용)
     path("laundry-upload-page/", pages.laundry_upload_page, name="laundry-upload-page"),
@@ -77,10 +75,9 @@ urlpatterns = [
     path("history/upload/", history.upload_and_save_history_view, name="upload_history"),
     path("history/save-current/", history.save_current_result_as_history_view, name="save_current_history"),
 
-    # ... 기존 라우트들 ...
     path("guide/from-result/", laundry_res.guide_from_result, name="guide_from_result"),
     # path("history/clear/", history.delete_laundry_history, name="clear_result"),
     
-    #문의하기 처리 
+    #문의하기 처리
     path('contact/submit/', contact.contact_submit_view, name='contact_submit'),
 ]

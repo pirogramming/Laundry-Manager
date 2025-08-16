@@ -273,18 +273,15 @@ def _match_def_by_keyword(free_label: str, defs_obj):
         name = (meta.get("name") or key or "")
         name_n = _norm_txt(name)
         if labn and (labn in name_n or name_n in labn):
-            best = meta
-            break
+            return meta
 
-        for kw in (meta.get("keywords") or []):
+        # keyword도 함께 탐색
+        for kw in ((meta.get("keywords") or []) + ([meta.get("keyword")] if meta.get("keyword") else [])):
             kwn = _norm_txt(kw)
             if labn and (labn in kwn or kwn in labn):
-                best = meta
-                break
-        if best:
-            break
+                return meta
 
-    return best
+    return None
 
 def _symbols_to_guides_fuzzy(labels, defs_obj):
     """
@@ -303,11 +300,47 @@ def _symbols_to_guides_fuzzy(labels, defs_obj):
         if not meta:
             meta = _match_def_by_keyword(lab, defs_obj) or {}
 
-        name = meta.get("name") or lab
-        desc = meta.get("description") or ""
-        guides.append({"label": lab, "name": name, "description": desc})
+        guides.append({
+            "label": lab,
+            "id": meta.get("id"),
+            "category": meta.get("category"),
+            "keyword": meta.get("keyword") or lab,
+            "name": meta.get("name") or lab,
+            "description": meta.get("description") or "",
+        })
     return guides
 
+def _descriptions_by_category(guides, accept_categories, include_when_category_missing=False):
+    """guides에서 category가 accept_categories에 속하는 항목의 description만 추출.
+       category가 누락된 항목을 포함하려면 include_when_category_missing=True."""
+    out, seen = [], set()
+    accept = {c.strip().lower() for c in (accept_categories or [])}
+    for g in guides or []:
+        cat  = (g.get("category") or "").strip().lower()
+        desc = (g.get("description") or "").strip()
+        if not desc:
+            continue
+
+        if cat:
+            if cat in accept and desc not in seen:
+                out.append(desc); seen.add(desc)
+        elif include_when_category_missing:
+            if desc not in seen:
+                out.append(desc); seen.add(desc)
+    return out
+
+
+def _washing_descriptions(guides):
+    # washing 전용
+    return _descriptions_by_category(guides, {"washing"}, include_when_category_missing=False)
+
+
+def _drying_descriptions(guides):
+    # 건조 전용: dry / dry_clean (유사 표기도 커버)
+    return _descriptions_by_category(
+        guides,
+        {"dry", "dry_clean", "drying", "dryclean", "drycleaning"},
+    )
 
 # ------- 기호 설명 중복/쌍(일반/약하게) 병합 -------------------------------
 def _collapse_normal_gentle_key(desc: str) -> str:
@@ -418,16 +451,20 @@ def guide_from_result(request):
         lst = stain_guide_limited.get(key) or []
         if isinstance(lst, list):
             stain_guide_limited[key] = lst[:2]
-
-    # 6) 렌더
+        # ✅ 세탁( washing ) 전용 description 리스트
+    washing_descriptions = _washing_descriptions(symbol_guides)
+    drying_descriptions = _drying_descriptions(symbol_guides)
     ctx = {
         "material": material_guide,
-        "stain": stain_guide_limited,  # ← 제한된 버전 사용
+        "stain": stain_guide_limited,
         "symbol_guides": symbol_guides,
         "symbols": symbol_descs,
         "info": {"material": material, "stains": " / ".join(stains) if stains else ""},
         "materials": [material] if material else [],
         "stains": stains,
         "summary": summary,
+
+        "washing_descriptions": washing_descriptions,
+        "drying_descriptions": drying_descriptions,
     }
     return render(request, "laundry_manager/laundry-info.html", ctx)
