@@ -114,6 +114,8 @@ def dictionary(request):
     category_list = list(category_map.values())
     processed_data = {}
 
+    from_search = "query" in request.GET
+
     item_index = 0  # 이미지 파일명에 사용할 인덱스를 초기화
 
     def preprocess_item(item):
@@ -146,23 +148,7 @@ def dictionary(request):
                 items = dictionary_data.get(category_key, [])
                 filtered_items = []
                 for item in items:
-                    search_string = (
-                        item.get("title", "").lower()
-                        + item.get("description", "").lower()
-                        + json.dumps(
-                            item.get("content", ""), ensure_ascii=False
-                        ).lower()
-                        + json.dumps(
-                            item.get("Washing_Steps", []), ensure_ascii=False
-                        ).lower()
-                        + json.dumps(item.get("tip", []), ensure_ascii=False).lower()
-                        + json.dumps(
-                            item.get("not_to_do", []), ensure_ascii=False
-                        ).lower()
-                        + json.dumps(
-                            item.get("Other_Information", []), ensure_ascii=False
-                        ).lower()
-                    )
+                    search_string = item.get("title", "").lower()
                     if query.lower() in search_string:
                         filtered_items.append(preprocess_item(item))
                 if filtered_items:
@@ -204,6 +190,7 @@ def dictionary(request):
         "category_list": category_list,
         "dictionary_data": processed_data,
         "frequent_searches": frequent_searches,
+        "from_search": from_search,  # from_search 변수를 context에 추가
     }
 
     return render(request, "laundry_manager/dictionary.html", context)
@@ -236,6 +223,8 @@ def dictionary_detail(request, item_title):
             {"message": f"'{decoded_title}'에 대한 세탁 정보를 찾을 수 없습니다."},
         )
 
+    from_search = "query" in request.GET
+
     # ★★★ This is the key section to add/modify ★★★
     # Attach the image filename and URL to the item_data
     item_data["image_filename"] = f"dictionary_image/{item_index}.jpg"
@@ -250,6 +239,7 @@ def dictionary_detail(request, item_title):
             "tip": "팁",
             "not_to_do": "주의 사항",
             "Other_Information": "기타 정보",
+            "from_search": from_search,  # from_search 변수 추가
         },
     }
 

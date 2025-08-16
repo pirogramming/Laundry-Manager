@@ -21,7 +21,11 @@
 <body>
     <div class="mobile-container dictionary-page">
         <nav class="top-nav-white">
-            <button class="icon-btn-bordered"><i class="fa-solid fa-arrow-left"></i></button>
+            <button class="icon-btn-bordered">
+                <a href="{% if from_search %}{% url '' %}{% else %}{% url 'main' %}{% endif %}" class="icon-btn-nav">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+            </button>
             <h2>세탁 백과사전</h2>
         </nav>
 
