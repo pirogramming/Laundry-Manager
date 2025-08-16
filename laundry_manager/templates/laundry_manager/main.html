@@ -29,12 +29,12 @@
         </div>
 
         <div class="profile-and-greeting">
-            <a href="{% url 'login' %}" class="profile-link" aria-label="프로필 / 로그인">
+            {% comment %} <a href="{% url 'login' %}" class="profile-link" aria-label="프로필 / 로그인">
                 <img
                     src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMSEhMT..."  <!-- 생략 -->
                     alt="프로필 사진"
                     class="profile-pic">
-            </a>
+            </a> {% endcomment %}
             <div class="greeting-text">
                 <p>안녕하세요👋</p>
                 <h2>

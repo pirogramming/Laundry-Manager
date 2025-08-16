@@ -24,7 +24,15 @@
 
             <main class="profile-content">
                 <div class="user-info">
-                    <div class="avatar-placeholder"></div>
+                    <div class="avatar">
+                    {% if profile_image %}
+                        <img src="{{ profile_image }}" alt="{{ display_name }} 프로필" class="profile-pic">
+                    {% else %}
+                        <div class="avatar-placeholder">
+                        <i class="fa-solid fa-user"></i>
+                        </div>
+                    {% endif %}
+                    </div>
                     <div class="user-details">
                         {% if user.is_authenticated %}
                             <h2>{{ display_name }} 님</h2>
