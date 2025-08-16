@@ -238,3 +238,47 @@ section h3 {
 .icon-btn-nav {
     color: black;
 }
+
+.all-items .info-grid-item.hidden {
+    display: none;
+}
+
+.show-more-container {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.show-more-btn {
+    border: none;
+    margin-left: 22px;
+    padding: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+
+    border-radius: 10px;
+    color: white;
+    background-color: var(--color-primary);
+}
+
+.show-more-btn:hover {
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.show-less-btn {
+    border: none;
+    margin-left: 22px;
+    padding: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+
+    border-radius: 10px;
+    color: white;
+    background-color: var(--color-primary);
+}
+
+.show-less-btn:hover {
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+}

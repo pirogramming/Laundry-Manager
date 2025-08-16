@@ -134,3 +134,43 @@ document.addEventListener('DOMContentLoaded', () => {
     applyInitialFavoriteState();
     updateFavoritesTab();
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const categories = document.querySelectorAll('.all-items');
+
+    categories.forEach(category => {
+        const items = category.querySelectorAll('.info-grid-item');
+        const showMoreBtn = category.parentElement.querySelector('.show-more-btn');
+        const showLessBtn = category.parentElement.querySelector('.show-less-btn');
+
+        if (items.length > 3) {
+            // 초기 상태: 4번째 아이템부터 숨기고 '더보기' 버튼만 보이게 함
+            for (let i = 3; i < items.length; i++) {
+                items[i].classList.add('hidden');
+            }
+            showMoreBtn.style.display = 'block';
+
+            // 더보기 버튼 클릭 시
+            showMoreBtn.addEventListener('click', function() {
+                // 숨겨진 아이템을 모두 보여주고
+                items.forEach(item => item.classList.remove('hidden'));
+                // '더보기' 버튼 숨기기
+                showMoreBtn.style.display = 'none';
+                // '닫기' 버튼 보이기
+                showLessBtn.style.display = 'block';
+            });
+
+            // 닫기 버튼 클릭 시
+            showLessBtn.addEventListener('click', function() {
+                // 4번째 아이템부터 다시 숨기고
+                for (let i = 3; i < items.length; i++) {
+                    items[i].classList.add('hidden');
+                }
+                // '닫기' 버튼 숨기기
+                showLessBtn.style.display = 'none';
+                // '더보기' 버튼 보이기
+                showMoreBtn.style.display = 'block';
+            });
+        }
+    });
+});

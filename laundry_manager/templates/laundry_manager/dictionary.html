@@ -113,7 +113,7 @@
                 {% for category_name, items in dictionary_data.items %}
                 <div class="category">
                     <h4 class="category-title">{{ category_name }}</h4>
-                    <div class="all-items">
+                    <div class="all-items" id="category-{{ forloop.counter }}">
                         {% for item in items %}
                         <a href="{% url 'dictionary_detail' item_title=item.title|urlencode %}" class="info-grid-item">
                             {% if item.image_url %}
@@ -125,6 +125,12 @@
                             </div>
                         </a>
                         {% endfor %}
+                    </div>
+                    <div class="show-more-container">
+                        <button class="show-more-btn" data-target="category-{{ forloop.counter }}"
+                            style="display:none;">더보기</button>
+                        <button class="show-less-btn" data-target="category-{{ forloop.counter }}"
+                            style="display:none;">닫기</button>
                     </div>
                 </div>
                 {% endfor %}
