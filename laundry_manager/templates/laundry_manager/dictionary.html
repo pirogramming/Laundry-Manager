@@ -21,7 +21,9 @@
 <body>
     <div class="mobile-container dictionary-page">
         <nav class="top-nav-white">
-            {% comment %} <button class="icon-btn-bordered"><i class="fa-solid fa-arrow-left"></i></button> {% endcomment %}
+            <button class="icon-btn-bordered">
+                <a href="{% url 'main' %}" class="icon-btn-nav"><i class="fa-solid fa-arrow-left"></i></a>
+            </button>
             <h2>세탁 백과사전</h2>
         </nav>
 
@@ -68,7 +70,9 @@
                     {% endif %}
                     <div class="item-content">
                         <h4>{{ item.title }}</h4>
-                        <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                        <a href="#" class="like-btn">
+                            <i class="{% if item.is_favorite %}fa-solid{% else %}fa-regular{% endif %} fa-heart"></i>
+                        </a>
                     </div>
                 </a>
                 {% empty %}

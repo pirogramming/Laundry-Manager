@@ -1,0 +1,89 @@
+{
+    "filename": "KakaoTalk_20250814_144543794_ZE77Hmd.png",
+    "recognized_texts": [
+        "염소",
+        "표백"
+    ],
+    "symbol_definition": "염소계 표백제로만 표백할 수 있다.",
+    "ocr_raw_response": {
+        "version": "V2",
+        "requestId": "dc40cca8-a82a-4937-96a2-4a878c3827d2",
+        "timestamp": 1755273989147,
+        "images": [
+            {
+                "uid": "cf425fcb2f96496cbbbfb4aaa8607b53",
+                "name": "KakaoTalk_20250814_144543794_ZE77Hmd.png",
+                "inferResult": "SUCCESS",
+                "message": "SUCCESS",
+                "validationResult": {
+                    "result": "NO_REQUESTED"
+                },
+                "convertedImageInfo": {
+                    "width": 198,
+                    "height": 170,
+                    "pageIndex": 0,
+                    "longImage": false
+                },
+                "fields": [
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 56.0,
+                                    "y": 89.0
+                                },
+                                {
+                                    "x": 95.0,
+                                    "y": 91.0
+                                },
+                                {
+                                    "x": 94.0,
+                                    "y": 115.0
+                                },
+                                {
+                                    "x": 55.0,
+                                    "y": 113.0
+                                }
+                            ]
+                        },
+                        "inferText": "염소",
+                        "inferConfidence": 1.0,
+                        "type": "NORMAL",
+                        "lineBreak": false
+                    },
+                    {
+                        "valueType": "ALL",
+                        "boundingPoly": {
+                            "vertices": [
+                                {
+                                    "x": 116.0,
+                                    "y": 91.0
+                                },
+                                {
+                                    "x": 155.0,
+                                    "y": 91.0
+                                },
+                                {
+                                    "x": 155.0,
+                                    "y": 113.0
+                                },
+                                {
+                                    "x": 116.0,
+                                    "y": 113.0
+                                }
+                            ]
+                        },
+                        "inferText": "표백",
+                        "inferConfidence": 0.9997,
+                        "type": "NORMAL",
+                        "lineBreak": true
+                    }
+                ]
+            }
+        ]
+    },
+    "roboflow_detect_raw": null,
+    "roboflow_classify_raw": null,
+    "fused_scores": null
+}

@@ -11,6 +11,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    /* 멀티라인 텍스트 줄바꿈 보존 */
+    .preline { white-space: pre-line; }
+  </style>
 </head>
 <body>
   <div class="page-container">
@@ -18,14 +22,16 @@
 
       <header class="info-header">
         <nav class="top-nav">
-          <a href="{% url 'result' %}"><button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button></a>
+          <a href="{% url 'result' %}">
+            <button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button>
+          </a>
           <h1>당신의 세탁 가이드</h1>
         </nav>
 
         <div class="laundry-item-title">
           <p>세탁물 이름</p>
           <h2>
-            {{ material.name|default:info.material }}
+            {{ info.material|default:material.name }}
             {% if info.stains %} / {{ info.stains }}{% endif %}
           </h2>
         </div>
@@ -39,13 +45,13 @@
             <img src="https://img.icons8.com/?size=100&id=rYb1JFR9WLSh&format=png&color=2445EF" alt="아이콘" class="ai-icon">
             최적 세탁법 요약
           </h3>
+
           <div class="icon-info-group">
             <div class="icon-info">
               <h4>1. 세탁법 요약</h4>
-              <!--<img src="https://cdn.imweb.me/upload/S201901035c2d8ed49b6e0/1b6f785db5f68.jpeg" alt="세탁 태그" class="laundry-tag-img">-->
               <div class="icon-info-text">
                 <i class="fa-solid fa-check-circle check-icon"></i>
-                <span>
+                <span class="preline">
                   {% if summary and summary.wash %}{{ summary.wash }}
                   {% elif material.description %}{{ material.description }}
                   {% else %}정보 없음{% endif %}
@@ -55,10 +61,9 @@
 
             <div class="icon-info">
               <h4>2. 건조법 요약</h4>
-              <!--<img src="https://image.zdnet.co.kr/2020/06/25/hyeming_tNKPjMHKHeyL.jpg" alt="세탁 태그" class="laundry-tag-img">-->
               <div class="icon-info-text">
                 <i class="fa-solid fa-ban ban-icon"></i>
-                <span>
+                <span class="preline">
                   {% if summary and summary.dry %}{{ summary.dry }}
                   {% else %}정보 없음{% endif %}
                 </span>
@@ -66,36 +71,42 @@
             </div>
           </div>
 
-          <p class="stain-info">
+          <div class="stain-info">
             <strong>3. 얼룩 제거법 요약 :</strong>
             {% if summary and summary.stain %}
-            <p class="stain-kw">{{ summary.stain }}</p>
-            <style>.stain-kw{white-space:pre-line}</style>
-            {{ summary.stain }}{% else %}정보 없음{% endif %}
-          </p>
+              <p class="stain-kw preline">{{ summary.stain }}</p>
+            {% else %}
+              <p>정보 없음</p>
+            {% endif %}
+          </div>
         </section>
 
-        <!-- 피해야 하는 세탁법 (배열은 리스트로 출력) -->
+        <!-- 피해야 하는 세탁법 -->
         <section class="card avoid-card">
           <h3><i class="fa-solid fa-triangle-exclamation"></i> 피해야 하는 세탁법</h3>
 
           {% if material.warning %}
             <div class="avoid-item">
               <i class="fa-solid fa-circle-exclamation"></i>
-              <p>{{ material.warning }}</p>
+              <p class="preline">{{ material.warning }}</p>
             </div>
           {% endif %}
 
           {% with todo=stain.not_to_do|default:stain.Not_to__do %}
             {% if todo %}
-              {# 대부분 배열이므로 리스트로 렌더. 만약 문자열이면 li 하나만 출력됨(실무상 OK) #}
               <ul class="avoid-list">
                 {% if todo.0 and todo|length > 1 %}
                   {% for t in todo %}
-                    <li class="avoid-item"><i class="fa-solid fa-circle-exclamation"></i><p>{{ t }}</p></li>
+                    <li class="avoid-item">
+                      <i class="fa-solid fa-circle-exclamation"></i>
+                      <p class="preline">{{ t }}</p>
+                    </li>
                   {% endfor %}
                 {% else %}
-                  <li class="avoid-item"><i class="fa-solid fa-circle-exclamation"></i><p>{{ todo }}</p></li>
+                  <li class="avoid-item">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <p class="preline">{{ todo }}</p>
+                  </li>
                 {% endif %}
               </ul>
             {% endif %}
@@ -125,7 +136,7 @@
               {% if stain.Washing_Steps %}
                 <ol class="step-list">
                   {% for step in stain.Washing_Steps %}
-                    <li>{{ step }}</li>
+                    <li class="preline">{{ step }}</li>
                   {% endfor %}
                 </ol>
               {% else %}
@@ -141,19 +152,26 @@
               </div>
               <div class="summary-text">
                 <h4>세탁 방법</h4>
-                <p>{{ material.name|default:info.material }}</p>
+                <!-- ✅ 수정값 우선 -->
+                <p>{{ info.material|default:material.name }}</p>
               </div>
               <i class="fa-solid fa-chevron-down arrow-icon"></i>
             </summary>
             <div class="accordion-content">
-              <p>{{ material.description|default:"소재별 세탁 설명이 없습니다." }}</p>
-              {% if symbols %}
-                <ul>
-                  {% for desc in symbols %}
-                    <li>{{ desc }}</li>
-                  {% endfor %}
-                </ul>
-              {% endif %}
+            <p>{{ material.description|default:"소재별 세탁 설명이 없습니다." }}</p>
+            {% if washing_descriptions %}
+            <ul>
+                {% for desc in washing_descriptions %}
+                <li>{{ desc }}</li>
+                {% endfor %}
+            </ul>
+            {% elif symbols %}
+            <ul>
+                {% for desc in symbols %}
+                <li>{{ desc }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
             </div>
           </details>
 
@@ -164,12 +182,19 @@
               </div>
               <div class="summary-text">
                 <h4>건조 방법</h4>
-                <p>{% if summary and summary.dry %}{{ summary.dry }}{% else %}정보 없음{% endif %}</p>
+                <p class="preline">{% if summary and summary.dry %}{{ summary.dry }}{% else %}정보 없음{% endif %}</p>
               </div>
               <i class="fa-solid fa-chevron-down arrow-icon"></i>
             </summary>
             <div class="accordion-content">
-              <p>건조 방법에 대한 상세 내용은 추후 기호/소재 규칙을 확장해 채워집니다.</p>
+                <p>건조 방법에 대한 상세 내용은 추후 기호/소재 규칙을 확장해 채워집니다.</p>
+                {% if drying_descriptions %}
+                <ul>
+                    {% for desc in drying_descriptions %}
+                        <li>{{ desc }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
             </div>
           </details>
         </section>
@@ -184,28 +209,28 @@
       </main>
     </div>
 
-        <nav class="bottom-nav">
-            <a href="{% url 'main' %}" class="nav-item">
-                <i class="fa-solid fa-house"></i>
-                <span>메인 화면</span>
-            </a>
-            <a href="{% url 'map' %}" class="nav-item">
-                <i class="fa-solid fa-map-location-dot"></i>
-                <span>지도</span>
-            </a>
-            <a href="{% url 'laundry-upload' %}" class="nav-item-main">
-                <i class="fa-solid fa-camera"></i>
-            </a>
-            <a href="{% url 'dictionary' %}" class="nav-item">
-                <i class="fa-solid fa-book-open"></i>
-                <span>백과사전</span>
-            </a>
-            <a href="{% url 'profile' %}" class="nav-item">
-                <i class="fa-solid fa-gear"></i>
-                <span>더보기</span>
-            </a>
-        </nav>
-    </div>
+    <nav class="bottom-nav">
+      <a href="{% url 'main' %}" class="nav-item">
+        <i class="fa-solid fa-house"></i>
+        <span>메인 화면</span>
+      </a>
+      <a href="{% url 'map' %}" class="nav-item">
+        <i class="fa-solid fa-map-location-dot"></i>
+        <span>지도</span>
+      </a>
+      <a href="{% url 'laundry-upload' %}" class="nav-item-main">
+        <i class="fa-solid fa-camera"></i>
+      </a>
+      <a href="{% url 'dictionary' %}" class="nav-item">
+        <i class="fa-solid fa-book-open"></i>
+        <span>백과사전</span>
+      </a>
+      <a href="{% url 'profile' %}" class="nav-item">
+        <i class="fa-solid fa-gear"></i>
+        <span>더보기</span>
+      </a>
+    </nav>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
   <script type="module" src="{% static 'laundry_manager/laundry-info-script.js' %}"></script>
