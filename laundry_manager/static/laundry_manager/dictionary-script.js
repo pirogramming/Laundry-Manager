@@ -8,21 +8,21 @@ animate(".dictionary-page", { opacity: [0, 1] }, { duration: 0.5 });
 // --- Swiper.js 캐러셀 초기화 ---
 const swiper = new Swiper('.popular-swiper', {
     // 옵션
-    slidesPerView: 1.1, // 한 번에 1.1개씩 보이게 해서 옆 슬라이드가 살짝 보이도록
-    spaceBetween: 15,   // 슬라이드 간 간격
-    centeredSlides: true, // 활성 슬라이드를 가운데로
-    loop: true,           // 무한 루프
+    slidesPerView: 1.1, 
+    spaceBetween: 15,    
+    centeredSlides: true, // 이 옵션이 슬라이드 위치를 안정화합니다.
+    loop: true,          
     
     // 자동 재생
     autoplay: {
-      delay: 3000, // 3초마다 자동 재생
-      disableOnInteraction: false, // 사용자가 조작한 후에도 자동 재생 유지
+        delay: 3000,
+        disableOnInteraction: false,
     },
 
     // 페이지네이션 (하단 점)
     pagination: {
-      el: '.swiper-pagination',
-      clickable: true, // 점을 클릭해서 이동 가능
+        el: '.swiper-pagination',
+        clickable: true,
     },
 });
 
