@@ -39,8 +39,8 @@
                     <div class="swiper-slide">
                         <img src="{% static search.image_filename %}" alt="{{ search.title }}">
                         <div class="slide-content">
-                            <a href="{% url 'dictionary_detail' item_title=search.title|urlencode %}">{{ search.title
-                                }}</a>
+                            <a href="{% url 'dictionary_detail' item_title=search.title|urlencode %}">
+                                {{search.title}}</a>
                         </div>
                     </div>
                     {% endfor %}
