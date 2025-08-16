@@ -64,8 +64,8 @@
                 {% for items in dictionary_data.values %}
                 {% for item in items %}
                 <a href="{% url 'dictionary_detail' item_title=item.title|urlencode %}" class="info-grid-item">
-                    {% load static %}
                     {% if item.image_url %}
+                    {% load static %}
                     <img src="{% static item.image_url %}" alt="{{ item.title }}">
                     {% endif %}
                     <div class="item-content">

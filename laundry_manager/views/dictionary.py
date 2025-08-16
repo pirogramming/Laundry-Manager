@@ -134,7 +134,7 @@ def dictionary(request):
         # The image_url from the JSON is a relative path.
         # Use Django's `static` tag to get the absolute URL.
         relative_path = item.get("image_url", "")
-        processed["image_url"] = static(relative_path)
+        processed["image_url"] = relative_path
 
         # The rest of your code for finding the file on the server.
         # Note: `static()` above handles the browser URL.
