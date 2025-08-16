@@ -170,6 +170,15 @@ section h3 {
     overflow: hidden;
     position: relative;
     aspect-ratio: 1 / 1.1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Add transition for a smooth effect */
+}
+
+.info-grid-item:hover {
+    transform: translateY(-10px);
+    /* Lifts the item up by 10 pixels */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    /* Adds a shadow */
 }
 
 .info-grid-item img {
