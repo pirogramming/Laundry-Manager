@@ -94,8 +94,8 @@ def get_map_data():
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             raw_data = json.load(f)
-    except Exception:
-        pass
+    except Exception as e:
+        print(f"JSON 파일 처리 오류: {e}")
 
     transformed_stores = []
     store_id_counter = 1
@@ -123,6 +123,7 @@ def get_map_data():
 
     context = {
         "naver_map_client_key": settings.NAVER_MAP_CLIENT_KEY,
+        # 이제 stores_data는 객체가 아닌 단일 배열입니다.
         "stores_data": transformed_stores,
     }
     

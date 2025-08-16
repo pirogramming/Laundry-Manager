@@ -440,216 +440,247 @@ locateMe().then(() => { if (state.centerMode === 'me') refresh(); });
 */
 // laundry_manager/static/laundry_manager/map-script.js
 
+// laundry_manager/static/laundry_manager/map-script.js
+
 import { animate, stagger } from "https://cdn.jsdelivr.net/npm/motion@latest/+esm";
 
-// View에서 받은 좌표 없는 원본 데이터
-const rawStoresData = JSON.parse(document.getElementById('stores-data').textContent);
+// 지도 API가 모두 로드된 후 실행되도록 전체 코드를 감쌉니다.
+naver.maps.onJSContentLoaded = function() {
+    
+    const rawStoresData = JSON.parse(document.getElementById('stores-data').textContent);
+    let stores = [];
 
-// 최종적으로 좌표가 포함될 데이터 (처음엔 비어있음)
-let stores = [];
+    // HTML 요소 선택
+    const openBtn = document.getElementById('openNowBtn');
+    const productFilter = document.getElementById('productFilter');
+    const centerSel = document.getElementById('centerMode');
+    const sortSel = document.getElementById('sortMode');
+    const listEl = document.getElementById('storeList');
 
-// (DOM 요소 선택, 지도 초기화, 상태 변수 등은 기존과 동일)
-const openBtn = document.getElementById('openNowBtn');
-const productFilter = document.getElementById('productFilter');
-const centerSel = document.getElementById('centerMode');
-const sortSel = document.getElementById('sortMode');
-const listEl = document.getElementById('storeList');
-const map = new naver.maps.Map('map', {
-    center: new naver.maps.LatLng(37.5665, 126.9780),
-    zoom: 15,
-    zoomControl: true,
-    zoomControlOptions: { position: naver.maps.Position.BOTTOM_RIGHT }
-});
-const markers = new Map();
-const infoWindows = new Map();
-const state = { openOnly: false, product: '', centerMode: 'map', sortMode: 'distance', myCoord: null };
+    let map; 
+    const markers = new Map();
+    const infoWindows = new Map();
+    const state = { openOnly: false, product: '', centerMode: 'map', sortMode: 'distance', myCoord: null };
 
-/**
- * 주소를 좌표로 변환하는 Promise 기반 함수
- */
-function geocode(address) {
-    return new Promise((resolve) => {
-        naver.maps.Service.geocode({ query: address }, (status, response) => {
-            if (status === naver.maps.Service.Status.OK && response.v2.addresses.length > 0) {
-                const lat = parseFloat(response.v2.addresses[0].y);
-                const lng = parseFloat(response.v2.addresses[0].x);
-                resolve([lat, lng]);
-            } else {
-                console.error(`Geocoding 실패: ${address}`);
-                resolve(null); // 실패 시 null 반환
+    // --- 함수 정의 ---
+
+    function geocode(address) {
+        return new Promise((resolve) => {
+            naver.maps.Service.geocode({ query: address }, (status, response) => {
+                if (status === naver.maps.Service.Status.OK && response.v2.addresses.length > 0) {
+                    const lat = parseFloat(response.v2.addresses[0].y);
+                    const lng = parseFloat(response.v2.addresses[0].x);
+                    resolve([lat, lng]);
+                } else {
+                    console.error(`Geocoding 실패: ${address}`);
+                    resolve(null);
+                }
+            });
+        });
+    }
+
+    async function initializeMapAndStores() {
+        state.myCoord = await locateMe();
+        
+        const startCoord = state.myCoord ? new naver.maps.LatLng(state.myCoord[0], state.myCoord[1]) : new naver.maps.LatLng(37.5665, 126.9780);
+        map = new naver.maps.Map('map', {
+            center: startCoord,
+            zoom: 15,
+            zoomControl: true,
+            zoomControlOptions: { position: naver.maps.Position.BOTTOM_RIGHT }
+        });
+
+        const geocodingPromises = rawStoresData.map(async (store) => {
+            const coordinates = await geocode(store.address);
+            return { ...store, coord: coordinates };
+        });
+
+        stores = await Promise.all(geocodingPromises);
+
+        refresh();
+        
+        // ▼▼▼ 여기가 핵심입니다. map 객체가 생성된 후에 이벤트 리스너를 추가합니다. ▼▼▼
+        map.addListener('dragend', () => { 
+            if (state.centerMode === 'map') {
+                refresh(); 
             }
         });
-    });
-}
+    }
 
-/**
- * 모든 가게의 주소를 좌표로 변환하고 초기화하는 메인 함수
- */
-async function initializeStores() {
-    const geocodingPromises = rawStoresData.map(async (store) => {
-        const coordinates = await geocode(store.address);
-        if (coordinates) {
-            return { ...store, coord: coordinates };
-        }
-        return null; // 변환 실패한 경우
-    });
-
-    const results = await Promise.all(geocodingPromises);
-    stores = results.filter(store => store !== null);
-
-    // 데이터 준비가 완료되었으니 화면을 처음으로 그림
-    refresh();
-    locateMe().then(() => { if (state.centerMode === 'me') refresh(); });
-}
-
-// (renderMarkers, renderList, refresh, locateMe, dist, fmtMeters 및 이벤트 리스너 함수들은
-//  이전에 제공된 코드와 동일하므로 그대로 사용합니다.)
-
-function renderMarkers(data) {
-    markers.forEach(marker => marker.setMap(null));
-    markers.clear();
-    infoWindows.clear();
-    data.forEach(store => {
-        const position = new naver.maps.LatLng(store.coord[0], store.coord[1]);
-        const marker = new naver.maps.Marker({ position, map, title: store.name });
-        const infoWindow = new naver.maps.InfoWindow({ content: `<div style="padding:5px 10px; font-weight:bold; font-size:14px; border: 1px solid #555;">${store.name}</div>` });
-        markers.set(store.id, marker);
-        infoWindows.set(store.id, infoWindow);
-        naver.maps.Event.addListener(marker, 'click', () => {
-            infoWindows.forEach(iw => iw.close());
-            infoWindow.open(map, marker);
-        });
-    });
-}
-
-function renderList(data) {
-    listEl.innerHTML = '';
-    data.forEach(store => {
-        const el = document.createElement('article');
-        el.className = 'store-card';
-        const addressParts = store.address.split(' ');
-        const neighborhood = addressParts.length > 2 ? addressParts[2] : addressParts[1];
-        el.innerHTML = `
-            <div class="thumb" aria-hidden="true"></div>
-            <div>
-                <div class="title-row">
-                    <div class="title">${store.name}</div>
-                    <div class="rating"><i class="fa-solid fa-star"></i> ${store.rating ? store.rating.toFixed(1) : '평점없음'}</div>
-                </div>
-                <div class="meta">
-                    <span>${store.openNow ? '영업중' : '영업종료'} · 연중무휴</span>
-                    <div class="address-summary">
-                        <span>${fmtMeters(store.distance)} · ${neighborhood}</span>
-                        <button class="toggle-btn toggle-address" aria-label="주소 펼치기">▼</button>
-                    </div>
-                    <div class="address-full" style="display:none;">${store.address}</div>
-                </div>
-                <div class="chips">
-                    ${store.products.slice(0, 2).map(p => `<span class="small-chip">${p}</span>`).join('')}
-                    ${store.products.length > 2 ? '<button class="toggle-btn toggle-products" aria-label="상품 더보기">▼</button>' : ''}
-                </div>
-                <div class="product-list-full" style="display:none;">
-                    ${store.products.map(p => `<span class="small-chip">${p}</span>`).join('')}
-                </div>
-                <div class="actions">
-                    <a class="btn" href="tel:${store.phone}"><i class="fa-solid fa-phone"></i>전화</a>
-                    <a class="btn primary" target="_blank" href="https://map.naver.com/p/directions/-/,,,${store.name},,ADDRESS,${store.coord[1]},${store.coord[0]}">길찾기</a>
-                </div>
-            </div>`;
-        el.addEventListener('click', (e) => {
-            if (e.target.classList.contains('toggle-btn')) return;
-            const marker = markers.get(store.id);
-            const infoWindow = infoWindows.get(store.id);
-            if (marker && infoWindow) {
-                map.setCenter(marker.getPosition());
-                map.setZoom(17, true);
+    function renderMarkers(data) {
+        markers.forEach(marker => marker.setMap(null));
+        markers.clear();
+        infoWindows.clear();
+        data.forEach(store => {
+            const position = new naver.maps.LatLng(store.coord[0], store.coord[1]);
+            const marker = new naver.maps.Marker({ position, map, title: store.name });
+            const infoWindow = new naver.maps.InfoWindow({ content: `<div style="padding:5px 10px; font-weight:bold; font-size:14px; border: 1px solid #555;">${store.name}</div>` });
+            markers.set(store.id, marker);
+            infoWindows.set(store.id, infoWindow);
+            naver.maps.Event.addListener(marker, 'click', () => {
                 infoWindows.forEach(iw => iw.close());
                 infoWindow.open(map, marker);
-            }
+            });
         });
-        listEl.appendChild(el);
-    });
-    animate('.store-card', { opacity: [0, 1], y: [10, 0] }, { delay: stagger(0.05) });
-}
+    }
 
-function refresh() {
-    let center = (state.centerMode === 'me' && state.myCoord) ? new naver.maps.LatLng(state.myCoord[0], state.myCoord[1]) : map.getCenter();
-    const centerArr = [center.lat(), center.lng()];
-    let data = stores
-        .filter(s => !state.openOnly || s.openNow)
-        .filter(s => !state.product || s.products.includes(state.product))
-        .map(s => ({ ...s, distance: dist(s.coord, centerArr) }));
-    data.sort((a, b) => state.sortMode === 'distance' ? a.distance - b.distance : b.rating - a.rating);
-    renderMarkers(data);
-    renderList(data);
-}
+    function renderList(data) {
+        listEl.innerHTML = '';
+        data.forEach(store => {
+            const el = document.createElement('article');
+            el.className = 'store-card';
+            const addressParts = store.address.split(' ');
+            const neighborhood = addressParts.length > 2 ? addressParts[2] : addressParts[1];
+            el.innerHTML = `
+                <div class="thumb" aria-hidden="true"></div>
+                <div>
+                    <div class="title-row">
+                        <div class="title">${store.name}</div>
+                        <div class="rating"><i class="fa-solid fa-star"></i> ${store.rating ? store.rating.toFixed(1) : '평점없음'}</div>
+                    </div>
+                    <div class="meta">
+                        <span>${store.openNow ? '영업중' : '영업종료'} · 연중무휴</span>
+                        <div class="address-summary">
+                            <span>${fmtMeters(store.distance)} · ${neighborhood}</span>
+                            <button class="toggle-btn toggle-address" aria-label="주소 펼치기">▼</button>
+                        </div>
+                        <div class="address-full" style="display:none;">${store.address}</div>
+                    </div>
+                    <div class="chips">
+                        ${store.products.slice(0, 2).map(p => `<span class="small-chip">${p}</span>`).join('')}
+                        ${store.products.length > 2 ? '<button class="toggle-btn toggle-products" aria-label="상품 더보기">▼</button>' : ''}
+                    </div>
+                    <div class="product-list-full" style="display:none;">
+                        ${store.products.map(p => `<span class="small-chip">${p}</span>`).join('')}
+                    </div>
+                    <div class="actions">
+                        <a class="btn" href="tel:${store.phone}"><i class="fa-solid fa-phone"></i>전화</a>
+                        <a class="btn primary" target="_blank" href="https://map.naver.com/p/directions/-/,,,${store.name},,ADDRESS,${store.coord[1]},${store.coord[0]}">길찾기</a>
+                    </div>
+                </div>`;
+            el.addEventListener('click', (e) => {
+                if (e.target.classList.contains('toggle-btn')) return;
+                const marker = markers.get(store.id);
+                const infoWindow = infoWindows.get(store.id);
+                if (marker && infoWindow) {
+                    map.setCenter(marker.getPosition());
+                    map.setZoom(17, true);
+                    infoWindows.forEach(iw => iw.close());
+                    infoWindow.open(map, marker);
+                }
+            });
+            listEl.appendChild(el);
+        });
+        animate('.store-card', { opacity: [0, 1], y: [10, 0] }, { delay: stagger(0.05) });
+    }
 
-async function locateMe() {
-    return new Promise(resolve => {
-        if (!navigator.geolocation) {
-            alert('이 브라우저에서는 위치 정보를 사용할 수 없습니다.');
-            return resolve();
+    function refresh() {
+        if (!map) return;
+        let center = (state.centerMode === 'me' && state.myCoord) ? new naver.maps.LatLng(state.myCoord[0], state.myCoord[1]) : map.getCenter();
+        const centerArr = [center.lat(), center.lng()];
+        
+        let data = stores
+            .filter(s => s && s.coord)
+            .filter(s => !state.openOnly || s.openNow)
+            .filter(s => !state.product || s.products.includes(state.product))
+            .map(s => ({ ...s, distance: dist(s.coord, centerArr) }));
+        
+        if (data.length > 0) {
+            console.log("실시간으로 계산된 첫 번째 가게의 거리(m):", data[0].distance);
         }
-        navigator.geolocation.getCurrentPosition(
-            (pos) => { 
-                state.myCoord = [pos.coords.latitude, pos.coords.longitude];
-                map.setCenter(new naver.maps.LatLng(state.myCoord[0], state.myCoord[1]));
-                map.setZoom(15, true);
-                resolve();
-            },
-            () => { alert('위치 정보를 가져오는 데 실패했습니다.'); resolve(); },
-            { enableHighAccuracy: true, timeout: 5000 }
-        );
-    });
+            
+        data.sort((a, b) => state.sortMode === 'distance' ? a.distance - b.distance : b.rating - a.rating);
+        renderMarkers(data);
+        renderList(data);
+    }
+
+    function locateMe() {
+        return new Promise(resolve => {
+            if (!navigator.geolocation) {
+                alert('이 브라우저에서는 위치 정보를 사용할 수 없습니다.');
+                return resolve(null);
+            }
+            navigator.geolocation.getCurrentPosition(
+                (pos) => { 
+                    const coords = [pos.coords.latitude, pos.coords.longitude];
+                    resolve(coords);
+                },
+                () => { alert('위치 정보를 가져오는 데 실패했습니다.'); resolve(null); },
+                { enableHighAccuracy: true, timeout: 5000 }
+            );
+        });
+    }
+
+// 기존 dist 함수를 아래 코드로 교체하세요.
+
+    function toRad(d) {
+        return d * Math.PI / 180;
+    }
+
+    function dist(a, b) {
+        if (!a || !b) return Infinity;
+
+        const R = 6371e3; // 지구 반지름 (미터 단위)
+        const [lat1, lon1] = a;
+        const [lat2, lon2] = b;
+
+        const dLat = toRad(lat2 - lat1);
+        const dLon = toRad(lon2 - lon1);
+
+        const t = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+        const c = 2 * Math.atan2(Math.sqrt(t), Math.sqrt(1 - t));
+
+        return R * c; // 최종 거리 (미터)
 }
 
-function dist(a, b) {
-    const p1 = new naver.maps.LatLng(a[0], a[1]);
-    const p2 = new naver.maps.LatLng(b[0], b[1]);
-    return p1.distanceTo(p2);
-}
+    function fmtMeters(m) { return m < 1000 ? `${Math.round(m)}m` : `${(m / 1000).toFixed(1)}km`; }
 
-function fmtMeters(m) { return m < 1000 ? `${Math.round(m)}m` : `${(m / 1000).toFixed(1)}km`; }
-
-// 이벤트 리스너들 (기존과 동일)
-openBtn.addEventListener('click', () => {
-    state.openOnly = !state.openOnly;
-    openBtn.classList.toggle('active', state.openOnly);
-    openBtn.setAttribute('aria-pressed', state.openOnly);
-    refresh();
-});
-[productFilter, centerSel, sortSel].forEach(sel => {
-    sel.addEventListener('change', async () => {
-        const key = sel.id.replace('Filter', '').replace('Mode', '');
-        if (key === 'product') {
-            state[key] = sel.options[sel.selectedIndex].text;
-            if (state[key] === '모든 상품') state[key] = '';
-        } else { state[key] = sel.value; }
-        if (sel.id === 'centerMode' && sel.value === 'me') { await locateMe(); }
+    // --- 이벤트 리스너 설정 ---
+    openBtn.addEventListener('click', () => {
+        state.openOnly = !state.openOnly;
+        openBtn.classList.toggle('active', state.openOnly);
+        openBtn.setAttribute('aria-pressed', state.openOnly);
         refresh();
     });
-});
-map.addListener('dragend', () => { if (state.centerMode === 'map') { refresh(); } });
-listEl.addEventListener('click', function(e) {
-    const target = e.target;
-    if (!target.classList.contains('toggle-btn')) return;
-    const card = target.closest('.store-card');
-    if (!card) return;
-    if (target.classList.contains('toggle-address')) {
-        const fullAddress = card.querySelector('.address-full');
-        const isHidden = fullAddress.style.display === 'none';
-        fullAddress.style.display = isHidden ? 'block' : 'none';
-        target.textContent = isHidden ? '▲' : '▼';
-    }
-    if (target.classList.contains('toggle-products')) {
-        const fullProductList = card.querySelector('.product-list-full');
-        const isHidden = fullProductList.style.display === 'none';
-        fullProductList.style.display = isHidden ? 'flex' : 'none';
-        target.textContent = isHidden ? '▲' : '▼';
-    }
-});
+    [productFilter, centerSel, sortSel].forEach(sel => {
+        sel.addEventListener('change', async () => {
+            const key = sel.id.replace('Filter', '').replace('Mode', '');
+            if (key === 'product') {
+                state[key] = sel.options[sel.selectedIndex].text;
+                if (state[key] === '모든 상품') state[key] = '';
+            } else { state[key] = sel.value; }
+            if (sel.id === 'centerMode' && sel.value === 'me') { 
+                state.myCoord = await locateMe();
+                if(state.myCoord && map) {
+                    map.setCenter(new naver.maps.LatLng(state.myCoord[0], state.myCoord[1]));
+                }
+            }
+            refresh();
+        });
+    });
+    listEl.addEventListener('click', function(e) {
+        const target = e.target;
+        if (!target.classList.contains('toggle-btn')) return;
+        const card = target.closest('.store-card');
+        if (!card) return;
+        if (target.classList.contains('toggle-address')) {
+            const fullAddress = card.querySelector('.address-full');
+            const isHidden = fullAddress.style.display === 'none';
+            fullAddress.style.display = isHidden ? 'block' : 'none';
+            target.textContent = isHidden ? '▲' : '▼';
+        }
+        if (target.classList.contains('toggle-products')) {
+            const fullProductList = card.querySelector('.product-list-full');
+            const isHidden = fullProductList.style.display === 'none';
+            fullProductList.style.display = isHidden ? 'flex' : 'none';
+            target.textContent = isHidden ? '▲' : '▼';
+        }
+    });
 
-// --- 초기 실행 ---
-animate('.map-page', { opacity: [0, 1] }, { duration: 0.5 });
-// refresh() 대신, 데이터 초기화 함수를 호출합니다.
-initializeStores();
+    // --- 초기 실행 ---
+    animate('.map-page', { opacity: [0, 1] }, { duration: 0.5 });
+    initializeMapAndStores();
+};

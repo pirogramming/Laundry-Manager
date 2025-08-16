@@ -2,6 +2,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from . import maps
+from django.conf import settings
 
 # allauth가 없는 환경에서도 터지지 않도록 안전 임포트
 try:
