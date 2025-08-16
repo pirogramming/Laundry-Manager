@@ -132,12 +132,12 @@
                             <h4>{{ record.materials }} / {{ record.stains }} 제거</h4>
                             <p>{{ record.created_at|timesince }} 전 검색</p>
                         </div>
-                        <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                        <i class="fa-solid fa-chevron-right"></i>
                     </a>
-                {% empty %}
+                    {% empty %}
                     <p>아직 기록이 없습니다.</p>
-                {% endfor %}
-            </div>
+                    {% endfor %}
+                </div>
         </section>
     </main>
 
