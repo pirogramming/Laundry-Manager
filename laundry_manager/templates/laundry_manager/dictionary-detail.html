@@ -1,101 +1,119 @@
 {% load static custom_filters %}
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
-    {% load static %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>상세 정보 - 세탁 매니저</title>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>상세 정보 - 세탁 매니저</title>
 
-    <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}">
-    <link rel="stylesheet" href="{% static 'laundry_manager/dictionary-detail-style.css' %}">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}">
+  <link rel="stylesheet" href="{% static 'laundry_manager/dictionary-detail-style.css' %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    .session-badge{
+      display:flex; align-items:center; gap:.5rem;
+      padding:.5rem .75rem; border-radius:999px;
+      background:#f5f7ff; color:#334; font-size:.9rem; width:fit-content;
+    }
+    .session-badge i{color:#4562ff}
+    .preline{white-space:pre-line}
+  </style>
 </head>
 
 <body>
-    <div class="mobile-container detail-page">
-        <div class="detail-background-image" {% if item.image_url %}
-            style="background-image: url('{{ item.image_url }}');" {% endif %}></div>
+  <div class="mobile-container detail-page">
+    <div class="detail-background-image"
+         {% if item.image_url %}style="background-image:url('{{ item.image_url }}');"{% endif %}></div>
 
-        <nav class="top-nav-detail">
-            <a href="{% url 'dictionary' %}" class="icon-btn-nav"><i class="fa-solid fa-arrow-left"></i></a>
-        </nav>
+    <nav class="top-nav-detail">
+      <a href="{% url 'dictionary' %}" class="icon-btn-nav"><i class="fa-solid fa-arrow-left"></i></a>
+    </nav>
 
-        <div class="content-card">
-            <section class="info-summary-section">
-                <div class="title-wrapper">
-                    <h1>{{ item.title }}</h1>
-                    <button id="bookmarkBtn" class="icon-btn-nav"><i class="fa-regular fa-heart"></i></button>
-                </div>
-                {% if item.category_name %}
-                <span class="info-category-tag"># {{ item.category_name }}</span>
-                {% endif %}
-            </section>
-
-            {% for key, display_name in category_map.items %}
-            {% with value=item|get_item:key %}
-            {% if value %}
-            <section class="detail-content-section">
-                <h3>
-                    {% if key == "Washing_Steps" %}
-                    <i class="fa-solid fa-droplet"></i>
-                    {% elif key == "tip" %}
-                    <i class="fa-solid fa-lightbulb"></i>
-                    {% elif key == "not_to_do" %}
-                    <i class="fa-solid fa-circle-exclamation"></i>
-                    {% else %}
-                    <i class="fa-solid fa-info-circle"></i>
-                    {% endif %}
-                    {{ display_name }}
-                </h3>
-                {% if value|is_list %}
-                <ul>
-                    {% for text in value %}
-                    <li>{{ text }}</li>
-                    {% endfor %}
-                </ul>
-                {% else %}
-                <p>{{ value }}</p>
-                {% endif %}
-            </section>
-            {% endif %}
-            {% endwith %}
-            {% endfor %}
-
-            <a href="{% url 'dictionary'%}" class="back-to-dict-button">백과사전 돌아가기</a>
+    <div class="content-card">
+      <section class="info-summary-section">
+        <div class="title-wrapper">
+          <h1>{{ item.title }}</h1>
+          <button id="bookmarkBtn" class="icon-btn-nav"><i class="fa-regular fa-heart"></i></button>
         </div>
 
-        <nav class="bottom-nav">
-            <a href="{% url 'main' %}" class="nav-item">
-                <i class="fa-solid fa-house"></i>
-                <span>메인 화면</span>
-            </a>
-            <a href="{% url 'map' %}" class="nav-item">
-                <i class="fa-solid fa-map-location-dot"></i>
-                <span>지도</span>
-            </a>
-            <a href="{% url 'laundry-upload' %}" class="nav-item-main">
-                <i class="fa-solid fa-camera"></i>
-            </a>
-            <a href="{% url 'dictionary' %}" class="nav-item active">
-                <i class="fa-solid fa-book-open"></i>
-                <span>백과사전</span>
-            </a>
-            <a href="{% url 'profile' %}" class="nav-item">
-                <i class="fa-solid fa-gear"></i>
-                <span>더보기</span>
-            </a>
-        </nav>
+        {% if item.category_name %}
+          <span class="info-category-tag"># {{ item.category_name }}</span>
+        {% endif %}
+
+        {# ✅ result에서 수정된 값(세션)에 맞춰 현재 선택 표시 #}
+        {% with m=request.session.material|default:"" s_list=request.session.stains|default:[] %}
+        {% with s=s_list.0|default:"" %}
+          {% if m or s %}
+            <div class="session-badge" style="margin-top:.75rem">
+              <i class="fa-solid fa-pen-to-square"></i>
+              <span>현재 선택:</span>
+              <strong>{{ m|default:"(소재 미선택)" }}</strong>{% if s %} / <strong>{{ s }}</strong>{% endif %}
+              <a href="{% url 'guide_from_result' %}" class="text-btn-dark" style="margin-left:.5rem">가이드 보기</a>
+            </div>
+          {% endif %}
+        {% endwith %}
+        {% endwith %}
+      </section>
+
+      {# 세부 항목 렌더링: 리스트/문자열 모두 안전 처리 #}
+      {% for key, display_name in category_map.items %}
+        {% with value=item|get_item:key %}
+          {% if value %}
+            <section class="detail-content-section">
+              <h3>
+                {% if key == "Washing_Steps" %}
+                  <i class="fa-solid fa-droplet"></i>
+                {% elif key == "tip" %}
+                  <i class="fa-solid fa-lightbulb"></i>
+                {% elif key == "not_to_do" or key == "Not_to__do" %}
+                  <i class="fa-solid fa-circle-exclamation"></i>
+                {% else %}
+                  <i class="fa-solid fa-info-circle"></i>
+                {% endif %}
+                {{ display_name }}
+              </h3>
+
+              {% if value|is_list %}
+                <ul>
+                  {% for text in value %}
+                    <li class="preline">{{ text }}</li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <p class="preline">{{ value }}</p>
+              {% endif %}
+            </section>
+          {% endif %}
+        {% endwith %}
+      {% endfor %}
+
+      <a href="{% url 'dictionary' %}" class="back-to-dict-button">백과사전 돌아가기</a>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
-    <script type="module" src="{% static 'laundry_manager/dictionary-detail-script.js' %}"></script>
-</body>
+    <nav class="bottom-nav">
+      <a href="{% url 'main' %}" class="nav-item">
+        <i class="fa-solid fa-house"></i><span>메인 화면</span>
+      </a>
+      <a href="{% url 'map' %}" class="nav-item">
+        <i class="fa-solid fa-map-location-dot"></i><span>지도</span>
+      </a>
+      <a href="{% url 'laundry-upload' %}" class="nav-item-main">
+        <i class="fa-solid fa-camera"></i>
+      </a>
+      <a href="{% url 'dictionary' %}" class="nav-item active">
+        <i class="fa-solid fa-book-open"></i><span>백과사전</span>
+      </a>
+      <a href="{% url 'profile' %}" class="nav-item">
+        <i class="fa-solid fa-gear"></i><span>더보기</span>
+      </a>
+    </nav>
+  </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
+  <script type="module" src="{% static 'laundry_manager/dictionary-detail-script.js' %}"></script>
+</body>
 </html>

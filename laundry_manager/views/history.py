@@ -13,6 +13,21 @@ from ..forms import WashingUploadForm
 
 User = get_user_model()
 
+
+def _as_list(v):
+    if not v:
+        return []
+    if isinstance(v, list):
+        return [str(x).strip() for x in v if str(x).strip()]
+    if isinstance(v, (tuple, set)):
+        return [str(x).strip() for x in v if str(x).strip()]
+    if isinstance(v, str):
+        parts = [p.strip() for p in v.split(",")]
+        return [p for p in parts if p]
+    return [str(v).strip()]
+
+
+
 @require_POST
 def delete_laundry_history(request, history_id: int):
     """
@@ -108,35 +123,25 @@ def save_current_result_as_history_view(request):
 # ---------------------------
 
 def _run_pipeline_and_fill_session(request, uploaded: UploadedImage):
-    """
-    [훅] 너희 OCR/분류/룰엔진 파이프라인을 호출해 아래 키들로 세션을 채워줘.
-      - materials: str 또는 List[str] (쉼표 문자열로 변환됨)
-      - stains:    str 또는 List[str]
-      - symbols:   str 또는 List[str]  (rule_keywords나 recognized_texts에서 유도 가능)
-      - recommendation_result: str     (최종 지시문)
-
-    이미 result_view 등에서 세션을 채우고 있다면, 여기서는 그대로 두거나 보정만 해도 됨.
-    """
     session = request.session
 
-    # 예) 기존 키에서 유도 (팀 내부 기존 컨벤션 흡수)
-    # material / materials
-    if "materials" not in session:
-        mat = session.get("material", "")
-        session["materials"] = mat
+    # 기존/파이프라인 값들을 전부 리스트로 정규화
+    materials = _as_list(session.get("materials", session.get("material", "")))
+    stains    = _as_list(session.get("stains", session.get("stain", [])))
+    symbols   = _as_list(session.get("symbols", session.get("rule_keywords", session.get("recognized_texts", []))))
 
-    # symbols ← rule_keywords 또는 recognized_texts
-    if "symbols" not in session:
-        symbols = session.get("rule_keywords") or session.get("recognized_texts") or []
-        session["symbols"] = symbols
+    # 세션 표준화(항상 리스트 보관, 단일 키도 유지)
+    session["materials"] = materials
+    session["material"]  = materials[0] if materials else ""
+    session["stains"]    = stains
+    session["symbols"]   = symbols
 
-    # recommendation_result ← instructions
-    if not session.get("recommendation_result"):
-        session["recommendation_result"] = session.get("instructions", "")
+    # 요약 텍스트 기본값 보정
+    session["recommendation_result"] = str(
+        session.get("recommendation_result") or session.get("instructions") or ""
+    ).strip()
 
-    # stains는 기존 세션의 stains 유지
-    session["stains"] = session.get("stains", session.get("stain", []))
-
+    session.modified = True
 
 def _coerce_to_commasep(value):
     if not value:
@@ -149,21 +154,19 @@ def _coerce_to_commasep(value):
 
 
 def _build_history_payload_from_session(request):
-    """
-    LaundryHistory 필드 스키마(문자열 기반)에 맞춰 세션 값을 정규화한다.
-    """
     s = request.session
-    materials = s.get("materials") or s.get("material") or ""
-    stains = s.get("stains") or ""
-    symbols = s.get("symbols") or s.get("rule_keywords") or s.get("recognized_texts") or ""
-    recommendation = s.get("recommendation_result") or s.get("instructions") or ""
+    materials = _as_list(s.get("materials") or s.get("material") or "")
+    stains    = _as_list(s.get("stains") or "")
+    symbols   = _as_list(s.get("symbols") or s.get("rule_keywords") or s.get("recognized_texts") or "")
+    recommendation = (s.get("recommendation_result") or s.get("instructions") or "").strip()
 
     return {
-        "materials": _coerce_to_commasep(materials),
-        "stains": _coerce_to_commasep(stains),
-        "symbols": _coerce_to_commasep(symbols),
-        "recommendation_result": recommendation.strip(),
+        "materials": ", ".join(materials),
+        "stains": ", ".join(stains),
+        "symbols": ", ".join(symbols),
+        "recommendation_result": recommendation,
     }
+
 
 
 def _has_any_payload(payload: dict) -> bool:

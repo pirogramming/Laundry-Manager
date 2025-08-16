@@ -29,19 +29,29 @@
         </nav>
 
         <div class="laundry-item-title">
-          <p>세탁물 이름</p>
-          <h2>
-            {% if info.material %}
-              {{ info.material }}
-            {% elif material %}
-              {{ material.name|default:"" }}
-            {% else %}
-              (소재 미선택)
-            {% endif %}
-            {% if info.stains %} / {{ info.stains }}{% endif %}
-          </h2>
+        <p>세탁물 이름</p>
+        <h2>
+  {% with info.material|default:request.session.material as m %}
+    {% with info.stains|default:request.session.stains.0 as s0 %}
+      {{ m|default:"(소재 미선택)" }}{% if s0 %} / {{ s0 }}{% endif %}
+    {% endwith %}
+  {% endwith %}
+</h2>
 
-        </div>
+        {% if user.is_authenticated %}
+        <form action="{% url 'save_current_history' %}" method="post" style="margin-top:.5rem">
+          {% csrf_token %}
+          <button type="submit" class="text-btn-dark">
+            <i class="fa-regular fa-floppy-disk"></i> 현재 선택 저장
+          </button>
+        </form>
+        {% else %}
+        <a href="{% url 'login' %}" class="text-btn-dark" style="margin-top:.5rem">
+          로그인하고 저장
+        </a>
+        {% endif %}
+      </div>
+
       </header>
 
       <main class="info-content">
