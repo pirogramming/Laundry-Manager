@@ -175,15 +175,28 @@ def dictionary(request):
 
     # Naver Trend API를 활용하여 인기 검색어 목록을 가져오는 로직 추가
     # 수정할 코드 (views.py 파일 내)
-    all_keywords = []
+    all_keyword_data = []
+    temp_item_index = 0
     for category_key in dictionary_data:
         for item in dictionary_data.get(category_key, []):
+            temp_item_index += 1
             title = item.get("title")
+            image_filename = f"dictionary_image/{temp_item_index}.jpg"
             if title:
-                all_keywords.append(title)
+                all_keyword_data.append(
+                    {"title": title, "image_filename": image_filename}
+                )
 
-    unique_keywords = list(set(all_keywords))
-    frequent_searches = get_naver_trend_data(unique_keywords)
+    unique_keywords_map = {item["title"]: item for item in all_keyword_data}
+    unique_keywords = list(unique_keywords_map.keys())
+
+    # get_naver_trend_data를 한 번만 호출하도록 수정
+    naver_frequent_searches = get_naver_trend_data(unique_keywords)
+
+    frequent_searches = []
+    for keyword in naver_frequent_searches:
+        if keyword in unique_keywords_map:
+            frequent_searches.append(unique_keywords_map[keyword])
 
     context = {
         "query": query,
@@ -205,9 +218,11 @@ def dictionary_detail(request, item_title):
     decoded_title = unquote(item_title)
     dictionary_data = load_dictionary_data()
     item_data = None
+    item_index = 0  # Index to track the image filename
 
     for category_key in dictionary_data:
         for item in dictionary_data.get(category_key, []):
+            item_index += 1  # Increment the index for each item
             if item.get("title") == decoded_title:
                 item_data = item
                 break
@@ -220,6 +235,11 @@ def dictionary_detail(request, item_title):
             "laundry_manager/not_found.html",
             {"message": f"'{decoded_title}'에 대한 세탁 정보를 찾을 수 없습니다."},
         )
+
+    # ★★★ This is the key section to add/modify ★★★
+    # Attach the image filename and URL to the item_data
+    item_data["image_filename"] = f"dictionary_image/{item_index}.jpg"
+    item_data["image_url"] = f"/static/{item_data['image_filename']}"
 
     context = {
         "item": item_data,

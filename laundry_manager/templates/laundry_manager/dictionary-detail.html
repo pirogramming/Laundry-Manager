@@ -1,28 +1,32 @@
 {% load static custom_filters %}
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>상세 정보 - 세탁 매니저</title>
-    
+
     <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}">
     <link rel="stylesheet" href="{% static 'laundry_manager/dictionary-detail-style.css' %}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
+
 <body>
     <div class="mobile-container detail-page">
-        <div class="detail-background-image" {% if item.image_url %} style="background-image: url('{{ item.image_url }}');" {% endif %}></div>
+        <div class="detail-background-image" {% if item.image_url %}
+            style="background-image: url('{{ item.image_url }}');" {% endif %}></div>
 
         <nav class="top-nav-detail">
             <a href="{% url 'dictionary' %}" class="icon-btn-nav"><i class="fa-solid fa-arrow-left"></i></a>
         </nav>
-        
+
         <div class="content-card">
             <section class="info-summary-section">
                 <div class="title-wrapper">
@@ -51,22 +55,22 @@
                     {{ display_name }}
                 </h3>
                 {% if value|is_list %}
-                    <ul>
+                <ul>
                     {% for text in value %}
-                        <li>{{ text }}</li>
+                    <li>{{ text }}</li>
                     {% endfor %}
-                    </ul>
+                </ul>
                 {% else %}
-                    <p>{{ value }}</p>
+                <p>{{ value }}</p>
                 {% endif %}
             </section>
             {% endif %}
             {% endwith %}
             {% endfor %}
-            
+
             <a href="{% url 'dictionary'%}" class="back-to-dict-button">백과사전 돌아가기</a>
         </div>
-        
+
         <nav class="bottom-nav">
             <a href="{% url 'main' %}" class="nav-item">
                 <i class="fa-solid fa-house"></i>
@@ -89,8 +93,9 @@
             </a>
         </nav>
     </div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
     <script type="module" src="{% static 'laundry_manager/dictionary-detail-script.js' %}"></script>
 </body>
+
 </html>
