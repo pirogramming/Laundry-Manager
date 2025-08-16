@@ -57,9 +57,22 @@
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background-color: var(--color-background);
+    background-color: white;
     margin-right: 15px;
+    border: solid 4px var(--color-primary);
+    display: flex;              /* 아이콘 정렬 */
+    align-items: center;
+    justify-content: center;
+
+    font-size: 28px;            /* 아이콘 크기를 부모에 맞춰 제어 */
 }
+
+.avatar-placeholder i {
+    font-size: inherit;         /* 부모 폰트 크기 따라감 */
+    color: var(--color-primary); /* 파란색 */
+}
+
+
 .user-details h4 {
     font-size: 18px;
     font-weight: 700;

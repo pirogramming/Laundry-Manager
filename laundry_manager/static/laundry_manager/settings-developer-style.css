@@ -87,10 +87,17 @@
     border-radius: 50%;
     background-color: #e0e0e0;
     flex-shrink: 0;
+     overflow: hidden; 
+}
+.member-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;          /* 비율 유지하며 꽉 채우기 */
 }
 .member-details {
     flex-grow: 1;
 }
+
 .member-details h4 {
     font-size: 16px;
     font-weight: 700;

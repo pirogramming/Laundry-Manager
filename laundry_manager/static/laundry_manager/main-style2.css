@@ -402,15 +402,11 @@ body {
 
 /* 하단 네비게이션 바 */
 .bottom-nav {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 85px;
-    background-color: var(--color-container);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+    position: fixed;
+    z-index: 1000;
+    bottom: 0; left: 0; right: 0;
+    height: 85px; background-color:var(--color-container);
+    display: flex; justify-content: space-around; align-items: center;
     border-top: 1px solid var(--color-border);
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
@@ -448,8 +444,7 @@ body {
     width: 65px;
     height: 65px;
     border-radius: 50%;
-    display: flex
-;
+    display: flex;
     justify-content: center;
     align-items: center;
     transform: translateY(-40%);

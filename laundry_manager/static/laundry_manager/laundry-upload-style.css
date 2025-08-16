@@ -164,13 +164,34 @@
     flex-shrink: 0; /* 아이템이 줄어들지 않도록 */
 }
 .item-box {
-    width: 80px; height: 80px; background-color: var(--color-background);
-    border-radius: 15px; margin-bottom: 10px; border: 2px solid transparent;
-    transition: border-color 0.2s;
+    width: 80px; 
+    height: 80px; 
+    background-color: var(--color-blue-background);
+    border-radius: 20px; 
+    border: 2px solid transparent;
+    transition: all 0.2s;
+
+    /* 텍스트를 중앙에, 세로로 정렬하기 위한 flex 속성 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px; 
 }
 .selectable-item.active .item-box { border-color: var(--color-primary); }
 .selectable-item span { font-size: 14px; color: var(--color-text-primary); }
+.item-kor {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
 
+/* 👇 박스 내부의 영문 텍스트 스타일 */
+.item-eng {
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--color-text-tertiary);
+}
 /* 제출 버튼 */
 .submit-button {
     width: 100%; 
