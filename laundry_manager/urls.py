@@ -13,12 +13,13 @@ urlpatterns = [
     path("guest-enter/", pages.guest_enter, name="guest_enter"),
     path("guest-exit/", pages.guest_exit, name="guest_exit"),
     path("laundry-upload/", result.laundry_upload_page, name="laundry-upload"),
-
-
-    
     path("stain-upload/", stains.stain_guide_view, name="stain-upload"),
-    path("result/", ocr.result_view, name="result"),
+    path("result/ocr/", ocr.result_view, name="result"),
+    # path("result/", result.result_view, name="result"),
+    # path("result/update-selection/", info_flow.update_selection_view, name="update_selection"),
+    path("result/", result.result_view, name="result"),  # name은 그대로 유지!
     path("result/update-selection/", info_flow.update_selection_view, name="update_selection"),
+
 
     # path("laundry-info/", pages.laundry_info_page, name="laundry-info"),
     path("upload/", ocr.upload_and_classify, name="upload"),

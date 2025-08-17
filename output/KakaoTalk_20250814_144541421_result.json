@@ -1,0 +1,31 @@
+{
+    "filename": "KakaoTalk_20250814_144541421.png",
+    "recognized_texts": [],
+    "symbol_definition": "텍스트 인식 실패",
+    "ocr_raw_response": {
+        "version": "V2",
+        "requestId": "79224273-dc11-42f4-9172-9fd38771b0ae",
+        "timestamp": 1755435484474,
+        "images": [
+            {
+                "uid": "0b0a0ded25094ed993fcf2b136825519",
+                "name": "KakaoTalk_20250814_144541421.png",
+                "inferResult": "SUCCESS",
+                "message": "SUCCESS",
+                "validationResult": {
+                    "result": "NO_REQUESTED"
+                },
+                "convertedImageInfo": {
+                    "width": 278,
+                    "height": 222,
+                    "pageIndex": 0,
+                    "longImage": false
+                },
+                "fields": []
+            }
+        ]
+    },
+    "roboflow_detect_raw": null,
+    "roboflow_classify_raw": null,
+    "fused_scores": null
+}
