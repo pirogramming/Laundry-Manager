@@ -486,7 +486,7 @@ naver.maps.onJSContentLoaded = function() {
         map = new naver.maps.Map('map', {
             center: startCoord,
             zoom: 15,
-            zoomControl: true,
+            zoomControl: false,
             zoomControlOptions: { position: naver.maps.Position.BOTTOM_RIGHT }
         });
 
