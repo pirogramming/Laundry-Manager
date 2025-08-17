@@ -170,10 +170,46 @@ likeButtons.forEach(button => {
 });
 
 // Apply initial favorite state and update the tab on page load
+// Apply initial favorite state and update the tab on page load
 document.addEventListener('DOMContentLoaded', () => {
     applyInitialFavoriteState();
     updateFavoritesTab();
 
+    // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+    // --- 이 부분을 추가해주세요 ---
+    // '즐겨찾기' 탭 내부의 클릭 이벤트를 처리하는 코드
+    if (favoritesContainer) {
+        favoritesContainer.addEventListener('click', (event) => {
+            // 클릭된 것이 하트 버튼인지 확인
+            const likeButton = event.target.closest('.like-btn');
+            if (!likeButton) {
+                return; // 하트 버튼이 아니면 무시
+            }
+
+            // 링크 이동과 같은 기본 동작을 막음
+            event.preventDefault();
+            event.stopPropagation();
+
+            // 클릭된 아이템의 제목을 찾음
+            const favoriteItem = likeButton.closest('.info-grid-item');
+            const itemTitle = favoriteItem.querySelector('h4').textContent.trim();
+
+            const animation = animate(
+            favoriteItem, 
+                { opacity: 0, scale: 0.9 },
+                // duration 값을 0.3에서 0.5로 늘려서 더 천천히 사라지게 합니다.
+                { duration: 1, easing: "linear" } 
+            );
+            // 로컬 스토리지에서 해당 제목의 아이템을 제거
+            let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            favorites = favorites.filter(fav => fav && fav.title !== itemTitle);
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+
+            // 화면을 즉시 업데이트
+            updateFavoritesTab();       // 즐겨찾기 탭 목록을 다시 그려서 아이템을 사라지게 함
+            applyInitialFavoriteState(); // 다른 탭에 있을 원본 아이템의 하트 모양도 업데이트
+        });
+    }
     
 });
 
