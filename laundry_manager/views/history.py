@@ -14,6 +14,191 @@ from ..forms import WashingUploadForm
 
 User = get_user_model()
 
+# --- 추가 import ---
+import os, json
+from django.conf import settings
+import logging
+
+# --- 캐시 ---
+_MATERIALS_JSON = None
+_STAINS_JSON = None
+_SYMBOLS_JSON = None
+logger = logging.getLogger(__name__)
+
+
+def _json_path(*names):
+    """
+    BASE_DIR / laundry_manager / json_data / <names...>
+    """
+    return os.path.join(settings.BASE_DIR, "laundry_manager", "json_data", *names)
+
+
+def _load_json_safely(path, default):
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return default
+
+def _norm_material_name(s: str) -> str:
+    s = (s or "").strip()
+    if not s:
+        return ""
+    # '면(Cotton)' -> '면'
+    return s.split("(", 1)[0].strip() or s
+
+
+def _get_material_obj(material_name: str) -> dict:
+    """
+    blackup.json을 읽어 어떤 스키마든 다음 형태로 정규화:
+      [{"material": "...", "description": "...", "warning": "..."}]
+    """
+    global _MATERIALS_JSON
+    if _MATERIALS_JSON is None:
+        data = _load_json_safely(_json_path("blackup.json"), {})
+        raw = data.get("material_washing_tips")
+        if raw is None:
+            raw = data.get("materials")
+
+        normalized = []
+        if isinstance(raw, dict):
+            # 예: {"면(Cotton)": {"description":"..","warning":".."}, ...}
+            for label, val in raw.items():
+                row = {"material": str(label).strip(), "description": None, "warning": None}
+                if isinstance(val, dict):
+                    row["description"] = val.get("description")
+                    row["warning"] = val.get("warning")
+                else:
+                    # 값이 그냥 문자열이면 description으로 사용
+                    row["description"] = str(val).strip()
+                normalized.append(row)
+
+        elif isinstance(raw, list):
+            # 예: [{"material":"면(Cotton)","description":".."}, "폴리(Poly)", ...]
+            for val in raw:
+                if isinstance(val, dict):
+                    normalized.append({
+                        "material": (val.get("material") or val.get("name") or "").strip(),
+                        "description": val.get("description"),
+                        "warning": val.get("warning"),
+                    })
+                elif isinstance(val, str):
+                    normalized.append({"material": val.strip(), "description": None, "warning": None})
+
+        else:
+            normalized = []  # 알 수 없는 구조
+
+        _MATERIALS_JSON = normalized
+
+    target = _norm_material_name(material_name)
+
+    # 1) 완전 일치(정규화 기준)
+    for row in _MATERIALS_JSON:
+        label = (row.get("material") or row.get("name") or "").strip()
+        if _norm_material_name(label) == target and target:
+            return {
+                "name": material_name or label,
+                "description": row.get("description"),
+                "warning": row.get("warning"),
+            }
+
+    # 2) 부분 일치(정규화 기준)
+    for row in _MATERIALS_JSON:
+        label = (row.get("material") or row.get("name") or "").strip()
+        nlabel = _norm_material_name(label)
+        if target and (target in nlabel or nlabel in target):
+            return {
+                "name": material_name or label,
+                "description": row.get("description"),
+                "warning": row.get("warning"),
+            }
+
+    # 3) 폴백
+    return {"name": material_name or "", "description": None, "warning": None}
+
+
+def _get_stain_obj(stain_title: str) -> dict:
+    """
+    persil_v2.json 예시 스키마:
+    { "washing_tips_categories":[
+        {"title":"혈흔","Washing_Steps":[...],"Not_to__do":[...]}, ...
+      ]
+    }
+    """
+    global _STAINS_JSON
+    if _STAINS_JSON is None:
+        data = _load_json_safely(_json_path("persil_v2.json"), {})
+        _STAINS_JSON = data.get("washing_tips_categories", [])
+
+    stain_title = (stain_title or "").strip()
+    for row in _STAINS_JSON:
+        if row.get("title") == stain_title:
+            return {
+                "Washing_Steps": row.get("Washing_Steps") or [],
+                # 템플릿 호환(대소/언더스코어 차이 모두 대응)
+                "not_to_do": row.get("not_to_do") or row.get("Not_to_do") or row.get("Not_to__do"),
+                "Not_to__do": row.get("Not_to__do") or row.get("Not_to_do") or row.get("not_to_do"),
+            }
+    return {"Washing_Steps": [], "not_to_do": None, "Not_to__do": None}
+
+
+def _load_symbols_json():
+    """
+    washing_symbol.json 스키마가 dict 또는 list일 수 있어 둘 다 대응.
+    - dict: { "1": {...}, "2": {...} }
+    - list: [ {"id":1,"meaning_kr":"...", "type":"wash|dry"}, ... ]
+    """
+    global _SYMBOLS_JSON
+    if _SYMBOLS_JSON is None:
+        _SYMBOLS_JSON = _load_json_safely(_json_path("washing_symbol.json"), {})
+    return _SYMBOLS_JSON
+
+
+def _symbol_meta_from_id(symbols_json, sid):
+    """
+    sid(int/str)에 해당하는 메타 반환. 없으면 None.
+    """
+    if isinstance(symbols_json, dict):
+        return symbols_json.get(str(sid)) or symbols_json.get(int(sid)) if isinstance(sid, int) else None
+    if isinstance(symbols_json, list):
+        for it in symbols_json:
+            if str(it.get("id")) == str(sid):
+                return it
+    return None
+
+
+def _split_symbol_descriptions(symbols_csv_or_list):
+    """
+    symbols: CSV 또는 리스트.
+    반환: (washing_descriptions, drying_descriptions, all_symbol_texts)
+    """
+    symbols_json = _load_symbols_json()
+
+    washing, drying, all_texts = [], [], []
+    for raw in _as_list(symbols_csv_or_list):
+        # 숫자 id로 보이면 JSON에서 찾아보고, 아니면 그대로 텍스트로 취급
+        text = None
+        typ = ""
+
+        is_digit = raw.isdigit()
+        meta = _symbol_meta_from_id(symbols_json, int(raw)) if is_digit else None
+        if isinstance(meta, dict):
+            text = (meta.get("meaning_kr") or meta.get("desc") or meta.get("text") or "").strip()
+            typ = (meta.get("type") or "").lower()
+        else:
+            text = raw
+
+        if not text:
+            continue
+
+        all_texts.append(text)
+        # 간단 분류 규칙: 타입이 dry 이거나 텍스트에 '건조' 포함이면 drying
+        if ("dry" in typ) or ("건조" in text):
+            drying.append(text)
+        else:
+            washing.append(text)
+
+    return washing, drying, all_texts
 
 def _as_list(v):
     if not v:
@@ -50,7 +235,40 @@ def delete_laundry_history(request, history_id: int):
 @login_required
 def laundry_history_detail_view(request, history_id):
     record = get_object_or_404(LaundryHistory, pk=history_id, user=request.user)
-    return render(request, 'laundry_manager/laundry_history_detail.html', {"record": record})
+
+    # 모델 필드가 CSV 문자열이므로 리스트로 변환
+    materials_list = _as_list(getattr(record, "materials", ""))
+    stains_list    = _as_list(getattr(record, "stains", ""))
+    symbols_list   = _as_list(getattr(record, "symbols", ""))
+
+    material_name = materials_list[0] if materials_list else ""
+    stain_first   = stains_list[0] if stains_list else ""
+
+    # 템플릿이 기대하는 키 채우기
+    info = {
+        "material": material_name,
+        "stains": stain_first,
+    }
+    material_obj = _get_material_obj(material_name)           # {name, description, warning}
+    stain_obj    = _get_stain_obj(stain_first)                # {Washing_Steps, not_to_do, Not_to__do}
+    washing_descs, drying_descs, symbol_texts = _split_symbol_descriptions(symbols_list)
+
+    # 요약(summary)은 없으면 템플릿이 폴백하므로 None 둬도 OK.
+    # 만약 record.recommendation_result(HTML 스냅샷)에서 요약을 파싱하고 싶으면 별도 로직 추가 가능.
+    summary = None
+
+    context = {
+        "record": record,
+        "info": info,
+        "material": material_obj,
+        "stain": stain_obj,
+        "washing_descriptions": washing_descs,
+        "drying_descriptions": drying_descs,
+        "symbols": symbol_texts,
+        "summary": summary,
+    }
+    return render(request, "laundry_manager/laundry_history_detail.html", context)
+
 
 @login_required
 def record_settings_page(request):

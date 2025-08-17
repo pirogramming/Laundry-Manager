@@ -37,21 +37,6 @@
             {% endwith %}
             {% endwith %}
         </h2>     
-
-        {% comment %} {% if user.is_authenticated %}
-        <form action="{% url 'save_current_history' %}" method="post" style="margin-top:.5rem">
-            {% csrf_token %}
-            <button type="submit" class="text-btn-dark">
-            <i class="fa-regular fa-floppy-disk"></i> 현재 선택 저장
-            </button>
-        </form>
-        {% else %}
-        <a href="{% url 'login' %}" class="text-btn-dark" style="margin-top:.5rem">
-            로그인하고 저장
-        </a>
-        {% endif %} {% endcomment %}
-        
-
         </div>
         </header>
 
