@@ -150,12 +150,7 @@ section h3 {
     border-color: var(--color-primary);
 }
 
-.all-items {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    padding: 0 20px;
-}
+
 
 .info-grid {
     display: grid;
@@ -163,6 +158,22 @@ section h3 {
     gap: 15px;
     padding: 0 20px;
     margin-bottom: 100px;
+}
+
+.all-items {
+    display: grid;
+    gap: 15px;
+    padding: 0 20px;
+    grid-template-columns: repeat(1, 1fr);
+}
+.info-grid .category {
+    grid-column: span 2; /* 이 한 줄을 추가하세요 */
+}
+#favorites-container{
+    display: grid;
+    gap: 15px;
+    padding: 0 20px;
+    grid-template-columns: repeat(2, 1fr);
 }
 
 .info-grid-item {
