@@ -3,6 +3,63 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from ..services.text_rules import analyze_texts, load_latest_recognized_texts_from_output
 from ..models import LaundryHistory
+from django.conf import settings
+import os
+import json
+
+JSON_FILE = os.path.join(settings.BASE_DIR, "laundry_manager", "json_data", "stains.json")
+# 얼룩 유형 json에서 추출
+def load_stain_titles():
+    json_file = os.path.join(settings.BASE_DIR, "laundry_manager", "json_data", "persil_v2.json")
+    with open(json_file, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    # title 필드만 추출
+    return [entry.get("title", "") for entry in data if "title" in entry]
+
+def _load_stain_titles():
+    json_file = os.path.join(settings.BASE_DIR, "laundry_manager", "json_data", "persil_v2.json")
+    try:
+        with open(json_file, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return []
+
+    titles = []
+
+    # 루트가 배열인 경우
+    if isinstance(data, list):
+        for e in data:
+            if isinstance(e, str):
+                titles.append(e.strip())
+            elif isinstance(e, dict) and e.get("title"):
+                titles.append(str(e["title"]).strip())
+
+    # 루트가 객체인 경우: 흔한 키 후보 탐색
+    elif isinstance(data, dict):
+        for key in ("stains", "items", "data", "list"):
+            if isinstance(data.get(key), list):
+                for e in data[key]:
+                    if isinstance(e, str):
+                        titles.append(e.strip())
+                    elif isinstance(e, dict) and e.get("title"):
+                        titles.append(str(e["title"]).strip())
+                break
+
+    # 중복 제거(순서 유지)
+    seen = set()
+    uniq = []
+    for t in titles:
+        if t and t not in seen:
+            seen.add(t)
+            uniq.append(t)
+    return uniq
+
+def laundry_upload_page(request):
+    stain_titles = _load_stain_titles()
+    return render(request, "laundry_manager/laundry-upload.html", {
+        "stain_titles": stain_titles,
+    })
+######
 
 def _ensure_history(request, materials, stains, symbols):
     """로그인 시 세션에 history_id 없으면 하나 만들고 반환."""

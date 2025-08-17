@@ -6,8 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>세탁 기록 상세</title>
 
-  <!-- laundry-info와 동일 스타일 사용 -->
-  <link rel="stylesheet" href="{% static 'laundry_manager/laundry-info-style.css' %}">
+<link rel="stylesheet" href="{% static 'laundry_manager/laundry-info-style.css' %}">
+
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -15,160 +16,64 @@
 
   <style>
     .pre-wrap { white-space: pre-wrap; word-wrap: break-word; }
-    .meta { color:#93a3b8; font-size:13px; margin-top:4px; }
-    .section-spacer { height: 12px; }
-    .danger-btn { width:100%; margin: 16px 0 32px; }
+    .record-meta { color:#6b7280; font-size:14px; margin-top:4px; }
+    .detail-container { padding: 16px; }
+    .record-card { background:#fff; border-radius:16px; padding:16px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+    .record-title { font-size:22px; font-weight:800; margin-bottom:4px; }
+    .danger-btn { width:100%; margin-top:16px; }
+    .top-nav { display:flex; align-items:center; gap:8px; }
+    .top-nav .icon-btn { border:none; background:#f3f4f6; width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; }
   </style>
 </head>
 <body>
-  <div class="mobile-container info-page">
+  <div class="page-container">
+    <div class="content-wrapper">
 
-    <!-- 상단 파란 헤더 (laundry-info와 동일 구성) -->
-    <header class="info-header">
-      <nav class="top-nav">
-        <a href="{% url 'main' %}">
-          <button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button>
-        </a>
-        <h1 class="info-title">메인으로 돌아가기</h1>
-      </nav>
+      <!-- 상단 내비 -->
+      <header class="info-header" style="padding:16px;">
+        <nav class="top-nav">
+          <a href="{% url 'main' %}">
+            <button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button>
+          </a>
+          <h1 style="font-size:18px; font-weight:800;">메인으로 돌아가기</h1>
+        </nav>
+      </header>
 
-      <!-- 선택 배지 & 제목 영역 -->
-      <div class="info-title-block">
-        <div class="info-name">
-          {{ record.materials|default:"(소재 미선택)" }}
-          {% if record.stains %} / {{ record.stains }}{% endif %}
-        </div>
-        <div class="meta">{{ record.created_at|date:"Y년 m월 d일" }}의 세탁 기록</div>
-      </div>
-    </header>
-
-    <!-- 본문 영역 -->
-    <main class="info-content">
-
-      {% if record.recommendation_result %}
-        <!-- 저장된 스냅샷을 그대로 삽입 (이미 laundry-info 구조라면 그대로 동일 스타일로 렌더) -->
-        <div class="pre-wrap">
-          {{ record.recommendation_result|safe }}
-        </div>
-      {% else %}
-        <!-- 스냅샷이 없을 때: laundry-info와 유사한 기본 카드들 -->
-
-        <!-- 1) 최적 세탁법 요약 -->
-        <section class="summary-card">
-          <div class="summary-title">
-            <i class="fa-solid fa-wand-magic-sparkles"></i>
-            최적 세탁법 요약
+      <!-- 본문 -->
+      <main class="detail-container">
+        <div class="record-card">
+          <div class="record-title">
+            {{ record.materials|default:"(소재 미선택)" }}{% if record.stains %} / {{ record.stains }}{% endif %}
           </div>
-          <ol class="summary-list">
-            <li>
-              <div class="summary-item-title">세탁법 요약</div>
-              <div class="summary-item-desc">정보 없음</div>
-            </li>
-            <li>
-              <div class="summary-item-title">건조법 요약</div>
-              <div class="summary-item-desc">정보 없음</div>
-            </li>
-            <li>
-              <div class="summary-item-title">얼룩 제거법 요약</div>
-              <div class="summary-item-desc">정보 없음</div>
-            </li>
-          </ol>
-        </section>
-
-        <div class="section-spacer"></div>
-
-        <!-- 2) 피해야 하는 세탁법 -->
-        <section class="alert-card">
-          <div class="alert-title">
-            <i class="fa-solid fa-triangle-exclamation"></i>
-            피해야 하는 세탁법
+          <div class="record-meta">
+            {{ record.created_at|date:"Y년 m월 d일" }}의 세탁 기록
           </div>
-          <p class="alert-desc">특별히 피해야 할 항목이 없습니다.</p>
-        </section>
+          <hr style="border:none; border-top:1px solid #eee; margin:16px 0;" />
 
-        <div class="section-spacer"></div>
+          <h3 style="font-weight:800;">저장된 추천 세탁법</h3>
 
-        <!-- 3) 단계별 상세 가이드 (아코디언) -->
-        <section class="accordion-section">
-          <h2 class="section-title">단계별 상세 가이드</h2>
-
-          <!-- 얼룩 제거 방법 -->
-          <details class="accordion">
-            <summary class="accordion-summary">
-              <span class="icon-circle"><i class="fa-solid fa-hand-sparkles"></i></span>
-              얼룩 제거 방법
-              <i class="fa-solid fa-chevron-down chevron"></i>
-            </summary>
-            <div class="accordion-content">
-              <p>정보 없음</p>
+          {# 스냅샷 HTML 또는 텍스트 출력 #}
+          {% if record.recommendation_result %}
+            <div class="pre-wrap">
+              {{ record.recommendation_result|safe }}
             </div>
-          </details>
+          {% else %}
+            <p class="pre-wrap" style="margin-top:8px;">저장된 내용이 없습니다.</p>
+          {% endif %}
+        </div>
 
-          <!-- 세탁 방법 -->
-          <details class="accordion">
-            <summary class="accordion-summary">
-              <span class="icon-circle"><i class="fa-solid fa-lightbulb"></i></span>
-              세탁 방법 <span class="muted">(소재 미선택)</span>
-              <i class="fa-solid fa-chevron-down chevron"></i>
-            </summary>
-            <div class="accordion-content">
-              <p>정보 없음</p>
-            </div>
-          </details>
+        {# 삭제 버튼 #}
+        <form method="post" action="{% url 'laundry_history_delete' history_id=record.id %}" class="danger-btn">
+          {% csrf_token %}
+          <button type="submit" class="text-btn-dark" style="width:100%;">
+            <i class="fa-solid fa-trash"></i> 기록 지우기
+          </button>
+        </form>
+      </main>
 
-          <!-- 건조 방법 -->
-          <details class="accordion">
-            <summary class="accordion-summary">
-              <span class="icon-circle"><i class="fa-solid fa-droplet"></i></span>
-              건조 방법
-              <i class="fa-solid fa-chevron-down chevron"></i>
-            </summary>
-            <div class="accordion-content">
-              <p>정보 없음</p>
-            </div>
-          </details>
-        </section>
-      {% endif %}
-
-      <!-- 삭제 버튼 -->
-      <form method="post" action="{% url 'laundry_history_delete' history_id=record.id %}" class="danger-btn">
-        {% csrf_token %}
-        <button type="submit" class="text-btn-dark" style="width:100%;">
-          <i class="fa-solid fa-trash"></i> 기록 지우기
-        </button>
-      </form>
-
-    </main>
-
-    <!-- 하단 네비(필요 없으면 삭제) -->
-    <footer class="bottom-nav">
-      <a href="{% url 'main' %}" class="nav-item">
-        <i class="fa-solid fa-house"></i><span>메인 화면</span>
-      </a>
-      <a href="{% url 'map' %}" class="nav-item">
-        <i class="fa-solid fa-map"></i><span>지도</span>
-      </a>
-      <button class="camera-fab" disabled>
-        <i class="fa-solid fa-camera"></i>
-      </button>
-      <a href="{% url 'encyclopedia' %}" class="nav-item">
-        <i class="fa-solid fa-book"></i><span>백과사전</span>
-      </a>
-      <a href="{% url 'more' %}" class="nav-item">
-        <i class="fa-solid fa-gear"></i><span>더보기</span>
-      </a>
-    </footer>
-
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
-  <script>
-    // 페이드인 정도만 (laundry-info와 동일 느낌)
-    document.addEventListener('DOMContentLoaded', () => {
-      if (window.motion && window.motion.animate) {
-        motion.animate(".mobile-container", { opacity: [0, 1] }, { duration: 0.4, easing: "ease-out" });
-      }
-    });
-  </script>
 </body>
 </html>
