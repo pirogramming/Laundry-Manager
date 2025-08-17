@@ -2,7 +2,7 @@
 
 /* --- 페이지 기본 레이아웃 --- */
 .page-container {
-    background-color: var(--color-background);
+    background-color: var(--color-primary);
 }
 .content-wrapper {
     display: flex;
@@ -13,13 +13,13 @@
 .info-header {
     background-color: var(--color-primary);
     color: var(--color-container);
-    padding: 15px 20px 25px;
+    padding: 15px 20px 10px;
 }
 .info-header .top-nav {
     display: grid;
     grid-template-columns: auto 1fr auto;
     align-items: center;
-    gap: 16px;
+    
 }
 .top-nav h1 {
     grid-column: 2 / 3;
@@ -40,13 +40,19 @@
 }
 
 /* --- 메인 콘텐츠 --- */
+
+.ai-icon {
+    width: 22px;
+    height: auto;
+}
+
 .info-content { 
     flex-grow: 1;
     padding: 24px 20px;
-    background-color: var(--color-background);
+    background-color: var(--color-container);
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
-    margin-top: -20px;
+    margin-top: 20px;
     position: relative;
     z-index: 5;
 }
@@ -68,6 +74,7 @@
     font-size: 13px;
     color: var(--color-text-secondary);
     margin-top: 8px;
+    margin-bottom: 20px;
 }
 .record-info-card .record-meta .record-name {
     
@@ -105,6 +112,10 @@
 }
 
 /* --- 삭제 버튼 --- */
+.bottom-actions{
+    margin: 0px;
+}
+
 .delete-form {
     margin-top: 10px;
     padding: 0px 50px;
@@ -130,3 +141,51 @@
 .delete-button i {
     margin-right: 8px;
 }
+
+.summary-card {
+    background-color: #F8F9FE;
+    border: 1px solid var(--color-primary);
+}
+.summary-card > h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 20px;
+}
+.sparkle-icon { font-size: 22px; }
+.summary-list .summary-group { margin-bottom: 16px; }
+.summary-list .summary-group:last-child { margin-bottom: 0; }
+.summary-group h4 { font-size: 15px; font-weight: 600; margin-bottom: 12px; }
+.summary-item { display: flex; align-items: center; gap: 10px; font-size: 14px; padding: 6px 0; }
+.summary-item .icon { font-family: "Font Awesome 6 Free"; font-weight: 900; font-size: 16px; }
+.summary-item.success .icon::before { content: "\f058"; color: #28a745; }
+.summary-item.warning .icon::before { content: "\f071"; color: #ffc107; }
+.summary-item.danger .icon::before { content: "\f057"; color: #dc3545; }
+
+/* 피해야 하는 세탁법 카드 */
+.avoid-card > h3 { color:var(--color-primary); }
+.avoid-card ul { list-style: none; padding: 0; }
+.avoid-card .avoid-item { display: flex; align-items: flex-start; gap: 10px; }
+.avoid-card .avoid-item:not(:last-child) { margin-bottom: 12px; }
+.avoid-card .avoid-item i { color: var(--color-primary);; padding-top: 4px; }
+.avoid-card .avoid-item p { font-size: 14px; line-height: 1.6; }
+
+/* 아코디언 가이드 */
+.accordion-guide > h3 { color: var(--color-text-primary); }
+.accordion-guide .accordion-item:not(:last-child) { border-bottom: 1px solid var(--color-border); }
+.accordion-item summary { display: flex; align-items: center; padding: 20px 0; cursor: pointer; list-style: none; }
+.accordion-item summary::-webkit-details-marker { display: none; }
+.summary-icon { width: 48px; height: 48px; border-radius: 16px; display: flex; justify-content: center; align-items: center; margin-right: 15px; flex-shrink: 0; }
+.summary-icon i { font-size: 22px; }
+.summary-text { flex-grow: 1; }
+.summary-text h4 { font-size: 16px; font-weight: 500; }
+.summary-text p { font-size: 13px; color: var(--color-text-tertiary); margin-top: 2px; }
+.arrow-icon { color: var(--color-text-tertiary); transition: transform 0.2s; }
+.accordion-item[open] > summary .arrow-icon { transform: rotate(180deg); }
+.accordion-content { padding: 0 0 20px; font-size: 14px; line-height: 1.7; color: var(--color-text-secondary); }
+.accordion-content ol, .accordion-content ul { list-style-position: inside; padding-left: 0; }
+.accordion-content li { padding: 12px 0; border-bottom: 1px solid var(--color-border); }
+.accordion-content li:last-child { border-bottom: none; padding-bottom: 0; }

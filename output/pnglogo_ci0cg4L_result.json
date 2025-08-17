@@ -1,0 +1,31 @@
+{
+    "filename": "pnglogo_ci0cg4L.png",
+    "recognized_texts": [],
+    "symbol_definition": "텍스트 인식 실패",
+    "ocr_raw_response": {
+        "version": "V2",
+        "requestId": "5c7ff607-50e6-481f-8c44-5b6d1a3bbef9",
+        "timestamp": 1755452031896,
+        "images": [
+            {
+                "uid": "e42c07c6d5dd44708704e5c6ad0875e2",
+                "name": "pnglogo_ci0cg4L.png",
+                "inferResult": "SUCCESS",
+                "message": "SUCCESS",
+                "validationResult": {
+                    "result": "NO_REQUESTED"
+                },
+                "convertedImageInfo": {
+                    "width": 77,
+                    "height": 46,
+                    "pageIndex": 0,
+                    "longImage": false
+                },
+                "fields": []
+            }
+        ]
+    },
+    "roboflow_detect_raw": null,
+    "roboflow_classify_raw": null,
+    "fused_scores": null
+}
