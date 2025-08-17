@@ -31,37 +31,36 @@
         <div class="laundry-item-title">
         <p>세탁물 이름</p>
         <h2>
-  {% with info.material|default:request.session.material as m %}
-    {% with info.stains|default:request.session.stains.0 as s0 %}
-      {{ m|default:"(소재 미선택)" }}{% if s0 %} / {{ s0 }}{% endif %}
-    {% endwith %}
-  {% endwith %}
-</h2>
+            {% with info.material|default:request.session.material as m %}
+            {% with info.stains|default:request.session.stains.0 as s0 %}
+            {{ m|default:"(소재 미선택)"}}{% if s0 %} / {{ s0 }}{% endif %}
+            {% endwith %}
+            {% endwith %}
+        </h2>     
 
         {% comment %} {% if user.is_authenticated %}
         <form action="{% url 'save_current_history' %}" method="post" style="margin-top:.5rem">
-          {% csrf_token %}
-          <button type="submit" class="text-btn-dark">
+            {% csrf_token %}
+            <button type="submit" class="text-btn-dark">
             <i class="fa-regular fa-floppy-disk"></i> 현재 선택 저장
-          </button>
+            </button>
         </form>
         {% else %}
         <a href="{% url 'login' %}" class="text-btn-dark" style="margin-top:.5rem">
-          로그인하고 저장
+            로그인하고 저장
         </a>
         {% endif %} {% endcomment %}
         {% if user.is_authenticated %}
         <form action="{% url 'save_current_history' %}" method="post" style="margin-top:.5rem">
-          {% csrf_token %}
-          <button type="submit" class="text-btn-dark">
+            {% csrf_token %}
+            <button type="submit" class="text-btn-dark">
             <i class="fa-regular fa-floppy-disk"></i> 현재 선택 저장
-          </button>
+            </button>
         </form>
         {% endif %}
 
-      </div>
-
-      </header>
+        </div>
+        </header>
 
       <main class="info-content">
 
@@ -72,15 +71,15 @@
             최적 세탁법 요약
           </h3>
 
-          <div class="icon-info-group">
+          <!-- <div class="icon-info-group"> -->
             <div class="icon-info">
               <h4>1. 세탁법 요약</h4>
               <div class="icon-info-text">
-                <i class="fa-solid fa-check-circle check-icon"></i>
+                <!-- <i class="fa-solid fa-check-circle check-icon"></i> -->
                 <span class="preline">
-                  {% if summary and summary.wash %}{{ summary.wash }}
-                  {% elif material.description %}{{ material.description }}
-                  {% else %}정보 없음{% endif %}
+                    {% if summary and summary.wash %}{{ summary.wash|safe }}
+                    {% elif material.description %}{{ material.description }}
+                    {% else %}정보 없음{% endif %}
                 </span>
               </div>
             </div>
@@ -88,82 +87,60 @@
             <div class="icon-info">
               <h4>2. 건조법 요약</h4>
               <div class="icon-info-text">
-                <i class="fa-solid fa-ban ban-icon"></i>
+                <!-- <i class="fa-solid fa-ban ban-icon"></i> -->
                 <span class="preline">
-                  {% if summary and summary.dry %}{{ summary.dry }}
-                  {% else %}정보 없음{% endif %}
+                    {% if summary and summary.dry %}{{ summary.dry|safe }}
+                    {% else %}정보 없음{% endif %}
                 </span>
               </div>
             </div>
-          </div>
+          <!-- </div> -->
 
           <div class="stain-info">
-            <strong>3. 얼룩 제거법 요약 :</strong>
+            <strong>3. 얼룩 제거법 요약</strong>
             {% if summary and summary.stain %}
-              <p class="stain-kw preline">{{ summary.stain }}</p>
+              <p class="stain-kw preline">{{ summary.stain|safe }}</p>
             {% else %}
               <p>정보 없음</p>
             {% endif %}
           </div>
         </section>
 
-<section class="card avoid-card">
-  <h3><i class="fa-solid fa-triangle-exclamation"></i> 피해야 하는 세탁법</h3>
+        <!-- 피해야 하는 세탁법 -->
+        <section class="card avoid-card">
+          <h3><i class="fa-solid fa-triangle-exclamation"></i> 피해야 하는 세탁법</h3>
 
-  {# 1) 소재 경고 #}
-  {% if material and material.warning %}
-    <div class="avoid-item">
-      <i class="fa-solid fa-circle-exclamation"></i>
-      <p class="preline">{{ material.warning }}</p>
-    </div>
-  {% endif %}
-
-  {# 2) 얼룩 not_to_do / Not_to__do 가 있을 때만 렌더 #}
-  {% if stain %}
-    {% if stain.not_to_do %}
-      {% with todo=stain.not_to_do %}
-        <ul class="avoid-list">
-          {% if todo.0 and todo|length > 1 %}
-            {% for t in todo %}
-              <li class="avoid-item"><i class="fa-solid fa-circle-exclamation"></i><p class="preline">{{ t }}</p></li>
-            {% endfor %}
-          {% else %}
-            <li class="avoid-item"><i class="fa-solid fa-circle-exclamation"></i><p class="preline">{{ todo }}</p></li>
+          {% if material.warning %}
+            <div class="avoid-item">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              <p class="preline">{{ material.warning }}</p>
+            </div>
           {% endif %}
-        </ul>
-      {% endwith %}
-    {% elif stain.Not_to__do %}
-      {% with todo=stain.Not_to__do %}
-        <ul class="avoid-list">
-          {% if todo.0 and todo|length > 1 %}
-            {% for t in todo %}
-              <li class="avoid-item"><i class="fa-solid fa-circle-exclamation"></i><p class="preline">{{ t }}</p></li>
-            {% endfor %}
-          {% else %}
-            <li class="avoid-item"><i class="fa-solid fa-circle-exclamation"></i><p class="preline">{{ todo }}</p></li>
+
+          {% with todo=stain.not_to_do|default:stain.Not_to__do %}
+            {% if todo %}
+              <ul class="avoid-list">
+                {% if todo.0 and todo|length > 1 %}
+                  {% for t in todo %}
+                    <li class="avoid-item">
+                      <i class="fa-solid fa-circle-exclamation"></i>
+                      <p class="preline">{{ t }}</p>
+                    </li>
+                  {% endfor %}
+                {% else %}
+                  <li class="avoid-item">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <p class="preline">{{ todo }}</p>
+                  </li>
+                {% endif %}
+              </ul>
+            {% endif %}
+          {% endwith %}
+
+          {% if not material.warning and not stain.Not_to__do and not stain.not_to_do %}
+            <div class="avoid-item"><p>특별히 피해야 할 항목이 없습니다.</p></div>
           {% endif %}
-        </ul>
-      {% endwith %}
-    {% endif %}
-  {% endif %}
-
-  {# 3) 위 두 블록 모두 없을 때 기본 문구 (중첩 if 로 괄호 회피) #}
-  {% if not material or not material.warning %}
-    {% if not stain %}
-      <div class="avoid-item"><p>특별히 피해야 할 항목이 없습니다.</p></div>
-    {% elif not stain.not_to_do and not stain.Not_to__do %}
-      <div class="avoid-item"><p>특별히 피해야 할 항목이 없습니다.</p></div>
-    {% endif %}
-  {% else %}
-    {% if not stain %}
-      <div class="avoid-item"><p>특별히 피해야 할 항목이 없습니다.</p></div>
-    {% elif not stain.not_to_do and not stain.Not_to__do %}
-      <div class="avoid-item"><p>특별히 피해야 할 항목이 없습니다.</p></div>
-    {% endif %}
-  {% endif %}
-</section>
-
-
+        </section>
 
         <!-- 단계별 상세 가이드 -->
         <section class="card accordion-guide">
@@ -200,33 +177,30 @@
               </div>
               <div class="summary-text">
                 <h4>세탁 방법</h4>
-                {% comment %} <p>{{ info.material|default:material.name }}</p> {% endcomment %}
-                <p>
-                {% if info.material %}
-                  {{ info.material }}
-                {% elif material %}
-                  {{ material.name|default:"" }}
-                {% else %}
-                  (소재 미선택)
-                {% endif %}
-                {% if info.stains %} / {{ info.stains }}{% endif %}
-                </p>
-
+                <!-- ✅ 수정값 우선 -->
+                <p>{{ info.material|default:material.name }}</p>
               </div>
               <i class="fa-solid fa-chevron-down arrow-icon"></i>
             </summary>
             <div class="accordion-content">
-            <p>{{ material.description|default:"소재별 세탁 설명이 없습니다." }}</p>
+                {% if material.description %}
+                <ul>
+                    <li class="preline">{{ material.description }}</li>
+                </ul>
+                {% else %}
+                    <p>소재별 세탁 설명이 없습니다.</p>
+                {% endif %}
+
             {% if washing_descriptions %}
             <ul>
                 {% for desc in washing_descriptions %}
-                <li>{{ desc }}</li>
+                    <li class="preline">{{ desc }}</li>
                 {% endfor %}
             </ul>
             {% elif symbols %}
             <ul>
                 {% for desc in symbols %}
-                <li>{{ desc }}</li>
+                <li class="preline">{{ desc }}</li>
                 {% endfor %}
             </ul>
             {% endif %}
@@ -240,16 +214,17 @@
               </div>
               <div class="summary-text">
                 <h4>건조 방법</h4>
-                <p class="preline">{% if summary and summary.dry %}{{ summary.dry }}{% else %}정보 없음{% endif %}</p>
+                {% if summary and summary.dry %}
+                    <p class="preline">세탁 기호를 바탕으로 건조 방법을 안내합니다.</p>
+                {% endif %}
               </div>
               <i class="fa-solid fa-chevron-down arrow-icon"></i>
             </summary>
             <div class="accordion-content">
-                <p>건조 방법에 대한 상세 내용은 추후 기호/소재 규칙을 확장해 채워집니다.</p>
                 {% if drying_descriptions %}
                 <ul>
                     {% for desc in drying_descriptions %}
-                        <li>{{ desc }}</li>
+                        <li class="preline">{{ desc }}</li>
                     {% endfor %}
                 </ul>
                 {% endif %}
@@ -259,6 +234,7 @@
 
         <!-- 백과사전 -->
         
+
         <a href="{% url 'dictionary' %}" class="dictionary-link">
           <span>세탁 백과사전으로 가기</span>
           <i class="fa-solid fa-arrow-right"></i>

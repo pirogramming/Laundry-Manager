@@ -20,7 +20,7 @@ urlpatterns = [
     # path("history/<int:pk>/update/", info_flow.update_history_field, name="lh_update"),
     path("result/update-selection/", info_flow.update_selection_view, name="update_selection"),
 
-    path("laundry-info/", pages.laundry_info_page, name="laundry-info"),
+    # path("laundry-info/", pages.laundry_info_page, name="laundry-info"),
     path("upload/", ocr.upload_and_classify, name="upload"),
     path("uploadimage/", ocr.upload_view, name="upload_image"),
     path("stain-guide/", stains.stain_guide_view, name="stain-guide"),
@@ -77,7 +77,7 @@ urlpatterns = [
     path("history/upload/", history.upload_and_save_history_view, name="upload_history"),
     path("history/save-current/", history.save_current_result_as_history_view, name="save_current_history"),
     # path('guide/', info_flow.guide_from_result, name='guide_from_result'),
-    path("laundry-info/", info_flow.guide_from_result, name="laundry_info"),
+    path("laundry-info/", laundry_res.guide_from_result, name="guide_from_result"),
     # path("guide/from-result/", laundry_res.guide_from_result, name="guide_from_result"),
     # path("history/clear/", history.delete_laundry_history, name="clear_result"),
     
