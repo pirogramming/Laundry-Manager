@@ -692,3 +692,52 @@ naver.maps.onJSContentLoaded = function() {
     animate('.map-page', { opacity: [0, 1] }, { duration: 0.5 });
     initializeMapAndStores();
 };
+
+// --- 팝업 관련 요소 선택 ---
+const phoneModal = document.getElementById('phone-modal');
+const closeModalBtn = document.getElementById('close-phone-modal-btn');
+const copyBtn = document.getElementById('copy-phone-btn');
+const phoneNumberEl = document.getElementById('modal-phone-number');
+
+// --- 팝업 여닫는 함수 ---
+function openPhoneModal(phone) {
+    phoneNumberEl.textContent = phone;
+    phoneModal.classList.add('visible');
+}
+function closePhoneModal() {
+    phoneModal.classList.remove('visible');
+}
+
+// --- 이벤트 리스너 설정 ---
+listEl.addEventListener('click', function(e) {
+    const phoneButton = e.target.closest('.phone-btn');
+    if (phoneButton) {
+        const phoneNumber = phoneButton.dataset.phone;
+        if (phoneNumber) openPhoneModal(phoneNumber);
+        return;
+    }
+
+    // (기존 주소/상품 토글 로직은 여기에 그대로 둡니다)
+    const toggleButton = e.target.closest('.toggle-btn');
+    if (toggleButton) {
+        // ...
+    }
+});
+
+// 팝업 닫기 버튼 및 배경 클릭 이벤트
+closeModalBtn.addEventListener('click', closePhoneModal);
+phoneModal.addEventListener('click', (e) => {
+    if (e.target === phoneModal) closePhoneModal();
+});
+
+// 번호 복사 버튼 이벤트
+copyBtn.addEventListener('click', () => {
+    const phoneNumber = phoneNumberEl.textContent;
+    navigator.clipboard.writeText(phoneNumber).then(() => {
+        copyBtn.textContent = '복사 완료!';
+        setTimeout(() => { copyBtn.textContent = '번호 복사'; }, 1500);
+    }).catch(err => {
+        console.error('복사 실패:', err);
+        alert('번호 복사에 실패했습니다.');
+    });
+});
