@@ -1,13 +1,15 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    {% load static %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>인식 정보 확인</title>
 
     <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}">
     <link rel="stylesheet" href="{% static 'laundry_manager/result-style.css' %}">
+    <!-- 칩 레이아웃을 재사용하려면 (upload 페이지의 item-list/box 스타일) -->
+    <link rel="stylesheet" href="{% static 'laundry_manager/laundry-upload-style.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -33,7 +35,6 @@
 
                 <div class="result-title">
                     <p>세탁물 분류</p>
-                    <!-- ✅ 제목을 동적으로: 소재/얼룩 반영 -->
                     <h2 id="laundry-item-name">
                         {{ materials|join:", " | default:"(소재 미선택)" }}
                         /
@@ -48,11 +49,9 @@
                 </div>
 
                 <div class="info-list">
-                    <!-- 인식된 텍스트(키워드) -->
                     <div class="info-item">
                         <span>인식된 기호</span>
                         {% if rule_keywords %}
-                            <!-- ✅ 각 항목 줄바꿈 -->
                             <strong>{{ rule_keywords|join:"<br>"|safe }}</strong>
                         {% else %}
                             <strong>결과 없음</strong>
@@ -61,7 +60,6 @@
 
                     <hr class="info-divider">
 
-                    <!-- 의류 소재 -->
                     <div class="info-item">
                         <span>의류 소재</span>
                         <strong id="current-material">{{ materials|join:", " | default:"-" }}</strong>
@@ -69,47 +67,35 @@
 
                     <hr class="info-divider">
 
-                    <!-- 선택한 얼룩 -->
                     <div class="info-item">
                         <span>선택한 얼룩 유형</span>
                         <strong id="current-stain">{{ stains|join:", " | default:"-" }}</strong>
                     </div>
                 </div>
 
-                <!-- 추천 카드 영역 (필요 시 사용)
-                <section id="recommendation">
-                    {% include "laundry_manager/partials/_recommendation.html" with materials=materials stains=stains material=material stain=stain symbols=symbols %}
-                </section> -->
-
                 <a href="#" class="extra-info-link" id="open-modal-btn">수정하기</a>
-                {% comment %} <a href="{% url 'guide_from_result' %}" class="confirm-button">확인하기</a> {% endcomment %}
-                {% comment %} <a href="{% url 'guide_from_result' %}{% if history %}?history_id={{ history.id }}{% endif %}" class="confirm-button">확인하기</a> {% endcomment %}
                 <a href="{% url 'guide_from_result' %}" class="confirm-button">확인하기</a>
-
             </div>
         </main>
     </div>
 
-    <!-- 편집 모달 -->
-    <div class="modal-overlay" id="edit-modal"
-        data-materials-options='["면","니트","실크","린넨","청"]'
-        data-stains-options='["커피","김치","기름","과일","잉크"]'>
-    <div class="modal-content">
+    <!-- 편집 모달 (칩 선택 UI) -->
+    <div class="modal-overlay" id="edit-modal">
+        <div class="modal-content">
             <div class="modal-header">
                 <h3>인식 정보 수정하기</h3>
                 <button class="close-modal-btn" id="close-modal-btn"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
-            <!-- 서버 엔드포인트 연결 + 현재 상태 hidden 전송 -->
             <form class="modal-form" id="edit-form" method="post" action="{% url 'update_selection' %}">
                 {% csrf_token %}
 
-                <!-- 어떤 필드를 수정하는지: 둘 다 수정하므로 both로 보냄 -->
+                <!-- 둘 다 수정 -->
                 <input type="hidden" name="field" id="edit-field" value="both">
-                <!-- 서버로 보낼 실제 입력값(JSON 문자열) -->
+                <!-- 서버에 보낼 JSON 문자열 -->
                 <input type="hidden" name="value" id="edit-value">
-                
-                <!-- 현재 페이지 상태(배열)를 서버로 같이 보냄: AJAX 실패 시 폴백에도 필요 -->
+
+                <!-- 현재 페이지 상태(배열) 폴백 -->
                 {% if materials %}
                     {% for m in materials %}
                         <input type="hidden" name="materials[]" value="{{ m }}">
@@ -117,7 +103,6 @@
                 {% else %}
                     <input type="hidden" name="materials[]" value="">
                 {% endif %}
-
                 {% if stains %}
                     {% for s in stains %}
                         <input type="hidden" name="stains[]" value="{{ s }}">
@@ -125,17 +110,13 @@
                 {% else %}
                     <input type="hidden" name="stains[]" value="">
                 {% endif %}
-
                 {% if symbols %}
                     {% for sym in symbols %}
                         <input type="hidden" name="symbols[]" value="{{ sym }}">
                     {% endfor %}
                 {% endif %}
 
-                {% comment %} {% if history %}
-                <input type="hidden" name="history_id" value="{{ history.id }}">
-                {% endif %} {% endcomment %}
-
+                <!-- 세탁 태그(아이콘 칩) - 기존 디자인 유지 -->
                 <div class="input-group">
                     <label>세탁 태그 선택</label>
                     <div class="tag-selection-list">
@@ -158,33 +139,49 @@
                     </div>
                 </div>
 
-                <!-- 의류 소재 (고정 5개) -->
+                <!-- 의류 소재 (칩) -->
                 <div class="input-group">
-                    <label for="edit-material">의류 소재</label>
-                    <div class="input-field select-field">
-                        <select id="edit-material">
-                            <option value="면" {% if materials and materials.0 == "면" %}selected{% endif %}>면</option>
-                            <option value="니트" {% if materials and materials.0 == "니트" %}selected{% endif %}>니트</option>
-                            <option value="실크" {% if materials and materials.0 == "실크" %}selected{% endif %}>실크</option>
-                            <option value="린넨" {% if materials and materials.0 == "린넨" %}selected{% endif %}>린넨</option>
-                            <option value="청" {% if materials and materials.0 == "청" %}selected{% endif %}>청</option>
-                        </select>
-                        <i class="fa-solid fa-chevron-down"></i>
+                <label>의류 소재</label>
+                <div class="item-list" id="edit-material-list">
+                    {% if material_items %}
+                    {% for m in material_items %}
+                    <div class="selectable-item"
+                        data-value="{{ m.raw|default_if_none:''|escape }}"
+                        data-kor="{{ m.kor|default_if_none:''|escape }}"
+                        data-eng="{{ m.eng|default_if_none:''|escape }}">
+                        <div class="item-box">
+                        <span class="item-kor">{{ m.kor }}</span>
+                        <span class="item-eng">
+                            {% if m.eng %}{{ m.eng }}{% else %}{{ m.kor|slugify }}{% endif %}
+                        </span>
+                        </div>
                     </div>
+                    {% endfor %}
+                    {% else %}
+                    <p style="padding:8px;color:#888">⚠️ 소재 데이터가 없습니다.</p>
+                    {% endif %}
+                </div>
                 </div>
 
-                <!-- 선택한 얼룩 유형 (고정 5개) -->
+
+                <!-- 얼룩 유형 (칩) -->
                 <div class="input-group">
-                    <label for="edit-stain">선택한 얼룩 유형</label>
-                    <div class="input-field select-field">
-                    <select id="edit-stain">
-                        <option value="커피" {% if stains and stains.0 == "커피" %}selected{% endif %}>커피</option>
-                        <option value="김치" {% if stains and stains.0 == "김치" %}selected{% endif %}>김치</option>
-                        <option value="기름" {% if stains and stains.0 == "기름" %}selected{% endif %}>기름</option>
-                        <option value="과일" {% if stains and stains.0 == "과일" %}selected{% endif %}>과일</option>
-                        <option value="잉크" {% if stains and stains.0 == "잉크" %}selected{% endif %}>잉크</option>
-                    </select>
-                    <i class="fa-solid fa-chevron-down"></i>
+                    <label>선택한 얼룩 유형</label>
+                    <div class="item-list" id="edit-stain-list">
+                        {% if stain_titles %}
+                            {% for t in stain_titles %}
+                                {% with cur_st=stains.0|default:'' %}
+                                <div class="selectable-item {% if cur_st and cur_st == t %}active{% endif %}" data-value="{{ t|escape }}">
+                                    <div class="item-box">
+                                        <span class="item-kor">{{ t }}</span>
+                                        <span class="item-eng">{{ t|slugify }}</span>
+                                    </div>
+                                </div>
+                                {% endwith %}
+                            {% endfor %}
+                        {% else %}
+                            <p style="padding:8px;color:#888">⚠️ 얼룩 데이터가 없습니다.</p>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -193,7 +190,6 @@
         </div>
     </div>
 
-    <!-- 스크립트 -->
     <script type="module" src="{% static 'laundry_manager/result-script.js' %}"></script>
 </body>
 </html>

@@ -50,14 +50,7 @@
             로그인하고 저장
         </a>
         {% endif %} {% endcomment %}
-        {% if user.is_authenticated %}
-        <form action="{% url 'save_current_history' %}" method="post" style="margin-top:.5rem">
-            {% csrf_token %}
-            <button type="submit" class="text-btn-dark">
-            <i class="fa-regular fa-floppy-disk"></i> 현재 선택 저장
-            </button>
-        </form>
-        {% endif %}
+        
 
         </div>
         </header>
@@ -230,10 +223,21 @@
         <!-- 백과사전 -->
         
 
-        <a href="{% url 'dictionary' %}" class="dictionary-link">
-          <span>세탁 백과사전으로 가기</span>
-          <i class="fa-solid fa-arrow-right"></i>
-        </a>
+        <div class="bottom-actions">
+            {% if user.is_authenticated %}
+            <form action="{% url 'save_current_history' %}" method="post" class="save-form">
+                {% csrf_token %}
+                <button type="submit" class="save-button">
+                    <i class="fa-regular fa-floppy-disk"></i> 현재 기록 저장
+                </button>
+            </form>
+            {% endif %}
+
+            <a href="{% url 'dictionary' %}" class="dictionary-link">
+                <span>백과사전 가기</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
       </main>
     </div>
 

@@ -257,7 +257,9 @@ section h3 {
 .show-more-container {
     text-align: center;
     margin-top: 10px;
-    
+    justify-content: center;  /* 자식 요소(버튼)들을 그룹으로 묶어 중앙 정렬 */
+    display: flex;            /* Flexbox 컨테이너로 지정 */
+
 }
 
 .show-more-btn {
@@ -268,7 +270,6 @@ section h3 {
     font-weight: 500;
     transition: background-color 0.5s ease-in-out;
     border-radius: 10px;
-    
 }
 
 .show-more-btn:hover {

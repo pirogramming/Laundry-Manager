@@ -14,44 +14,6 @@ STAINS_JSON = os.path.join(
     settings.BASE_DIR, "laundry_manager", "json_data", "persil_v2.json"
 )
 
-# def _load_stain_titles():
-#     json_file = os.path.join(settings.BASE_DIR, "laundry_manager", "json_data", "persil_v2.json")
-
-#     try:
-#         with open(json_file, "r", encoding="utf-8") as f:
-#             data = json.load(f)
-#     except (FileNotFoundError, json.JSONDecodeError) as e:
-#         print("[UPLOAD] JSON load error:", e)
-#         return []
-
-#     def iter_titles(node):
-#         # 어디에 있어도 'title'을 뽑아내는 재귀 탐색
-#         if isinstance(node, dict):
-#             for k, v in node.items():
-#                 if isinstance(k, str) and k.lower() == "title" and isinstance(v, str):
-#                     yield v.strip()
-#                 else:
-#                     yield from iter_titles(v)
-#         elif isinstance(node, list):
-#             for item in node:
-#                 yield from iter_titles(item)
-
-#     titles = list(iter_titles(data))
-
-#     # 중복 제거(순서 유지)
-#     seen, uniq = set(), []
-#     for t in titles:
-#         if t and t not in seen:
-#             seen.add(t); uniq.append(t)
-
-#     # 디버그: 루트 타입/키 출력
-#     root_info = type(data).__name__
-#     root_keys = list(data.keys())[:10] if isinstance(data, dict) else None
-#     print(f"[UPLOAD] root={root_info} keys={root_keys} titles_count={len(uniq)}")
-
-#     return uniq
-
-
 
 def _load_stain_titles():
     # (네가 이미 넣은 재귀 버전 써도 됨)
@@ -180,13 +142,14 @@ def result_view(request):
 
     instructions = analyze_texts(texts)
 
-    # ✅ 로그인 시 History 1건 보장
-    # history = _ensure_history(
-    #     request,
-    #     materials=[material] if material else [],
-    #     stains=stains,
-    #     symbols=symbols,
-    # )
+    # ▼ 모달용 옵션 (소재=material raw, 얼룩=title)
+    material_items = _load_material_items()                 # [{kor, eng, raw, ...}]
+    stain_titles   = _load_stain_titles()    
+    material_option_labels = [it["raw"] for it in material_items]  # "면(Cotton)" 형식
+    stain_option_labels = _load_stain_titles()              # ["혈흔", "커피와 차 얼룩", ...]
+
+    print("[RESULT] materials_json:", MATERIALS_JSON, "exists:", os.path.exists(MATERIALS_JSON), "count:", len(material_items))
+    print("[RESULT] stains_json   :", STAINS_JSON, "exists:", os.path.exists(STAINS_JSON), "count:", len(stain_titles))
 
     return render(request, 'laundry_manager/result.html', {
         'recognized_texts': texts,
@@ -195,5 +158,8 @@ def result_view(request):
         'stains': stains,
         'symbols': symbols,
         'instructions': instructions,
-        # 'history': history,   # 👈 템플릿에서 hidden/input/링크에 사용
+
+        "material_items": material_items,
+        "stain_titles": stain_titles,
     })
+
