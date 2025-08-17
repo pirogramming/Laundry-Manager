@@ -116,8 +116,9 @@ def _tidy_tail_short(s: str) -> str:
     """끝에 어색한 조사 정리"""
     s = s.rstrip(" ,)·•.;")
     s = re.sub(r"(은|는|이|가|을|를|에|로|으로|과|와|및|도|만|까지|부터)$", "", s)
-    if 
-
+    if s.endswith("한") and len(s) > 1:
+        s = s[:1]
+    return s.strip()
 
 def _to_plain_lines(raw: str, line_limit: int = 3, char_limit: int = 34) -> List[str]:
     parts = []
