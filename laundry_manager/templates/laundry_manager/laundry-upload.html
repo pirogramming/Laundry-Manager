@@ -60,109 +60,33 @@
 
             <div class="section-info">
                 <div class="selection-group">
-                    <h3>의류 소재</h3>
+                    <h3>의류 소재
+                        <small style="color:#888">({{ materials|length }}개)</small>
+                    </h3>
                     <div class="item-list" id="material-selection">
-                    
-                    <div class="selectable-item" data-value="면">
-                        <div class="item-box">
-                        <span class="item-kor">면</span>
-                        <span class="item-eng">Cotton</span>
-                        </div>
+                        {% if materials %}
+                        {% for m in materials %}
+                            <div class="selectable-item"
+                                data-value="{{ m.kor }}"
+                                data-eng="{{ m.eng|default_if_none:''|escape }}"
+                                data-raw="{{ m.raw|escape }}"
+                                data-desc="{{ m.description|escape }}"
+                                data-warning="{{ m.warning|escape }}">
+                            <div class="item-box">
+                                <span class="item-kor">{{ m.kor }}</span>
+                                <span class="item-eng">
+                                {% if m.eng %}{{ m.eng }}{% else %}{{ m.kor|slugify }}{% endif %}
+                                </span>
+                            </div>
+                            </div>
+                        {% endfor %}
+                        {% else %}
+                        <!-- (옵션) 기존 하드코드 chip을 폴백으로 두고 싶다면 여기에 넣기 -->
+                        <p style="padding:8px;color:#888">⚠️ 소재 데이터가 없습니다.</p>
+                        {% endif %}
+                    </div>
                     </div>
 
-                    <div class="selectable-item" data-value="폴리">
-                        <div class="item-box">
-                        <span class="item-kor">폴리</span>
-                        <span class="item-eng">Poly</span>
-                        </div>
-                    </div>
-
-                    <div class="selectable-item" data-value="데님">
-                        <div class="item-box">
-                        <span class="item-kor">데님</span>
-                        <span class="item-eng">Denim</span>
-                        </div>
-                    </div>
-
-                    <div class="selectable-item" data-value="레이온">
-                        <div class="item-box">
-                        <span class="item-kor">레이온</span>
-                        <span class="item-eng">Rayon</span>
-                        </div>
-                    </div>
-
-                    <div class="selectable-item" data-value="린넨">
-                        <div class="item-box">
-                        <span class="item-kor">린넨</span>
-                        <span class="item-eng">Linen</span>
-                        </div>
-                    </div>
-
-                    <div class="selectable-item" data-value="니트">
-                        <div class="item-box">
-                        <span class="item-kor">니트</span>
-                        <span class="item-eng">Knit</span>
-                        </div>
-                    </div>
-
-                    <div class="selectable-item" data-value="스웨이드">
-                        <div class="item-box">
-                        <span class="item-kor">스웨이드</span>
-                        <span class="item-eng">Suede</span>
-                        </div>
-                    </div>
-
-                    <div class="selectable-item" data-value="울">
-                        <div class="item-box">
-                        <span class="item-kor">울</span>
-                        <span class="item-eng">Wool</span>
-                        </div>
-                    </div>
-
-                    <div class="selectable-item" data-value="벨벳">
-                        <div class="item-box">
-                        <span class="item-kor">벨벳</span>
-                        <span class="item-eng">Velvet</span>
-                        </div>
-                    </div>
-
-                    <div class="selectable-item" data-value="퍼">
-                        <div class="item-box">
-                        <span class="item-kor">퍼</span>
-                        <span class="item-eng">Fur</span>
-                        </div>
-                    </div>
-
-                    <div class="selectable-item" data-value="레더">
-                        <div class="item-box">
-                        <span class="item-kor">레더</span>
-                        <span class="item-eng">Leather</span>
-                        </div>
-                    </div>
-
-                    <div class="selectable-item" data-value="쉬폰">
-                        <div class="item-box">
-                        <span class="item-kor">쉬폰</span>
-                        <span class="item-eng">Chiffon</span>
-                        </div>
-                    </div>
-
-                    <div class="selectable-item" data-value="기능성 섬유">
-                        <div class="item-box">
-                        <span class="item-kor">기능성 섬유</span>
-                        <span class="item-eng">Functional Fabric</span>
-                        </div>
-                    </div>
-
-                    <div class="selectable-item" data-value="실크">
-                        <div class="item-box">
-                        <span class="item-kor">실크</span>
-                        <span class="item-eng">Silk</span>
-                        </div>
-                    </div>
-
-                    </div>
-                </div>
                 </div>
 
 
