@@ -38,10 +38,22 @@
 .intro-section { text-align: center; margin-bottom: 25px; }
 .intro-section h3 { font-size: 20px; font-weight: 700; margin-bottom: 10px; }
 .intro-section p { font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; }
+.intro-event{
+    margin-bottom: 20px;
+    font-weight: 400;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px; color:var(--color-text-secondary);}
+.intro-event .blue-text{font-size: 14px; color:var(--color-primary);
+    font-weight: 500;
+}
 
 .contact-methods {
     display: flex; justify-content: center; gap: 15px;
-    margin-bottom: 30px; padding-bottom: 30px;
+    margin-bottom: 20px; padding-bottom: 30px;
     border-bottom: 1px solid var(--color-border);
 }
 .contact-item {

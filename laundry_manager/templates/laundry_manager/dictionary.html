@@ -26,106 +26,107 @@
             </button>
             <h2>세탁 백과사전</h2>
         </nav>
+        <div class="main-page">
+            <form method="get" action="{% url 'dictionary' %}" class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" name="query" placeholder="검색해주세요" value="{{ query|default:'' }}">
+                <button type="submit" style="display: none;"></button>
+            </form>
 
-        <form method="get" action="{% url 'dictionary' %}" class="search-bar">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" name="query" placeholder="검색해주세요" value="{{ query|default:'' }}">
-            <button type="submit" style="display: none;"></button>
-        </form>
+            <section class="popular-info">
+                <h3>인기 세탁 정보</h3>
+                <div class="swiper popular-swiper">
+                    <div class="swiper-wrapper">
+                        {% for search in frequent_searches %}
+                        <div class="swiper-slide">
+                            <img src="{% static search.image_filename %}" alt="{{ search.title }}">
+                            <div class="slide-content">
+                                <a href="{% url 'dictionary' %}?query={{ search.title }}">{{ search.title }}</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </section>
 
-        <section class="popular-info">
-            <h3>인기 세탁 정보</h3>
-            <div class="swiper popular-swiper">
-                <div class="swiper-wrapper">
-                    {% for search in frequent_searches %}
-                    <div class="swiper-slide">
-                        <img src="{% static search.image_filename %}" alt="{{ search.title }}">
-                        <div class="slide-content">
-                            <a href="{% url 'dictionary' %}?query={{ search.title }}">{{ search.title }}</a>
+            <section class="all-info">
+                <h3>모든 세탁 정보</h3>
+                <div class="filter-chips">
+                    {% for category in category_list %}
+                    <a href="{% url 'dictionary' %}?query={{ category }}"
+                        class="chip {% if category == query %}active{% endif %}">{{ category }}</a>
+                    {% endfor %}
+                </div>
+
+                <div class="info-grid">
+                    {% if query and is_category_query %}
+                    {% for items in dictionary_data.values %}
+                    {% for item in items %}
+                    <a href="{% url 'dictionary_detail' item_title=item.title|urlencode %}" class="info-grid-item">
+                        {% load static %}
+                        {% if item.has_image %}
+                        <img src="{% static item.image_filename %}" alt="{{ item.title }}">
+                        {% endif %}
+                        <div class="item-content">
+                            <h4>{{ item.title }}</h4>
+                            <a href="#" class="like-btn">
+                                <i class="{% if item.is_favorite %}fa-solid{% else %}fa-regular{% endif %} fa-heart"></i>
+                            </a>
+                        </div>
+                    </a>
+                    {% empty %}
+                    <p>해당 게시판에 내용이 없습니다.</p>
+                    {% endfor %}
+                    {% endfor %}
+                    {% elif query %}
+                    <h3>'{{ query }}' 검색 결과</h3>
+                    {% for category_name, items in dictionary_data.items %}
+                    <div class="category">
+                        <h4>{{ category_name }}</h4>
+                        <div class="all-items">
+                            {% for item in items %}
+                            <a href="{% url 'dictionary_detail' item_title=item.title|urlencode %}" class="info-grid-item">
+                                {% if item.image_url %}
+                                <img src="{% static item.image_filename %}" alt="{{ item.title }}">
+                                {% endif %}
+                                <div class="item-content">
+                                    <h4>{{ item.title }}</h4>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </a>
+                            {% empty %}
+                            <p>해당 카테고리에서 검색 결과가 없습니다.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p>검색 결과가 없습니다.</p>
+                    {% endfor %}
+                    {% else %}
+                    <h3>카테고리별 정보</h3>
+                    {% for category_name, items in dictionary_data.items %}
+                    <div class="category">
+                        <h4>{{ category_name }}</h4>
+                        <div class="all-items">
+                            {% for item in items %}
+                            <a href="{% url 'dictionary_detail' item_title=item.title|urlencode %}" class="info-grid-item">
+                                {% if item.image_url %}
+                                <img src="{{ item.image_url }}" alt="{{ item.title }}">
+                                {% endif %}
+                                <div class="item-content">
+                                    <h4>{{ item.title }}</h4>
+                                    <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
+                                </div>
+                            </a>
+                            {% endfor %}
                         </div>
                     </div>
                     {% endfor %}
-                </div>
-                <div class="swiper-pagination"></div>
-            </div>
-        </section>
-
-        <section class="all-info">
-            <h3>모든 세탁 정보</h3>
-            <div class="filter-chips">
-                {% for category in category_list %}
-                <a href="{% url 'dictionary' %}?query={{ category }}"
-                    class="chip {% if category == query %}active{% endif %}">{{ category }}</a>
-                {% endfor %}
-            </div>
-
-            <div class="info-grid">
-                {% if query and is_category_query %}
-                {% for items in dictionary_data.values %}
-                {% for item in items %}
-                <a href="{% url 'dictionary_detail' item_title=item.title|urlencode %}" class="info-grid-item">
-                    {% load static %}
-                    {% if item.has_image %}
-                    <img src="{% static item.image_filename %}" alt="{{ item.title }}">
                     {% endif %}
-                    <div class="item-content">
-                        <h4>{{ item.title }}</h4>
-                        <a href="#" class="like-btn">
-                            <i class="{% if item.is_favorite %}fa-solid{% else %}fa-regular{% endif %} fa-heart"></i>
-                        </a>
-                    </div>
-                </a>
-                {% empty %}
-                <p>해당 게시판에 내용이 없습니다.</p>
-                {% endfor %}
-                {% endfor %}
-                {% elif query %}
-                <h3>'{{ query }}' 검색 결과</h3>
-                {% for category_name, items in dictionary_data.items %}
-                <div class="category">
-                    <h4>{{ category_name }}</h4>
-                    <div class="all-items">
-                        {% for item in items %}
-                        <a href="{% url 'dictionary_detail' item_title=item.title|urlencode %}" class="info-grid-item">
-                            {% if item.image_url %}
-                            <img src="{% static item.image_filename %}" alt="{{ item.title }}">
-                            {% endif %}
-                            <div class="item-content">
-                                <h4>{{ item.title }}</h4>
-                                <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
-                            </div>
-                        </a>
-                        {% empty %}
-                        <p>해당 카테고리에서 검색 결과가 없습니다.</p>
-                        {% endfor %}
-                    </div>
                 </div>
-                {% empty %}
-                <p>검색 결과가 없습니다.</p>
-                {% endfor %}
-                {% else %}
-                <h3>카테고리별 정보</h3>
-                {% for category_name, items in dictionary_data.items %}
-                <div class="category">
-                    <h4>{{ category_name }}</h4>
-                    <div class="all-items">
-                        {% for item in items %}
-                        <a href="{% url 'dictionary_detail' item_title=item.title|urlencode %}" class="info-grid-item">
-                            {% if item.image_url %}
-                            <img src="{{ item.image_url }}" alt="{{ item.title }}">
-                            {% endif %}
-                            <div class="item-content">
-                                <h4>{{ item.title }}</h4>
-                                <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
-                            </div>
-                        </a>
-                        {% endfor %}
-                    </div>
-                </div>
-                {% endfor %}
-                {% endif %}
-            </div>
-        </section>
+            </section>
+        </div>
         
     </div>
     <nav class="bottom-nav">
