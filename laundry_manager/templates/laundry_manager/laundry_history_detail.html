@@ -2,78 +2,86 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>세탁 기록 상세</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>세탁 기록 상세</title>
 
-<link rel="stylesheet" href="{% static 'laundry_manager/laundry-info-style.css' %}">
+    <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}">
+    <link rel="stylesheet" href="{% static 'laundry_manager/laundry_history_detail-style.css' %}">
 
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-  <style>
-    .pre-wrap { white-space: pre-wrap; word-wrap: break-word; }
-    .record-meta { color:#6b7280; font-size:14px; margin-top:4px; }
-    .detail-container { padding: 16px; }
-    .record-card { background:#fff; border-radius:16px; padding:16px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
-    .record-title { font-size:22px; font-weight:800; margin-bottom:4px; }
-    .danger-btn { width:100%; margin-top:16px; }
-    .top-nav { display:flex; align-items:center; gap:8px; }
-    .top-nav .icon-btn { border:none; background:#f3f4f6; width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; }
-  </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
-  <div class="page-container">
-    <div class="content-wrapper">
+    <div class="page-container">
+        <div class="content-wrapper">
 
-      <!-- 상단 내비 -->
-      <header class="info-header" style="padding:16px;">
-        <nav class="top-nav">
-          <a href="{% url 'main' %}">
-            <button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button>
-          </a>
-          <h1 style="font-size:18px; font-weight:800;">메인으로 돌아가기</h1>
-        </nav>
-      </header>
+            <header class="info-header">
+                <nav class="top-nav">
+                    <a href="{% url 'main' %}"><button class="icon-btn"><i class="fa-solid fa-arrow-left"></i></button></a>
+                    <h1>세탁 기록</h1>
+                </nav>
+            </header>
 
-      <!-- 본문 -->
-      <main class="detail-container">
-        <div class="record-card">
-          <div class="record-title">
-            {{ record.materials|default:"(소재 미선택)" }}{% if record.stains %} / {{ record.stains }}{% endif %}
-          </div>
-          <div class="record-meta">
-            {{ record.created_at|date:"Y년 m월 d일" }}의 세탁 기록
-          </div>
-          <hr style="border:none; border-top:1px solid #eee; margin:16px 0;" />
+            <main class="info-content">
+                <section class="card record-info-card">
+                    <h2 class="record-title">
+                        {{ record.materials|default:"(소재 미선택)" }}{% if record.stains %} / {{ record.stains }}{% endif %}
+                    </h2>
+                    <div class="record-meta">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <span class="record-name"> 검색 일 : </span>
+                        <span>{{ record.created_at|date:"Y년 m월 d일 H:i" }}</span>
+                    </div>
+                    
+                </section>
 
-          <h3 style="font-weight:800;">저장된 추천 세탁법</h3>
+                <section class="card recommendation-card">
+                    <h3><i class="fa-solid fa-wand-magic-sparkles"></i> 저장된 추천 세탁법</h3>
+                    <div class="recommendation-content">
+                        {% if record.recommendation_result %}
+                            {{ record.recommendation_result|safe }}
+                        {% else %}
+                            <p class="no-content">저장된 내용이 없습니다.</p>
+                        {% endif %}
+                    </div>
+                </section>
+                
+                <form method="post" action="{% url 'laundry_history_delete' history_id=record.id %}" class="delete-form">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-button">
+                        <i class="fa-solid fa-trash"></i> 이 기록 삭제하기
+                    </button>
+                </form>
+            </main>
 
-          {# 스냅샷 HTML 또는 텍스트 출력 #}
-          {% if record.recommendation_result %}
-            <div class="pre-wrap">
-              {{ record.recommendation_result|safe }}
-            </div>
-          {% else %}
-            <p class="pre-wrap" style="margin-top:8px;">저장된 내용이 없습니다.</p>
-          {% endif %}
         </div>
-
-        {# 삭제 버튼 #}
-        <form method="post" action="{% url 'laundry_history_delete' history_id=record.id %}" class="danger-btn">
-          {% csrf_token %}
-          <button type="submit" class="text-btn-dark" style="width:100%;">
-            <i class="fa-solid fa-trash"></i> 기록 지우기
-          </button>
-        </form>
-      </main>
-
+    <nav class="bottom-nav">
+      <a href="{% url 'main' %}" class="nav-item">
+        <i class="fa-solid fa-house"></i>
+        <span>메인 화면</span>
+      </a>
+      <a href="{% url 'map' %}" class="nav-item">
+        <i class="fa-solid fa-map-location-dot"></i>
+        <span>지도</span>
+      </a>
+      <a href="{% url 'laundry-upload' %}" class="nav-item-main">
+        <i class="fa-solid fa-camera"></i>
+      </a>
+      <a href="{% url 'dictionary' %}" class="nav-item">
+        <i class="fa-solid fa-book-open"></i>
+        <span>백과사전</span>
+      </a>
+      <a href="{% url 'profile' %}" class="nav-item">
+        <i class="fa-solid fa-gear"></i>
+        <span>더보기</span>
+      </a>
+    </nav>
     </div>
-  </div>
-
   <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
+  <script type="module" src="{% static 'laundry_manager/laundry_history_detail-script.js' %}"></script>
+
 </body>
 </html>

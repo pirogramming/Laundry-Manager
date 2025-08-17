@@ -1,0 +1,129 @@
+/* static/laundry_manager/laundry_history_detail-style.css */
+
+/* --- 페이지 기본 레이아웃 --- */
+.page-container {
+    background-color: var(--color-background);
+}
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- 상단 파란색 헤더 --- */
+.info-header {
+    background-color: var(--color-primary);
+    color: var(--color-container);
+    padding: 15px 20px 25px;
+}
+.info-header .top-nav {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 16px;
+}
+.top-nav h1 {
+    grid-column: 2 / 3;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    margin: 0;
+}
+.info-header .icon-btn {
+    background: none;
+    border: none;
+    color: var(--color-container);
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    font-size: 16px;
+}
+
+/* --- 메인 콘텐츠 --- */
+.info-content { 
+    flex-grow: 1;
+    padding: 24px 20px;
+    background-color: var(--color-background);
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    margin-top: -20px;
+    position: relative;
+    z-index: 5;
+}
+
+/* --- 카드 공통 스타일 --- */
+.card {
+    background-color: var(--color-container);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* 기록 정보 카드 */
+.record-info-card .record-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    margin-top: 8px;
+}
+.record-info-card .record-meta .record-name {
+    
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    font-weight: 600;
+}
+.record-info-card .record-title {
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--color-text-primary);
+}
+
+/* 추천 세탁법 카드 */
+.recommendation-card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-primary);
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 16px;
+}
+.recommendation-content {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+}
+.recommendation-content .no-content {
+    text-align: center;
+    padding: 20px 0;
+    color: var(--color-text-tertiary);
+}
+
+/* --- 삭제 버튼 --- */
+.delete-form {
+    margin-top: 10px;
+}
+.delete-button {
+    width: 100%;
+    background-color: white;
+    border: 20px;
+    padding: 15px;
+    font-size: 15px;
+    color: #e53935; /* 빨간색 계열 */
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: background-color 0.2s;
+    margin: 0px 20%;
+}
+.delete-button:hover {
+    background-color: #ffebee; /* 마우스 올렸을 때 연한 빨간색 */
+}
+.delete-button i {
+    margin-right: 8px;
+}
