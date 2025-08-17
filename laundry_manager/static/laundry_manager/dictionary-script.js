@@ -40,10 +40,11 @@ const likeButtons = document.querySelectorAll('.like-btn');
 const favoritesContainer = document.getElementById('favorites-container');
 
 // 페이지 로드 시 기존 즐겨찾기 상태를 버튼에 반영하는 함수
+// 페이지 로드 시 기존 즐겨찾기 상태를 버튼에 반영하는 함수
 function applyInitialFavoriteState() {
     const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     const allItems = document.querySelectorAll('.info-grid-item');
-    
+
     allItems.forEach(item => {
         const titleElement = item.querySelector('h4');
         if (!titleElement) return;
@@ -51,11 +52,16 @@ function applyInitialFavoriteState() {
         const title = titleElement.textContent.trim();
         const likeButton = item.querySelector('.like-btn');
         const icon = likeButton.querySelector('i');
-        
-        if (favorites.includes(title)) {
+
+        const isFavorite = favorites.some(fav => fav.title === title);
+        if (isFavorite) {
             likeButton.classList.add('active');
             icon.classList.remove('fa-regular');
             icon.classList.add('fa-solid');
+        } else {
+            likeButton.classList.remove('active');
+            icon.classList.remove('fa-solid');
+            icon.classList.add('fa-regular');
         }
     });
 }
