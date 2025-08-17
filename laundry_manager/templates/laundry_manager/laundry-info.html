@@ -49,39 +49,34 @@
             최적 세탁법 요약
           </h3>
 
-          <!-- <div class="icon-info-group"> -->
-            <div class="icon-info">
-              <h4>1. 세탁법 요약</h4>
-              <div class="icon-info-text">
-                <!-- <i class="fa-solid fa-check-circle check-icon"></i> -->
-                <span class="preline">
-                    {% if summary and summary.wash %}{{ summary.wash|safe }}
-                    {% elif material.description %}{{ material.description }}
-                    {% else %}정보 없음{% endif %}
-                </span>
-              </div>
-            </div>
+        <div class="icon-info">
+            <strong>1. 세탁법 요약</strong>
+            {% if summary and summary.wash %}
+              <p class="stain-kw preline">{{ summary.wash|safe }}</p>
+            {% else %}
+              <p>정보 없음</p>
+            {% endif %}
+        </div>
 
-            <div class="icon-info">
-              <h4>2. 건조법 요약</h4>
-              <div class="icon-info-text">
-                <!-- <i class="fa-solid fa-ban ban-icon"></i> -->
-                <span class="preline">
-                    {% if summary and summary.dry %}{{ summary.dry|safe }}
-                    {% else %}정보 없음{% endif %}
-                </span>
-              </div>
-            </div>
-          <!-- </div> -->
+        <div class="icon-info">
+            <br>
+            <strong>2. 건조법 요약</strong>
+            {% if summary and summary.dry %}
+              <p class="stain-kw preline">{{ summary.dry|safe }}</p>
+            {% else %}
+              <p>정보 없음</p>
+            {% endif %}
+        </div>
 
-          <div class="stain-info">
+        <div class="stain-info">
+            <br>
             <strong>3. 얼룩 제거법 요약</strong>
             {% if summary and summary.stain %}
               <p class="stain-kw preline">{{ summary.stain|safe }}</p>
             {% else %}
               <p>정보 없음</p>
             {% endif %}
-          </div>
+        </div>
         </section>
 
         <!-- 피해야 하는 세탁법 -->
@@ -192,9 +187,9 @@
               </div>
               <div class="summary-text">
                 <h4>건조 방법</h4>
-                {% if summary and summary.dry %}
+                <!-- {% if summary and summary.dry %} -->
                     <p class="preline">세탁 기호를 바탕으로 건조 방법을 안내합니다.</p>
-                {% endif %}
+                <!-- {% endif %} -->
               </div>
               <i class="fa-solid fa-chevron-down arrow-icon"></i>
             </summary>
