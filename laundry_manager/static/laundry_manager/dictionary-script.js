@@ -71,7 +71,7 @@ function updateFavoritesTab() {
     favoritesContainer.innerHTML = ''; // 기존 목록 초기화
 
     if (favorites.length === 0) {
-        favoritesContainer.innerHTML = '<p id="no-favorites-message">아직 즐겨찾기한 항목이 없습니다.</p>';
+        favoritesContainer.innerHTML = '<p id="no-favorites-message">즐겨찾기 없음</p>';
     } else {
         favorites.forEach(item => {
             let title, imageUrl, url;
