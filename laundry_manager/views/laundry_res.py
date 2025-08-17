@@ -42,12 +42,16 @@ def _first_line(text) -> str:
 
 
 def _make_summary(material_guide, stain_guide, symbol_guides):
+    """상단 요약 카드용 텍스트 구성."""
     wash_summary = _first_line(material_guide.get("description"))
+
     labels = {(g.get("label") or "").strip() for g in (symbol_guides or [])}
-    dry_ban = {"do_not_machine_dry", "do_not_tumble_dry"}  # ← 보강
+    dry_ban = {"do_not_machine_dry", "do_not_tumble_dry"}
     dry_summary = "건조기 사용 금지" if (labels & dry_ban) else None
+
     stain_text = stain_guide.get("Washing_Steps") or stain_guide.get("detail")
     stain_summary = _first_line(stain_text)
+
     return {"wash": wash_summary or None, "dry": dry_summary, "stain": stain_summary or None}
 
 
@@ -75,7 +79,6 @@ _STAIN_STOPWORDS = ["자국", "얼룩", "국물", "자국들", "얼룩제거", "
 _STAIN_ALIASES = {
     "커피": ["커피", "coffee", "coffee stain", "coffeestain"],
     "차": ["차", "tea", "green tea", "black tea"],
-    "김치": ["김치", "kimchi", "김칫국물", "kimchi stain"],
     "와인": ["와인", "wine", "red wine", "white wine"],
     "혈액": ["혈액", "피", "blood", "blood stain"],
     "기름": ["기름", "기름때", "oil", "grease", "oil stain", "grease stain"],
@@ -297,13 +300,14 @@ def _symbols_to_guides_fuzzy(labels, defs_obj):
         if not meta:
             meta = _match_def_by_keyword(lab, defs_obj) or {}
 
+        desc = meta.get("description") or meta.get("desc") or meta.get("ko_desc") or meta.get("kr_desc") or ""
         guides.append({
             "label": lab,
             "id": meta.get("id"),
             "category": meta.get("category"),
             "keyword": meta.get("keyword") or lab,
             "name": meta.get("name") or lab,
-            "description": meta.get("description") or "",
+            "description": desc,
         })
     return guides
 
@@ -333,10 +337,10 @@ def _washing_descriptions(guides):
 
 
 def _drying_descriptions(guides):
-    # 건조 전용: dry / dry_clean (유사 표기도 커버)
     return _descriptions_by_category(
         guides,
         {"dry", "dry_clean", "drying", "dryclean", "drycleaning"},
+        include_when_category_missing=False,
     )
 
 # ------- 기호 설명 중복/쌍(일반/약하게) 병합 -------------------------------
@@ -418,9 +422,8 @@ def guide_from_result(request):
     )
 
     def _split_tokens(val: str):
-        # "손세탁 40°C 약하게 / 뒤어서 건조(햇볕), 30°C" 처럼 섞여 들어와도 안전 분리
         return [p.strip() for p in re.split(r"[,\n/]", val) if p and p.strip()]
-    
+
     # 문자열 -> 리스트로 표준화
     if isinstance(symbols, str):
         s = symbols.strip()
@@ -430,7 +433,7 @@ def guide_from_result(request):
                 if isinstance(loaded, list):
                     symbols = []
                     for x in loaded:
-                        symbols.extend(_split_tokens(x) if isinstance(x, str) else [x])
+                        symbols.extend(_split_tokens(x) if isinstance(x, str) else[x])
                 else:
                     symbols = _split_tokens(s)
             except Exception:
@@ -447,7 +450,7 @@ def guide_from_result(request):
         else:
             _flat.append(x)
     
-    # 공백/중복 제거
+    #공백/중복 제거
     symbols = [x for x in _flat if x and str(x).strip()]
     symbols = list(dict.fromkeys(symbols))
 
@@ -463,15 +466,13 @@ def guide_from_result(request):
     material_guide = _material_guide_from_json(material, material_json)
     stain_guide    = _stain_guide_from_json(stains[0] if stains else "", stain_json)
     symbol_guides  = _symbols_to_guides_fuzzy(symbols, washing_defs)
-    symbol_guides = _dedupe_and_collapse_guides(symbol_guides)
-
-    # 세탁/건조 설명 리스트 먼저 계산
+    symbol_guides  = _dedupe_and_collapse_guides(symbol_guides)
     washing_descriptions = _washing_descriptions(symbol_guides) or []
     drying_descriptions = _drying_descriptions(symbol_guides) or []
 
     # 4) 템플릿 호환: 문자열 설명 리스트도 함께 제공
-    symbol_descs =[
-        (g.get("description") or g.get('name') or g.get("label"))
+    symbol_descs = [
+        (g.get("description") or g.get("name") or g.get("label"))
         for g in symbol_guides
         if (g.get("description") or g.get("name") or g.get("label"))
     ]
@@ -480,7 +481,7 @@ def guide_from_result(request):
     top_summary = _make_summary(material_guide, stain_guide, symbol_guides)
     summary = apply_stain_steps_summary(top_summary, stain_guide)
 
-    # CLOVA로 세탁/건조 요약 
+    # CLOVA로 세탁/건조 요약
     summary = apply_wash_dry_summaries(
         summary,
         material_guide.get("description") or "",
@@ -490,22 +491,22 @@ def guide_from_result(request):
 
     # 피해야 하는 세탁법 제한
     stain_guide_limited = dict(stain_guide)
-    for key in ("not_to_do", "Not_to_do"):
+    for key in ("not_to_do", "Not_to__do"):
         lst = stain_guide_limited.get(key) or []
         if isinstance(lst, list):
             stain_guide_limited[key] = lst[:2]
     
-    # 6) 렌터 context(ctx)
+    #6) 렌더 context(ctx)
     ctx = {
-        "material" : material_guide,
-        "stain" : stain_guide_limited,
-        "symbol_guides" : symbol_guides,
-        "symbols" : symbol_descs,
-        "info" : {"material" : material, "stains": " / ".join(stains) if stains else ""},
-        "materials" : [material] if material else [],
-        "stains" : stains,
-        "summary" : summary,
-        "washing_descriptions" : washing_descriptions,
-        "drying_descriptions" : drying_descriptions,
+        "material": material_guide,
+        "stain": stain_guide_limited,
+        "symbol_guides": symbol_guides,
+        "symbols": symbol_descs,
+        "info": {"material": material, "stains": " / ".join(stains) if stains else ""},
+        "materials": [material] if material else [],
+        "stains": stains,
+        "summary": summary,
+        "washing_descriptions": washing_descriptions,
+        "drying_descriptions": drying_descriptions,
     }
     return render(request, "laundry_manager/laundry-info.html", ctx)

@@ -3,6 +3,7 @@
 .mobile-container.map-page {
     padding: 0 0 85px;
     opacity: 0;
+    background-color: var(--color-primary);
 }
 
 /* 헤더 */
@@ -11,7 +12,6 @@
     align-items: center;
     padding: 15px 16px;
     background-color: var(--color-primary);
-    border-bottom: 1px solid var(--color-border);
 }
 
 .map-header h1 {
@@ -37,6 +37,9 @@
     /* 자식 요소의 absolute 위치 기준 */
     width: 100%;
     height: 300px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    overflow: hidden;
     /* 지도의 높이와 동일하게 설정 */
 }
 
@@ -45,6 +48,8 @@
     height: 100%;
     /* 부모 컨테이너를 꽉 채우도록 변경 */
     width: 100%;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
 }
 
 /* 3. 필터 섹션 스타일 수정 */
@@ -93,15 +98,35 @@
 
 .filter-chip.select-chip {
     padding-right: 12px;
+    position: relative; /* 추가: 아이콘의 기준점을 잡기 위해 필요 */
+    
 }
 
 .filter-chip select {
     appearance: none;
+    -webkit-appearance: none; /* 추가: 웹킷 브라우저 호환성 */
+    -moz-appearance: none;    /* 추가: 파이어폭스 호환성 */
     border: none;
     background: transparent;
     color: inherit;
     font: inherit;
     outline: none;
+    padding-right: 4px; /* 추가: 화살표 아이콘이 들어갈 공간 확보 */
+}
+.filter-chip.select-chip::after {
+    content: '\f078'; /* Font Awesome 'caret-down' 아이콘 */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    
+    /* 아이콘 위치 및 스타일 */
+    position: absolute;
+    right: 14px; /* .filter-chip의 padding-right 값과 비슷하게 조정 */
+    top: 50%;
+    transform: translateY(-50%);
+    
+    pointer-events: none; /* 아이콘을 클릭해도 select가 동작하도록 설정 */
+    
+    /* 이 부분은 .filter-chip의 color를 그대로 사용하므로 color: inherit; 이나 생략 가능합니다. */
 }
 
 
@@ -187,14 +212,20 @@
 .store-card .title {
     font-size: 17px;
     font-weight: 700;
+    word-break: keep-all;
 }
 
 .store-card .rating {
+
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 4px;
     color: #ffb300;
     font-weight: 700;
+    word-break: keep-all;   /* 한글 단어가 글자 단위로 잘리는 현상 방지 */
+    text-align: right;     /* 텍스트를 보기 좋게 중앙 정렬 */
+    min-width: 40px;         /* '평점' 글자가 깨지지 않을 최소 너비 확보 (값은 조정 가능) */
 }
 
 .store-card .meta {
@@ -370,3 +401,4 @@
 }
 
 
+/*네비게이션 바

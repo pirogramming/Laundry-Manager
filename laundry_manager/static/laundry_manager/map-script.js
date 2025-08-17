@@ -531,12 +531,16 @@ naver.maps.onJSContentLoaded = function() {
             el.className = 'store-card';
             const addressParts = store.address.split(' ');
             const neighborhood = addressParts.length > 2 ? addressParts[2] : addressParts[1];
+
+            // 이 부분은 올바르게 추가하셨으니 그대로 둡니다.
+            const encodedStoreName = encodeURIComponent(store.name);
+
             el.innerHTML = `
                 <div class="thumb" aria-hidden="true"></div>
                 <div>
                     <div class="title-row">
                         <div class="title">${store.name}</div>
-                        <div class="rating"><i class="fa-solid fa-star"></i> ${store.rating ? store.rating.toFixed(1) : '평점없음'}</div>
+                        <div class="rating"><i class="fa-solid fa-star"></i> ${store.rating ? store.rating.toFixed(1) : '평점<br>없음'}</div>
                     </div>
                     <div class="meta">
                         <span>${store.openNow ? '영업중' : '영업종료'} · 연중무휴</span>
@@ -555,7 +559,7 @@ naver.maps.onJSContentLoaded = function() {
                     </div>
                     <div class="actions">
                         <a class="btn" href="tel:${store.phone}"><i class="fa-solid fa-phone"></i>전화</a>
-                        <a class="btn primary" target="_blank" href="https://map.naver.com/p/directions/-/,,,${store.name},,ADDRESS,${store.coord[1]},${store.coord[0]}">길찾기</a>
+                        <a class="btn primary" target="_blank" href="https://map.naver.com/v5/search/${encodedStoreName}">길찾기</a>
                     </div>
                 </div>`;
             el.addEventListener('click', (e) => {

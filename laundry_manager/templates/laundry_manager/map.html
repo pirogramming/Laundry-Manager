@@ -68,11 +68,11 @@
     {{ stores_data|json_script:"stores-data" }}
 
         <nav class="bottom-nav">
-        <a href="{% url 'main' %}" class="nav-item active">
+        <a href="{% url 'main' %}" class="nav-item">
             <i class="fa-solid fa-house"></i>
             <span>메인 화면</span>
         </a>
-        <a href="{% url 'map' %}" class="nav-item">
+        <a href="{% url 'map' %}" class="nav-item active">
             <i class="fa-solid fa-map-location-dot"></i>
             <span>지도</span>
         </a>
