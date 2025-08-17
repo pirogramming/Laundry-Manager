@@ -55,7 +55,7 @@
         <div class="icon-info">
             <strong>1. 세탁법 요약</strong>
             {% if summary and summary.wash %}
-              <p class="stain-kw preline">{{ summary.wash|safe }}</p>
+              <p class="stain-kw">{{ summary.wash|safe }}</p>
             {% else %}
               <p>정보 없음</p>
             {% endif %}
@@ -65,7 +65,7 @@
             <br>
             <strong>2. 건조법 요약</strong>
             {% if summary and summary.dry %}
-              <p class="stain-kw preline">{{ summary.dry|safe }}</p>
+              <p class="stain-kw">{{ summary.dry|safe }}</p>
             {% else %}
               <p>정보 없음</p>
             {% endif %}
@@ -75,7 +75,7 @@
             <br>
             <strong>3. 얼룩 제거법 요약</strong>
             {% if summary and summary.stain %}
-              <p class="stain-kw preline">{{ summary.stain|safe }}</p>
+              <p class="stain-kw">{{ summary.stain|safe }}</p>
             {% else %}
               <p>정보 없음</p>
             {% endif %}
@@ -86,12 +86,17 @@
         <section class="card avoid-card">
           <h3><i class="fa-solid fa-triangle-exclamation"></i> 피해야 하는 세탁법</h3>
 
-          {% if material.warning %}
-            <div class="avoid-item">
-              <i class="fa-solid fa-circle-exclamation"></i>
-              <p class="preline">{{ material.warning }}</p>
-            </div>
-          {% endif %}
+        {% if material_warning_lines %}
+            <ul class="avoid-list">
+                {% for ln in material_warning_lines %}
+                <li class="avoid-item">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <p class="preline">{{ ln }}</p>
+                </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+            
 
           {% with todo=stain.not_to_do|default:stain.Not_to__do %}
             {% if todo %}
@@ -113,7 +118,7 @@
             {% endif %}
           {% endwith %}
 
-          {% if not material.warning and not stain.Not_to__do and not stain.not_to_do %}
+          {% if not material_warning and not stain.Not_to__do and not stain.not_to_do %}
             <div class="avoid-item"><p>특별히 피해야 할 항목이 없습니다.</p></div>
           {% endif %}
         </section>
