@@ -90,7 +90,7 @@
 .title-wrapper .icon-btn-nav {
     flex-shrink: 0;
     /* 버튼 안찌그러지게 */
-    background-color: var(--color-background);
+    background-color: transparent;
     color: var(--color-text-tertiary);
     border-color: var(--color-border);
 }
@@ -120,7 +120,7 @@
 .related-tips-section h3 {
     font-size: 18px;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     color: var(--color-text-primary);
 }
 
@@ -145,28 +145,6 @@
 .detail-content-section ol li:not(:last-child) {
     margin-bottom: 10px;
 }
-.detail-content-section ul {
-  list-style: none;        /* 기본 점(●) 제거 */
-  padding-left: 0;         /* 기본 들여쓰기 제거 */
-  margin: 0;               /* 기본 여백 제거 */
-}
-
-.detail-content-section li {
-  padding: 6px 0;          /* 위아래 여백 */
-  font-size: 16px;         /* 글씨 크기 */
-  line-height: 1.6;        /* 줄 간격 */
-  color: var(--color-text-secondary);
-  
-  display: flex;           /* 아이콘과 텍스트 정렬하려면 */
-  align-items: center;
-}
-
-.detail-content-section li::before {
-  content: "•";            /* 커스텀 불릿 */
-  color: var(--color-primary);
-  font-weight: bold;
-  margin-right: 8px;       /* 불릿과 글자 사이 간격 */
-}
 
 /* 관련 팁 */
 .related-list .history-item {
@@ -178,7 +156,7 @@
 .back-to-dict-button {
     display: block;
     width: calc(100% - 30px);
-    margin: 50px auto 100px;
+    margin: 0 auto 100px;
     background-color: var(--color-primary);
     color: white;
     padding: 16px;
@@ -188,5 +166,9 @@
     font-size: 16px;
     text-align: center;
     box-shadow: 0 4px 12px rgba(36, 69, 239, 0.3);
-     
+}
+
+#bookmarkBtn .fa-heart {
+    font-size: 24px;
+    /* 원하는 크기(px)로 조절하세요 */
 }

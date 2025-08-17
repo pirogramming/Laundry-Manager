@@ -1,6 +1,6 @@
 # laundry_manager/urls.py
 from django.urls import path
-from .views import pages, ocr, stains, info_flow, maps, history, classify, contact, fortune, result
+from .views import pages, ocr, stains, info_flow, maps, history, classify, contact, fortune, result, dictionary
 import laundry_manager.views.dictionary as dictionary_views
 ## 테스트를 위한 import들 ##
 from django.views.generic import TemplateView
@@ -30,7 +30,7 @@ urlpatterns = [
     path("first-info/", info_flow.first_info_view, name="first_info"),
     path("final-info/", info_flow.final_info_view, name="final_info"),
     path("dictionary/", dictionary_views.dictionary_view, name="dictionary"),
-    path("dictionary/<path:item_title>/", dictionary_views.dictionary_detail, name="dictionary_detail"),
+    path("dictionary/<path:item_title>/", dictionary.dictionary_detail, name="dictionary_detail"),
     path("stain-info/", pages.stain_info_page, name="stain-info"),
     path("stain-info/", pages.stain_info_page, name="stain-info"),
     path("login-test/", pages.login_test_page, name="login-test"),

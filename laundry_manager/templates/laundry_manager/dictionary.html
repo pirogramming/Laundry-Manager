@@ -21,9 +21,7 @@
 <body>
     <div class="mobile-container dictionary-page">
         <nav class="top-nav-white">
-            <button class="icon-btn-bordered">
-                <a href="{% url 'main' %}" class="icon-btn-nav"><i class="fa-solid fa-arrow-left"></i></a>
-            </button>
+            <a href="{% url 'main' %}" class="icon-btn-nav"><i class="fa-solid fa-arrow-left"></i></a>
             <h2>세탁 백과사전</h2>
         </nav>
 
@@ -41,7 +39,8 @@
                     <div class="swiper-slide">
                         <img src="{% static search.image_filename %}" alt="{{ search.title }}">
                         <div class="slide-content">
-                            <a href="{% url 'dictionary' %}?query={{ search.title }}">{{ search.title }}</a>
+                            <a href="{% url 'dictionary_detail' item_title=search.title|urlencode %}">
+                                {{search.title}}</a>
                         </div>
                     </div>
                     {% endfor %}
@@ -51,8 +50,10 @@
         </section>
 
         <section class="all-info">
-            <h3>모든 세탁 정보</h3>
+            <h1 class="title-all">모든 세탁 정보</h1>
             <div class="filter-chips">
+                <a href="{% url 'dictionary' %}?query=즐겨찾기"
+                    class="chip {% if '즐겨찾기' == query %}active{% endif %}">즐겨찾기</a>
                 {% for category in category_list %}
                 <a href="{% url 'dictionary' %}?query={{ category }}"
                     class="chip {% if category == query %}active{% endif %}">{{ category }}</a>
@@ -60,7 +61,13 @@
             </div>
 
             <div class="info-grid">
-                {% if query and is_category_query %}
+                {% if query == '즐겨찾기' %}
+                <div class="category">
+                    <h4 class="category-title">즐겨찾기</h4>
+                    <div class="all-items" id="favorites-container">
+                    </div>
+                </div>
+                {% elif query and is_category_query %}
                 {% for items in dictionary_data.values %}
                 {% for item in items %}
                 <a href="{% url 'dictionary_detail' item_title=item.title|urlencode %}" class="info-grid-item">
@@ -70,9 +77,7 @@
                     {% endif %}
                     <div class="item-content">
                         <h4>{{ item.title }}</h4>
-                        <a href="#" class="like-btn">
-                            <i class="{% if item.is_favorite %}fa-solid{% else %}fa-regular{% endif %} fa-heart"></i>
-                        </a>
+                        <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
                     </div>
                 </a>
                 {% empty %}
@@ -80,10 +85,9 @@
                 {% endfor %}
                 {% endfor %}
                 {% elif query %}
-                <h3>'{{ query }}' 검색 결과</h3>
                 {% for category_name, items in dictionary_data.items %}
                 <div class="category">
-                    <h4>{{ category_name }}</h4>
+                    <h4 class="category-title">{{ category_name }}</h4>
                     <div class="all-items">
                         {% for item in items %}
                         <a href="{% url 'dictionary_detail' item_title=item.title|urlencode %}" class="info-grid-item">
@@ -107,12 +111,12 @@
                 <h3>카테고리별 정보</h3>
                 {% for category_name, items in dictionary_data.items %}
                 <div class="category">
-                    <h4>{{ category_name }}</h4>
-                    <div class="all-items">
+                    <h4 class="category-title">{{ category_name }}</h4>
+                    <div class="all-items" id="category-{{ forloop.counter }}">
                         {% for item in items %}
                         <a href="{% url 'dictionary_detail' item_title=item.title|urlencode %}" class="info-grid-item">
                             {% if item.image_url %}
-                            <img src="{{ item.image_url }}" alt="{{ item.title }}">
+                            <img src="{% static item.image_url %}" alt="{{ item.title }}">
                             {% endif %}
                             <div class="item-content">
                                 <h4>{{ item.title }}</h4>
@@ -121,35 +125,40 @@
                         </a>
                         {% endfor %}
                     </div>
+                    <div class="show-more-container">
+                        <button class="show-more-btn" data-target="category-{{ forloop.counter }}"
+                            style="display:none;">더보기</button>
+                        <button class="show-less-btn" data-target="category-{{ forloop.counter }}"
+                            style="display:none;">닫기</button>
+                    </div>
                 </div>
                 {% endfor %}
                 {% endif %}
             </div>
         </section>
-        
+        <nav class="bottom-nav">
+            <a href="{% url 'main' %}" class="nav-item">
+                <i class="fa-solid fa-house"></i>
+                <span>메인 화면</span>
+            </a>
+            <a href="{% url 'map' %}" class="nav-item">
+                <i class="fa-solid fa-map-location-dot"></i>
+                <span>지도</span>
+            </a>
+            <a href="{% url 'laundry-upload' %}" class="nav-item-main">
+                <i class="fa-solid fa-camera"></i>
+            </a>
+            <a href="{% url 'dictionary' %}" class="nav-item active">
+                <i class="fa-solid fa-book-open"></i>
+                <span>백과사전</span>
+            </a>
+            <a href="{% url 'profile' %}" class="nav-item">
+                <i class="fa-solid fa-gear"></i>
+                <span>더보기</span>
+            </a>
+        </nav>
     </div>
-    <nav class="bottom-nav">
-        <a href="{% url 'main' %}" class="nav-item">
-            <i class="fa-solid fa-house"></i>
-            <span>메인 화면</span>
-        </a>
-        <a href="{% url 'map' %}" class="nav-item">
-            <i class="fa-solid fa-map-location-dot"></i>
-            <span>지도</span>
-        </a>
-        <a href="{% url 'laundry-upload' %}" class="nav-item-main">
-            <i class="fa-solid fa-camera"></i>
-        </a>
-        <a href="{% url 'dictionary' %}" class="nav-item active">
-            <i class="fa-solid fa-book-open"></i>
-            <span>백과사전</span>
-        </a>
-        <a href="{% url 'profile' %}" class="nav-item">
-            <i class="fa-solid fa-gear"></i>
-            <span>더보기</span>
-        </a>
-    </nav>
-    
+
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>

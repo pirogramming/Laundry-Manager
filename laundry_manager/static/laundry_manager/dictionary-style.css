@@ -22,7 +22,6 @@
     flex: 1;
     text-align: center;
     margin: 0;
-    margin-right: 10%;
 }
 
 .icon-btn-bordered {
@@ -63,8 +62,7 @@
 section h3 {
     font-size: 20px;
     font-weight: 700;
-    margin: 0 20px 10px;
-    
+    margin: 0 20px 15px;
 }
 
 /* --- 인기 세탁 정보 (캐러셀) --- */
@@ -127,6 +125,7 @@ section h3 {
     overflow-x: auto;
     padding: 0 20px 20px;
     margin-bottom: 10px;
+    margin-left: 12px;
 }
 
 .filter-chips::-webkit-scrollbar {
@@ -153,16 +152,17 @@ section h3 {
 
 .all-items {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 15px;
-    padding: 0 0px;
+    padding: 0 20px;
 }
 
 .info-grid {
     display: grid;
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 15px;
-    padding: 0 10px;
+    padding: 0 20px;
+    margin-bottom: 100px;
 }
 
 .info-grid-item {
@@ -171,6 +171,15 @@ section h3 {
     overflow: hidden;
     position: relative;
     aspect-ratio: 1 / 1.1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Add transition for a smooth effect */
+}
+
+.info-grid-item:hover {
+    transform: translateY(-10px);
+    /* Lifts the item up by 10 pixels */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    /* Adds a shadow */
 }
 
 .info-grid-item img {
@@ -195,7 +204,6 @@ section h3 {
 .item-content h4 {
     font-size: 15px;
     font-weight: 500;
-    margin-left: 20px;
 }
 
 .like-btn {
@@ -210,4 +218,67 @@ section h3 {
 
 .like-btn.active {
     color: #FF4757;
+}
+
+.category-title {
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+
+.like-btn .fa-heart {
+    font-size: 22px;
+    /* 원하는 크기로 조절하세요. (예: 24px, 32px 등) */
+}
+
+.title-all {
+    margin-left: 33px;
+    margin-bottom: 15px;
+}
+
+.icon-btn-nav {
+    color: black;
+}
+
+.all-items .info-grid-item.hidden {
+    display: none;
+}
+
+.show-more-container {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.show-more-btn {
+    border: none;
+    margin-left: 22px;
+    padding: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: background-color 0.5s ease-in-out;
+    border-radius: 10px;
+}
+
+.show-more-btn:hover {
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: white;
+    background-color: var(--color-primary);
+}
+
+.show-less-btn {
+    border: none;
+    margin-left: 22px;
+    padding: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border-radius: 10px;
+    transition: background-color 0.2s ease-in-out;
+
+}
+
+.show-less-btn:hover {
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: white;
+    background-color: var(--color-primary);
 }

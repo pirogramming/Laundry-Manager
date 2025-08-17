@@ -8,8 +8,6 @@ from django.http import JsonResponse
 from urllib.parse import unquote
 from django.template.loader import render_to_string
 from django.contrib.staticfiles.finders import find
-from ..models import FavoriteItem  # FavoriteItem 모델을 import
-from django.contrib.auth.decorators import login_required
 
 logger = logging.getLogger(__name__)
 
@@ -111,38 +109,29 @@ def dictionary(request):
         "removal": "냄새 및 얼룩제거 방법",
         "words": "용어 사전",
         "how_laundry": "세탁 방법",
-        "enjoy_looking": "즐겨찾기",
     }
     category_list = list(category_map.values())
     processed_data = {}
 
-    from_search = "query" in request.GET
-
-    item_index = 0  # 이미지 파일명에 사용할 인덱스를 초기화
-
-    favorites_titles = []
-    if request.user.is_authenticated:
-        favorites_titles = list(
-            FavoriteItem.objects.filter(user=request.user).values_list(
-                "title", flat=True
-            )
-        )
+    # item_index = 0  # 이미지 파일명에 사용할 인덱스를 초기화
 
     def preprocess_item(item):
-        nonlocal item_index
         processed = item.copy()
-        item_index += 1
-        # Use a consistent file name pattern
-        image_filename = f"dictionary_image/{item_index}.jpg"
-        processed["image_url"] = (
-            f"/static/{image_filename}"  # Check if the image file exists
-        )
-        image_path = find(image_filename)
-        processed["has_image"] = os.path.exists(image_path)
-        processed["image_filename"] = image_filename
-        processed["json_data"] = json.dumps(item, ensure_ascii=False)
-        processed["is_favorite"] = processed["title"] in favorites_titles
+        image_url = processed.get("image_url", None)
 
+        if image_url and image_url.startswith("static/"):
+            # This is the key change: remove the 'static/' prefix
+            processed["image_url"] = image_url[7:]
+
+            image_filename = processed["image_url"]  # Use the new path
+            image_path = find(image_filename)
+            processed["has_image"] = os.path.exists(image_path)
+            processed["image_filename"] = image_filename
+        else:
+            processed["has_image"] = False
+            processed["image_filename"] = None
+
+        processed["json_data"] = json.dumps(item, ensure_ascii=False)
         return processed
 
     if query:
@@ -165,34 +154,23 @@ def dictionary(request):
                         filtered_items.append(preprocess_item(item))
                 if filtered_items:
                     processed_data[display_name] = filtered_items
-            pass
     else:
-        favorites_data_list = []
-        full_dictionary_data = load_dictionary_data()
-        for category_key in full_dictionary_data:
-            for item in full_dictionary_data[category_key]:
-                if item.get("title") in favorites_titles:
-                    favorites_data_list.append(item)
-
-        processed_data[category_map["enjoy_looking"]] = [
-            preprocess_item(item) for item in favorites_data_list
-        ]
-
         for category_key, display_name in category_map.items():
-            if category_key != "enjoy_looking":
-                processed_data[display_name] = [
-                    preprocess_item(item)
-                    for item in dictionary_data.get(category_key, [])
-                ]
+            processed_data[display_name] = [
+                preprocess_item(item) for item in dictionary_data.get(category_key, [])
+            ]
+
     # Naver Trend API를 활용하여 인기 검색어 목록을 가져오는 로직 추가
     # 수정할 코드 (views.py 파일 내)
     all_keyword_data = []
-    temp_item_index = 0
+    # temp_item_index = 0
     for category_key in dictionary_data:
         for item in dictionary_data.get(category_key, []):
-            temp_item_index += 1
+            # temp_item_index += 1 # 이 줄을 제거합니다.
             title = item.get("title")
-            image_filename = f"dictionary_image/{temp_item_index}.jpg"
+            # image_filename = f"dictionary_image/{temp_item_index}.jpg" # 이 줄을 제거하고 아래처럼 수정합니다.
+            image_url = item.get("image_url")
+            image_filename = image_url.replace("static/", "") if image_url else None
             if title:
                 all_keyword_data.append(
                     {"title": title, "image_filename": image_filename}
@@ -215,7 +193,6 @@ def dictionary(request):
         "category_list": category_list,
         "dictionary_data": processed_data,
         "frequent_searches": frequent_searches,
-        "from_search": from_search,  # from_search 변수를 context에 추가
     }
 
     return render(request, "laundry_manager/dictionary.html", context)
@@ -248,8 +225,6 @@ def dictionary_detail(request, item_title):
             {"message": f"'{decoded_title}'에 대한 세탁 정보를 찾을 수 없습니다."},
         )
 
-    from_search = "query" in request.GET
-
     # ★★★ This is the key section to add/modify ★★★
     # Attach the image filename and URL to the item_data
     item_data["image_filename"] = f"dictionary_image/{item_index}.jpg"
@@ -264,39 +239,7 @@ def dictionary_detail(request, item_title):
             "tip": "팁",
             "not_to_do": "주의 사항",
             "Other_Information": "기타 정보",
-            "from_search": from_search,  # from_search 변수 추가
         },
     }
 
     return render(request, "laundry_manager/dictionary-detail.html", context)
-
-
-@login_required
-def toggle_favorite(request):
-    if request.method == "POST":
-        data = json.loads(request.body)
-        title = data.get("title")
-        is_favorite = data.get("is_favorite", False)
-        user = request.user
-
-        if not title:
-            return JsonResponse(
-                {"status": "error", "message": "제목이 없습니다."}, status=400
-            )
-
-        if is_favorite:
-            # 즐겨찾기 추가 (이미 있으면 무시)
-            FavoriteItem.objects.get_or_create(user=user, title=title)
-            return JsonResponse(
-                {"status": "success", "message": "즐겨찾기에 추가되었습니다."}
-            )
-        else:
-            # 즐겨찾기 삭제
-            FavoriteItem.objects.filter(user=user, title=title).delete()
-            return JsonResponse(
-                {"status": "success", "message": "즐겨찾기에서 제거되었습니다."}
-            )
-
-    return JsonResponse(
-        {"status": "error", "message": "잘못된 요청입니다."}, status=405
-    )
