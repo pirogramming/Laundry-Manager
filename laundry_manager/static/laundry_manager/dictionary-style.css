@@ -150,16 +150,6 @@ section h3 {
     border-color: var(--color-primary);
 }
 
-
-
-.info-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    padding: 0 20px;
-    margin-bottom: 100px;
-}
-
 .all-items {
     display: grid;
     gap: 15px;
@@ -174,6 +164,13 @@ section h3 {
     gap: 15px;
     padding: 0 20px;
     grid-template-columns: repeat(2, 1fr);
+}
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 0 20px;
+    margin-bottom: 100px;
 }
 
 .info-grid-item {
