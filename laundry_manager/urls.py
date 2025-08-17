@@ -1,6 +1,6 @@
 # laundry_manager/urls.py
 from django.urls import path
-from .views import pages, ocr, stains, info_flow, maps, history, classify, contact, fortune
+from .views import pages, ocr, stains, info_flow, maps, history, classify, contact, fortune, result
 import laundry_manager.views.dictionary as dictionary_views
 ## 테스트를 위한 import들 ##
 from django.views.generic import TemplateView
@@ -12,15 +12,15 @@ urlpatterns = [
     path("main/", pages.main_page, name="main"),
     path("guest-enter/", pages.guest_enter, name="guest_enter"),
     path("guest-exit/", pages.guest_exit, name="guest_exit"),
-    path("laundry-upload/", ocr.upload_view, name="laundry-upload"),
-    # (페이지 전용 라우트는 계속 유지하고 싶다면 별도 경로 사용)
-    path("laundry-upload-page/", pages.laundry_upload_page, name="laundry-upload-page"),
+    path("laundry-upload/", result.laundry_upload_page, name="laundry-upload"),
+
+
+    
     path("stain-upload/", stains.stain_guide_view, name="stain-upload"),
     path("result/", ocr.result_view, name="result"),
-    # path("history/<int:pk>/update/", info_flow.update_history_field, name="lh_update"),
     path("result/update-selection/", info_flow.update_selection_view, name="update_selection"),
 
-    path("laundry-info/", pages.laundry_info_page, name="laundry-info"),
+    # path("laundry-info/", pages.laundry_info_page, name="laundry-info"),
     path("upload/", ocr.upload_and_classify, name="upload"),
     path("uploadimage/", ocr.upload_view, name="upload_image"),
     path("stain-guide/", stains.stain_guide_view, name="stain-guide"),
@@ -31,18 +31,12 @@ urlpatterns = [
     path("final-info/", info_flow.final_info_view, name="final_info"),
     path("dictionary/", dictionary_views.dictionary_view, name="dictionary"),
     path("dictionary/<path:item_title>/", dictionary_views.dictionary_detail, name="dictionary_detail"),
-    #path("map-test/", maps.map_test_view, name="map-test"),
-    # path("api/shops/mapo/", maps.shops_mapo, name="shops-mapo"),
-    # path('laundry-upload/', views.upload_and_classify, name='laundry-upload'),
     path("stain-info/", pages.stain_info_page, name="stain-info"),
-    # path('stain-upload/', views.stain_upload_page, name='stain-upload'),
     path("stain-info/", pages.stain_info_page, name="stain-info"),
-    # path("login/", pages.login_page, name="login"),
     path("login-test/", pages.login_test_page, name="login-test"),
     path("dictionary/", pages.dictionary_page, name="dictionary"),
     path("dictionary-detail/", pages.dictionary_detail_page, name="dictionary-detail"),
     
-    path("main2/", pages.main2_page, name="main2"),
     path("profile/", pages.profile_page, name="profile"),
     
     path("map/", pages.map_page, name="map"),
@@ -69,9 +63,7 @@ urlpatterns = [
     path("history/save-current/", history.save_current_result_as_history_view, name="save_current_history"),
     path("classify/", classify.classify_symbol_view, name="classify"),
 
-    # path('guide/', info_flow.guide_from_result, name='guide_from_result'),
     path("laundry-info/", info_flow.guide_from_result, name="laundry_info"),
-    # path("guide/from-result/", laundry_res.guide_from_result, name="guide_from_result"),
     
     #문의하기 처리
     path('contact/submit/', contact.contact_submit_view, name='contact_submit'),
