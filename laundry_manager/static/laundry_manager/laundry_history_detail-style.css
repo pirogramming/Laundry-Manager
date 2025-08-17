@@ -107,11 +107,13 @@
 /* --- 삭제 버튼 --- */
 .delete-form {
     margin-top: 10px;
+    padding: 0px 50px;
 }
 .delete-button {
     width: 100%;
     background-color: white;
-    border: 20px;
+    border: solid 1.5px red;
+    border-radius: 50px;
     padding: 15px;
     font-size: 15px;
     color: #e53935; /* 빨간색 계열 */
@@ -119,7 +121,8 @@
     cursor: pointer;
     border-radius: 12px;
     transition: background-color 0.2s;
-    margin: 0px 20%;
+    margin-top: 10%;
+
 }
 .delete-button:hover {
     background-color: #ffebee; /* 마우스 올렸을 때 연한 빨간색 */

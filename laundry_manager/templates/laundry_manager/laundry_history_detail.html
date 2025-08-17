@@ -47,14 +47,15 @@
                             <p class="no-content">저장된 내용이 없습니다.</p>
                         {% endif %}
                     </div>
+                    <form method="post" action="{% url 'laundry_history_delete' history_id=record.id %}" class="delete-form">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-button">
+                            <i class="fa-solid fa-trash"></i> 이 기록 삭제하기
+                        </button>
+                    </form>
                 </section>
                 
-                <form method="post" action="{% url 'laundry_history_delete' history_id=record.id %}" class="delete-form">
-                    {% csrf_token %}
-                    <button type="submit" class="delete-button">
-                        <i class="fa-solid fa-trash"></i> 이 기록 삭제하기
-                    </button>
-                </form>
+                
             </main>
 
         </div>
