@@ -154,17 +154,20 @@ section h3 {
     display: grid;
     gap: 15px;
     padding: 0 20px;
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(2, 1fr);
 }
-.info-grid .category {
-    grid-column: span 2; /* 이 한 줄을 추가하세요 */
-}
+
 #favorites-container{
     display: grid;
     gap: 15px;
     padding: 0 20px;
     grid-template-columns: repeat(2, 1fr);
 }
+
+.info-grid .category {
+    grid-column: span 2; /* 이 한 줄을 추가하세요 */
+}
+
 .info-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -254,6 +257,7 @@ section h3 {
 .show-more-container {
     text-align: center;
     margin-top: 10px;
+    
 }
 
 .show-more-btn {
@@ -264,6 +268,7 @@ section h3 {
     font-weight: 500;
     transition: background-color 0.5s ease-in-out;
     border-radius: 10px;
+    
 }
 
 .show-more-btn:hover {
