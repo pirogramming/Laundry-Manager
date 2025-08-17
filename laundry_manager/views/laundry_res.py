@@ -3,7 +3,7 @@ import os, json, re, difflib
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
-from .summary import apply_stain_steps_summary, apply_wash_dry_summaries
+from .summary import apply_stain_steps_summary, apply_wash_dry_summaries, split_lines_for_ui
 
 # utils 모듈 전체 임포트 (이름 임포트로 인한 ImportError/AttributeError 회피)
 from .. import utils as U
@@ -488,13 +488,15 @@ def guide_from_result(request):
         washing_descriptions,
         drying_descriptions
     )
-
+    
     # 피해야 하는 세탁법 제한
     stain_guide_limited = dict(stain_guide)
     for key in ("not_to_do", "Not_to__do"):
         lst = stain_guide_limited.get(key) or []
         if isinstance(lst, list):
             stain_guide_limited[key] = lst[:2]
+
+    warning_lines = split_lines_for_ui(material_guide.get("warning", ""))
     
     #6) 렌더 context(ctx)
     ctx = {
@@ -508,5 +510,6 @@ def guide_from_result(request):
         "summary": summary,
         "washing_descriptions": washing_descriptions,
         "drying_descriptions": drying_descriptions,
+        "material_warning_lines": warning_lines,
     }
     return render(request, "laundry_manager/laundry-info.html", ctx)

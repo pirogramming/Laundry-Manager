@@ -3,16 +3,17 @@ import uuid
 import re
 import difflib
 import requests
-import itertools
-from typing import List, Dict
+from typing import List, Dict, Union
 from django.conf import settings
 from django.core.cache import cache
 from django.utils.html import conditional_escape
+from django.templatetags.static import static
 
 # ---------- 공통 정규식/유틸 ----------
 _WS_RE = re.compile(r"\s+")
 _BULLET_PREFIX_RE = re.compile(r"^\s*([\-–—•·]+|\d+\s*[\.\)]\s*)")
-_VERB_OK_RE = re.compile(r"(세탁|세척|세정|건조|사용|제거|드라이클리닝|금지|가능|주의|조치)$")
+_NEG_PAT  = re.compile(r"(금지|불가|하지\s*말|피하|금물|표백\s*금지|염소계\s*표백|과산화)")
+_WARN_PAT = re.compile(r"(주의|손상|조심|약하게)")
 
 # 키워드/정규식
 _TEMP_RE   = re.compile(r"(\d{2,3})\s*(?:℃|°C)")
@@ -28,7 +29,11 @@ _HANG_RE       = re.compile(r"(걸어서|옷걸이|행거)")
 _SHADE_RE      = re.compile(r"(그늘)")
 _SUN_RE        = re.compile(r"(햇볕|직사광선)")
 _NOWRING_RE    = re.compile(r"(비틀어|짜지\s*말)")
+INFO_ICON_FILENAME = "square-check-solid-full.png"
 
+# 이미지 추가 
+def _static_icon_url(filename: str) -> str:
+    return static(filename)
 # ---------- 전처리 ----------
 # 지시문/예시 느낌 문장 제거용 패턴
 _INSTRUCTION_NOISE_RE = re.compile(
@@ -41,6 +46,46 @@ _ENUMY_LINE_RE = re.compile(
     r"(가능/금지)|"    # '가능/금지' 패턴 자체
     r"(등\s*$)"       # '…등'으로 끝나는 문장
 )
+
+def _emoji_to_markup(marker: str) -> str:
+    if marker == "❇️":
+        url = _static_icon_url(INFO_ICON_FILENAME)
+        return (
+            f"<img src='{url}' alt='' "
+            f"style='width:18px;height:18px;vertical-align:-2px;'/>"
+        )
+    return conditional_escape(marker)
+
+def _icon_for_line(s: str) -> str:
+    if _NEG_PAT.search(s):
+        return "🚫"
+    if _WARN_PAT.search(s):
+        return "⚠️"
+    return "❇️"
+
+def _ban_first(lines: List[str]) -> List[str]:
+    bans = [x for x in (lines or []) if _NEG_PAT.search(x)]
+    others = [x for x in (lines or []) if not _NEG_PAT.search(x)]
+    return bans + others
+
+def _verbify_wash_line(s: str) -> str:
+    t = _compact_phrase(s)
+    t = re.sub(r"[\.·•]+$", "", t).strip()
+
+    if _NEG_PAT.search(t):
+        t = re.sub(r"(금지|불가).*$", r"\1", t)
+        return t
+    
+    if "중성세제" in t and "사용" not in t:
+        t += " 사용"
+
+    if t.endswith("코스") and "사용" not in t:
+        t += " 사용"
+    
+    if re.search(r"(세탁|사용|가능|권장|제거)$", t):
+        return t
+    
+    return t + " 세탁"
 
 def _filter_instruction_noise(lines: List[str]) -> List[str]:
     out = []
@@ -133,7 +178,7 @@ def _tidy_tail_short(s: str) -> str:
     s = s.rstrip(" ,)·•.;")
     s = re.sub(r"(은|는|이|가|을|를|에|로|으로|과|와|및|도|만|까지|부터)$", "", s)
     if s.endswith("한") and len(s) > 1:
-        s = s[:1]
+        s = s[:-1]
     return s.strip()
 
 def _enforce_clause_ending(s: str, prefer: str = "함") -> str:
@@ -176,27 +221,25 @@ def _clean_join(sources: List[str]) -> str:
     src = "\n".join(s.strip() for s in (sources or []) if s and str(s).strip())
     return _clean_source(src)[:3000]
 
-def _render_lines_html(lines: List[str], emoji: str = "💡") -> str:
+def _render_lines_html(lines: List[str], emoji: str = "❇️", auto_icon: bool = False) -> str:
     esc = conditional_escape
-    container_style = (
-        "display:flex;align-items:flex-start;gap:8px;"
-        "margin:2px 0;"
-    )
-    icon_style = (
-        "flex:0 0 auto;line-height:1; font-size:16px;"
-        "transform:translateY(2px);"
-    )
-
+    container_style = ("display:flex;align-items:flex-start;gap:8px;margin:2px 0;")
+    icon_style = ("flex:0 0 auto;line-height:1; font-size:16px;transform:translateY(2px);")
     text_style = "flex:1 1 auto; line-height:1.4; margin:0;"
 
-    return "".join(
-        f"<div class='sumline' style='{container_style}'>"
-        f"<span class='sum-ico' style='{icon_style}'>{esc(emoji)}</span>"
-        f"<span class='sum-txt' style='{text_style}'>{esc(ln)}</span>"
-        f"</div>"
-        for ln in (lines or [])
-        if ln
-    )
+    html = []
+    for ln in (lines or []):
+        if not ln:
+            continue
+        marker = _icon_for_line(ln) if auto_icon else emoji
+        ico_html = _emoji_to_markup(marker)
+        html.append(
+            f"<div class='sumline' style='{container_style}'>"
+            f"<span class='sum-ico' style='{icon_style}'>{ico_html}</span>"
+            f"<span class='sum-txt' style='{text_style}'>{esc(ln)}</span>"
+            f"</div>" 
+        )
+    return "".join(html)
 
 def _shorten_tokens(s: str) -> str:
     if not s: return ""
@@ -291,6 +334,15 @@ def _polish_dry_one_liner(s: str) -> str:
     # ✅ 음슴체로 마무리
     return _to_eumseum(t, "함")
 
+def split_lines_for_ui(text: str) -> list[str]:
+    if not text:
+        return []
+    return [
+        re.sub(r"\s+", " ", ln.strip())
+        for ln in re.split(r"[\r\n]+", str(text))
+        if ln and str(ln).strip()
+    ]
+
 
 # --------------- CLOVA 호출 ----------------
 def _call_clova(text: str) -> str:
@@ -325,63 +377,77 @@ def _summarize_lines_via_clova(
         line_limit: int = 3,
         char_limit: int = 34,
         return_html: bool = False,
-        emoji: str = "💡",
-) -> str:
-    
+        emoji: str = "❇️",
+        return_list: bool = False,
+) -> Union[str, List[str]]:
     src = _clean_join(sources)
     if not src:
-        return ""
-    cache_key = f"{cache_prefix}:{hash(src)}"
+        return [] if return_list else ""
+    fmt = "list" if return_list else ("html" if return_html else "txt")
+    cache_key = f"{cache_prefix}:{hash(src)}:{fmt}"
     cached = cache.get(cache_key)
     if cached:
-        return cached
+        return cached.split("\n") if return_list else cached
 
     prompt = f"{instruction}\n\n{src}"
     raw = _call_clova(prompt)
-
     lines = _to_plain_lines(raw, line_limit=line_limit, char_limit=char_limit)
-
     if not lines:
         base = _dedupe_preserve_order_simple(sources)
         lines = [_soft_truncate(_compact_phrase(s), char_limit) for s in base[:line_limit]]
     
+    if return_list:
+        cache.set(cache_key, "\n".join(lines), 60 * 60 * 12)
+        return lines
+    
     out = _render_lines_html(lines, emoji) if return_html else "\n".join(lines)
-    if out:
-        cache.set(cache_key, out, 60 * 60 * 12)
+    cache.set(cache_key, out, 60 * 60 * 12)
     return out
 
 # ---------- 세탁/건조/얼룩 요약 ----------
 def make_wash_summary(material_desc: str, washing_descs: List[str]) -> str:
     lines = _wash_lines_from_texts(material_desc, washing_descs)
-    if lines:
-        return _render_lines_html(lines, emoji="💡")
-    
-    instruction = (
-        "아래는 의류 소재 설명과 세탁 기호 설명이다. "
-        "핵심 세탁 규칙만 2~3줄로 간결히 요약하라. "
-        "숫자·수온·세제·코스는 남기고, 장황한 예시/화학명/중복 표현은 생략하라. "
-        "쉼표는 한 줄에 최대 2개, 존대/명령형 금지."
-    )
-    sources = [material_desc or ""] + (washing_descs or [])
-    return _summarize_lines_via_clova(sources, instruction, "wash_summary_v3", line_limit=3, char_limit=34, return_html=True, emoji="💡")
+
+    if not lines:
+        instruction = (
+            "아래는 의류 소재 설명과 세탁 기호 설명이다. "
+            "핵심 세탁 규칙만 2~3줄로 간결히 요약하라. "
+            "숫자·수온·세제·코스는 남기고, 장황한 예시/화학명/중복 표현은 생략하라. "
+            "쉼표는 한 줄에 최대 2개, 존대/명령형 금지."
+        )
+        sources = [material_desc or ""] + (washing_descs or [])
+        lines = _summarize_lines_via_clova(
+            sources, instruction, "wash_summary_v3",
+            line_limit=3, char_limit=34, return_list=True
+        )
+
+    lines = [_verbify_wash_line(x) for x in lines]
+    lines = _dedupe_preserve_order_final(lines)
+    lines = _ban_first(lines)
+    return _render_lines_html(lines, auto_icon=True)
 
 def make_dry_summary(drying_descs: List[str]) -> str:
-    # 단일 문장만 있는 경우 CLOVA를 거치지 않고 그대로 사용 (지시문 재출력 방지)
     lines = _dry_lines_from_texts(drying_descs)
     if lines:
-        return _render_lines_html(lines, emoji="💡")
-    
+        return _render_lines_html(_ban_first(lines), auto_icon=True)
+
     clean = [d for d in (drying_descs or []) if d and str(d).strip()]
     if len(clean) == 1:
         one = _polish_dry_one_liner(clean[0])
-        return _render_lines_html([one], emoji="💡")
+        return _render_lines_html([one], auto_icon=True)
 
     instruction = (
         "아래는 건조 관련 기호/설명이다. "
         "핵심만 2~3줄로 요약하라(건조기 가능/금지, 그늘/햇볕, 뉘어서/걸어서 등). "
         "장황한 부연은 생략하고 간결한 평서형으로."
     )
-    return _summarize_lines_via_clova(clean, instruction, "dry_summary_v3", line_limit=3, char_limit=34, return_html=True, emoji="💡")
+    lines_from_clova = _summarize_lines_via_clova(
+        clean, instruction, "dry_summary_v3",
+        line_limit=3, char_limit=34, return_list=True
+    )
+    lines_from_clova = _ban_first(lines_from_clova)
+    return _render_lines_html(lines_from_clova, auto_icon=True)
+
 
 def summarize_steps_keywords(washing_steps: List[str]) -> str:
     instruction = (
@@ -393,7 +459,7 @@ def summarize_steps_keywords(washing_steps: List[str]) -> str:
         return ""
     raw = _call_clova(f"{instruction}\n\n{src}")
     lines = _to_plain_lines(raw, line_limit=3, char_limit=34)
-    return _render_lines_html(lines, emoji="💡")
+    return _render_lines_html(lines, emoji="❇️")
 
 # ---------- 뷰에서 쓰는 래퍼(캐시) ----------
 def _cache_key_for_steps(prefix: str, steps: List[str]) -> str:
