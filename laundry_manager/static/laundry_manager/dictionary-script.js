@@ -10,9 +10,12 @@ const swiper = new Swiper('.popular-swiper', {
     // 옵션
     slidesPerView: 1.1, 
     spaceBetween: 15,    
-    centeredSlides: true, // 이 옵션이 슬라이드 위치를 안정화합니다.
-    loop: true,          
+    centeredSlides: true,
+    loop: true,
     
+    // ★★★ 이 옵션을 추가해주세요 ★★★
+    loopAdditionalSlides: 1, 
+
     // 자동 재생
     autoplay: {
         delay: 3000,
