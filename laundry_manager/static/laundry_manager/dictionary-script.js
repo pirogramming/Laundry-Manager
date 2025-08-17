@@ -173,6 +173,8 @@ likeButtons.forEach(button => {
 document.addEventListener('DOMContentLoaded', () => {
     applyInitialFavoriteState();
     updateFavoritesTab();
+
+    
 });
 
 document.addEventListener('DOMContentLoaded', function() {
