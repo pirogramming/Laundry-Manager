@@ -122,26 +122,29 @@
                 {% endfor %}
                 {% endif %}
 
-                <!-- 세탁 태그(아이콘 칩) - 기존 디자인 유지 -->
+                <!-- 세탁 태그(아이콘 칩) - JSON 기반으로 렌더링 -->
                 <div class="input-group">
-                    <label>세탁 태그 선택</label>
-                    <div class="item-list" id="edit-symbol-list">
-                        {% if selectable_symbols %}
-                        {% for item in selectable_symbols %}
-                        <div class="selectable-item" data-value="{{ item.keyword|escape }}">
-                            <div class="item-box">
-                                <span class="item-kor">{{ item.keyword }}</span>
-                                <span class="item-eng">
-                                    {% if item.eng %}{{ item.eng }}{% else %}{{ item.keyword|slugify }}{% endif %}
-                                </span>
-                            </div>
-                        </div>
-                        {% endfor %}
-                        {% else %}
-                        <p style="padding:8px;color:#888">⚠️ 세탁 태그 데이터가 없습니다.</p>
-                        {% endif %}
-                    </div>
-                </div>
+  <label>세탁 태그 선택</label>
+  <div class="tag-selection-list" id="edit-symbol-list">
+    {% if symbol_items %}
+      {% for it in symbol_items %}
+        <div
+          class="tag-item {% if symbols and it.id in symbols %}active{% endif %}"
+          data-id="{{ it.id }}"
+          data-cat="{{ it.category }}"
+          title="{{ it.desc }}"
+        >
+          <div class="tag-image-placeholder"></div>
+          <span>{{ it.label }}</span>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p style="padding:8px;color:#888">⚠️ 기호 데이터가 없습니다.</p>
+    {% endif %}
+  </div>
+</div>
+
+
 
                 <!-- 의류 소재 (칩) -->
                 <div class="input-group">
