@@ -1,9 +1,10 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>인식 정보 확인</title>
 
     <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}">
@@ -15,9 +16,11 @@
     <link rel="stylesheet" href="{% static 'laundry_manager/laundry-upload-style.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
+
 <body>
     <div class="mobile-container result-page">
         <nav class="top-nav-white">
@@ -55,9 +58,9 @@
                     <div class="info-item">
                         <span>인식된 기호</span>
                         {% if rule_keywords %}
-                            <strong>{{ rule_keywords|join:"<br>"|safe }}</strong>
+                        <strong>{{ rule_keywords|join:"<br>"|safe }}</strong>
                         {% else %}
-                            <strong>결과 없음</strong>
+                        <strong>결과 없음</strong>
                         {% endif %}
                     </div>
 
@@ -100,83 +103,70 @@
 
                 <!-- 현재 페이지 상태(배열) 폴백 -->
                 {% if materials %}
-                    {% for m in materials %}
-                        <input type="hidden" name="materials[]" value="{{ m }}">
-                    {% endfor %}
+                {% for m in materials %}
+                <input type="hidden" name="materials[]" value="{{ m }}">
+                {% endfor %}
                 {% else %}
-                    <input type="hidden" name="materials[]" value="">
+                <input type="hidden" name="materials[]" value="">
                 {% endif %}
                 {% if stains %}
-                    {% for s in stains %}
-                        <input type="hidden" name="stains[]" value="{{ s }}">
-                    {% endfor %}
+                {% for s in stains %}
+                <input type="hidden" name="stains[]" value="{{ s }}">
+                {% endfor %}
                 {% else %}
-                    <input type="hidden" name="stains[]" value="">
+                <input type="hidden" name="stains[]" value="">
                 {% endif %}
                 {% if symbols %}
-                    {% for sym in symbols %}
-                        <input type="hidden" name="symbols[]" value="{{ sym }}">
-                    {% endfor %}
+                {% for sym in symbols %}
+                <input type="hidden" name="symbols[]" value="{{ sym }}">
+                {% endfor %}
                 {% endif %}
 
-                <!-- 세탁 태그(아이콘 칩) - 기존 디자인 유지 -->
-                <div class="input-group">
-                    <label>세탁 태그 선택</label>
-                    <div class="item-list" id="edit-symbol-list">
-                        
-                        <div class="selectable-item active" data-value="드라이클리닝">
-                            <div class="item-box">
-                                <span class="item-kor">드라이</span>
-                                <span class="item-eng">Dry Clean</span>
-                            </div>
-                        </div>
+                <!-- 세탁 태그(아이콘 칩) - JSON 기반으로 렌더링 -->
+                {% comment %} <div class="input-group">
+  <label>세탁 태그 선택</label>
+  <div class="tag-selection-list" id="edit-symbol-list">
+    {% if symbol_items %}
+      {% for it in symbol_items %}
+        <div
+          class="tag-item {% if symbols and it.id in symbols %}active{% endif %}"
+          data-id="{{ it.id }}"
+          data-cat="{{ it.category }}"
+          title="{{ it.desc }}"
+        >
+          <div class="tag-image-placeholder"></div>
+          <span>{{ it.label }}</span>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p style="padding:8px;color:#888">⚠️ 기호 데이터가 없습니다.</p>
+    {% endif %}
+  </div>
+</div> {% endcomment %}
 
-                        <div class="selectable-item" data-value="물세탁 가능">
-                            <div class="item-box">
-                                <span class="item-kor">물세탁</span>
-                                <span class="item-eng">Machine</span>
-                            </div>
-                        </div>
 
-                        <div class="selectable-item" data-value="염소계 표백">
-                            <div class="item-box">
-                                <span class="item-kor">표백</span>
-                                <span class="item-eng">Bleach</span>
-                            </div>
-                        </div>
-
-                        <div class="selectable-item" data-value="다림질">
-                            <div class="item-box">
-                                <span class="item-kor">다림질</span>
-                                <span class="item-eng">Iron</span>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
 
                 <!-- 의류 소재 (칩) -->
                 <div class="input-group">
-                <label>의류 소재</label>
-                <div class="item-list" id="edit-material-list">
-                    {% if material_items %}
-                    {% for m in material_items %}
-                    <div class="selectable-item"
-                        data-value="{{ m.raw|default_if_none:''|escape }}"
-                        data-kor="{{ m.kor|default_if_none:''|escape }}"
-                        data-eng="{{ m.eng|default_if_none:''|escape }}">
-                        <div class="item-box">
-                        <span class="item-kor">{{ m.kor }}</span>
-                        <span class="item-eng">
-                            {% if m.eng %}{{ m.eng }}{% else %}{{ m.kor|slugify }}{% endif %}
-                        </span>
+                    <label>의류 소재</label>
+                    <div class="item-list" id="edit-material-list">
+                        {% if material_items %}
+                        {% for m in material_items %}
+                        <div class="selectable-item" data-value="{{ m.raw|default_if_none:''|escape }}"
+                            data-kor="{{ m.kor|default_if_none:''|escape }}"
+                            data-eng="{{ m.eng|default_if_none:''|escape }}">
+                            <div class="item-box">
+                                <span class="item-kor">{{ m.kor }}</span>
+                                <span class="item-eng">
+                                    {% if m.eng %}{{ m.eng }}{% else %}{{ m.kor|slugify }}{% endif %}
+                                </span>
+                            </div>
                         </div>
+                        {% endfor %}
+                        {% else %}
+                        <p style="padding:8px;color:#888">⚠️ 소재 데이터가 없습니다.</p>
+                        {% endif %}
                     </div>
-                    {% endfor %}
-                    {% else %}
-                    <p style="padding:8px;color:#888">⚠️ 소재 데이터가 없습니다.</p>
-                    {% endif %}
-                </div>
                 </div>
 
 
@@ -185,18 +175,19 @@
                     <label>선택한 얼룩 유형</label>
                     <div class="item-list" id="edit-stain-list">
                         {% if stain_titles %}
-                            {% for t in stain_titles %}
-                                {% with cur_st=stains.0|default:'' %}
-                                <div class="selectable-item {% if cur_st and cur_st == t %}active{% endif %}" data-value="{{ t|escape }}">
-                                    <div class="item-box">
-                                        <span class="item-kor">{{ t }}</span>
-                                        <span class="item-eng">{{ t|slugify }}</span>
-                                    </div>
-                                </div>
-                                {% endwith %}
-                            {% endfor %}
+                        {% for t in stain_titles %}
+                        {% with cur_st=stains.0|default:'' %}
+                        <div class="selectable-item {% if cur_st and cur_st == t %}active{% endif %}"
+                            data-value="{{ t|escape }}">
+                            <div class="item-box">
+                                <span class="item-kor">{{ t }}</span>
+                                <span class="item-eng">{{ t|slugify }}</span>
+                            </div>
+                        </div>
+                        {% endwith %}
+                        {% endfor %}
                         {% else %}
-                            <p style="padding:8px;color:#888">⚠️ 얼룩 데이터가 없습니다.</p>
+                        <p style="padding:8px;color:#888">⚠️ 얼룩 데이터가 없습니다.</p>
                         {% endif %}
                     </div>
                 </div>
@@ -208,4 +199,5 @@
 
     <script type="module" src="{% static 'laundry_manager/result-script.js' %}"></script>
 </body>
+
 </html>

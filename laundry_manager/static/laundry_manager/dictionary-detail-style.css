@@ -116,6 +116,11 @@
     margin-bottom: 25px;
 }
 
+.list-item {
+    margin-left: 22px;
+    /* 원하는 마진 값으로 설정하세요. */
+}
+
 .detail-content-section h3,
 .related-tips-section h3 {
     font-size: 18px;
