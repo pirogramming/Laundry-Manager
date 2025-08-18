@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // 칩 컨테이너
   const matList = document.getElementById('edit-material-list'); // <div class="item-list"> ... .selectable-item ...
   const stnList = document.getElementById('edit-stain-list');
-
+  const symList = document.getElementById('edit-symbol-list');
   // CSRF
   function getCookie(name) {
     const m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ---- 칩 선택 초기화/키보드 접근성 ----
   initSingleSelect(matList);
   initSingleSelect(stnList);
+  initSingleSelect(symList);
 
   // ---- 제출 핸들러 (AJAX) ----
   if (editForm) {
@@ -110,14 +111,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ---- 세탁 태그 칩 UX (기존 유지) ----
-  const tagItems = document.querySelectorAll('.tag-item');
-  tagItems.forEach(item => {
-    item.addEventListener('click', () => {
-      tagItems.forEach(i => i.classList.remove('active'));
-      item.classList.add('active');
-    });
-  });
+  // // ---- 세탁 태그 칩 UX (기존 유지) ----
+  // const tagItems = document.querySelectorAll('.tag-item');
+  // tagItems.forEach(item => {
+  //   item.addEventListener('click', () => {
+  //     tagItems.forEach(i => i.classList.remove('active'));
+  //     item.classList.add('active');
+  //   });
+  // });
 
   // 버튼 프레스 애니메이션
   const buttons = document.querySelectorAll('button, .cta-button, .submit-button, .nav-item, a.tab-btn, .icon-btn-bordered, .text-btn-dark');

@@ -142,4 +142,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 초기 상태 반영(새로고침/뒤로가기 시)
   updateDropzoneUI();
+  const tooltipWrappers = document.querySelectorAll('.tooltip-wrapper');
+
+    tooltipWrappers.forEach(wrapper => {
+        const button = wrapper.querySelector('.arrow-btn');
+        const tooltip = wrapper.querySelector('.tooltip-content');
+        
+        // 버튼에 마우스를 올렸을 때
+        button.addEventListener('mouseenter', () => {
+            // 1. 툴팁을 보이게 합니다.
+            wrapper.classList.add('visible');
+
+            // 2. 툴팁과 전체 컨테이너의 위치 정보를 가져옵니다.
+            const tooltipRect = tooltip.getBoundingClientRect();
+            const containerRect = document.querySelector('.mobile-container')?.getBoundingClientRect() 
+                               || document.body.getBoundingClientRect();
+
+            // 3. 툴팁이 오른쪽으로 삐져나가는지 확인
+            if (tooltipRect.right > containerRect.right) {
+                tooltip.classList.add('align-right');
+            } else {
+                tooltip.classList.remove('align-right');
+            }
+        });
+
+        // 버튼에서 마우스를 뗐을 때
+        button.addEventListener('mouseleave', () => {
+            // 툴팁을 다시 숨깁니다.
+            wrapper.classList.remove('visible');
+        });
+    });
 });

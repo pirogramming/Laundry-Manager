@@ -3,7 +3,7 @@
 .mobile-container.map-page {
     padding: 0 0 85px;
     opacity: 0;
-    background-color: var(--color-primary);
+    background-color: white;
 }
 
 /* 헤더 */
@@ -12,7 +12,7 @@
     align-items: center;
     padding: 15px 16px;
     background-color: var(--color-primary);
-    border-bottom: 1px solid var(--color-border);
+
 }
 
 .map-header h1 {
@@ -38,19 +38,20 @@
     /* 자식 요소의 absolute 위치 기준 */
     width: 100%;
     height: 300px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+    
     overflow: hidden;
     /* 지도의 높이와 동일하게 설정 */
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+    
     overflow: hidden; 
+    background-color: var(--color-primary);
 }
 
 /* 2. 지도 스타일 */
 #map {
     height: 100%;
     /* 부모 컨테이너를 꽉 채우도록 변경 */
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
     width: 100%;
 }
 

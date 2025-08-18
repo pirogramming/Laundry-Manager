@@ -3,12 +3,12 @@
 <html lang="ko">
 
 <head>
-  {% load static %}
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>상세 정보 - 세탁 매니저</title>
-  <link rel="icon" type="image/svg+xml" href="{% static 'icons/favicon.svg' %}">
-  <link rel="apple-touch-icon" href="{% static 'icons/apple-touch-icon-180.png' %}">
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상세 정보 - 세탁 매니저</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'icons/favicon.svg' %}">
+    <link rel="apple-touch-icon" href="{% static 'icons/apple-touch-icon-180.png' %}">
 
     <link rel="stylesheet" href="{% static 'laundry_manager/style.css' %}">
     <link rel="stylesheet" href="{% static 'laundry_manager/dictionary-detail-style.css' %}">
@@ -59,7 +59,7 @@
                 {% if value|is_list %}
                 <ul>
                     {% for text in value %}
-                    <li>{{ text }}</li>
+                    <li class="list-item">{{ text }}</li>
                     {% endfor %}
                 </ul>
                 {% else %}
