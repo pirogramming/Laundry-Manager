@@ -105,7 +105,11 @@
                 <div class="history-list">
                     {% for record in records %}
                     <a href="{% url 'laundry_history_detail' record.pk %}" class="history-item">
-                        <img src="{{ record.get_stain_image_url }}" alt="{{ record.stains }}" class="history-img">
+                        {% if record.get_stain_image_url %}
+                            <img src="{{ record.get_stain_image_url }}" alt="{{ record.stains }}" class="history-img">
+                        {% else %}
+                            <img src="{% static 'clothes_hanger.png' %}" alt="기본 이미지" class="history-img">
+                        {% endif %}
                         <div class="history-details">
                             <h4>{{ record.materials }} / {{ record.stains }} 제거</h4>
                             <p>{{ record.created_at|timesince }} 전 검색</p>

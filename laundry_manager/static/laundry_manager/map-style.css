@@ -114,7 +114,7 @@
     color: inherit;
     font: inherit;
     outline: none;
-    padding-right: 4px; /* 추가: 화살표 아이콘이 들어갈 공간 확보 */
+    padding-right: 20px; /* 추가: 화살표 아이콘이 들어갈 공간 확보 */
 }
 .filter-chip.select-chip::after {
     content: '\f078'; /* Font Awesome 'caret-down' 아이콘 */

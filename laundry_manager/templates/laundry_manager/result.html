@@ -123,7 +123,7 @@
                 {% endif %}
 
                 <!-- 세탁 태그(아이콘 칩) - JSON 기반으로 렌더링 -->
-                <div class="input-group">
+                {% comment %} <div class="input-group">
   <label>세탁 태그 선택</label>
   <div class="tag-selection-list" id="edit-symbol-list">
     {% if symbol_items %}
@@ -142,7 +142,7 @@
       <p style="padding:8px;color:#888">⚠️ 기호 데이터가 없습니다.</p>
     {% endif %}
   </div>
-</div>
+</div> {% endcomment %}
 
 
 
