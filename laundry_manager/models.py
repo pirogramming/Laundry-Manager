@@ -99,7 +99,7 @@ class LaundryHistory(models.Model):
             "혈흔": "blood.webp",
             "화장품 얼룩": "cosmetic.webp",
             "땀 얼룩": "sweat-armpit.webp",
-            "커피와 차 얼룩": "coffee.webp",
+            "커피": "coffee.webp",
             "펜과 잉크 얼룩": "pen.webp",
             "강황 얼룩": "curcuma.webp",
             "겨자, 케첩, 소스 얼룩": "sauce.webp",
@@ -128,20 +128,35 @@ class LaundryHistory(models.Model):
             "초콜릿 얼룩": "chocolate.webp",
             "치약 얼룩": "toothpaste.webp",
             "카레와 향신료 얼룩": "curry.webp",
-            "크레용 및 염색약 얼룩": "crayon.webp",  # '왁스'에서 '염색약'으로 수정 제안
+            "크레용 및 왁스 얼룩": "crayon.webp",  # '왁스'에서 '염색약'으로 수정 제안
             "탈취제 얼룩": "deodorant.webp",
             "토마토 얼룩": "tomato.webp",
+            "옷감에서 얼룩 제거하는 법":"silk.webp",
+            "시트에서 얼룩 제거하기":"bed-sheet.webp",
+            "오래되고 마른 얼룩을 제거하는 법":"old-dry.webp",
+            "흰 옷에서 얼룩을 제거하는 방법":"white-shirt.webp",
+            "면 옷의 얼룩 제거법":"cotton.webp",
+            "속옷에서 얼룩 제거하는 법":"underwear.webp",
+            "흰 바지의 얼룩 제거법":"white-pants.webp",
+            "비단에서 얼룩 제거하기":"silk.webp",
+            "폴리에스테르 옷감의 얼룩 제거":"polyester.webp",
+            "모자에서 땀 얼룩 제거하는 법":"sweat-cap.webp",
+
+
         }
 
         if not self.stains:
-            return static("stain_image/default.webp")
+            return None
 
         primary_stain = self.stains.split(",")[0].strip()
 
         image_filename = STAIN_IMAGE_MAP.get(primary_stain, "default.webp")
 
-        return static(f"stain_image/{image_filename}")
+        if image_filename:
+            return static(f"stain_image/{image_filename}")
 
+        return None
+    
     def __str__(self):
         # Django 기본 User 모델은 username 속성을 가집니다.
         return f"[{self.user.username}]님의 세탁 기록 ({self.created_at.strftime('%Y-%m-%d')})"
