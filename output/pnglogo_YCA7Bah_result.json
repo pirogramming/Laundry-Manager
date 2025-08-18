@@ -1,0 +1,31 @@
+{
+    "filename": "pnglogo_YCA7Bah.png",
+    "recognized_texts": [],
+    "symbol_definition": "텍스트 인식 실패",
+    "ocr_raw_response": {
+        "version": "V2",
+        "requestId": "1f8f910a-f173-41ad-a08a-d0d9c34a9e57",
+        "timestamp": 1755511580884,
+        "images": [
+            {
+                "uid": "3de529f8ec57477eb67578c24859015a",
+                "name": "pnglogo_YCA7Bah.png",
+                "inferResult": "SUCCESS",
+                "message": "SUCCESS",
+                "validationResult": {
+                    "result": "NO_REQUESTED"
+                },
+                "convertedImageInfo": {
+                    "width": 77,
+                    "height": 46,
+                    "pageIndex": 0,
+                    "longImage": false
+                },
+                "fields": []
+            }
+        ]
+    },
+    "roboflow_detect_raw": null,
+    "roboflow_classify_raw": null,
+    "fused_scores": null
+}

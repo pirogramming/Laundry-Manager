@@ -84,7 +84,7 @@
     /* flex 자식 요소의 높이 계산 오류 방지 */
     overflow: hidden;
     /* 내부 스크롤을 위해 부모에서 스크롤 방지 */
-    padding-bottom: 100px;
+    padding-bottom: 10px;
     /* 하단 버튼 공간 확보 */
 }
 

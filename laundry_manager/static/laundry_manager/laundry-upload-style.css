@@ -136,10 +136,82 @@
     font-size: 20px;
     font-weight: 700; 
     color: var(--color-text-primary); 
+    
 }
 .arrow-btn {
-    background-color: var(--color-background); color: var(--color-text-secondary);
-    border-radius: 50%; width: 32px; height: 32px; border: none; cursor: pointer;
+    margin-right: 15px;
+    /* border: solid 2px var(--color-primary) ; */
+    background-color: var(--color-background); color: var(--color-text-primary);
+    border-radius: 50%; width: 25px; height: 25px;cursor: pointer;
+    position: relative;
+}
+
+/* --- 툴팁(안내창) 스타일 --- */
+
+
+/* --- 툴팁(안내창) 스타일 (개선 버전) --- */
+
+/* 1. 툴팁의 기준점이 될 wrapper */
+.tooltip-wrapper {
+    position: relative;
+    display: inline-flex; /* 버튼 크기에 맞게 설정 */
+}
+
+/* 2. 툴팁 콘텐츠 박스 (기존 ::after 역할) */
+.tooltip-content {
+    position: absolute;
+    top: calc(100% + 10px); /* 버튼 아래 10px 지점 */
+    left: 50%;
+    transform: translateX(-50%); /* 기본은 가운데 정렬 */
+
+    background-color: #333;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    width: 220px;
+    z-index: 10;
+    
+    /* 초기 상태 (숨김) */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* 3. 툴팁 꼬리 (기존 ::before 역할) */
+.tooltip-content::before {
+    content: '';
+    position: absolute;
+    bottom: 100%; /* 툴팁 박스 바로 위에 위치 */
+    left: 50%;
+    transform: translateX(-50%);
+    
+    border: 6px solid transparent;
+    border-bottom-color: #333;
+}
+
+/* 4. JS가 .visible 클래스를 추가하면 툴팁이 보이도록 설정 */
+.tooltip-wrapper.visible .tooltip-content {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 5. [핵심] 화면 밖으로 나갈 때 위치를 보정해 줄 클래스 */
+.tooltip-content.align-right {
+    left: auto;
+    right: 0;
+    transform: translateX(0);
+}
+.tooltip-content.align-right::before {
+    left: auto;
+    right: 15px; /* 버튼 중앙에 오도록 대략적인 위치 조정 */
+    transform: translateX(0);
+}
+.arrow-btn i {
+    font-size: 14px;
 }
 .section-info{
     flex-grow: 1;

@@ -191,6 +191,7 @@ def upload_view(request):
 
     # 9) 결과 페이지로 이동
     logger.info("[UPL:%s] redirect -> result", trace_id)
+    request.session["result_source"] = "legacy"   # ← 이 줄 추가
     return redirect("result")
 
 

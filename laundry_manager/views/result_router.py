@@ -2,17 +2,19 @@
 from django.http import HttpRequest
 from . import ocr as ocr_views
 from . import result as legacy_views
+from django.shortcuts import redirect
+import logging
+logger = logging.getLogger(__name__)
 
-def result_router_view(request: HttpRequest):
-    """
-    결과 페이지 라우터.
-    우선순위: GET ?source=.. → 세션 result_source → 기본값('ocr')
-    """
-    source = (request.GET.get("source") or
-              request.session.get("result_source") or
-              "ocr")
+def result_router_view(request):
+    source = (request.GET.get("source")
+              or request.session.get("result_source")
+              or "ocr")
+    logger.info("[ROUTER] source=%s", source)   # ★ 추가
 
     if source == "legacy":
+        from . import result as legacy_views
         return legacy_views.result_view(request)
-    # 기본은 OCR 결과 화면
+    from . import ocr as ocr_views
     return ocr_views.result_view(request)
+
