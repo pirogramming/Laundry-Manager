@@ -198,7 +198,38 @@ LOGGING = {
         'allauth.socialaccount': {'handlers': ['console'], 'level': 'DEBUG'},  # ← 추가
         'django.security.csrf': {'handlers': ['console'], 'level': 'DEBUG'},
     },
+}# settings.py
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "simple": {
+            "format": "[%(asctime)s] %(levelname)s %(name)s: %(message)s",
+            "datefmt": "%H:%M:%S",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+    },
+    "loggers": {
+        # __name__ == 'laundry_manager.views.ocr' 같은 계층 로거가 이 설정을 상속
+        "laundry_manager": {
+            "handlers": ["console"],
+            "level": "DEBUG",     # INFO/DEBUG 모두 출력
+            "propagate": False,
+        },
+        # 필요하면 장고 자체 로그도 조절
+        "django": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+    },
 }
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
