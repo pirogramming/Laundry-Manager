@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 필요</title>
+    
+    <link rel="stylesheet" href="{% static 'laundry_manager/login_required-style.css' %}">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <div class="page-container">
+        <header class="header">
+            <nav class="top-nav">
+                <a href="{% url 'profile' %}" class="icon-btn">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                <h1>로그인 필요</h1>
+                <div class="placeholder"></div>
+            </nav>
+        </header>
+
+        <main class="content-wrapper">
+            <div class="prompt-card">
+                <div class="prompt-icon">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h2>로그인 시 이용 가능한 기능입니다.</h2>
+                <p>
+                    세탁 기록을 저장하고, 나만의 맞춤 세탁 정보를 추천받으려면<br>
+                    로그인이 필요해요.
+                </p>
+                <a href="{% url 'login' %}" class="login-button">로그인 하러가기</a>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

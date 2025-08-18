@@ -132,6 +132,8 @@ def main_page(request):
 
 def laundry_upload_page(request):
     return render(request, "laundry_manager/laundry-upload.html", base_context(request))
+def login_required_page(request):
+    return render(request, "laundry_manager/login_required.html", base_context(request))
 
 
 def stain_upload_page(request):
