@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from . import maps
 from django.conf import settings
+from django.shortcuts import render, redirect
+from django.urls import reverse
 
 # allauth가 없는 환경에서도 터지지 않도록 안전 임포트
 try:
@@ -218,7 +220,7 @@ def settings_terms_page(request):
 def settings_privacy_page(request):
     return render(request, "laundry_manager/settings-privacy.html", base_context(request))
 
-
+@login_required(login_url="login-require")
 def account_settings_page(request):
     return render(request, "laundry_manager/account-settings.html", base_context(request))
 
@@ -227,8 +229,22 @@ def contact_settings_page(request):
     return render(request, "laundry_manager/contact-settings.html", base_context(request))
 
 
-@login_required
+@login_required(login_url="login-require")
 def record_settings_page(request):
     # 기록 설정: 로그인 사용자 전체 기록 전달
     all_records = _all_records(request.user)
     return render(request, "laundry_manager/record-settings.html", base_context(request, extra={"records": all_records}))
+
+
+def login_require(request):
+    # 로그인돼 있으면 메인으로
+    if getattr(request.user, "is_authenticated", False):
+        return redirect("main")  # <- 프로젝트의 메인 URL name
+    # 아니면 네가 만든 랜딩 페이지 렌더
+    return render(request, "laundry_manager/login_required.html")
+
+# (선택) 루트로 들어오면 알아서 분기하고 싶으면
+def home(request):
+    if getattr(request.user, "is_authenticated", False):
+        return redirect("main")
+    return redirect("login-require")

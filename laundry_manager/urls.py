@@ -1,5 +1,5 @@
 # laundry_manager/urls.py
-from django.urls import path
+from django.urls import path, include
 from .views import pages, ocr, stains, info_flow, maps, history, classify, contact, fortune, result, dictionary
 import laundry_manager.views.dictionary as dictionary_views
 ## 테스트를 위한 import들 ##
@@ -21,7 +21,8 @@ urlpatterns = [
     path("result-modal/", result.result_view, name="result-modal"),  # 기존 뷰도 보존
     path("result/update-selection/", info_flow.update_selection_view, name="update_selection"),
 
-
+    path("login-require/", pages.login_require, name="login-require"),
+    path("accounts/", include("allauth.urls")),
     # path("laundry-info/", pages.laundry_info_page, name="laundry-info"),
     path("upload/", ocr.upload_and_classify, name="upload"),
     path("uploadimage/", ocr.upload_view, name="upload_image"),
@@ -37,7 +38,6 @@ urlpatterns = [
     path("login-test/", pages.login_test_page, name="login-test"),
     path("dictionary/", pages.dictionary_page, name="dictionary"),
     path("dictionary-detail/", pages.dictionary_detail_page, name="dictionary-detail"),
-    
     path("profile/", pages.profile_page, name="profile"),
     
     path("map/", pages.map_page, name="map"),

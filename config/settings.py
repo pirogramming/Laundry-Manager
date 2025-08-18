@@ -108,6 +108,7 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 SITE_ID = 1
+LOGIN_URL = "login-require" 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'http'
