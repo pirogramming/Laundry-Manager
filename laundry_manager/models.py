@@ -141,6 +141,8 @@ class LaundryHistory(models.Model):
             "비단에서 얼룩 제거하기":"silk.webp",
             "폴리에스테르 옷감의 얼룩 제거":"polyester.webp",
             "모자에서 땀 얼룩 제거하는 법":"sweat-cap.webp",
+            "땀과 겨드랑이 얼룩":"sweat-armpit.webp",
+            "얼룩 제거를 위한 일반적인 팁":"NormalTipForStain.webp",
 
 
         }
