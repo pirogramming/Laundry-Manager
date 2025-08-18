@@ -119,28 +119,29 @@
                     {% endfor %}
                 {% endif %}
 
-                <!-- 세탁 태그(아이콘 칩) - 기존 디자인 유지 -->
+                <!-- 세탁 태그(아이콘 칩) - JSON 기반으로 렌더링 -->
                 <div class="input-group">
-                    <label>세탁 태그 선택</label>
-                    <div class="tag-selection-list">
-                        <div class="tag-item active">
-                            <div class="tag-image-placeholder"></div>
-                            <span>드라이클리닝</span>
-                        </div>
-                        <div class="tag-item">
-                            <div class="tag-image-placeholder"></div>
-                            <span>물세탁 가능</span>
-                        </div>
-                        <div class="tag-item">
-                            <div class="tag-image-placeholder"></div>
-                            <span>염소계 표백</span>
-                        </div>
-                        <div class="tag-item">
-                            <div class="tag-image-placeholder"></div>
-                            <span>다림질</span>
-                        </div>
-                    </div>
-                </div>
+  <label>세탁 태그 선택</label>
+  <div class="tag-selection-list" id="edit-symbol-list">
+    {% if symbol_items %}
+      {% for it in symbol_items %}
+        <div
+          class="tag-item {% if symbols and it.id in symbols %}active{% endif %}"
+          data-id="{{ it.id }}"
+          data-cat="{{ it.category }}"
+          title="{{ it.desc }}"
+        >
+          <div class="tag-image-placeholder"></div>
+          <span>{{ it.label }}</span>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p style="padding:8px;color:#888">⚠️ 기호 데이터가 없습니다.</p>
+    {% endif %}
+  </div>
+</div>
+
+
 
                 <!-- 의류 소재 (칩) -->
                 <div class="input-group">
