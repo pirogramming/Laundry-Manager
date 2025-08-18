@@ -175,7 +175,7 @@ def _load_symbol_items_from_json():
         seen.add(it["id"]); out.append(it)
     return out
 
-@login_required
+# @login_requireds
 def laundry_upload_page(request):
     # stains
     stain_titles = load_stain_titles()
