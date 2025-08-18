@@ -29,6 +29,7 @@
     word-break: keep-all;   /* 단어 단위로 줄바꿈 (영문/숫자는 공백 기준) */
     white-space: normal; 
 }
+
 .top-nav-white .icon-btn-nav {
     color: white;
     font-size: 20px;
@@ -37,7 +38,7 @@
 
 .icon-btn-bordered {
     background: none;
-    
+
     color: white;
     width: 40px;
     height: 40px;
@@ -45,19 +46,21 @@
     cursor: pointer;
     font-size: 16px;
 }
+
 .icon-btn-bordered i {
-    color:white;
+    color: white;
 }
 
 
-.main-page{
-    flex:1;
+.main-page {
+    flex: 1;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     padding-top: 15px;
     background-color: var(--color-container);
     margin-bottom: 80px;
 }
+
 /* --- 검색창 --- */
 .search-bar {
     display: flex;
@@ -182,7 +185,7 @@ section h3 {
     grid-template-columns: repeat(2, 1fr);
 }
 
-#favorites-container{
+#favorites-container {
     display: grid;
     gap: 15px;
     padding: 0 20px;
@@ -190,7 +193,8 @@ section h3 {
 }
 
 .info-grid .category {
-    grid-column: span 2; /* 이 한 줄을 추가하세요 */
+    grid-column: span 2;
+    /* 이 한 줄을 추가하세요 */
 }
 
 .info-grid {
@@ -286,8 +290,10 @@ section h3 {
 .show-more-container {
     text-align: center;
     margin-top: 10px;
-    justify-content: center;  /* 자식 요소(버튼)들을 그룹으로 묶어 중앙 정렬 */
-    display: flex;            /* Flexbox 컨테이너로 지정 */
+    justify-content: center;
+    /* 자식 요소(버튼)들을 그룹으로 묶어 중앙 정렬 */
+    display: flex;
+    /* Flexbox 컨테이너로 지정 */
 
 }
 

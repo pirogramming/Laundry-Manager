@@ -178,6 +178,20 @@ ul {
     font-size: 20px;
 }
 
+.list-item-with-icon {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* 아이콘과 텍스트 사이 간격 */
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.list-item-with-icon i {
+    color: var(--color-primary);
+    /* 아이콘 색상 */
+}
+
 .avoid-card .avoid-item {
     display: flex;
     align-items: center;
