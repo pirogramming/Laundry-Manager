@@ -3,7 +3,7 @@
 .mobile-container.map-page {
     padding: 0 0 85px;
     opacity: 0;
-    background-color: var(--color-primary);
+    background-color: var(--color-background);
 }
 
 /* 헤더 */
@@ -12,7 +12,7 @@
     align-items: center;
     padding: 15px 16px;
     background-color: var(--color-primary);
-    border-bottom: 1px solid var(--color-border);
+
 }
 
 .map-header h1 {
@@ -45,6 +45,7 @@
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     overflow: hidden; 
+    background-color: var(--color-primary);
 }
 
 /* 2. 지도 스타일 */
