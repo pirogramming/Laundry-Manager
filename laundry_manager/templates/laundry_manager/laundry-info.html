@@ -135,7 +135,7 @@
               <div class="summary-text">
                 <h4>얼룩 제거 방법</h4>
                 {% with stains=info.stains|default:request.session.stains %}
-                  <p>{% if stains %}{{ stains|first }}{% else %}얼룩 없음{% endif %}</p>
+                  <p>{% if stains %}{{ stains }}{% else %}얼룩 없음{% endif %}</p>
                 {% endwith %}
               </div>
               <i class="fa-solid fa-chevron-down arrow-icon"></i>
