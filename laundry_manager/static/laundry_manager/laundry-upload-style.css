@@ -139,9 +139,9 @@
     
 }
 .arrow-btn {
-    margin-right: 5%;
-    border: solid 2px var(--color-primary) ;
-    background-color: var(--color-blue-background); color: var(--color-primary);
+    margin-right: 15px;
+    /* border: solid 2px var(--color-primary) ; */
+    background-color: var(--color-background); color: var(--color-text-primary);
     border-radius: 50%; width: 25px; height: 25px;cursor: pointer;
     position: relative;
 }
