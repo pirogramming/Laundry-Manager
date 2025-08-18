@@ -6,7 +6,7 @@ from ..models import LaundryHistory
 from django.conf import settings
 import json, re, os
 from django.contrib import messages
-
+from ..services.modal_data import load_material_items, load_stain_titles
 MATERIALS_JSON = os.path.join(
     settings.BASE_DIR, "laundry_manager", "json_data", "blackup.json"
 )
@@ -83,10 +83,10 @@ def _load_material_items():
 @login_required
 def laundry_upload_page(request):
     # stains
-    stain_titles = _load_stain_titles()
+    stain_titles = load_stain_titles()
 
     # materials
-    materials = _load_material_items()
+    materials = load_material_items()
     mat_exists = os.path.exists(MATERIALS_JSON)
 
     # 디버그 로그(원하면 주석 처리)
@@ -143,10 +143,10 @@ def result_view(request):
     instructions = analyze_texts(texts)
 
     # ▼ 모달용 옵션 (소재=material raw, 얼룩=title)
-    material_items = _load_material_items()                 # [{kor, eng, raw, ...}]
-    stain_titles   = _load_stain_titles()    
+    material_items = load_material_items()                 # [{kor, eng, raw, ...}]
+    stain_titles   = load_stain_titles()    
     material_option_labels = [it["raw"] for it in material_items]  # "면(Cotton)" 형식
-    stain_option_labels = _load_stain_titles()              # ["혈흔", "커피와 차 얼룩", ...]
+    stain_option_labels = load_stain_titles()              # ["혈흔", "커피와 차 얼룩", ...]
 
     print("[RESULT] materials_json:", MATERIALS_JSON, "exists:", os.path.exists(MATERIALS_JSON), "count:", len(material_items))
     print("[RESULT] stains_json   :", STAINS_JSON, "exists:", os.path.exists(STAINS_JSON), "count:", len(stain_titles))

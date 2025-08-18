@@ -5,6 +5,7 @@ import laundry_manager.views.dictionary as dictionary_views
 ## 테스트를 위한 import들 ##
 from django.views.generic import TemplateView
 from .views import laundry_res  # 이미 guide_from_result 추가해놨던 파일
+from .views.result_router import result_router_view  # ⬅️ 새로 만들 라우터
 
 
 urlpatterns = [
@@ -14,10 +15,9 @@ urlpatterns = [
     path("guest-exit/", pages.guest_exit, name="guest_exit"),
     path("laundry-upload/", result.laundry_upload_page, name="laundry-upload"),
     path("stain-upload/", stains.stain_guide_view, name="stain-upload"),
-    path("result/ocr/", ocr.result_view, name="result"),
-    # path("result/", result.result_view, name="result"),
-    # path("result/update-selection/", info_flow.update_selection_view, name="update_selection"),
-    path("result/", result.result_view, name="result"),  # name은 그대로 유지!
+    path("result/", result_router_view, name="result"),         # ✅ 고정 진입점
+    path("result-ocr/", ocr.result_view, name="result-ocr"),    # 직접 접근(디버그/호출용)
+    path("result-modal/", result.result_view, name="result-modal"),  # 기존 뷰도 보존
     path("result/update-selection/", info_flow.update_selection_view, name="update_selection"),
 
 
@@ -32,7 +32,6 @@ urlpatterns = [
     path("final-info/", info_flow.final_info_view, name="final_info"),
     path("dictionary/", dictionary_views.dictionary_view, name="dictionary"),
     path("dictionary/<path:item_title>/", dictionary.dictionary_detail, name="dictionary_detail"),
-    path("stain-info/", pages.stain_info_page, name="stain-info"),
     path("stain-info/", pages.stain_info_page, name="stain-info"),
     path("login-test/", pages.login_test_page, name="login-test"),
     path("dictionary/", pages.dictionary_page, name="dictionary"),
@@ -62,10 +61,7 @@ urlpatterns = [
     path("history/<int:history_id>/delete/", history.delete_laundry_history, name="laundry_history_delete"),
     path("history/upload/", history.upload_and_save_history_view, name="upload_history"),
     path("history/save-current/", history.save_current_result_as_history_view, name="save_current_history"),
-    # path('guide/', info_flow.guide_from_result, name='guide_from_result'),
     path("laundry-info/", laundry_res.guide_from_result, name="guide_from_result"),
-    # path("guide/from-result/", laundry_res.guide_from_result, name="guide_from_result"),
-    # path("history/clear/", history.delete_laundry_history, name="clear_result"),
     
     #문의하기 처리
     path('contact/submit/', contact.contact_submit_view, name='contact_submit'),
