@@ -80,7 +80,7 @@ def _load_material_items():
 
     return result
 
-@login_required
+# @login_required
 def laundry_upload_page(request):
     # stains
     stain_titles = load_stain_titles()

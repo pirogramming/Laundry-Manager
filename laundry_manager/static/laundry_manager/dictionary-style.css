@@ -26,6 +26,8 @@
     margin: 0;
     margin-right: 10%;
     color: white;
+    word-break: keep-all;   /* 단어 단위로 줄바꿈 (영문/숫자는 공백 기준) */
+    white-space: normal; 
 }
 .top-nav-white .icon-btn-nav {
     color: white;
@@ -53,7 +55,7 @@
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     padding-top: 15px;
-    background-color: var(--color-background);
+    background-color: var(--color-container);
     margin-bottom: 80px;
 }
 /* --- 검색창 --- */
@@ -84,6 +86,8 @@ section h3 {
     font-size: 20px;
     font-weight: 700;
     margin: 0 20px 15px;
+    word-break: keep-all;   /* 단어 단위로 줄바꿈 (영문/숫자는 공백 기준) */
+    white-space: normal; 
 }
 
 /* --- 인기 세탁 정보 (캐러셀) --- */
@@ -255,6 +259,8 @@ section h3 {
 .category-title {
     margin-left: 20px;
     margin-bottom: 15px;
+    word-break: keep-all;   /* 단어 단위로 줄바꿈 (영문/숫자는 공백 기준) */
+    white-space: normal; 
 }
 
 .like-btn .fa-heart {
@@ -265,6 +271,8 @@ section h3 {
 .title-all {
     margin-left: 33px;
     margin-bottom: 15px;
+    word-break: keep-all;   /* 단어 단위로 줄바꿈 (영문/숫자는 공백 기준) */
+    white-space: normal; 
 }
 
 .icon-btn-nav {
