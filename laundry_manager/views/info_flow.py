@@ -2,7 +2,7 @@
 import os
 import json
 from django.http import JsonResponse, HttpResponseBadRequest
-from django.shortcuts import render, redirect, get_object_or_404  
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.template.loader import render_to_string
@@ -21,15 +21,18 @@ from ..models import LaundryHistory
 def _clean_str(s):
     return (s or "").strip()
 
+
 def _as_list_one(s):
     """단일 선택값을 템플릿용 리스트로 변환 (없으면 [])"""
     s = _clean_str(s)
     return [s] if s else []
 
+
 def load_json(filename):
-    path = os.path.join(settings.BASE_DIR, 'laundry_manager', 'json_data', filename)
-    with open(path, 'r', encoding='utf-8') as f:
+    path = os.path.join(settings.BASE_DIR, "laundry_manager", "json_data", filename)
+    with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
+
 
 @login_required
 def guide_from_result(request):
@@ -46,33 +49,49 @@ def guide_from_result(request):
     sess_mat = (request.session.get("material") or "").strip()
     sess_sts = request.session.get("stains") or []
     material = (sess_mat or (lh.materials if lh else "")).strip()
-    stains   = ((sess_sts[0] if isinstance(sess_sts, list) and sess_sts else "")
-                or (lh.stains if lh else "")).strip()
-    symbols  = (lh.symbols.split(",") if (lh and lh.symbols) else request.session.get("symbols", []))
+    stains = (
+        (sess_sts[0] if isinstance(sess_sts, list) and sess_sts else "")
+        or (lh.stains if lh else "")
+    ).strip()
+    symbols = (
+        lh.symbols.split(",")
+        if (lh and lh.symbols)
+        else request.session.get("symbols", [])
+    )
 
-    info = {"material": material, "stains": stains, "symbols": [s.strip() for s in symbols if s and s.strip()]}
+    info = {
+        "material": material,
+        "stains": stains,
+        "symbols": [s.strip() for s in symbols if s and s.strip()],
+    }
 
     # 3) 추천 계산
-    material_json = load_json('blackup.json')
-    stain_json    = load_json('persil_v2.json')
-    symbol_json   = load_json('washing_symbol.json')
+    material_json = load_json("blackup.json")
+    stain_json = load_json("persil_v2.json")
+    symbol_json = load_json("washing_symbol.json")
     guides = laundry_recommend(info, material_json, stain_json, symbol_json)
 
-    return render(request, "laundry_manager/laundry-info.html", {
-        "material": guides.get('material_guide'),
-        "stain": guides.get("stain_guide"),
-        "symbols": guides.get("symbol_guide"),
-        "info": info,                         # ✅ 템플릿 제목/본문에서 이 값을 우선 사용
-        "materials": [material] if material else [],
-        "stains": stains,
-        "history": lh,
-        # summary 필요하면 여기서 함께 계산해 넣으세요
-    })
+    return render(
+        request,
+        "laundry_manager/laundry-info.html",
+        {
+            "material": guides.get("material_guide"),
+            "stain": guides.get("stain_guide"),
+            "symbols": guides.get("symbol_guide"),
+            "info": info,  # ✅ 템플릿 제목/본문에서 이 값을 우선 사용
+            "materials": [material] if material else [],
+            "stains": stains,
+            "history": lh,
+            # summary 필요하면 여기서 함께 계산해 넣으세요
+        },
+    )
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 선택(모달) 수정 → 가이드 재계산 (AJAX)
 # ─────────────────────────────────────────────────────────────────────────────
 # views/info_flow.py
+
 
 @require_POST
 def update_selection_view(request):
@@ -84,18 +103,26 @@ def update_selection_view(request):
 
     # 폼/세션 현재값 (폴백 겸 안전망)
     def _as_list(v):
-        if not v: return []
-        if isinstance(v, list): return [str(x).strip() for x in v if str(x).strip()]
-        if isinstance(v, (tuple, set)): return [str(x).strip() for x in v if str(x).strip()]
-        if isinstance(v, str): return [p for p in (s.strip() for s in v.split(",")) if p]
+        if not v:
+            return []
+        if isinstance(v, list):
+            return [str(x).strip() for x in v if str(x).strip()]
+        if isinstance(v, (tuple, set)):
+            return [str(x).strip() for x in v if str(x).strip()]
+        if isinstance(v, str):
+            return [p for p in (s.strip() for s in v.split(",")) if p]
         return [str(v).strip()]
 
-    sess_mats = _as_list(request.session.get("materials") or request.session.get("material") or [])
+    sess_mats = _as_list(
+        request.session.get("materials") or request.session.get("material") or []
+    )
     sess_stns = _as_list(request.session.get("stains") or [])
-    symbols   = request.POST.getlist("symbols[]") or _as_list(request.session.get("symbols") or [])
+    symbols = request.POST.getlist("symbols[]") or _as_list(
+        request.session.get("symbols") or []
+    )
 
     materials = _as_list(request.POST.getlist("materials[]") or sess_mats)
-    stains    = _as_list(request.POST.getlist("stains[]")    or sess_stns)
+    stains = _as_list(request.POST.getlist("stains[]") or sess_stns)
 
     if field == "both":
         # value='{"materials":["니트"],"stains":["커피"]}'
@@ -105,10 +132,12 @@ def update_selection_view(request):
             obj = {}
         m = obj.get("materials") or []
         s = obj.get("stains") or []
-        if isinstance(m, str): m = [m]
-        if isinstance(s, str): s = [s]
+        if isinstance(m, str):
+            m = [m]
+        if isinstance(s, str):
+            s = [s]
         materials = [_clean_str(m[0])] if m else []
-        stains    = [_clean_str(s[0])] if s else []
+        stains = [_clean_str(s[0])] if s else []
 
     elif field == "materials":
         if not raw_value:
@@ -128,21 +157,21 @@ def update_selection_view(request):
         return HttpResponseBadRequest("invalid field")
 
     # ✅ 세션 최신화(저장 버튼 누르기 전에는 여기까지만)
-    request.session["material"]  = materials[0] if materials else ""
+    request.session["material"] = materials[0] if materials else ""
     request.session["materials"] = materials
-    request.session["stains"]    = stains
-    request.session["symbols"]   = symbols
-    request.session.modified     = True
+    request.session["stains"] = stains
+    request.session["symbols"] = symbols
+    request.session.modified = True
 
     # 가이드 재계산
-    material_json = load_json('blackup.json')
-    stain_json    = load_json('persil_v2.json')
-    symbol_json   = load_json('washing_symbol.json')
+    material_json = load_json("blackup.json")
+    stain_json = load_json("persil_v2.json")
+    symbol_json = load_json("washing_symbol.json")
 
     info = {
         "material": ", ".join(materials),
-        "stains":   (stains[0] if stains else ""),
-        "symbols":  symbols,
+        "stains": (stains[0] if stains else ""),
+        "symbols": symbols,
     }
     guides = laundry_recommend(info, material_json, stain_json, symbol_json)
 
@@ -152,10 +181,17 @@ def update_selection_view(request):
         try:
             lh = LaundryHistory.objects.get(pk=history_id, user=request.user)
             lh.materials = info["material"]
-            lh.stains    = info["stains"]
-            lh.symbols   = ", ".join(symbols)
+            lh.stains = info["stains"]
+            lh.symbols = ", ".join(symbols)
             lh.recommendation_result = format_result(guides)
-            lh.save(update_fields=["materials", "stains", "symbols", "recommendation_result"])
+            lh.save(
+                update_fields=[
+                    "materials",
+                    "stains",
+                    "symbols",
+                    "recommendation_result",
+                ]
+            )
         except LaundryHistory.DoesNotExist:
             pass
 
@@ -163,22 +199,23 @@ def update_selection_view(request):
     html = render_to_string(
         "laundry_manager/partials/_recommendation.html",
         {
-            "material":  guides.get('material_guide'),
-            "stain":     guides.get("stain_guide"),
-            "symbols":   guides.get("symbol_guide"),
+            "material": guides.get("material_guide"),
+            "stain": guides.get("stain_guide"),
+            "symbols": guides.get("symbol_guide"),
             "materials": materials,
-            "stains":    info["stains"],
+            "stains": info["stains"],
         },
         request=request,
     )
 
-    return JsonResponse({
-        "ok": True,
-        "html": html,
-        "materials_text": info["material"],
-        "stains_text":    info["stains"],
-    })
-
+    return JsonResponse(
+        {
+            "ok": True,
+            "html": html,
+            "materials_text": info["material"],
+            "stains_text": info["stains"],
+        }
+    )
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -187,8 +224,8 @@ def update_selection_view(request):
 def laundry_result_view(request):
     if request.method == "POST":
         # 업로드 폼에서 단일 값으로 넘어옴
-        material = _clean_str(request.POST.get("material"))     # ex: "니트"
-        stain = _clean_str(request.POST.get("stains"))          # ex: "김치"
+        material = _clean_str(request.POST.get("material"))  # ex: "니트"
+        stain = _clean_str(request.POST.get("stains"))  # ex: "김치"
         symbols = request.POST.getlist("symbols") or []
 
         info = {
@@ -197,9 +234,9 @@ def laundry_result_view(request):
             "symbols": symbols,
         }
 
-        material_json = load_json('blackup.json')
-        stain_json = load_json('persil_v2.json')
-        symbol_json = load_json('washing_symbol.json')
+        material_json = load_json("blackup.json")
+        stain_json = load_json("persil_v2.json")
+        symbol_json = load_json("washing_symbol.json")
         guides = laundry_recommend(info, material_json, stain_json, symbol_json)
 
         # 다음 단계용 세션 저장
@@ -207,16 +244,21 @@ def laundry_result_view(request):
         request.session["stains"] = _as_list_one(stain)
         request.session["symbols"] = symbols
 
-        return render(request, "laundry_manager/laundry-info.html", {
-            "material": guides.get('material_guide'),
-            "stain": guides.get("stain_guide"),
-            "symbols": guides.get("symbol_guide"),
-
-            # 화면 표시용
-            "info": info,                           # {'material': '니트', 'stains': '김치', ...}
-            "materials": _as_list_one(material),    # 타이틀/상단 표시에서 join 사용 가능
-            "stains": stain,                        # 해당 템플릿이 문자열을 기대한다면 유지
-        })
+        return render(
+            request,
+            "laundry_manager/laundry-info.html",
+            {
+                "material": guides.get("material_guide"),
+                "stain": guides.get("stain_guide"),
+                "symbols": guides.get("symbol_guide"),
+                # 화면 표시용
+                "info": info,  # {'material': '니트', 'stains': '김치', ...}
+                "materials": _as_list_one(
+                    material
+                ),  # 타이틀/상단 표시에서 join 사용 가능
+                "stains": stain,  # 해당 템플릿이 문자열을 기대한다면 유지
+            },
+        )
     return redirect("laundry-upload")
 
 
@@ -224,18 +266,22 @@ def laundry_result_view(request):
 # 세션 기반 가이드 화면(기존 흐름 유지)
 # ─────────────────────────────────────────────────────────────────────────────
 def laundry_info_view1(request):
-    material_name = request.session.get('material', '')
-    stains = request.session.get('stains', [])
+    material_name = request.session.get("material", "")
+    stains = request.session.get("stains", [])
     material_info = get_material_guide(material_name) if material_name else {}
     stain_info = get_stain_guide(stains[0]) if stains else {}
-    return render(request, 'laundry_manager/laundry-info.html', {
-        'material_name': material_name,
-        'stains': stains,
-        'material': material_info,
-        'stain': stain_info,
-        'symbols': request.session.get('symbols', []),
-        'info': {'material': material_name, 'stains': " / ".join(stains)}
-    })
+    return render(
+        request,
+        "laundry_manager/laundry-info.html",
+        {
+            "material_name": material_name,
+            "stains": stains,
+            "material": material_info,
+            "stain": stain_info,
+            "symbols": request.session.get("symbols", []),
+            "info": {"material": material_name, "stains": " / ".join(stains)},
+        },
+    )
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -247,13 +293,52 @@ def first_info_view(request):
         filename = request.POST.get("filename")
         selected_materials = request.POST.getlist("materials[]")
         selected_stains = request.POST.getlist("stains[]")
-        result = first_info(filename=filename, selected_materials=selected_materials, selected_stains=selected_stains)
-        return render(request, "laundry_manager/result.html", {
-            "materials": result.get("materials", []),
-            "symbols": result.get("symbols", []),
-            "stains": result.get("stains", []),
-            "filename": filename,
-        })
+        symbol_data = load_json("washing_symbol.json")
+        display_categories = ["washing", "bleach", "iron", "dry_clean"]
+
+        selectable_symbols = []
+        for symbol in symbol_data:
+            if symbol.get("category") in display_categories:
+                # 'washing' 카테고리에서는 'hand_wash'와 'do_not_wash'만,
+                # 'bleach'에서는 'do_not_bleach'만,
+                # 'iron'에서는 'do_not_iron'만,
+                # 'dry_clean'에서는 'do_not_dry_clean'만 보여주도록 필터링
+                if symbol["category"] == "washing" and symbol["id"] in [
+                    "hand_wash_30_gentle",
+                    "do_not_wash",
+                ]:
+                    selectable_symbols.append(symbol)
+                elif symbol["category"] == "bleach" and symbol["id"] in [
+                    "do_not_bleach",
+                    "bleach_any",
+                ]:
+                    selectable_symbols.append(symbol)
+                elif symbol["category"] == "iron" and symbol["id"] == "do_not_iron":
+                    selectable_symbols.append(symbol)
+                elif (
+                    symbol["category"] == "dry_clean"
+                    and symbol["id"] == "do_not_dry_clean"
+                ):
+                    selectable_symbols.append(symbol)
+
+        # 필터링된 데이터 전달
+        result = first_info(
+            filename=filename,
+            selected_materials=selected_materials,
+            selected_stains=selected_stains,
+        )
+
+        return render(
+            request,
+            "laundry_manager/result.html",
+            {
+                "materials": result.get("materials", []),
+                "symbols": result.get("symbols", []),
+                "stains": result.get("stains", []),
+                "filename": filename,
+                "selectable_symbols": selectable_symbols,  # ✅ 수정: 전체가 아닌 필터링된 데이터
+            },
+        )
     return render(request, "laundry_manager/result.html")
 
 
@@ -269,15 +354,17 @@ def final_info_view(request):
         manual_stain = request.POST.get("manual_stain")
 
         first_result = first_info(filename=filename)
-        final_result = final_info(first_info=first_result,
-                                  manual_materials=manual_materials,
-                                  manual_symbols=manual_symbols,
-                                  manual_stain=manual_stain)
+        final_result = final_info(
+            first_info=first_result,
+            manual_materials=manual_materials,
+            manual_symbols=manual_symbols,
+            manual_stain=manual_stain,
+        )
 
         # 추천 결과 텍스트 생성
-        material_json = load_json('blackup.json')
-        stain_json = load_json('persil_v2.json')
-        symbol_json = load_json('washing_symbol.json')
+        material_json = load_json("blackup.json")
+        stain_json = load_json("persil_v2.json")
+        symbol_json = load_json("washing_symbol.json")
 
         stain_name = final_result.get("stain") or (manual_stain or "")
         guides = laundry_recommend(
@@ -286,7 +373,9 @@ def final_info_view(request):
                 "stains": stain_name,
                 "symbols": final_result.get("symbols", []),
             },
-            material_json, stain_json, symbol_json
+            material_json,
+            stain_json,
+            symbol_json,
         )
         recommendation_text = format_result(guides)
 
@@ -294,23 +383,27 @@ def final_info_view(request):
         if request.user.is_authenticated:
             LaundryHistory.objects.create(
                 user=request.user,
-                materials=', '.join(final_result.get("materials", [])),
-                symbols=', '.join(final_result.get("symbols", [])),
+                materials=", ".join(final_result.get("materials", [])),
+                symbols=", ".join(final_result.get("symbols", [])),
                 stains=stain_name,
-                recommendation_result=recommendation_text
+                recommendation_result=recommendation_text,
             )
 
-        return render(request, "laundry_manager/laundry-info.html", {
-            "materials": final_result.get("materials", []),
-            "symbols": final_result.get("symbols", []),
-            "stains": stain_name,
-            "material_name": ", ".join(final_result.get("materials", [])),
-            "material": guides.get('material_guide'),
-            "stain": guides.get('stain_guide'),
-            "info": {
-                'stains': stain_name,
-                'material': ", ".join(final_result.get("materials", []))
-            }
-        })
+        return render(
+            request,
+            "laundry_manager/laundry-info.html",
+            {
+                "materials": final_result.get("materials", []),
+                "symbols": final_result.get("symbols", []),
+                "stains": stain_name,
+                "material_name": ", ".join(final_result.get("materials", [])),
+                "material": guides.get("material_guide"),
+                "stain": guides.get("stain_guide"),
+                "info": {
+                    "stains": stain_name,
+                    "material": ", ".join(final_result.get("materials", [])),
+                },
+            },
+        )
     # GET은 업로드 화면으로
     return redirect("laundry-upload")
