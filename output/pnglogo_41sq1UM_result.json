@@ -1,0 +1,31 @@
+{
+    "filename": "pnglogo_41sq1UM.png",
+    "recognized_texts": [],
+    "symbol_definition": "텍스트 인식 실패",
+    "ocr_raw_response": {
+        "version": "V2",
+        "requestId": "7108dab1-f5b7-4df3-be72-1c54f97acc8a",
+        "timestamp": 1755510551540,
+        "images": [
+            {
+                "uid": "bf0d8f595f2843d3a444242f94cd05a7",
+                "name": "pnglogo_41sq1UM.png",
+                "inferResult": "SUCCESS",
+                "message": "SUCCESS",
+                "validationResult": {
+                    "result": "NO_REQUESTED"
+                },
+                "convertedImageInfo": {
+                    "width": 77,
+                    "height": 46,
+                    "pageIndex": 0,
+                    "longImage": false
+                },
+                "fields": []
+            }
+        ]
+    },
+    "roboflow_detect_raw": null,
+    "roboflow_classify_raw": null,
+    "fused_scores": null
+}

@@ -11,6 +11,7 @@ from .views.result_router import result_router_view  # ⬅️ 새로 만들 라�
 urlpatterns = [
     path("", pages.login_page, name="login"),
     path("main/", pages.main_page, name="main"),
+    path("login-required/", pages.login_required_page, name="login-required"),
     path("guest-enter/", pages.guest_enter, name="guest_enter"),
     path("guest-exit/", pages.guest_exit, name="guest_exit"),
     path("laundry-upload/", result.laundry_upload_page, name="laundry-upload"),
